@@ -8,41 +8,45 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PF_Pach_OS.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/estructuracion.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ventas.css" asp-append-version="true" />
 </head>
 <body>
-        <nav>
-            <div class="encabezado-menu">
-                <label>Pach_OS</label>
-            </div>
+    <nav>
+        <div class="encabezado-menu">
+            <label>Pach_OS</label>
+        </div>
 
-            <div class="lista-Modulos">
-                <a class="nav-link links-modulos" asp-area="" asp-controller="#" asp-action="Index">Informe</a>
-                <a class="nav-link links-modulos" asp-area="" asp-controller="Ventas" asp-action="Index">Ventas</a>
-                <a class="nav-link links-modulos" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
-                <a class="nav-link links-modulos" asp-area="" asp-controller="Insumos" asp-action="Index">Insumos</a>
-                <a class="nav-link links-modulos" asp-area="" asp-controller="Compras" asp-action="Index">Compras</a>
-                <a class="nav-link links-modulos" asp-area="" asp-controller="Proveedores" asp-action="Index">Proveedores</a>
-                <a class="nav-link links-modulos" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
-            </div>
+        <div class="lista-Modulos">
+            <a class="nav-link links-modulos" asp-area="" asp-controller="#" asp-action="Index">Informe</a>
+            <a class="nav-link links-modulos" asp-area="" asp-controller="Ventas" asp-action="Index">Ventas</a>
+            <a class="nav-link links-modulos" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
+            <a class="nav-link links-modulos" asp-area="" asp-controller="Insumos" asp-action="Index">Insumos</a>
+            <a class="nav-link links-modulos" asp-area="" asp-controller="Compras" asp-action="Index">Compras</a>
+            <a class="nav-link links-modulos" asp-area="" asp-controller="Proveedores" asp-action="Index">Proveedores</a>
+            <a class="nav-link links-modulos" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
+        </div>
 
-            <div class="contenedor-configuracion">
-                <a class="nav-link btn-configuracion text-light" asp-action="">Configuracion</a>
-            </div>
-        </nav>
-        <section>
-            <header class="d-flex justify-content-between">
-                <label>@ViewBag.accion MODULO</label>
-            <label class="">@ViewBag.accion Usuario</label>
-            </header>
+        <div class="contenedor-configuracion">
+            <a class="nav-link btn-configuracion text-light" asp-action="">Configuracion</a>
+        </div>
+    </nav>
+    <section>
+        <header class="d-flex justify-content-between">
+            <label>@ViewBag.modulo MODULO</label>
+            <label class="">@ViewBag.usuario Usuario</label>
+        </header>
 
-        <button class="btn-crear-registros" asp-action="@ViewBag.accion"> @ViewBag.nombre Crear Venta</button>
+    <button type="button" class="btn-crear-registros" data-bs-toggle="modal" data-bs-target="#staticBackdrop" asp-action="@ViewBag.accion"> @ViewBag.nombre</button>
 
-            <article class="modulos">
-                <main role="main" class="pb-3">
-                    @RenderBody()
-                </main>
-            </article>
-        </section>
+        <article class="modulos">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </article>
+    </section>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

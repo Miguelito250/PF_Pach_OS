@@ -1,0 +1,15 @@
+﻿.info-arriba{
+    display: flex;
+}
+
+.botones-detallesVentas{
+    border: none;
+    background-color: #fff;
+}
+
+.info-general{
+    display:grid;
+    grid-template-columns: repeat(2, 300px);
+}
+
+    

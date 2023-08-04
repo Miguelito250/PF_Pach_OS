@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "eqXcX33H3kjo86jbv9n8Zi3XHLJtswrMj5VgkuM4MTM=",
+  "Hash": "YNZRTghg3Sia82b2h/3S3WdSh8mPIpTOpFeNMuuGb1I=",
   "Source": "PF_Pach_OS",
   "BasePath": "_content/PF_Pach_OS",
   "Mode": "Default",
@@ -85,6 +85,23 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
+      "Identity": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\ventas.css",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "css/ventas.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\ventas.css"
+    },
+    {
       "Identity": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\favicon.ico",
       "SourceId": "PF_Pach_OS",
       "SourceType": "Discovered",
@@ -117,6 +134,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\site.js"
+    },
+    {
+      "Identity": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas.js",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "js/Ventas.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Ventas.js"
     },
     {
       "Identity": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",

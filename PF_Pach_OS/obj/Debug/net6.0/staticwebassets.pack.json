@@ -13,8 +13,16 @@
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
+      "Id": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\ventas.css",
+      "PackagePath": "staticwebassets\\css\\ventas.css"
+    },
+    {
       "Id": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas.js",
+      "PackagePath": "staticwebassets\\js\\Ventas.js"
     },
     {
       "Id": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\site.js",

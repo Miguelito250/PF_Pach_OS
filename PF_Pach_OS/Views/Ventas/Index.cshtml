@@ -1,0 +1,72 @@
+﻿@model IEnumerable<PF_Pach_OS.Models.Venta>
+
+@{
+    ViewData["Title"] = "Index";
+    ViewBag.accion = "Crear";
+    ViewBag.nombre= "Crear Ventas";
+}
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="modal-title" id="staticBackdropLabel">Usuario</label>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="info-arriba-ventas">
+                    <button class="botones-detallesVentas" onclick="agregarProducto()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                        </svg>
+                    </button>
+                    <button class="botones-detallesVentas" onclick="removerProducto()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                        </svg>
+                    </button>
+                    <label>Numero de venta</label>
+                </div>
+
+                <div id="lista-productos" class="lista-productos">
+                    
+                </div>
+                <div class="info-general">
+                    <span>
+                        <label>Domicilio</label>
+                        <input type="checkbox" class="form-check-input">
+                    </span>
+                    <input type="number">
+
+                    <label>Total</label>
+                    <label>000.000</label>
+
+                    <select>Tipo Pago</select>
+                    <input type="number">
+
+                    <label>Cambio</label>
+                    <label>000.000</label>
+
+                    <label>Fecha</label>
+                    <label>1/1/1</label>
+
+                    
+
+                </div>
+
+                <div>
+                    <button class="container text-center botones-empresa">VENDER</button>
+                </div>
+            </div>
+            
+                @*<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>*@
+            
+        </div>
+    </div>
+</div>
+
+<script src="~/js/ventas.js"></script>
