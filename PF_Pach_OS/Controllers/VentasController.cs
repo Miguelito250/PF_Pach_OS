@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
@@ -22,6 +24,8 @@ namespace PF_Pach_OS.Controllers
         // GET: Ventas
         public async Task<IActionResult> Index()
         {
+            ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "NomProducto");
+
             var pach_OSContext = _context.Ventas.Include(v => v.IdEmpleadoNavigation);
             return View(await pach_OSContext.ToListAsync());
         }
@@ -46,27 +50,35 @@ namespace PF_Pach_OS.Controllers
         }
 
         // GET: Ventas/Create
-        public IActionResult Create()
+        public IActionResult Crear(int IdVenta)
         {
-            ViewData["IdEmpleado"] = new SelectList(_context.Empleados, "IdEmpleado", "IdEmpleado");
+            var DetallesVentas = _context.DetalleVentas
+                .Where(d => d.IdVenta == IdVenta)
+                .ToList();
+
+            ViewData["DetallesVentas"] = DetallesVentas;
+
+            ViewBag.IdVenta = IdVenta;
+            ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "NomProducto");
             return View();
         }
 
-        // POST: Ventas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdVenta,FechaVenta,TotalVenta,TipoPago,Pago,PagoDomicilio,IdEmpleado")] Venta venta)
+        public async Task<IActionResult> Create([Bind("IdVenta")] Venta venta)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(venta);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                
+                
+
+                return RedirectToAction("Crear", "Ventas", new { venta.IdVenta});
             }
             ViewData["IdEmpleado"] = new SelectList(_context.Empleados, "IdEmpleado", "IdEmpleado", venta.IdEmpleado);
-            return View(venta);
+            return NotFound();
         }
 
         // GET: Ventas/Edit/5
@@ -122,27 +134,8 @@ namespace PF_Pach_OS.Controllers
             return View(venta);
         }
 
-        // GET: Ventas/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Ventas == null)
-            {
-                return NotFound();
-            }
-
-            var venta = await _context.Ventas
-                .Include(v => v.IdEmpleadoNavigation)
-                .FirstOrDefaultAsync(m => m.IdVenta == id);
-            if (venta == null)
-            {
-                return NotFound();
-            }
-
-            return View(venta);
-        }
-
         // POST: Ventas/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

@@ -1,0 +1,84 @@
+﻿@model PF_Pach_OS.Models.DetalleVenta
+
+@{
+    ViewData["Title"] = "Create";
+    ViewBag.accion = "Index";
+    ViewBag.nombre = "Volver";
+    ViewBag.controlador = "Ventas";
+    ViewBag.mostrarModal = 1;
+
+    var detallesVentas = ViewData["DetallesVentas"] as List<DetalleVenta>;
+}
+
+<div class="ventas-contenedor">
+    <div class="detalles-ventas">
+        <form asp-controller="DetalleVentas" asp-action="Crear">
+            <input type="number" value="@ViewBag.IdVenta" asp-for="IdVenta" hidden>
+            <select asp-items="ViewBag.IdProducto" asp-for="IdProducto"></select>
+            <input type="number" asp-for="CantVendida">
+
+            <input type="submit" value="Agregar" class="btn btn-success" />
+        </form>
+    </div>
+    <div class="lista-detalles">
+
+        @if (detallesVentas == null || detallesVentas.Count == 0)
+        {
+            <h1>No hay nada registrado</h1>       
+        }
+        else
+        {
+            @foreach (var detalle in detallesVentas)
+            {
+                int? total = detalle.IdProductoNavigation.PrecioVenta * detalle.CantVendida;
+                <div>
+
+                    <label>@detalle.IdDetalleVenta</label>
+                    <label>@detalle.IdProductoNavigation.NomProducto</label>
+                    <label>@detalle.CantVendida</label>
+                    <label>@detalle.IdProductoNavigation.PrecioVenta</label>
+                    <label>@total</label>
+
+                    <a asp-controller="DetalleVentas" asp-action="Delete" asp-route-id="@detalle.IdDetalleVenta" class="btn btn-outline-danger">Remover</a>
+                </div>
+            }
+        }
+    </div>
+    <div class="info-venta">
+        <form asp-controller="Ventas" asp-action="Create">
+            <div class="ventas-informacion">
+                <span>
+                    <label>Domicilio</label>
+                    <input type="checkbox">
+                </span>
+                <input type="number" placeholder="Domicilio">
+            </div>
+
+            <div class="ventas-informacion">
+                <label>Total</label>
+                <input type="number"value="10000">
+            </div>
+
+            <div class="ventas-informacion">
+                <label>Tipo Pago</label>
+                <select>
+                    <option value="Efectivo">Efectivo</option>
+                    <option value="transferencia">Transferencia</option>
+                </select>
+                <input type="number" value="15000">
+            </div>
+
+            <div class="ventas-informacion">
+                <label>Cambio</label>
+                <input type="number" value="5000">
+            </div>
+
+            <div class="ventas-informacion">
+                <label>Fecha</label>
+                <input type="date" value="06/08/2023">
+            </div>
+        </form>
+
+        
+    </div>
+</div>

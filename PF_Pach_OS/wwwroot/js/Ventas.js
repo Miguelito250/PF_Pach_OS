@@ -1,24 +1,66 @@
-﻿agregarProducto()
+﻿//function agregarProducto() {
+//    var listaProductos = document.getElementById("lista-productos");
 
-function agregarProducto() {
-    var listaProductos = document.getElementById("lista-productos")
+//    var listaDetalle = document.createElement("div");
+//    listaDetalle.classList.add("lista-detalles");
 
-    var nuevoProducto = document.createElement("div");
-    nuevoProducto.classList.add("lista-detalles");
+//    var nuevoProducto = document.createElement("select");
+//    nuevoProducto.classList.add("producto"); 
+//    nuevoProducto.innerHTML = listaProductos.querySelector(".lista-detalles select").innerHTML;
 
-    nuevoProducto.innerHTML = "<select>Categoria</select><select>Producto</select><input type='number' class='formularios'><label>Precio</label>";
+//    var nuevaCantidad = document.createElement("input");
+//    nuevaCantidad.type = "number";
 
-    listaProductos.appendChild(nuevoProducto);
-}
+//    var nuevoPrecio = document.createElement("input");
+//    nuevoPrecio.type = "number";
 
-function removerProducto() {
-    var listaProductos = document.getElementById("lista-productos")
-    var listaDetalles = document.getElementsByClassName("lista-detalles");
+//    listaDetalle.appendChild(nuevoProducto);
+//    listaDetalle.appendChild(nuevaCantidad);
+//    listaDetalle.appendChild(nuevoPrecio);
 
-    if (listaDetalles.length > 1) {
-        var ultimoDetalle = listaDetalles[listaDetalles.length - 1];
+//    listaProductos.appendChild(listaDetalle);
+//}
 
-        listaProductos.removeChild(ultimoDetalle)
-    }
-    
-}
+//function removerProducto() {
+//    var listaProductos = document.getElementById("lista-productos");
+//    var listaDetalles = listaProductos.getElementsByClassName("lista-detalles");
+
+//    if (listaDetalles.length > 1) {
+//        var ultimoProducto = listaDetalles[listaDetalles.length - 1];
+//        listaProductos.removeChild(ultimoProducto);
+//    }
+//}
+
+
+//function capturarDatos() {
+//    var detallesProductos = document.getElementsByClassName("lista-detalles");
+//    listaProductos = [];
+
+//    for (var i = 0; i < detallesProductos.length; i++) {
+//        var detalle = detallesProductos[i];
+
+//        var producto = detalle.querySelector("select").value;
+//        var cantidad = detalle.querySelector("input[type='number']").value;
+//        var precio = detalle.querySelectorAll("input[type='number']")[1].value;
+
+//        var detalleVenta = {
+//            IdProducto: producto,
+//            CantVendida: cantidad,
+//            Precio: precio,
+//        };
+
+//        listaProductos.push(detalleVenta);
+//    }
+
+//    $.ajax({
+//        url: '/DetalleVentas/GuardarProductos',
+//        type: 'POST',
+//        data: { productos: listaProductos },
+//        success: function (result) {
+//            console.log("Datos enviados exitosamente");
+//        },
+//        error: function (error) {
+//            console.log("Error al enviar los datos");
+//        }
+//    });
+//}

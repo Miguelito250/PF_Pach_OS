@@ -12,4 +12,9 @@
     grid-template-columns: repeat(2, 300px);
 }
 
+.lista-detalles{
+    display: flex;
+    justify-content: space-between;
+
+}
     

@@ -2,11 +2,16 @@
 
 @{
     ViewData["Title"] = "Index";
-    ViewBag.accion = "Crear";
+    ViewBag.accion = "Create";
+    ViewBag.controlador = "Ventas";
     ViewBag.nombre= "Crear Ventas";
+    ViewBag.mostrarModal = 1;
 }
 
-<!-- Modal -->
+<link rel="stylesheet" href="~/css/ventas.css" asp-append-version="true" />
+
+
+@*<!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -32,7 +37,11 @@
                 </div>
 
                 <div id="lista-productos" class="lista-productos">
-                    
+                    <div class="lista-detalles">
+                        <select asp-items="ViewBag.IdProducto"></select>
+                        <input type='number'>
+                        <input type="number">
+                    </div>
                 </div>
                 <div class="info-general">
                     <span>
@@ -53,20 +62,21 @@
                     <label>Fecha</label>
                     <label>1/1/1</label>
 
-                    
+
 
                 </div>
 
                 <div>
-                    <button class="container text-center botones-empresa">VENDER</button>
+                    <button class="container text-center botones-empresa" onclick="capturarDatos()">VENDER</button>
                 </div>
             </div>
             
                 @*<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Understood</button>*@
             
-        </div>
+      @*  </div>
     </div>
-</div>
+</div>*@
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
 <script src="~/js/ventas.js"></script>
