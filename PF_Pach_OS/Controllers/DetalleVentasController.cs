@@ -37,27 +37,7 @@ namespace PF_Pach_OS.Controllers
             return View(detalleVenta);
         }
 
-        // GET: DetalleVentas/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.DetalleVentas == null)
-            {
-                return NotFound();
-            }
-
-            var detalleVenta = await _context.DetalleVentas.FindAsync(id);
-            if (detalleVenta == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "IdProducto", detalleVenta.IdProducto);
-            ViewData["IdVenta"] = new SelectList(_context.Ventas, "IdVenta", "IdVenta", detalleVenta.IdVenta);
-            return View(detalleVenta);
-        }
-
-        // POST: DetalleVentas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdDetalleVenta,CantVendida,Precio,IdVenta,IdProducto")] DetalleVenta detalleVenta)
@@ -98,19 +78,13 @@ namespace PF_Pach_OS.Controllers
             var detalleVentas = await _context.DetalleVentas.FindAsync(id);
             _context.DetalleVentas.Remove(detalleVentas);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Crear", "Ventas", new { detalleVentas.IdDetalleVenta });
+            return RedirectToAction("Crear", "Ventas", new { detalleVentas.IdVenta });
         }
-
-        // POST: DetalleVentas/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-            
-        //}
+           
         private bool DetalleVentaExists(int id)
         {
           return (_context.DetalleVentas?.Any(e => e.IdDetalleVenta == id)).GetValueOrDefault();
         }
     }
 }
+    

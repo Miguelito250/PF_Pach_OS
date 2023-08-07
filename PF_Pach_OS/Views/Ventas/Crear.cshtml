@@ -7,8 +7,19 @@
     ViewBag.controlador = "Ventas";
     ViewBag.mostrarModal = 1;
 
+    int? totalVenta = 0;
+
     var detallesVentas = ViewData["DetallesVentas"] as List<DetalleVenta>;
 }
+
+@if (TempData.ContainsKey("Mensaje"))
+{
+    <div class="alert alert-info">
+        @TempData["Mensaje"]
+    </div>
+}
+
+
 
 <div class="ventas-contenedor">
     <div class="detalles-ventas">
@@ -24,7 +35,9 @@
 
         @if (detallesVentas == null || detallesVentas.Count == 0)
         {
-            <h1>No hay nada registrado</h1>       
+            <div class="alert alert-info">
+                Lista Vacia
+            </div>
         }
         else
         {
@@ -41,44 +54,48 @@
 
                     <a asp-controller="DetalleVentas" asp-action="Delete" asp-route-id="@detalle.IdDetalleVenta" class="btn btn-outline-danger">Remover</a>
                 </div>
+                totalVenta += total;
             }
         }
     </div>
     <div class="info-venta">
-        <form asp-controller="Ventas" asp-action="Create">
+        <form asp-controller="Ventas" asp-action="ConfirmarVenta" method="post">
+            <input type="hidden" value="@ViewBag.IdVenta" asp-for="IdVenta">
             <div class="ventas-informacion">
                 <span>
                     <label>Domicilio</label>
                     <input type="checkbox">
                 </span>
-                <input type="number" placeholder="Domicilio">
+                <input type="number" name="PagoDomicilio" placeholder="Domicilio">
             </div>
 
             <div class="ventas-informacion">
                 <label>Total</label>
-                <input type="number"value="10000">
+                <input type="number" name="TotalVenta" value="@totalVenta">
             </div>
 
             <div class="ventas-informacion">
                 <label>Tipo Pago</label>
-                <select>
+                <select name="TipoPago">
                     <option value="Efectivo">Efectivo</option>
                     <option value="transferencia">Transferencia</option>
                 </select>
-                <input type="number" value="15000">
+                <input type="number" name="Pago" value="">
             </div>
 
             <div class="ventas-informacion">
                 <label>Cambio</label>
-                <input type="number" value="5000">
+                <input type="number" value="">
             </div>
 
             <div class="ventas-informacion">
                 <label>Fecha</label>
-                <input type="date" value="06/08/2023">
+                <input type="date" value="">
             </div>
-        </form>
 
+            <button type="submit" class="btn btn-outline-success">Vender</button>
+        </form>
+        
         
     </div>
 </div>
