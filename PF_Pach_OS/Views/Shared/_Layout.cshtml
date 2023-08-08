@@ -35,7 +35,7 @@
             <label class="">@ViewBag.accion Usuario</label>
             </header>
 
-        <button class="btn-crear-registros" asp-action="@ViewBag.accion"> @ViewBag.nombre Crear Venta</button>
+        <button type="button" class="btn-crear-registros" data-bs-toggle="modal" data-bs-target="#staticBackdrop" asp-action="@ViewBag.accion"> @ViewBag.nombre</button>
 
             <article class="modulos">
                 <main role="main" class="pb-3">
@@ -43,6 +43,8 @@
                 </main>
             </article>
         </section>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
