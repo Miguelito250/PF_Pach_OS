@@ -2,12 +2,22 @@
 
 @{
     ViewData["Title"] = "Create";
+   
+
 }
 
 <h1>Create</h1>
 
 <h4>Producto</h4>
 <hr />
+@{
+    if(TempData["Error"] != null)
+    {
+        <div class ="alert alert-danger" role="alert">
+            <h1>@TempData["Error"]</h1>
+        </div>
+    }
+}
 <form method="post">
 <div class="row">
     

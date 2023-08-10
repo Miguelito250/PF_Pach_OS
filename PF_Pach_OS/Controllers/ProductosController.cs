@@ -50,7 +50,7 @@ namespace PF_Pach_OS.Controllers
             
             ViewBag.Receta = receta_producto;
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
-            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "tamano");
+            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "IdTamano");
             ViewBag.Insumo = new SelectList(_context.Insumos, "IdInsumo", "NomInsumo");
             ViewBag.IdProducto = IdProducto;
             return View("Create");
@@ -86,29 +86,48 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Crear([Bind("IdProducto, NomProducto,PrecioVenta,IdTamano,IdCategoria")] Producto producto)
         {
-            
-            
-            
-            if (ModelState.IsValid)
+            TempData["Error"] = null;
+            if (producto.NomProducto == null)
             {
-                try
+                TempData["Error"] ="Por favor Ingrese el nombre del producto";
+                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+            }else if(producto.PrecioVenta == null)
+            {
+                TempData["Error"] = "Por favor Ingrese un precio al producto ";
+                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+            }
+            else if (producto.IdTamano == null)
+            {
+                TempData["Error"] = "Por favor Ingrese un Tamaño de pizza";
+                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+            }
+            else if (producto.IdCategoria == null)
+            {
+                TempData["Error"] = "Por favor Ingrese una categoria al producto ";
+                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+            else
+            {
+                if (ModelState.IsValid)
                 {
-                    
-                    _context.Update(producto);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductoExists(producto.IdProducto))
+                    try
                     {
-                        return NotFound();
+
+                        _context.Update(producto);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!ProductoExists(producto.IdProducto))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
             }
 
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", producto.IdCategoria);
