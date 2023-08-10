@@ -50,7 +50,7 @@ namespace PF_Pach_OS.Controllers
             
             ViewBag.Receta = receta_producto;
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
-            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "IdTamano");
+            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "tamano");
             ViewBag.Insumo = new SelectList(_context.Insumos, "IdInsumo", "NomInsumo");
             ViewBag.IdProducto = IdProducto;
             return View("Create");
@@ -145,7 +145,7 @@ namespace PF_Pach_OS.Controllers
             {
                 return NotFound();
             }
-
+            
             if (ModelState.IsValid)
             {
                 try

@@ -8,8 +8,9 @@
 
 <h4>Producto</h4>
 <hr />
+<form method="post">
 <div class="row">
-    <form method="post">
+    
     <div class="col-md-4">
             @{
                 if (ViewBag.ProductoActivo==null){
@@ -154,13 +155,14 @@
             
         </div>
 
-    </form>
+   
    @* <form asp-action="Delete">
         <input type="hidden" asp-for="Producto.IdProducto" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         
     </form>*@
 </div>
+</form>
 
 
 @section Scripts {
