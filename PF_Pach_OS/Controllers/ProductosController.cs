@@ -89,9 +89,10 @@ namespace PF_Pach_OS.Controllers
             TempData["Error"] = null;
             if (producto.NomProducto == null)
             {
-                TempData["Error"] ="Por favor Ingrese el nombre del producto";
+                TempData["Error"] = "Por favor Ingrese el nombre del producto";
                 return RedirectToAction("Details", "Productos", new { producto.IdProducto });
-            }else if(producto.PrecioVenta == null)
+            }
+            else if (producto.PrecioVenta == null)
             {
                 TempData["Error"] = "Por favor Ingrese un precio al producto ";
                 return RedirectToAction("Details", "Productos", new { producto.IdProducto });
@@ -105,6 +106,7 @@ namespace PF_Pach_OS.Controllers
             {
                 TempData["Error"] = "Por favor Ingrese una categoria al producto ";
                 return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+            }
             else
             {
                 if (ModelState.IsValid)
