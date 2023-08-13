@@ -22,37 +22,7 @@
 <div class="row">
     
     <div class="col-md-4">
-            @{
-                if (ViewBag.ProductoActivo==null){
-                
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.IdProducto" />
-                    <div class="form-group">
-                        <label asp-for="Producto.NomProducto" class="control-label"></label>
-                        <input asp-for="Producto.NomProducto" class="form-control" />
-                        <span asp-validation-for="Producto.NomProducto" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Producto.PrecioVenta" class="control-label"></label>
-                        <input asp-for="Producto.PrecioVenta" class="form-control" />
-                        <span asp-validation-for="Producto.PrecioVenta" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="Producto.IdTamano" class="control-label"></label>
-                        <select asp-for="Producto.IdTamano" class="form-control" asp-items="ViewBag.IdTamano"></select>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Producto.IdCategoria" class="control-label"></label>
-                        <select asp-for="Producto.IdCategoria" class="form-control" asp-items="ViewBag.IdCategoria" >
-                            <option value="">@ViewBag.SelectC</option>
-                        </select>
-                    </div>
-                    
-                    
-                }
-                else
-                {
+            
                     
                     
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -70,18 +40,19 @@
 
                         <div class="form-group">
                             <label asp-for="Producto.IdTamano" class="control-label"></label>
-                            <select asp-for="Producto.IdTamano" class="form-control" value="@ViewBag.ProductoActivo.IdTamano" asp-items="ViewBag.IdTamano"></select>
+                            <select asp-for="Producto.IdTamano" class="form-control" asp-items="ViewBag.NombreTamano">
+                                <option value="@ViewBag.SelectTID" selected>@ViewBag.SelectT</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label asp-for="Producto.IdCategoria" class="control-label"></label>
                             <select asp-for="Producto.IdCategoria" class="form-control"  asp-items="ViewBag.IdCategoria">
-                            <option value="">@ViewBag.SelectC</option>
+                            <option value="@ViewBag.SelectCID" selected>@ViewBag.SelectC</option>
                             </select>
                         </div>
                         
                    
-                }
-            }
+               
             
 
             

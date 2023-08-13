@@ -29,28 +29,43 @@ namespace PF_Pach_OS.Controllers
         
 
         // GET: Productos/Create
-        
+        public void ProductoActivo (int id)
+        {
+            var productoActivo = _context.Productos.FirstOrDefault(p => p.IdProducto == id);
+
+            if (productoActivo != null)
+            {
+                var categoriaActiva = _context.Categorias.FirstOrDefault(p => p.IdCategoria == productoActivo.IdCategoria);
+                var tamanoActivo = _context.Tamanos.FirstOrDefault(p => p.IdTamano == productoActivo.IdTamano);
+
+                ViewBag.ProductoActivo = productoActivo;
+                if (categoriaActiva != null)
+                {
+
+
+                    ViewBag.SelectC = categoriaActiva.NomCategoria;
+                    ViewBag.SelectCID = categoriaActiva.IdCategoria;
+                }
+                if (tamanoActivo != null)
+                {
+                    ViewBag.SelectT = tamanoActivo.NombreTamano;
+                    ViewBag.SelectTID = tamanoActivo.IdTamano;
+                }
+
+            }
+
+        }
         public IActionResult Details(int IdProducto)
         {
             var receta_producto = _context.Recetas
                 .Where(d => d.IdProducto == IdProducto)
                 .ToList();
-            var productoActivo = _context.Productos.FirstOrDefault(p => p.IdProducto == IdProducto);
-            
-            if (productoActivo != null)
-            {
-                var categoriaActiva = _context.Categorias.FirstOrDefault(p => p.IdCategoria == productoActivo.IdCategoria);
-                ViewBag.ProductoActivo = productoActivo;
-                if(categoriaActiva!= null)
-                {
-                    ViewBag.SelectC = categoriaActiva.NomCategoria;
-                }
-                
-            }
+            ProductoActivo(IdProducto);
             
             ViewBag.Receta = receta_producto;
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
-            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "IdTamano");
+            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
+            ViewBag.NombreTamano = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
             ViewBag.Insumo = new SelectList(_context.Insumos, "IdInsumo", "NomInsumo");
             ViewBag.IdProducto = IdProducto;
             return View("Create");
@@ -63,7 +78,7 @@ namespace PF_Pach_OS.Controllers
         public async Task<IActionResult> Create([Bind("IdProducto")] Producto producto)
         {
             if (ModelState.IsValid)
-            {
+            {   
                 _context.Add(producto);
                 await _context.SaveChangesAsync();
 
@@ -72,8 +87,10 @@ namespace PF_Pach_OS.Controllers
                 return RedirectToAction("Details", "Productos", new {producto.IdProducto });
             }
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
-            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "IdTamano");
+            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
             
+
+
             ViewBag.Insumo = new SelectList(_context.Insumos, "IdInsumo", "NomInsumo");
             return NotFound();
         }
@@ -86,25 +103,70 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Crear([Bind("IdProducto, NomProducto,PrecioVenta,IdTamano,IdCategoria")] Producto producto)
         {
+            int idpizza = 13;
+            int minCaracteres = 4;
+            int maxCaracteres = 30;
+            int minPrecio = 1000;
+            int maxPrecio = 70000;
+            
+            var receta = _context.Recetas.FirstOrDefaultAsync(c => c.IdProducto == producto.IdProducto);
+
             TempData["Error"] = null;
             if (producto.NomProducto == null)
             {
                 TempData["Error"] = "Por favor Ingrese el nombre del producto";
+                
                 return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+            }
+            else if (producto.NomProducto != null)
+            {
+                if (producto.NomProducto.Length < minCaracteres || producto.NomProducto.Length > maxCaracteres)
+                {
+                    TempData["Error"] = "El nombre del producto debe tener entre 4 y 30 caracteres ";
+                    return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+                }
+
             }
             else if (producto.PrecioVenta == null)
             {
                 TempData["Error"] = "Por favor Ingrese un precio al producto ";
+                
                 return RedirectToAction("Details", "Productos", new { producto.IdProducto });
             }
-            else if (producto.IdTamano == null)
+            else if (producto.PrecioVenta != null)
             {
-                TempData["Error"] = "Por favor Ingrese un Tamaño de pizza";
-                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+                if (producto.PrecioVenta.Value < minPrecio || producto.PrecioVenta.Value > maxPrecio)
+                {
+                    TempData["Error"] = "El precio del producto debe ser de minimo 1000 y maximo 70000 ";
+                    return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+                }
+
             }
+
             else if (producto.IdCategoria == null)
             {
                 TempData["Error"] = "Por favor Ingrese una categoria al producto ";
+                
+                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+
+            }else if (producto.IdTamano==null)
+            {
+                if (producto.IdCategoria == idpizza)
+                {
+                    TempData["Error"] = "Por favor Ingrese un tamaño ";
+                    return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+                }
+            }
+            else if(producto.IdTamano != null)
+            {
+                if(producto.IdCategoria != idpizza)
+                {
+                    TempData["Error"] = "Por favor NO ingrese un tamaño si el producto no se categoriza como pizza";
+                    return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+                }
+            }else if(receta== null)
+            {
+                TempData["Error"] = "Registre al menos un insumo a la receta  ";
                 return RedirectToAction("Details", "Productos", new { producto.IdProducto });
             }
             else
@@ -113,7 +175,7 @@ namespace PF_Pach_OS.Controllers
                 {
                     try
                     {
-
+                        producto.Estado = "true";
                         _context.Update(producto);
                         await _context.SaveChangesAsync();
                     }
@@ -128,13 +190,14 @@ namespace PF_Pach_OS.Controllers
                             throw;
                         }
                     }
+                    ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", producto.IdCategoria);
+                    ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "nombre_tamano", producto.IdTamano);
                     return RedirectToAction(nameof(Index));
                 }
             }
 
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", producto.IdCategoria);
-            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "IdTamano", producto.IdTamano);
-            return View(producto);
+            
+            return RedirectToAction("Details", "Productos", new { producto.IdProducto });
         }
 
         // GET: Productos/Edit/5
