@@ -127,7 +127,7 @@ namespace PF_Pach_OS.Controllers
                 }
 
             }
-            else if (producto.PrecioVenta == null)
+            if (producto.PrecioVenta == null)
             {
                 TempData["Error"] = "Por favor Ingrese un precio al producto ";
                 
@@ -149,7 +149,7 @@ namespace PF_Pach_OS.Controllers
                 
                 return RedirectToAction("Details", "Productos", new { producto.IdProducto });
 
-            }else if (producto.IdTamano==null)
+            }if (producto.IdTamano==null)
             {
                 if (producto.IdCategoria == idpizza)
                 {
@@ -169,8 +169,7 @@ namespace PF_Pach_OS.Controllers
                 TempData["Error"] = "Registre al menos un insumo a la receta  ";
                 return RedirectToAction("Details", "Productos", new { producto.IdProducto });
             }
-            else
-            {
+            
                 if (ModelState.IsValid)
                 {
                     try
@@ -194,9 +193,7 @@ namespace PF_Pach_OS.Controllers
                     ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "nombre_tamano", producto.IdTamano);
                     return RedirectToAction(nameof(Index));
                 }
-            }
 
-            
             return RedirectToAction("Details", "Productos", new { producto.IdProducto });
         }
 
