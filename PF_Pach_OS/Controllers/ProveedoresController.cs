@@ -158,5 +158,29 @@ namespace Pach_OS.Controllers
         {
           return (_context.Proveedores?.Any(e => e.IdProveedor == id)).GetValueOrDefault();
         }
+        //Metodo para habilitar
+        [HttpPost]
+        public IActionResult Disable(int id)
+        {
+            var proveedor = _context.Proveedores.Find(id);
+            if (proveedor != null)
+            {
+                proveedor.Estado = 0; // Deshabilitar
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult Enable(int id)
+        {
+            var proveedor = _context.Proveedores.Find(id);
+            if (proveedor != null)
+            {
+                proveedor.Estado = 1; // Habilitar
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
