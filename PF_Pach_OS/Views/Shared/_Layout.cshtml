@@ -28,12 +28,25 @@
     </article>
 
 
+<<<<<<< HEAD
 
     <script src="~/adminLTE/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="~/adminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/adminLTE/dist/js/adminlte.min.js"></script>
+=======
+        <button type="button" class="btn-crear-registros" data-bs-toggle="modal" data-bs-target="#staticBackdrop" asp-action="@ViewBag.accion"> @ViewBag.nombre</button>
+
+            <article class="modulos">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </article>
+        </section>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+>>>>>>> b0141ada2a55afd786c8da32142f113d004a619d
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
