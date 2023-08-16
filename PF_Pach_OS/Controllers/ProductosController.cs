@@ -57,12 +57,19 @@ namespace PF_Pach_OS.Controllers
         }
         public IActionResult Details(int IdProducto)
         {
-            var receta_producto = _context.Recetas
-                .Where(d => d.IdProducto == IdProducto)
-                .ToList();
             ProductoActivo(IdProducto);
-            
-            ViewBag.Receta = receta_producto;
+            var recetas = _context.Recetas.ToList();
+            var insumos = _context.Insumos.ToList();
+
+            var recetasConInsumos = recetas.Select(receta => new
+            {
+                IdReceta= receta.IdReceta,
+                CantInsumo = receta.CantInsumo,
+                NomInsumo = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.NomInsumo,
+                IdProducto = receta.IdProducto
+            }).ToList();
+
+            ViewBag.RecetasConInsumos = recetasConInsumos.Cast<object>().ToList();
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
             ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
             ViewBag.NombreTamano = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
@@ -109,7 +116,7 @@ namespace PF_Pach_OS.Controllers
             int minPrecio = 1000;
             int maxPrecio = 70000;
             
-            var receta = _context.Recetas.FirstOrDefaultAsync(c => c.IdProducto == producto.IdProducto);
+            var receta = await _context.Recetas.FirstOrDefaultAsync(c => c.IdProducto == producto.IdProducto);
 
             TempData["Error"] = null;
             if (producto.NomProducto == null)
@@ -164,35 +171,35 @@ namespace PF_Pach_OS.Controllers
                     TempData["Error"] = "Por favor NO ingrese un tamaño si el producto no se categoriza como pizza";
                     return RedirectToAction("Details", "Productos", new { producto.IdProducto });
                 }
-            }else if(receta== null)
+            }
+            if(receta== null)
             {
                 TempData["Error"] = "Registre al menos un insumo a la receta  ";
                 return RedirectToAction("Details", "Productos", new { producto.IdProducto });
             }
-            
-                if (ModelState.IsValid)
+            if (ModelState.IsValid)
+            {
+                try
                 {
-                    try
-                    {
-                        producto.Estado = "true";
-                        _context.Update(producto);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!ProductoExists(producto.IdProducto))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                    ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", producto.IdCategoria);
-                    ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "nombre_tamano", producto.IdTamano);
-                    return RedirectToAction(nameof(Index));
+                    producto.Estado = "true";
+                    _context.Update(producto);
+                    await _context.SaveChangesAsync();
                 }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductoExists(producto.IdProducto))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", producto.IdCategoria);
+                ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "nombre_tamano", producto.IdTamano);
+                return RedirectToAction(nameof(Index));
+            }
 
             return RedirectToAction("Details", "Productos", new { producto.IdProducto });
         }

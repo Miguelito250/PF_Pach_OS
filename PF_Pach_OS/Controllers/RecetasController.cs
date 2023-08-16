@@ -58,14 +58,17 @@ namespace PF_Pach_OS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CantInsumo,IdProducto,IdInsumo")] Receta receta, [Bind("IdProducto,NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
+        public async Task<IActionResult> Create([Bind("IdReceta,CantInsumo,IdProducto,IdInsumo")] Receta receta, [Bind("IdProducto,NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
         {
+            bool exite = false;
+            var recetaActiva = new Receta() ;
             
 
             
             if (ModelState.IsValid)
 
             {
+
                 try
                 {
 
@@ -83,94 +86,41 @@ namespace PF_Pach_OS.Controllers
                         throw;
                     }
                 }
-                _context.Add(receta);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "Productos", new { receta.IdProducto });
+                var recetasExistente = _context.Recetas.ToList();
+                foreach (var rec in recetasExistente)
+                {
+                    if (rec.IdProducto == receta.IdProducto && rec.IdInsumo == receta.IdInsumo ) {
+                        recetaActiva = rec;
+                        exite=true;
+                        break;
+                    }
+                }
+                if (exite)
+                {
+                     recetaActiva.CantInsumo += receta.CantInsumo;
+                    _context.Update(recetaActiva);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Details", "Productos", new { receta.IdProducto });
+                }
+                else
+                {
+                    _context.Add(receta);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Details", "Productos", new { receta.IdProducto });
+
+                }
+
+
             }
+
             ViewData["IdInsumo"] = new SelectList(_context.Insumos, "IdInsumo", "IdInsumo", receta.IdInsumo);
             ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "IdProducto", receta.IdProducto);
             return RedirectToAction("Details", "Productos", new { receta.IdProducto });
         }
 
-        // GET: Recetas/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Recetas == null)
-            {
-                return NotFound();
-            }
-
-            var receta = await _context.Recetas.FindAsync(id);
-            if (receta == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdInsumo"] = new SelectList(_context.Insumos, "IdInsumo", "IdInsumo", receta.IdInsumo);
-            ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "IdProducto", receta.IdProducto);
-            return View(receta);
-        }
-
-        // POST: Recetas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdReceta,CantInsumo,IdProducto,IdInsumo")] Receta receta)
-        {
-            if (id != receta.IdReceta)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(receta);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RecetaExists(receta.IdReceta))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdInsumo"] = new SelectList(_context.Insumos, "IdInsumo", "IdInsumo", receta.IdInsumo);
-            ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "IdProducto", receta.IdProducto);
-            return View(receta);
-        }
-
+        
         // GET: Recetas/Delete/5
         public async Task<IActionResult> Delete(int? id, int IdProducto)
-        {
-            if (id == null || _context.Recetas == null)
-            {
-                return NotFound();
-            }
-
-            var receta = await _context.Recetas
-                .Include(r => r.IdInsumoNavigation)
-                .Include(r => r.IdProductoNavigation)
-                .FirstOrDefaultAsync(m => m.IdReceta == id);
-            if (receta == null)
-            {
-                return NotFound();
-            }
-
-            return View(receta);
-        }
-
-        // POST: Recetas/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, int IdProducto)
         {
             if (_context.Recetas == null)
             {
@@ -181,7 +131,7 @@ namespace PF_Pach_OS.Controllers
             {
                 _context.Recetas.Remove(receta);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", "Productos", new { IdProducto });
         }

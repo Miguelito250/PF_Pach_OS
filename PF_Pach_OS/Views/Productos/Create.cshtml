@@ -68,7 +68,7 @@
             
             <div class="form-group">
                 
-                <select asp-for="Receta.IdInsumo" class="form-control" asp-items="ViewBag.Insumo"></select>
+                <select asp-for="Receta.IdInsumo" class="form-control" asp-items="ViewBag.Insumo" ></select>
             </div>
             <div class="form-group">
 
@@ -80,7 +80,7 @@
             </div>
        
         @{
-            if (ViewBag.Receta == null)
+                if (ViewBag.recetasConInsumos == null)
             {
                 <h4>No hay insumos de receta</h4>
             }
@@ -95,32 +95,30 @@
                             <th>
                                 @Html.DisplayNameFor(Model => Model.Receta.IdInsumo)
                             </th>
-                            <th>
-                                @Html.DisplayNameFor(Model => Model.Receta.IdProducto)
-                            </th>
+                            
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in (List<Receta>)ViewBag.Receta)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CantInsumo)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.IdInsumo)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.IdProducto)
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.IdReceta">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.IdReceta">Details</a> |
-                                        <a asp-action="Delete" asp-controller="Recetas" value="@ViewBag.IdProducto" asp-route-id="@item.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto">Delete</a>
-                                </td>
-                            </tr>
-                        }
+                            @foreach (var recetaConInsumo in (List<dynamic>)ViewBag.RecetasConInsumos)
+                            {
+                                <tr>
+                                    @if (recetaConInsumo.IdProducto == ViewBag.IdProducto)
+                                    {
+                                        <td>
+                                            @recetaConInsumo.CantInsumo
+                                        </td>
+                                        <td>
+                                            @recetaConInsumo.NomInsumo
+                                        </td>
+
+                                        <td>
+                                            <a asp-action="Delete" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto">Delete</a>
+                                        </td>
+                                    }
+                                    
+                                </tr>
+                            }
                     </tbody>
                 </table>
             }
