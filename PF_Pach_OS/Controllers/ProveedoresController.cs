@@ -7,11 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PF_Pach_OS.Models;
 
-<<<<<<< HEAD
 namespace Pach_OS.Controllers
-=======
-namespace PF_Pach_OS.Controllers
->>>>>>> b0141ada2a55afd786c8da32142f113d004a619d
 {
     public class ProveedoresController : Controller
     {
@@ -59,11 +55,7 @@ namespace PF_Pach_OS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-<<<<<<< HEAD
         public async Task<IActionResult> Create([Bind("IdProveedor,Nit,NomLocal,Direccion,Telefono,Correo")] Proveedore proveedore)
-=======
-        public async Task<IActionResult> Create([Bind("IdProveedor,Nit,NomLocal")] Proveedore proveedore)
->>>>>>> b0141ada2a55afd786c8da32142f113d004a619d
         {
             if (ModelState.IsValid)
             {
@@ -95,11 +87,7 @@ namespace PF_Pach_OS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-<<<<<<< HEAD
         public async Task<IActionResult> Edit(int id, [Bind("IdProveedor,Nit,NomLocal,Direccion,Telefono,Correo")] Proveedore proveedore)
-=======
-        public async Task<IActionResult> Edit(int id, [Bind("IdProveedor,Nit,NomLocal")] Proveedore proveedore)
->>>>>>> b0141ada2a55afd786c8da32142f113d004a619d
         {
             if (id != proveedore.IdProveedor)
             {
@@ -170,7 +158,6 @@ namespace PF_Pach_OS.Controllers
         {
           return (_context.Proveedores?.Any(e => e.IdProveedor == id)).GetValueOrDefault();
         }
-<<<<<<< HEAD
         //Metodo para habilitar
         [HttpPost]
         public IActionResult Disable(int id)
@@ -195,7 +182,5 @@ namespace PF_Pach_OS.Controllers
             }
             return RedirectToAction("Index");
         }
-=======
->>>>>>> b0141ada2a55afd786c8da32142f113d004a619d
     }
 }

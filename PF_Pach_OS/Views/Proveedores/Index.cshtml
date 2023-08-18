@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<PF_Pach_OS.Models.Proveedore>
 
-<<<<<<< HEAD
 
 @{
     ViewData["Title"] = "Index";
@@ -23,55 +22,11 @@
                 <div id="modal-content">
                     Cargando....
                 </div>
-=======
-@{
-    ViewData["Title"] = "Index";
-    ViewBag.nombre = "Crear Proveedor" ;
-    ViewBag.modal = "Detalles";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-               @* formulario*@
-                <div class="row">
-                    <div class="col-md-4">
-                        <form asp-action="Create">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-group">
-                                <label name="Nit" class="control-label"></label>
-                                <input name="Nit" class="form-control" />
-                                <span name="Nit" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label name="NomLocal" class="control-label"></label>
-                                <input name="NomLocal" class="form-control" />
-                                <span name="NomLocal" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Create" class="btn btn-primary" />
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
->>>>>>> b0141ada2a55afd786c8da32142f113d004a619d
             </div>
         </div>
     </div>
 </div>
 
-<<<<<<< HEAD
 <h1>Proveedores</h1>
 
 <button id="btnNuevo" class="btn btn-primary btn-lg">Crear Proveedor</button>
@@ -80,59 +35,6 @@
         $('#myModal').modal('show');
     });
 </script>
-=======
-<!-- Modal Detalles -->
-<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="detailsModalLabel">Detalles Proveedor</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>NIT: <span id="Nit"></span></p>
-                <p>Nombre del Local: <span id="NomLocal"></span></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
-            </div>
-        </div>
-    </div>
-</div>
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            $('.btn-details').on('click', function () {
-                var idProveedor = $(this).data('id');
-
-                // Realizar la solicitud AJAX al servidor para obtener los detalles del proveedor por el ID.
-                $.ajax({
-                    url: '@Url.Action("GetProveedorDetails", "ProveedoresController")', // Reemplaza "TuControlador" con el nombre de tu controlador
-                    type: 'GET',
-                    data: { id: idProveedor },
-                    success: function (data) {
-                        // Rellenar los datos del modal con los detalles del proveedor seleccionado.
-                        $('#Nit').text(data.Nit);
-                        $('#NomLocal').text(data.NomLocal);
-
-                        // Mostrar la ventana modal
-                        $('#detailsModal').modal('show');
-                    },
-                    error: function () {
-                        alert('Hubo un error al obtener los detalles del proveedor.');
-                    }
-                });
-            });
-        });
-    </script>
-}
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<h1>Proveedores</h1>
->>>>>>> b0141ada2a55afd786c8da32142f113d004a619d
 
 <table class="table">
     <thead>
@@ -143,7 +45,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.NomLocal)
             </th>
-<<<<<<< HEAD
             <th>
                 @Html.DisplayNameFor(model => model.Direccion)
             </th>
@@ -156,8 +57,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Estado)
             </th>
-=======
->>>>>>> b0141ada2a55afd786c8da32142f113d004a619d
             <th></th>
         </tr>
     </thead>
@@ -171,7 +70,6 @@
                 @Html.DisplayFor(modelItem => item.NomLocal)
             </td>
             <td>
-<<<<<<< HEAD
                 @Html.DisplayFor(modelItem => item.Direccion)
             </td>
             <td>
@@ -215,20 +113,12 @@
                         });
                     </script>
 
-=======
-                <a asp-action="Edit" asp-route-id="@item.IdProveedor">Edit</a> |
-                <button type="button" class="btn btn-primary btn-details" data-bs-toggle="modal" data-bs-target="#detailsModal" data-id="@item.IdProveedor">Details</button>|
-                <a asp-action="Delete" asp-route-id="@item.IdProveedor">Delete</a>
->>>>>>> b0141ada2a55afd786c8da32142f113d004a619d
             </td>
         </tr>
 }
     </tbody>
 </table>
-<<<<<<< HEAD
 @section scripts
 {
     <script src="~/js/proveedores/proveedore.js"></script>
 }
-=======
->>>>>>> b0141ada2a55afd786c8da32142f113d004a619d

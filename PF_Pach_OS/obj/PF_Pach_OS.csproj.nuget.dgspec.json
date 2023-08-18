@@ -1,7 +1,6 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD
     "C:\\Users\\Camilo Olea\\Desktop\\Proveedores\\PF_Pach_OS\\PF_Pach_OS\\PF_Pach_OS.csproj": {}
   },
   "projects": {
@@ -13,19 +12,6 @@
         "projectPath": "C:\\Users\\Camilo Olea\\Desktop\\Proveedores\\PF_Pach_OS\\PF_Pach_OS\\PF_Pach_OS.csproj",
         "packagesPath": "C:\\Users\\Camilo Olea\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Camilo Olea\\Desktop\\Proveedores\\PF_Pach_OS\\PF_Pach_OS\\obj\\",
-=======
-    "C:\\Users\\Camilo Olea\\Desktop\\ProyectoKaren\\PF_Pach_OS\\PF_Pach_OS\\PF_Pach_OS.csproj": {}
-  },
-  "projects": {
-    "C:\\Users\\Camilo Olea\\Desktop\\ProyectoKaren\\PF_Pach_OS\\PF_Pach_OS\\PF_Pach_OS.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\Camilo Olea\\Desktop\\ProyectoKaren\\PF_Pach_OS\\PF_Pach_OS\\PF_Pach_OS.csproj",
-        "projectName": "PF_Pach_OS",
-        "projectPath": "C:\\Users\\Camilo Olea\\Desktop\\ProyectoKaren\\PF_Pach_OS\\PF_Pach_OS\\PF_Pach_OS.csproj",
-        "packagesPath": "C:\\Users\\Camilo Olea\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Camilo Olea\\Desktop\\ProyectoKaren\\PF_Pach_OS\\PF_Pach_OS\\obj\\",
->>>>>>> b0141ada2a55afd786c8da32142f113d004a619d
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -75,11 +61,7 @@
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-<<<<<<< HEAD
               "version": "[6.0.16, )"
-=======
-              "version": "[6.0.15, )"
->>>>>>> b0141ada2a55afd786c8da32142f113d004a619d
             }
           },
           "imports": [
