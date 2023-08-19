@@ -35,11 +35,12 @@ namespace PF_Pach_OS.Controllers
                 .Where(d => d.IdVenta == IdVenta)
                 .ToList();
 
-            ViewData["DetallesVentas"] = DetallesVentas;
-
             ViewBag.IdVenta = IdVenta;
+            ViewData["DetallesVentas"] = DetallesVentas;
             ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "NomProducto");
-            return View();
+
+            Tuple<DetalleVenta, Venta> Venta_Detalle = new(new DetalleVenta(), new Venta());
+            return View(Venta_Detalle);
         }
 
         
@@ -51,8 +52,6 @@ namespace PF_Pach_OS.Controllers
             {
                 _context.Add(venta);
                 await _context.SaveChangesAsync();
-                
-                
 
                 return RedirectToAction("Crear", "Ventas", new { venta.IdVenta});
             }

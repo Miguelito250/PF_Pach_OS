@@ -1,101 +1,182 @@
-﻿@model PF_Pach_OS.Models.DetalleVenta
+﻿<link href="~/css/ventas.css" rel="stylesheet" />
 
+@model Tuple<DetalleVenta, Venta>;
 @{
-    ViewData["Title"] = "Create";
-    ViewBag.accion = "Index";
-    ViewBag.nombre = "Volver";
-    ViewBag.controlador = "Ventas";
-    ViewBag.mostrarModal = 1;
-
-    int? totalVenta = 0;
-
+    ViewData["Title"] = "Crear Venta";
     var detallesVentas = ViewData["DetallesVentas"] as List<DetalleVenta>;
 }
-
-@if (TempData.ContainsKey("Mensaje"))
-{
-    <div class="alert alert-info">
-        @TempData["Mensaje"]
-    </div>
-}
-
-
-
-<div class="ventas-contenedor">
-    <div class="detalles-ventas">
-        <form asp-controller="DetalleVentas" asp-action="Crear">
-            <input type="number" value="@ViewBag.IdVenta" asp-for="IdVenta" hidden>
-            <select asp-items="ViewBag.IdProducto" asp-for="IdProducto"></select>
-            <input type="number" asp-for="CantVendida">
-
-            <input type="submit" value="Agregar" class="btn btn-success" />
-        </form>
-    </div>
-    <div class="lista-detalles">
-
-        @if (detallesVentas == null || detallesVentas.Count == 0)
-        {
-            <div class="alert alert-info">
-                Lista Vacia
-            </div>
-        }
-        else
-        {
-            @foreach (var detalle in detallesVentas)
-            {
-                int? total = detalle.IdProductoNavigation.PrecioVenta * detalle.CantVendida;
-                <div>
-
-                    <label>@detalle.IdDetalleVenta</label>
-                    <label>@detalle.IdProductoNavigation.NomProducto</label>
-                    <label>@detalle.CantVendida</label>
-                    <label>@detalle.IdProductoNavigation.PrecioVenta</label>
-                    <label>@total</label>
-
-                    <a asp-controller="DetalleVentas" asp-action="Delete" asp-route-id="@detalle.IdDetalleVenta" class="btn btn-outline-danger">Remover</a>
+    
+<div class="d-flex p-4">
+    <div class="container">
+        <div class="col-12">
+            <form id="formAgregar" class="row g-2 needs-validation formulario-detalles" asp-controller="DetalleVentas" asp-action="AgregarDetalle" method="post" novalidate>
+                <input type="number" value="@ViewBag.IdVenta" name="IdVenta" hidden>
+                <div class="col-4">
+                    <label>Producto</label>
+                    <select class="form-control form-select" aria-label="Default select example" asp-for="Item1.IdProducto" asp-items="ViewBag.IdProducto" name="IdProducto" required>
+                        <option></option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Por favor seleccione un Producto.
+                    </div>
+                    <div class="valid-feedback">
+                        ¡Todo bien!
+                    </div>
                 </div>
-                totalVenta += total;
-            }
-        }
+           
+                <div class="col-2">
+                    <label>Cantidad</label>
+                    <input type="number" class="form-control" asp-for="Item1.CantVendida" name="CantVendida" required/>
+                    <div class="invalid-feedback">
+                        Por favor ingrese una cantidad.
+                    </div>
+                    <div class="valid-feedback">
+                        ¡Todo bien!
+                    </div>
+                </div>
+            
+                <div class="col-4 d-flex align-items-end">
+                    <button class="btn btn-primary" type="submit">
+                        Agregar insumo
+                    </button>
+                </div>
+            
+                <input type="hidden" />
+            
+            </form>
+        </div>
+        <hr>
+        <div class=" col-11 lista-detalles">
+            <table class="table table-striped-columns tabla-detalles">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="detalles-ventas">
+                    @foreach (var detalles in detallesVentas)
+                    {
+                        <tr>
+                            <td >@detalles.IdProductoNavigation.NomProducto</td>
+                            <td>@detalles.CantVendida</td>
+                            <td>@detalles.Precio</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="info-venta">
-        <form asp-controller="Ventas" asp-action="ConfirmarVenta" method="post">
-            <input type="hidden" value="@ViewBag.IdVenta" asp-for="IdVenta">
-            <div class="ventas-informacion">
-                <span>
-                    <label>Domicilio</label>
-                    <input type="checkbox">
-                </span>
-                <input type="number" name="PagoDomicilio" placeholder="Domicilio">
-            </div>
+    <div class="col-4  bg-white rounded border px-4 py-4">
+        <form class="detail-container" asp-action="Crear" method="post">
+            <input type="number" value="@ViewBag.IdVenta" asp-for="Item2.IdVenta" hidden>
+            
 
-            <div class="ventas-informacion">
-                <label>Total</label>
-                <input type="number" name="TotalVenta" value="@totalVenta">
-            </div>
+            <div>
+                <div class="w-100 d-flex flex-column mb-3 align-items-center">
+                    <p class="w-100 h4 mb-3 text-center"><strong>Pachito-OS</strong></p>
+                </div>
 
-            <div class="ventas-informacion">
-                <label>Tipo Pago</label>
-                <select name="TipoPago">
-                    <option value="Efectivo">Efectivo</option>
-                    <option value="transferencia">Transferencia</option>
-                </select>
-                <input type="number" name="Pago" value="">
-            </div>
+                <hr>
 
-            <div class="ventas-informacion">
-                <label>Cambio</label>
-                <input type="number" value="">
-            </div>
+                
+               
+                <div>
+                    <div class="d-flex justify-content-between">
+                        <p class="">Domicilio</p>
+                        <input type="number" class="tamano-input">
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <select class="estilo-select">
+                            <option>Efectivo</option>
+                            <option>Transferencia</option>
+                            <option>Ambos</option>
+                        </select>
+                        <input type="number" class="tamano-input" id="pago">
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p id="cambio">Cambio</p>
+                        <p class="ms-auto" id="texto-cambio"></p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p>Fecha</p>
+                        <label class="ms-auto">22/09/23</label>
+                    </div>
 
-            <div class="ventas-informacion">
-                <label>Fecha</label>
-                <input type="date" value="">
-            </div>
+                </div>
+                <hr>
+                <div class="d-flex flex-column align-items-center justify-content-between">
+                    <p class="mb-0 display-4"><strong id="totalVenta"></strong></p>
+                    <p class="mb-0">Total</p>
+                </div>
+                @*<input type="hidden" asp-for="Item2.Total" value="@total" />*@
 
-            <button type="submit" class="btn btn-outline-success">Vender</button>
+                <hr>
+                <div class="w-100 d-flex flex-column mt-auto">
+                <a class="btn btn-light border mb-2" asp-controller="Compras" asp-action="Delete" asp-route-id="@ViewBag.IdCompra">Cancelar compra</a>
+                    <button class="btn btn-primary" type="submit">Realizar compra</button>
+                </div>
+            </div>
         </form>
-        
-        
     </div>
 </div>
+
+<script src="~/js/Ventas.js"></script>
+
+@*-----VALIDACION DE CAMPOS EN TIEMPO REAL-----*@
+@*<script>
+    $(document).ready(function () {
+        // Manejar el evento de cambio en el campo de PrecioInsumo
+        $('#Item1_PrecioInsumo').on('input', function () {
+            validatePrecioInsumo();
+        });
+
+        // Manejar el evento de cambio en el campo de Cantidad
+        $('#Item1_Cantidad').on('input', function () {
+            validateCantidad();
+        });
+
+        function validatePrecioInsumo() {
+            var precioInsumo = $('#Item1_PrecioInsumo').val();
+            if (precioInsumo === '' || isNaN(precioInsumo)) {
+                $('#Item1_PrecioInsumo').addClass('is-invalid');
+            } else {
+                $('#Item1_PrecioInsumo').removeClass('is-invalid');
+            }
+        }
+
+        function validateCantidad() {
+            var cantidad = $('#Item1_Cantidad').val();
+            if (cantidad === '' || isNaN(cantidad)) {
+                $('#Item1_Cantidad').addClass('is-invalid');
+            } else {
+                $('#Item1_Cantidad').removeClass('is-invalid');
+            }
+        }
+
+    });
+</script>
+
+@-----VALIDACION DE LOS CAMPOS CUANDO SE LE DA AL BOTON DE AGREGAR-----@
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>*@

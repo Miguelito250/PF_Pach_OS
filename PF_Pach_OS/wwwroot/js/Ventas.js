@@ -1,66 +1,30 @@
-﻿//function agregarProducto() {
-//    var listaProductos = document.getElementById("lista-productos");
+﻿var totalVenta = 0;
+var domicilio = document.getElementById("domicilio").value;
+var pago = document.getElementById("pago").value;
+var cambio = document.getElementById("cambio").value;
+const tablaDetalles = document.querySelector('.tabla-detalles'); // Obtén la tabla con la clase tabla-detalles
 
-//    var listaDetalle = document.createElement("div");
-//    listaDetalle.classList.add("lista-detalles");
+if (tablaDetalles) {
+    const filas = tablaDetalles.querySelectorAll('tbody tr'); // Obtén todas las filas dentro del tbody de la tabla
 
-//    var nuevoProducto = document.createElement("select");
-//    nuevoProducto.classList.add("producto"); 
-//    nuevoProducto.innerHTML = listaProductos.querySelector(".lista-detalles select").innerHTML;
+    filas.forEach(function (fila) {
+        const celdas = fila.querySelectorAll('td'); // Obtén todas las celdas dentro de la fila
 
-//    var nuevaCantidad = document.createElement("input");
-//    nuevaCantidad.type = "number";
+        const cantidad = parseInt(celdas[1].textContent); // Valor de la celda de cantidad
+        const precio = parseInt(celdas[2].textContent); // Valor de la celda de precio
 
-//    var nuevoPrecio = document.createElement("input");
-//    nuevoPrecio.type = "number";
+        const total = cantidad * precio;
+        totalVenta += total;
 
-//    listaDetalle.appendChild(nuevoProducto);
-//    listaDetalle.appendChild(nuevaCantidad);
-//    listaDetalle.appendChild(nuevoPrecio);
+        const celdaTotal = document.createElement('td'); // Crea una nueva celda <td>
+        celdaTotal.textContent = total.toFixed(); // Establece el contenido de la celda como el total calculado
+        fila.appendChild(celdaTotal); // Agrega la nueva celda a la fila
+    });
+}
+document.getElementById("totalVenta").innerHTML = totalVenta;
+var textoCambiar = document.getElementById("texto-cambio").innerHTML = cambio;
 
-//    listaProductos.appendChild(listaDetalle);
-//}
-
-//function removerProducto() {
-//    var listaProductos = document.getElementById("lista-productos");
-//    var listaDetalles = listaProductos.getElementsByClassName("lista-detalles");
-
-//    if (listaDetalles.length > 1) {
-//        var ultimoProducto = listaDetalles[listaDetalles.length - 1];
-//        listaProductos.removeChild(ultimoProducto);
-//    }
-//}
-
-
-//function capturarDatos() {
-//    var detallesProductos = document.getElementsByClassName("lista-detalles");
-//    listaProductos = [];
-
-//    for (var i = 0; i < detallesProductos.length; i++) {
-//        var detalle = detallesProductos[i];
-
-//        var producto = detalle.querySelector("select").value;
-//        var cantidad = detalle.querySelector("input[type='number']").value;
-//        var precio = detalle.querySelectorAll("input[type='number']")[1].value;
-
-//        var detalleVenta = {
-//            IdProducto: producto,
-//            CantVendida: cantidad,
-//            Precio: precio,
-//        };
-
-//        listaProductos.push(detalleVenta);
-//    }
-
-//    $.ajax({
-//        url: '/DetalleVentas/GuardarProductos',
-//        type: 'POST',
-//        data: { productos: listaProductos },
-//        success: function (result) {
-//            console.log("Datos enviados exitosamente");
-//        },
-//        error: function (error) {
-//            console.log("Error al enviar los datos");
-//        }
-//    });
-//}
+//Calcular el cambio
+domicilio.addEventListener('change', (e) => {
+    console.log(e)
+})
