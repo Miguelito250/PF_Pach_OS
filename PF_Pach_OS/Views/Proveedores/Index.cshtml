@@ -1,0 +1,117 @@
+﻿@model IEnumerable<PF_Pach_OS.Models.Proveedore>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>
+*@
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title" id="myModalLable">Proveedores</h4>
+            </div>
+            <div class="modal-body">
+                <div id="modal-content">
+                    Cargando....
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1>Proveedores</h1>
+
+<button id="btnNuevo" class="btn btn-primary btn-lg">Crear Proveedor</button>
+<script>
+    document.getElementById("btnNuevo").addEventListener("click", function () {
+        $('#myModal').modal('show');
+    });
+</script>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NomLocal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Correo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomLocal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Correo)
+            </td>
+            <td>
+            <td>
+                @if (item.Estado == 0)
+                {
+                <form asp-action="Disable" asp-route-id="@item.IdProveedor" method="post">
+                <button type="submit" class="btn btn-danger">Deshabilitado</button>
+                </form>
+                }
+                else
+                {
+                <form asp-action="Enable" asp-route-id="@item.IdProveedor" method="post">
+                <button type="submit" class="btn btn-success">Habilitado</button>
+                </form>
+                }
+            </td>
+            <td>
+                    <a id="btnEditar" class="btn btn-primary btn-lg" data-id="@item.IdProveedor" data-toggle="modal">Editar</a>
+                    <script>
+                        document.getElementById("btnEditar").addEventListener("click", function () {
+                            $('#myModal').modal('show');
+                        });
+                    </script>
+                    <a id="btnDetails" class="btn btn-primary btn-lg" data-id="@item.IdProveedor" data-toggle="modal">Detalles</a>
+                    <script>
+                        document.getElementById("btnDetails").addEventListener("click", function () {
+                            $('#myModal').modal('show');
+                        });
+                    </script>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section scripts
+{
+    <script src="~/js/proveedores/proveedore.js"></script>
+}
