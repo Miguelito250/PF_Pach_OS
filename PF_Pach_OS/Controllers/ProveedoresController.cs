@@ -59,6 +59,7 @@ namespace Pach_OS.Controllers
         {
             if (ModelState.IsValid)
             {
+                proveedore.Estado = 1; // Establecer el estado inicial como activo
                 _context.Add(proveedore);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -165,7 +166,7 @@ namespace Pach_OS.Controllers
             var proveedor = _context.Proveedores.Find(id);
             if (proveedor != null)
             {
-                proveedor.Estado = 0; // Deshabilitar
+                proveedor.Estado = 1; // Deshabilitado
                 _context.SaveChanges();
             }
             return RedirectToAction("Index");
@@ -177,10 +178,14 @@ namespace Pach_OS.Controllers
             var proveedor = _context.Proveedores.Find(id);
             if (proveedor != null)
             {
-                proveedor.Estado = 1; // Habilitar
+                proveedor.Estado = 0; // Habilitado
                 _context.SaveChanges();
             }
             return RedirectToAction("Index");
         }
+
+        //Metodo Para barra de busqueda
+
+
     }
 }

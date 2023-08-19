@@ -77,17 +77,15 @@
 </div>
 <script>
     $(document).ready(function () {
-        // Manejar el evento de cambio en el campo de PrecioInsumo
+
         $('#Nit').on('input', function () {
             validateNit();
         });
 
-        // Manejar el evento de cambio en el campo de Cantidad
         $('#NomLocal').on('input', function () {
             validatenomLocal();
         });
 
-        // Manejar el evento de cambio en el campo de Medida
         $('#Direccion').on('input', function () {
             validateDireccion();
         });
@@ -131,10 +129,10 @@
         }
         function validateNomLocal() {
             var nomlocal = $('#NomLocal').val();
-            if (nomlocal === '' || isNaN(nomlocal)) {
-                $('#NomLocal').addClass('is-invalid');
+            if (correo.trim() === '') {
+                $('#NomLocal').removeClass('is-valid').addClass('is-invalid');
             } else {
-                $('#NomLocal').removeClass('is-invalid');
+                $('#NomLocal').removeClass('is-invalid').addClass('is-valid');
             }
         }
 
@@ -145,13 +143,13 @@
 
             if (nomlocal === '') {
                 medidaFeedback.text('Por favor ingrese el nombre');
-                $('#NomLocal').addClass('is-invalid');
+                $('#NomLocal').removeClass('is-valid').addClass('is-invalid');
             } else if (!onlyLetters) {
                 medidaFeedback.text('No se aceptan números');
                 $('#NomLocal').addClass('is-invalid');
             } else {
                 medidaFeedback.text('');
-                $('#NomLocal').removeClass('is-invalid');
+                $('#NomLocal').removeClass('is-invalid').addClass('is-valid');
             }
         }
     });

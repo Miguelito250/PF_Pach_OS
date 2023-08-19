@@ -35,7 +35,6 @@
         $('#myModal').modal('show');
     });
 </script>
-
 <table class="table">
     <thead>
         <tr>
@@ -79,19 +78,19 @@
                 @Html.DisplayFor(modelItem => item.Correo)
             </td>
             <td>
-                <td>
-                        @if (item.Estado == 1)
-                        {
-                        <span class="text-success">Habilitado</span>
-                        }
-                        else if (item.Estado == 0)
-                        {
-                        <span class="text-danger">Deshabilitado</span>
-                        }
-                        else
-                        {
-                        <span class="text-warning">Estado desconocido</span>
-                        }
+            <td>
+                @if (item.Estado == 0)
+                {
+                <form asp-action="Disable" asp-route-id="@item.IdProveedor" method="post">
+                <button type="submit" class="btn btn-danger">Deshabilitado</button>
+                </form>
+                }
+                else
+                {
+                <form asp-action="Enable" asp-route-id="@item.IdProveedor" method="post">
+                <button type="submit" class="btn btn-success">Habilitado</button>
+                </form>
+                }
             </td>
             <td>
                     <a id="btnEditar" class="btn btn-primary btn-lg" data-id="@item.IdProveedor" data-toggle="modal">Editar</a>
@@ -103,12 +102,6 @@
                     <a id="btnDetails" class="btn btn-primary btn-lg" data-id="@item.IdProveedor" data-toggle="modal">Detalles</a>
                     <script>
                         document.getElementById("btnDetails").addEventListener("click", function () {
-                            $('#myModal').modal('show');
-                        });
-                    </script>
-                    <a id="btnDelete" class="btn btn-primary btn-lg" data-id="@item.IdProveedor" data-toggle="modal">Eliminar</a>
-                    <script>
-                        document.getElementById("btnDelete").addEventListener("click", function () {
                             $('#myModal').modal('show');
                         });
                     </script>
