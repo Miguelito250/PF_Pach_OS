@@ -45,14 +45,6 @@ namespace PF_Pach_OS.Controllers
             return View(receta);
         }
 
-        // GET: Recetas/Create
-        public IActionResult Create()
-        {
-            ViewData["IdInsumo"] = new SelectList(_context.Insumos, "IdInsumo", "IdInsumo");
-            ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "IdProducto");
-            return View();
-        }
-
         // POST: Recetas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.

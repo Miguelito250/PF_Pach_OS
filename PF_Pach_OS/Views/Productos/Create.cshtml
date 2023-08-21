@@ -7,40 +7,17 @@
 <link href="~/css/productos.css" rel="stylesheet" />
 
 <div class="crear-productos">
-    <form>
+    <form method="post">
         <div class="registrar-productos d-flex justify-content-between">
             @{
-                if (ViewBag.ProductoActivo == null)
-                {
-
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.IdProducto" />
-
-                    <label asp-for="Producto.NomProducto"></label>
-                    <input asp-for="Producto.NomProducto" />
-                    <span asp-validation-for="Producto.NomProducto" class="text-danger"></span>
-
-                    <label asp-for="Producto.PrecioVenta"></label>
-                    <input asp-for="Producto.PrecioVenta"/>
-                    <span asp-validation-for="Producto.PrecioVenta" class="text-danger"></span>
-
-                    <label asp-for="Producto.IdTamano"></label>
-                    <select asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano"></select>
-
-                    <label asp-for="Producto.IdCategoria"></label>
-                    <select asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria">
-                        <option value="">@ViewBag.SelectC</option>
-                    </select>
-                }
-                else
-                {
+                
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.IdProducto"/>
 
                     <div>
                         <label class="label-campo tamano-label">
                             <span class="nombre-campo">Producto</span>
-                            <input class="input-campo" asp-for="Producto.NomProducto" />
+                        <input class="input-campo" asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" />
                         </label>
                         <span asp-validation-for="Producto.NomProducto" class="text-danger"></span>
                     </div>
@@ -56,8 +33,9 @@
                     <div>
                         <label class="label-campo">
                             <span class="nombre-campo">Tamaño</span>
-                            <select class ="input-campo select-campo" asp-for="Producto.IdTamano" value="@ViewBag.ProductoActivo.IdTamano" asp-items="ViewBag.IdTamano">
-                                <option></option>
+                            <select class ="input-campo select-campo" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
+                            <option value="@ViewBag.SelectTID">@ViewBag.SelectT</option>
+
                             </select>
                         </label>
                     </div>
@@ -66,13 +44,13 @@
                         <label class="label-campo tamano-label">
                             <span class="nombre-campo">Categoria</span>
                             <select class="input-campo select-campo" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria">
-                                <option value="">@ViewBag.SelectC</option>
+                            <option value="@ViewBag.SelectCID">@ViewBag.SelectC</option>
                             </select>
                         </label>
                     </div>
 
 
-                }
+                
             }
         </div>
         <div class="recetas">
@@ -80,7 +58,9 @@
                 <div>
                     <label class="label-campo tamano-label">
                         <span class="nombre-campo">Insumo</span>
-                        <select class="select-campo input-campo" asp-for="Receta.IdInsumo" asp-items="ViewBag.Insumo"></select>
+                        <select class="select-campo input-campo" asp-for="Receta.IdInsumo" asp-items="ViewBag.Insumo">
+                            <option></option>
+                        </select>
                     </label>
                 </div>
                 <div>
@@ -99,7 +79,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Receta.IdProducto" value="@ViewBag.Idproducto">
                 @{
-                    if (ViewBag.Receta == null)
+                    if (ViewBag.RecetasConInsumos == null)
                     {
                         <h4>No hay insumos de receta</h4>
                     }
@@ -121,23 +101,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in (List<Receta>)ViewBag.Receta)
+                                @foreach (var recetaConInsumo in (List<dynamic>)ViewBag.RecetasConInsumos)
                                 {
                                     <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CantInsumo)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.IdInsumo)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.IdProducto)
-                                        </td>
-                                        <td>
-                                            <a asp-action="Edit" asp-route-id="@item.IdReceta">Edit</a> |
-                                            <a asp-action="Details" asp-route-id="@item.IdReceta">Details</a> |
-                                            <a asp-action="Delete" asp-controller="Recetas" value="@ViewBag.IdProducto" asp-route-id="@item.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto">Delete</a>
-                                        </td>
+                                        @if (recetaConInsumo.IdProducto == ViewBag.IdProducto)
+                                        {
+                                            <td>
+                                                @recetaConInsumo.CantInsumo
+                                            </td>
+                                            <td>
+                                                @recetaConInsumo.NomInsumo
+                                            </td>
+
+                                            <td>
+                                                <a asp-action="Delete" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto">Delete</a>
+                                            </td>
+                                        }
+
                                     </tr>
                                 }
                             </tbody>
@@ -150,140 +130,6 @@
     </form>
 
 </div>
-@*<div class="d-flex">
-    <form method="post">
-        <div class="flex-column">
-            @{
-                if (ViewBag.ProductoActivo == null)
-                {
-
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.IdProducto" />
-                    
-                        <label asp-for="Producto.NomProducto" class="control-label"></label>
-                        <input asp-for="Producto.NomProducto" class="form-control" />
-                        <span asp-validation-for="Producto.NomProducto" class="text-danger"></span>
-                    
-                        <label asp-for="Producto.PrecioVenta" class="control-label"></label>
-                        <input asp-for="Producto.PrecioVenta" class="form-control" />
-                        <span asp-validation-for="Producto.PrecioVenta" class="text-danger"></span>
-                    
-                        <label asp-for="Producto.IdTamano" class="control-label"></label>
-                        <select asp-for="Producto.IdTamano" class="form-control" asp-items="ViewBag.IdTamano"></select>
-                    
-                        <label asp-for="Producto.IdCategoria" class="control-label"></label>
-                        <select asp-for="Producto.IdCategoria" class="form-control" asp-items="ViewBag.IdCategoria">
-                            <option value="">@ViewBag.SelectC</option>
-                        </select>
-                }
-                else
-                {
-
-
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.IdProducto" />
-                    <div class="form-group">
-                        <label asp-for="Producto.NomProducto" class="control-label"></label>
-                        <input asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" class="form-control" />
-                        <span asp-validation-for="Producto.NomProducto" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Producto.PrecioVenta" class="control-label"></label>
-                        <input asp-for="Producto.PrecioVenta" value="@ViewBag.ProductoActivo.PrecioVenta" class="form-control" />
-                        <span asp-validation-for="Producto.PrecioVenta" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="Producto.IdTamano" class="control-label"></label>
-                        <select asp-for="Producto.IdTamano" class="form-control" value="@ViewBag.ProductoActivo.IdTamano" asp-items="ViewBag.IdTamano"></select>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Producto.IdCategoria" class="control-label"></label>
-                        <select asp-for="Producto.IdCategoria" class="form-control" asp-items="ViewBag.IdCategoria">
-                            <option value="">@ViewBag.SelectC</option>
-                        </select>
-                    </div>
-
-
-                }
-            }
-        </div>
-        <div>
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Receta.IdProducto" value="@ViewBag.Idproducto">
-
-
-            <div class="form-group">
-                <select asp-for="Receta.IdInsumo" class="form-control" asp-items="ViewBag.Insumo"></select>
-            </div>
-            <div class="form-group">
-
-                <input asp-for="Receta.CantInsumo" type="number" placeholder="Cantidad de Insumo">
-            </div>
-
-            <div class="form-group">
-                <button type="submit" asp-action="Create" asp-controller="Recetas" class="btn btn-primary"> Agregar Insumo </button>
-            </div>
-            @{
-                if (ViewBag.Receta == null)
-                {
-                    <h4>No hay insumos de receta</h4>
-                }
-                else
-                {
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(Model=> Model.Receta.CantInsumo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(Model => Model.Receta.IdInsumo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(Model => Model.Receta.IdProducto)
-                                </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in (List<Receta>)ViewBag.Receta)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CantInsumo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.IdInsumo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.IdProducto)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.IdReceta">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.IdReceta">Details</a> |
-                                        <a asp-action="Delete" asp-controller="Recetas" value="@ViewBag.IdProducto" asp-route-id="@item.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto">Delete</a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-            }
-        </div>
-        <input type="submit" asp-action="Crear" asp-controller="Productos" class="btn btn-primary" />
-    </form>
-</div>
-*@
-   @* <form asp-action="Delete">
-        <input type="hidden" asp-for="Producto.IdProducto" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        
-    </form>*@
-
-</div>
-</form>
-
 
 
 <script>

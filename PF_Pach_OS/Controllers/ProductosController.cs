@@ -110,92 +110,79 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Crear([Bind("IdProducto, NomProducto,PrecioVenta,IdTamano,IdCategoria")] Producto producto)
         {
-            int idpizza = 13;
-            int minCaracteres = 4;
-            int maxCaracteres = 30;
-            int minPrecio = 1000;
-            int maxPrecio = 70000;
-            
-            var receta = await _context.Recetas.FirstOrDefaultAsync(c => c.IdProducto == producto.IdProducto);
+            //    int idpizza = 13;
+            //    int minCaracteres = 4;
+            //    int maxCaracteres = 30;
+            //    int minPrecio = 1000;
+            //    int maxPrecio = 70000;
 
-            TempData["Error"] = null;
-            if (producto.NomProducto == null)
-            {
-                TempData["Error"] = "Por favor Ingrese el nombre del producto";
-                
-                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
-            }
-            else if (producto.NomProducto != null)
-            {
-                if (producto.NomProducto.Length < minCaracteres || producto.NomProducto.Length > maxCaracteres)
-                {
-                    TempData["Error"] = "El nombre del producto debe tener entre 4 y 30 caracteres ";
-                    return RedirectToAction("Details", "Productos", new { producto.IdProducto });
-                }
+            //    var receta = await _context.Recetas.FirstOrDefaultAsync(c => c.IdProducto == producto.IdProducto);
 
-            }
-            if (producto.PrecioVenta == null)
-            {
-                TempData["Error"] = "Por favor Ingrese un precio al producto ";
-                
-                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
-            }
-            else if (producto.PrecioVenta != null)
-            {
-                if (producto.PrecioVenta.Value < minPrecio || producto.PrecioVenta.Value > maxPrecio)
-                {
-                    TempData["Error"] = "El precio del producto debe ser de minimo 1000 y maximo 70000 ";
-                    return RedirectToAction("Details", "Productos", new { producto.IdProducto });
-                }
+            //    TempData["Error"] = null;
+            //    if (producto.NomProducto == null)
+            //    {
+            //        TempData["Error"] = "Por favor Ingrese el nombre del producto";
 
-            }
+            //        return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+            //    }
+            //    else if (producto.NomProducto != null)
+            //    {
+            //        if (producto.NomProducto.Length < minCaracteres || producto.NomProducto.Length > maxCaracteres)
+            //        {
+            //            TempData["Error"] = "El nombre del producto debe tener entre 4 y 30 caracteres ";
+            //            return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+            //        }
 
-            else if (producto.IdCategoria == null)
-            {
-                TempData["Error"] = "Por favor Ingrese una categoria al producto ";
-                
-                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+            //    }
+            //    if (producto.PrecioVenta == null)
+            //    {
+            //        TempData["Error"] = "Por favor Ingrese un precio al producto ";
 
-            }if (producto.IdTamano==null)
-            {
-                if (producto.IdCategoria == idpizza)
-                {
-                    TempData["Error"] = "Por favor Ingrese un tamaño ";
-                    return RedirectToAction("Details", "Productos", new { producto.IdProducto });
-                }
-            }
-            else if(producto.IdTamano != null)
-            {
-                if(producto.IdCategoria != idpizza)
-                {
-                    TempData["Error"] = "Por favor NO ingrese un tamaño si el producto no se categoriza como pizza";
-                    return RedirectToAction("Details", "Productos", new { producto.IdProducto });
-                }
-            }
-            if(receta== null)
-            {
-                TempData["Error"] = "Registre al menos un insumo a la receta  ";
-                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
-            }
+            //        return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+            //    }
+            //    else if (producto.PrecioVenta != null)
+            //    {
+            //        if (producto.PrecioVenta.Value < minPrecio || producto.PrecioVenta.Value > maxPrecio)
+            //        {
+            //            TempData["Error"] = "El precio del producto debe ser de minimo 1000 y maximo 70000 ";
+            //            return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+            //        }
+
+            //    }
+
+            //    else if (producto.IdCategoria == null)
+            //    {
+            //        TempData["Error"] = "Por favor Ingrese una categoria al producto ";
+
+            //        return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+
+            //    }if (producto.IdTamano==null)
+            //    {
+            //        if (producto.IdCategoria == idpizza)
+            //        {
+            //            TempData["Error"] = "Por favor Ingrese un tamaño ";
+            //            return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+            //        }
+            //    }
+            //    else if(producto.IdTamano != null)
+            //    {
+            //        if(producto.IdCategoria != idpizza)
+            //        {
+            //            TempData["Error"] = "Por favor NO ingrese un tamaño si el producto no se categoriza como pizza";
+            //            return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+            //        }
+            //    }
+            //    if(receta== null)
+            //    {
+            //        TempData["Error"] = "Registre al menos un insumo a la receta  ";
+            //        return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+            //    }
             if (ModelState.IsValid)
             {
-                try
-                {
-                    producto.Estado = "true";
-                    _context.Update(producto);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductoExists(producto.IdProducto))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                
+                producto.Estado = "true";
+                _context.Update(producto);
+                await _context.SaveChangesAsync();
                 ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", producto.IdCategoria);
                 ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "nombre_tamano", producto.IdTamano);
                 return RedirectToAction(nameof(Index));
