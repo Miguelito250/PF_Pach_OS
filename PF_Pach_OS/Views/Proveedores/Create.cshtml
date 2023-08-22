@@ -6,11 +6,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 }
 
-<h1>Crear Proveedor</h1>
-
-<h4>Proveedores</h4>
-<hr />
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-md-4">
         <form asp-action="Create" id="formulario" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -127,14 +123,14 @@
                 $('#Correo').removeClass('is-invalid').addClass('is-valid');
             }
         }
-        function validateNomLocal() {
-            var nomlocal = $('#NomLocal').val();
-            if (correo.trim() === '') {
-                $('#NomLocal').removeClass('is-valid').addClass('is-invalid');
-            } else {
-                $('#NomLocal').removeClass('is-invalid').addClass('is-valid');
-            }
-        }
+        // function validateNomLocal() {
+        //     var nomlocal = $('#NomLocal').val();
+        //     if (correo.trim() === '') {
+        //         $('#NomLocal').removeClass('is-valid').addClass('is-invalid');
+        //     } else {
+        //         $('#NomLocal').removeClass('is-invalid').addClass('is-valid');
+        //     }
+        // }
 
         function validatenomLocal() {
             var nomlocal = $('#NomLocal').val();

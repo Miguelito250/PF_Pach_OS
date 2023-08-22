@@ -1,0 +1,20 @@
+﻿.lista-proveedores{
+    padding: 15px 0 0 15px; 
+}
+
+.acciones {
+    height: 17vh;
+    width: 15vw;
+    background: #E6E6E6;
+    border: 1px solid #000000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+}
+
+.info-proveedor {
+    background-color: #543C33;
+    height: 80%;
+    width: 100%;
+    border-radius: 15px;
+    color: #ffffff
+}
