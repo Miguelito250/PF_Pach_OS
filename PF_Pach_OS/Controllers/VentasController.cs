@@ -81,7 +81,7 @@ namespace PF_Pach_OS.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "Ventas", new {venta.IdVenta});
+                return RedirectToAction("Index", "Ventas");
             }
             ViewData["IdEmpleado"] = new SelectList(_context.Empleados, "IdEmpleado", "IdEmpleado", venta.IdEmpleado);
             return View(venta);

@@ -36,13 +36,10 @@
                 </div>
             
                 <div class="col-4 d-flex align-items-end">
-                    <button class="btn btn-primary" type="submit">
-                        Agregar insumo
+                    <button class="btn btn-primary botones-agregar" type="submit">
+                        Agregar Producto
                     </button>
                 </div>
-            
-                <input type="hidden" />
-            
             </form>
         </div>
         <hr>
@@ -54,6 +51,7 @@
                         <th>Cantidad</th>
                         <th>Precio</th>
                         <th>Total</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="detalles-ventas">
@@ -63,6 +61,8 @@
                             <td >@detalles.IdProductoNavigation.NomProducto</td>
                             <td>@detalles.CantVendida</td>
                             <td>@detalles.Precio</td>
+                            <td id="texto-total"></td>
+                            <td><a asp-controller="DetalleVentas" asp-action="Delete" asp-route-id="@detalles.IdDetalleVenta" class="btn btn-outline-danger">Remover</a></td>
                         </tr>
                     }
                 </tbody>
@@ -70,10 +70,8 @@
         </div>
     </div>
     <div class="col-4  bg-white rounded border px-4 py-4">
-        <form class="detail-container" asp-action="Crear" method="post">
-            <input type="number" value="@ViewBag.IdVenta" asp-for="Item2.IdVenta" hidden>
-            
-
+        <form asp-action="ConfirmarVenta" method="post" class="detail-container">
+            <input asp-for="Item2.IdVenta"  type="number" value="@ViewBag.IdVenta" name="IdVenta" hidden>
             <div>
                 <div class="w-100 d-flex flex-column mb-3 align-items-center">
                     <p class="w-100 h4 mb-3 text-center"><strong>Pachito-OS</strong></p>
@@ -81,42 +79,41 @@
 
                 <hr>
 
-                
-               
                 <div>
                     <div class="d-flex justify-content-between">
                         <p class="">Domicilio</p>
-                        <input type="number" class="tamano-input">
+                        <input asp-for="Item2.PagoDomicilio" type="number" id="domicilio" name="PagoDomicilio" class="tamano-input" value="0">
                     </div>
                     <div class="d-flex justify-content-between">
-                        <select class="estilo-select">
-                            <option>Efectivo</option>
-                            <option>Transferencia</option>
-                            <option>Ambos</option>
+                        <select asp-for="Item2.TipoPago" name="TipoPago" class="estilo-select">
+                            <option value="efectivo">Efectivo</option>
+                            <option value="transferencia">Transferencia</option>
+                            <option value="ambos">Efectivo/Transferencia</option>
                         </select>
-                        <input type="number" class="tamano-input" id="pago">
+                        <input asp-for="Item2.Pago" type="number" id="pago" name="Pago" class="tamano-input" value="0">
                     </div>
                     <div class="d-flex justify-content-between">
-                        <p id="cambio">Cambio</p>
-                        <p class="ms-auto" id="texto-cambio"></p>
+                        <p>Cambio</p>
+                        <p class="ms-auto" id="texto-cambio">0</p>
                     </div>
                     <div class="d-flex justify-content-between">
                         <p>Fecha</p>
-                        <label class="ms-auto">22/09/23</label>
+                        <label class="ms-auto" id="fecha-hora"></label>
+                        <input asp-for="Item2.FechaVenta" type="text" id="fecha-input" name="FechaVenta" hidden>
                     </div>
 
                 </div>
                 <hr>
                 <div class="d-flex flex-column align-items-center justify-content-between">
-                    <p class="mb-0 display-4"><strong id="totalVenta"></strong></p>
+                    <p class="mb-0 display-4"><strong id="totalVenta">0</strong></p>
+                    <input asp-for="Item2.TotalVenta" id="totalVenta-input" name="TotalVenta" hidden>
                     <p class="mb-0">Total</p>
                 </div>
                 @*<input type="hidden" asp-for="Item2.Total" value="@total" />*@
 
                 <hr>
-                <div class="w-100 d-flex flex-column mt-auto">
-                <a class="btn btn-light border mb-2" asp-controller="Compras" asp-action="Delete" asp-route-id="@ViewBag.IdCompra">Cancelar compra</a>
-                    <button class="btn btn-primary" type="submit">Realizar compra</button>
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-primary botones-agregar" type="submit">Realizar venta</button>
                 </div>
             </div>
         </form>

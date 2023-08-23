@@ -1,30 +1,63 @@
-﻿var totalVenta = 0;
-var domicilio = document.getElementById("domicilio").value;
-var pago = document.getElementById("pago").value;
-var cambio = document.getElementById("cambio").value;
-const tablaDetalles = document.querySelector('.tabla-detalles'); // Obtén la tabla con la clase tabla-detalles
+﻿function SumarDomicilio() {
+    var totalSinCambio = document.getElementById('totalVenta').textContent;
+    var pagoDomicilio = document.getElementById('domicilio').value;
 
-if (tablaDetalles) {
-    const filas = tablaDetalles.querySelectorAll('tbody tr'); // Obtén todas las filas dentro del tbody de la tabla
+    totalSinCambio = parseInt(totalSinCambio)
+    pagoDomicilio = parseInt(pagoDomicilio)
 
-    filas.forEach(function (fila) {
-        const celdas = fila.querySelectorAll('td'); // Obtén todas las celdas dentro de la fila
+    totalVenta = totalSinCambio + pagoDomicilio
 
-        const cantidad = parseInt(celdas[1].textContent); // Valor de la celda de cantidad
-        const precio = parseInt(celdas[2].textContent); // Valor de la celda de precio
-
-        const total = cantidad * precio;
-        totalVenta += total;
-
-        const celdaTotal = document.createElement('td'); // Crea una nueva celda <td>
-        celdaTotal.textContent = total.toFixed(); // Establece el contenido de la celda como el total calculado
-        fila.appendChild(celdaTotal); // Agrega la nueva celda a la fila
-    });
+    InsertarTotal(totalVenta)
 }
-document.getElementById("totalVenta").innerHTML = totalVenta;
-var textoCambiar = document.getElementById("texto-cambio").innerHTML = cambio;
 
-//Calcular el cambio
-domicilio.addEventListener('change', (e) => {
-    console.log(e)
-})
+function InsertarTotal(totalVenta) {
+    document.getElementById("totalVenta").innerHTML = totalVenta;
+    document.getElementById("totalVenta-input").value = totalVenta;
+
+}
+
+function CalcularCambio() {
+    let totalVenta = document.getElementById('totalVenta').textContent;
+    var pago = document.getElementById('pago').value;
+
+    var cambio = pago - totalVenta 
+    InsertarCambio(cambio)
+}
+
+function InsertarCambio(cambio){
+    document.getElementById("texto-cambio").innerHTML = cambio;
+}
+
+function InsertarFecha() {
+    var labelFecha = document.getElementById('fecha-hora');
+    var inputFecha = document.getElementById('fecha-input');
+    var fecha = new Date(); 
+    var fechaHora = fecha.toLocaleString();
+
+    labelFecha.innerHTML = fechaHora;
+    inputFecha.value = fechaHora;    
+}
+//Scripts para la pagina de ventas
+
+var boton_domicilio = document.getElementById('domicilio')
+var boton_pago = document.getElementById('pago')
+
+boton_domicilio.addEventListener('change', SumarDomicilio)
+boton_pago.addEventListener('change', CalcularCambio)
+
+var subtotalProducto = 0
+
+// Obtener todas las filas de detalles
+var filasDetalles = document.querySelectorAll("#detalles-ventas tr");
+        
+filasDetalles.forEach(function(fila) {
+    var cantidad = parseInt(fila.cells[1].textContent);
+    var precio = parseInt(fila.cells[2].textContent);
+    var total = cantidad * precio;
+
+    subtotalProducto += total; 
+    fila.querySelector("#texto-total").textContent = total.toFixed();
+});
+
+InsertarTotal(subtotalProducto);
+InsertarFecha();
