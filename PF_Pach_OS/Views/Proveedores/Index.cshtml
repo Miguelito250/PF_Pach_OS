@@ -36,45 +36,20 @@
 
 
 <div class=" d-flex lista-proveedores flex-wrap justify-content-between">
-    @foreach (var item in Model){
-        <div class="acciones mx-4 mb-4">
-            <div class="info-proveedor">
-                <div class="d-flex text-center">
-                    <label>@Html.DisplayFor(modelItem => item.NomLocal)</label>
-                </div>
-                <div class="d-flex justify-content-between align-items-end">
-                    <p>@Html.DisplayFor(modelItem => item.Nit)</p>
-                    <p>@Html.DisplayFor(modelItem => item.IdProveedor)</p>
-                </div>
-            </div>
-            <div class="d-flex">
-                @if (item.Estado == 0)
-                {
-                    <form asp-action="Disable" asp-route-id="@item.IdProveedor" method="post">
-                        <button type="submit" class="btn btn-danger">Deshabilitado</button>
-                    </form>
-                }
-                else
-                {
-                    <form asp-action="Enable" asp-route-id="@item.IdProveedor" method="post">
-                        <button type="submit" class="btn btn-success">Habilitado</button>
-                    </form>
-                }
-                <a id="btnEditar" class="btn btn-primary" data-id="@item.IdProveedor" data-toggle="modal">Editar</a>
-                <script>
-                    document.getElementById("btnEditar").addEventListener("click", function () {
-                        $('#myModal').modal('show');
-                    });
-                </script>
-                <a id="btnDetails" class="btn btn-primary" data-id="@item.IdProveedor" data-toggle="modal">Detalles</a>
-                <script>
-                    document.getElementById("btnDetails").addEventListener("click", function () {
-                        $('#myModal').modal('show');
-                    });
-                </script>
-
-            </div>
-        </div>
+    @foreach (var item in Model)
+    {
+        <article class="card card__content">
+            <header>
+                
+            </header>
+            <main class="card__body">
+                <h1 class="title--primary">@Html.DisplayFor(modelItem => item.NomLocal)</h1>
+                <p class="description">
+                    
+                </p>
+            </main>
+           
+        </article>
     }
 </div>
 @* <table class="table">

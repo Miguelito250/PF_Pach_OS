@@ -9,65 +9,65 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = PF_Pach_OS
 build_property.RootNamespace = PF_Pach_OS
-build_property.ProjectDir = C:\Users\asuus\Desktop\Progrmación\PROYECTOS\PF_Pach_OS\PF_Pach_OS\
+build_property.ProjectDir = C:\Users\vamil\OneDrive\Escritorio\Progrmacion\SENA\Proyecto Formativo Pach_OS\PF_Pach_OS\PF_Pach_OS\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\asuus\Desktop\Progrmación\PROYECTOS\PF_Pach_OS\PF_Pach_OS
+build_property.MSBuildProjectDirectory = C:\Users\vamil\OneDrive\Escritorio\Progrmacion\SENA\Proyecto Formativo Pach_OS\PF_Pach_OS\PF_Pach_OS
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/asuus/Desktop/Progrmación/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Home/Index.cshtml]
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmación/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Home/Privacy.cshtml]
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmación/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Create.cshtml]
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmación/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Delete.cshtml]
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yZXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmación/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Details.cshtml]
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yZXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmación/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Edit.cshtml]
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yZXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmación/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Index.cshtml]
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmación/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Shared/Error.cshtml]
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmación/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmación/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/_ViewImports.cshtml]
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmación/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/_ViewStart.cshtml]
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmación/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Shared/_Layout.cshtml]
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-sklo7qddau
 
-[C:/Users/asuus/Desktop/Progrmación/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Shared/_Navbar.cshtml]
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Shared/_Navbar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9OYXZiYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-ar7afxzvjp
 
-[C:/Users/asuus/Desktop/Progrmación/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Shared/_Sidebar.cshtml]
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Shared/_Sidebar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TaWRlYmFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = b-4yawmbwjgg
