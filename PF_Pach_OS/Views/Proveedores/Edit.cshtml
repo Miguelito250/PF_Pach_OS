@@ -4,13 +4,8 @@
     ViewData["Title"] = "Edit";
     Layout = null;
 }
-
-<h1>Editar</h1>
-
-<h4>Proveedor</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div>
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdProveedor" />
@@ -40,7 +35,7 @@
                 <span asp-validation-for="Correo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Guardar Cambios" class="btn btn-primary botones-agregar"/>
             </div>
         </form>
     </div>

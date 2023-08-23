@@ -2,23 +2,6 @@
     padding: 15px 0 0 15px; 
 }
 
-.acciones {
-    height: 17vh;
-    width: 15vw;
-    background: #E6E6E6;
-    border: 1px solid #000000;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 15px;
-}
-
-.info-proveedor {
-    background-color: #543C33;
-    height: 80%;
-    width: 100%;
-    border-radius: 15px;
-    color: #ffffff
-}
-
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,300&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300&family=Roboto:wght@100;300;400;500;700;900&display=swap");
 
 *,
@@ -68,7 +51,7 @@ a {
     --header-size--min: 12.75rem;
     --header-size--max: 19rem;
     --width: 15rem;
-    --height: 33vh;
+    --height: 23vh;
     --easing: cubic-bezier(0.5, 0, 0.2, 1);
     --easing1: cubic-bezier(0.4, 0.3, 0.65, 1);
     --easing2: cubic-bezier(0.8, 0, 0.6, 1);
@@ -78,15 +61,16 @@ a {
     inline-size: var(--width);
     block-size: var(--height);
     border-radius: 0.125em;
-    background: #fff;
+    background: #F6F6F6;
     overflow: hidden;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
 }
 
 .card:hover {
     transition: all var(--anim-time--hi) var(--easing1);
     border: 0;
-    box-shadow: -0.375rem 0 1px -1px var(--cyan), -3.5rem 0 3.125rem -1.125rem hsl(186deg 87% 86%);
+    box-shadow: 0px 14px 14px rgba(0, 0, 0, 0.25);
 }
 
 header {
@@ -183,9 +167,7 @@ header {
     font-family: "Poppins", sans-serif;
 }
 
-    .card__body > * {
-        flex-grow: 1;
-    }
+
 
 .card__content:hover .card__body {
     transform: translateY(calc(var(--header-size--min) - var(--header-size--max)));
@@ -198,74 +180,10 @@ header {
     padding-block: var(--space-l) var(--space-s);
 }
 
-.description {
-    font-size: var(--fs-default);
-    max-width: 33ch;
-    color: #222;
-    opacity: 0;
-    transition: opacity var(--anim-time--hi) var(--easing), transform var(--anim-time--hi) var(--easing2);
-}
-
-.card__content:hover .description {
-    opacity: 1;
-    transform: translateY(1.5rem);
-    transition: opacity var(--anim-time--hi) var(--easing2), transform var(--anim-time--hi) var(--easing2);
-}
-
-.footer {
-    display: flex;
-    align-items: center;
-    margin-top: auto;
-    margin-inline: var(--space);
-    height: calc(var(--space-m) * 3);
-}
-
-    .footer > * {
-        flex-grow: 1;
-    }
-
-.link__text {
-    width: max-content;
-    padding: 0.35em 1.25em;
-    font-size: var(--fs-s);
-    font-weight: 900;
-    color: var(--blue-accent100);
-    pointer-events: none;
-}
-
-.expand__indicator {
-    transition: opacity var(--anim-time--lo) var(--easing);
-}
-
 .card__content:hover .expand__indicator {
     opacity: 0;
     transition: opacity var(--anim-time--lo) var(--easing3);
 }
-
-.footer__navigation {
-    display: inline-flex;
-    align-items: center;
-    height: 100%;
-    gap: var(--space);
-    justify-content: right;
-}
-
-.icon__link {
-    display: inline-flex;
-    height: max-content;
-    width: max-content;
-    justify-content: center;
-    align-items: center;
-    color: #0007;
-    font-size: 1rem;
-    background: 0;
-    border: 0;
-}
-
-    .icon__link:hover {
-        animation: pulse var(--anim-time--med) var(--easing1);
-        animation-iteration-count: 2;
-    }
 
 @keyframes pulse {
 
