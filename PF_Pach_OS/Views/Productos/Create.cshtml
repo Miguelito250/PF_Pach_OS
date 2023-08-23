@@ -2,13 +2,13 @@
 
 @{
     ViewData["Title"] = "Create";
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 }
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="~/css/productos.css" rel="stylesheet" />
 
 <div class="crear-productos">
-    <form method="post">
+    <form method="post" novalidate >
         <div class="registrar-productos d-flex justify-content-between">
             @{
                 
@@ -16,17 +16,18 @@
                     <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.IdProducto"/>
 
                     <div>
-                    <label class="label-campo tamano-label"></label>
+                        <label class="label-campo tamano-label">
                             <span class="nombre-campo">Producto</span>
-                            <input class="form-control" asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" />
-                            <div class="invalid-feedback">
-                                Por ingrese un nombre al producto(4-30 Caracteres).
-                            </div>
-                            <div class="valid-feedback">
-                                ¡Todo bien!
-                            </div>
-                        
-                       
+                            <input class="input-campo" asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" required />
+                        <div class="invalid-feedback">
+                            
+
+                        </div>
+                        <div class="valid-feedback">
+                            ¡Todo bien!
+                        </div>
+                        </label>
+                        <span asp-validation-for="Producto.NomProducto" class="text-danger"></span>
                     </div>
 
                     <div>
@@ -34,7 +35,7 @@
                             <span class="nombre-campo">Precio</span>
                             <input class="input-campo " asp-for="Producto.PrecioVenta" value="@ViewBag.ProductoActivo.PrecioVenta" />
                             <div class="invalid-feedback">
-                                Por favor ingrese un precio al producto(minimo 100 pesos).
+                               
                             </div>
                             <div class="valid-feedback">
                                 ¡Todo bien!
@@ -43,10 +44,21 @@
                         <span asp-validation-for="Producto.PrecioVenta" class="text-danger"></span>
                     </div>
 
-                    <div>
+                <div>
+                    <label class="label-campo tamano-label">
+                        <span class="nombre-campo">Categoria</span>
+                        <select class="input-campo select-campo" id="Producto_IdCategoria" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria">
+                            <option value="@ViewBag.SelectCID">@ViewBag.SelectC</option>
+                        </select>
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback">¡Todo bien!</div>
+                    </label>
+                </div>
+
+                <div id="Tamano_Oculto" class="d-none">
                         <label class="label-campo">
                             <span class="nombre-campo">Tamaño</span>
-                            <select class ="input-campo select-campo d-none" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
+                            <select class ="input-campo select-campo" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
                             <option value="@ViewBag.SelectTID">@ViewBag.SelectT</option>
                             </select>
                             <div class="invalid-feedback">
@@ -56,22 +68,10 @@
                                 ¡Todo bien!
                             </div>
                         </label>
-                    </div>
+                </div>
 
-                    <div>
-                        <label class="label-campo tamano-label">
-                            <span class="nombre-campo">Categoria</span>
-                        <select class="input-campo select-campo" id="hiddenSelect" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria">
-                            <option value="@ViewBag.SelectCID">@ViewBag.SelectC</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                Por favor seleccione una categoria.
-                            </div>
-                            <div class="valid-feedback">
-                                ¡Todo bien!
-                            </div>
-                        </label>
-                    </div>
+                
+
 
 
                 
@@ -85,12 +85,23 @@
                         <select class="select-campo input-campo" asp-for="Receta.IdInsumo" asp-items="ViewBag.Insumo">
                             <option></option>
                         </select>
+                        <div class="invalid-feedback">
+                        </div>
+                        <div class="valid-feedback">
+                            ¡Todo bien!
+                        </div>
                     </label>
                 </div>
                 <div>
                     <label class="label-campo">
                         <span class="nombre-campo">Cantidad</span>
                         <input class="input-campo" asp-for="Receta.CantInsumo" type="number">
+                        <div class="invalid-feedback">
+                            
+                        </div>
+                        <div class="valid-feedback">
+                            ¡Todo bien!
+                        </div>
                     </label>
                 </div>
 
@@ -159,72 +170,147 @@
 <script>
     $(document).ready(function () {
         // Manejar el evento de cambio en el campo de NomProducto
-        $('#Producto.NomProducto').on('input', function () {
+        $('#Producto_NomProducto').on('input', function () {
             validateNomProducto();
         });
 
         // Manejar el evento de cambio en el campo de PrecioVenta
-        $('#Producto.PrecioVenta').on('input', function () {
+        $('#Producto_PrecioVenta').on('input', function () {
             validatePrecioVenta();
         });
 
         // Manejar el evento de cambio en el campo de IdTamano
-        $('#Producto.IdTamano').on('input', function () {
+        $('#Producto_IdTamano').on('input', function () {
             validateTamano();
         });
 
         // Manejar el evento de cambio en el campo de IdCategoria
-        $('#Producto.IdCategoria').on('input', function () {
+        $('#Producto_IdCategoria').on('change', function () {
             validateCategoria();
         });
 
+        // Manejar el evento de cambio en el campo de CantInsumo
+        $('#Receta_CantInsumo').on('input', function () {
+            validateCantInsumo();
+        });
+
+        // Manejar el evento de cambio en el campo de IdInsumo
+        $('#Receta_IdInsumo').on('change', function () {
+            validateIdInsumo();
+        });
+
         function validateNomProducto() {
-            var maxCaracteres = 4;
-            var minCaracteres = 30;
-            var NomProducto = $('#Producto.NomProducto').val();
-            if (NomProducto === '' || NomProducto.length < minCaracteres || NomProducto.length > maxCaracteres )  {
-                $('#Producto.NomProducto').addClass('is-invalid');
-                console.log(1);
+            var maxCaracteres = 30;
+            var minCaracteres = 4;
+            var validacion = false;
+
+            var NomProducto = $('#Producto_NomProducto').val();
+            var contarNombre = NomProducto.length;
+
+            if (contarNombre == 0) {
+                validacion = true;
+                mostrarError('Por favor ingrese un nombre al producto.');
+            } else if (contarNombre < minCaracteres) {
+                validacion = true;
+                mostrarError('El nombre del producto debe tener al menos 4 caracteres.', '#Producto_NomProducto');
+            } else if (contarNombre > maxCaracteres) {
+                validacion = true;
+                mostrarError('El nombre del producto no puede exceder los 30 caracteres.');
             }
-            else {
-                $('#Producto.NomProducto').removeClass('is-invalid');
-                console.log(2);
-            }
+            resultado(validacion, '#Producto_NomProducto');
+            
         }
 
+        
+
         function validatePrecioVenta() {
-            var precio = $('#Producto.PrecioVenta').val();
+            var precio = $('#Producto_PrecioVenta').val();
             var minVenta = 100;
-            if (precio === '' || isNaN(precio) || precio < minVenta) {
-                $('#Producto.PrecioVenta').addClass('is-invalid');
-            } else {
-                $('#Producto.PrecioVenta').removeClass('is-invalid');
+            var validacion = false;
+            if(precio==0){
+                validacion = true;
+                mostrarError('Por favor ingrese un Precio', '#Producto_PrecioVenta');
             }
+            else if(isNaN(precio)){
+                validacion = true;
+                mostrarError('Por favor ingrese un Precio', '#Producto_PrecioVenta');
+            }else if(precio<minVenta){
+                validacion = true;
+                mostrarError('El presio minimo del producto debe ser 100 pesos', '#Producto_PrecioVenta');
+            }
+            resultado(validacion, '#Producto_PrecioVenta');
+
+            
+
         }
 
         function validateCategoria() {
-            var categoria = $('#Producto.IdCategoria').val();
+            var categoria = $('#Producto_IdCategoria').val();
             var idPizza = 13;
-            if (categoria === '' || isNaN(categoria)) {
-                $('#Producto.IdCategoria').addClass('is-invalid');
-            } else {
-                $('#Producto.IdCategoria').removeClass('is-invalid');
+            var validacion = false;
 
+            if (categoria == 0) {
+                mostrarError('Por favor seleccione una categoria', '#Producto_IdCategoria');
+                Ocultar_Campo_Oculto();
+                validacion = true;
+            } else if (categoria == idPizza) {
+                Mostrar_Campo_Oculto();
+                
+            } else if (categoria != idPizza){
+                Ocultar_Campo_Oculto();
             }
-            if (categoria == idPizza ) {
-                document.getElementById("hiddenSelect").classList.remove("d-none");
+
+            resultado(validacion, '#Producto_IdCategoria');
+        }
+        function validateCantInsumo(){
+            var cantInsumo = $('#Receta_CantInsumo').val();
+            var validacion = false;
+            if(cantInsumo==0){
+                mostrarError('Por favor ponga una cantidad de insumo', '#Receta_CantInsumo');
+                validacion = true;
+            }else if ( isNaN(cantInsumo) ){
+                mostrarError('Por favor ponga una cantidad de insumo', '#Receta_CantInsumo');
+                validacion = true;
             }
+            resultado(validacion, '#Receta_CantInsumo');
+
+        }
+        
+        function validateIdInsumo(){
+            var insumo = $('#Receta_IdInsumo').val();
+            var validacion = false;
+            if(insumo== 0){
+                mostrarError('Por favor selecione un insumo', '#Receta_IdInsumo');
+                validacion = true;
+            }
+            resultado(validacion, '#Receta_IdInsumo');
+
         }
 
-        function validateTamano() {
-            var tamano = $('#Producto.IdTamano').val();
-            var idPizza = 13;
-            if (tamano < minVenta) {
-                $('#Producto.IdTamano').addClass('is-invalid');
+
+
+        function Mostrar_Campo_Oculto() {
+            $('#Tamano_Oculto').removeClass('d-none');
+        }
+        function Ocultar_Campo_Oculto() {
+            $('#Tamano_Oculto').addClass('d-none');
+        }
+
+        function resultado(validacion, item){
+            if (validacion) {
+                $(item).addClass('is-invalid'); // Agregar clase de error
+                $(item).removeClass('is-valid'); // Remover clase de válido
             } else {
-                $('#Producto.IdTamano').removeClass('is-invalid');
+                $(item).removeClass('is-invalid'); // Remover clase de error
+                $(item).addClass('is-valid'); // Agregar clase de válido
             }
         }
+        function mostrarError(mensaje, item) {
+            var errorFeedback = $(item).siblings('.invalid-feedback');
+            errorFeedback.text(mensaje);
+        }
+
+        
 
     });
 </script>
