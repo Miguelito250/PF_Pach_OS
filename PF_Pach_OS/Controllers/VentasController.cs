@@ -46,7 +46,7 @@ namespace PF_Pach_OS.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdVenta")] Venta venta)
+        public async Task<IActionResult> CrearVenta([Bind("IdVenta")] Venta venta)
         {
             if (ModelState.IsValid)
             {
@@ -61,12 +61,13 @@ namespace PF_Pach_OS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmarVenta([Bind("IdVenta,FechaVenta,TotalVenta,TipoPago,Pago,PagoDomicilio,IdEmpleado")] Venta venta)
+        public async Task<IActionResult> ConfirmarVenta([Bind("IdVenta,FechaVenta,TotalVenta,TipoPago,Pago,PagoDomicilio,IdEmpleado,Estado")] Venta venta)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    venta.Estado = "Pendiente";
                     _context.Update(venta);
                     await _context.SaveChangesAsync();
                 }

@@ -511,7 +511,6 @@ C:\Users\asuus\Desktop\Progrmación\PROYECTOS\Pach-OS\PF_Pach_OS\PF_Pach_OS\obj\
 C:\Users\asuus\Desktop\Progrmación\PROYECTOS\Pach-OS\PF_Pach_OS\PF_Pach_OS\obj\Debug\net6.0\PF_Pach_OS.genruntimeconfig.cache
 C:\Users\asuus\Desktop\Progrmación\PROYECTOS\Pach-OS\PF_Pach_OS\PF_Pach_OS\obj\Debug\net6.0\ref\PF_Pach_OS.dll
 C:\Users\asuus\Desktop\Progrmación\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\appsettings.Development.json
-C:\Users\asuus\Desktop\Progrmación\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\appsettings.json
 C:\Users\asuus\Desktop\Progrmación\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\PF_Pach_OS.staticwebassets.runtime.json
 C:\Users\asuus\Desktop\Progrmación\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\PF_Pach_OS.exe
 C:\Users\asuus\Desktop\Progrmación\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\PF_Pach_OS.deps.json
@@ -766,3 +765,4 @@ C:\Users\asuus\Desktop\Progrmación\PROYECTOS\PF_Pach_OS\PF_Pach_OS\obj\Debug\ne
 C:\Users\asuus\Desktop\Progrmación\PROYECTOS\PF_Pach_OS\PF_Pach_OS\obj\Debug\net6.0\PF_Pach_OS.pdb
 C:\Users\asuus\Desktop\Progrmación\PROYECTOS\PF_Pach_OS\PF_Pach_OS\obj\Debug\net6.0\PF_Pach_OS.genruntimeconfig.cache
 C:\Users\asuus\Desktop\Progrmación\PROYECTOS\PF_Pach_OS\PF_Pach_OS\obj\Debug\net6.0\ref\PF_Pach_OS.dll
+C:\Users\asuus\Desktop\Progrmación\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\appsettings.json
