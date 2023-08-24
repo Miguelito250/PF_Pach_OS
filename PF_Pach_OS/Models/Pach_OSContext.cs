@@ -340,6 +340,11 @@ namespace PF_Pach_OS.Models
 
                 entity.Property(e => e.IdVenta).HasColumnName("id_venta");
 
+                entity.Property(e => e.Estado)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("estado");
+
                 entity.Property(e => e.FechaVenta)
                     .HasColumnType("datetime")
                     .HasColumnName("fecha_venta")
