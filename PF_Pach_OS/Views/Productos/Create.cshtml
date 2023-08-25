@@ -18,40 +18,42 @@
             <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.IdProducto"/>                 
 
             <div class="campos-flotantes">
+                @*<span class="label-flotante">Producto</span>*@
+                
                 @if (ViewBag.ProductoActivo != null)
                 {
-                    <input class="input-campo form-control" asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" required title=" " />
+                    <input class="input-campo form-control" asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" placeholder="Producto" required title=" " />
                 }
                 else
                 {
-                    <input class="input-campo form-control" asp-for="Producto.NomProducto" required title=" " />
+                    <input class="input-campo form-control" asp-for="Producto.NomProducto" placeholder="Producto" required title=" " />
                 }
-                <span class="label-flotante">Producto</span>
-
-                <div class="form-control-feedback">
+               
                     <div class="invalid-feedback"></div>
                     <div class="valid-feedback">¡Todo bien!</div>
-                    <span asp-validation-for="Producto.NomProducto" class="text-danger"></span>
-                </div>
+                   
             </div>
 
             <div class="campos-flotantes">
+                @*<span class="label-flotante">Precio</span>*@
                 @if (ViewBag.ProductoActivo != null)
                 {
-                    <input class="input-campo form-control" asp-for="Producto.PrecioVenta" value="@ViewBag.ProductoActivo.PrecioVenta" required title=" " />
+                    <input class="input-campo form-control" asp-for="Producto.PrecioVenta" value="@ViewBag.ProductoActivo.PrecioVenta" placeholder="Precio" required title=" " />
                 }
                 else
                 {
-                    <input class="input-campo form-control" asp-for="Producto.PrecioVenta" required title=" " />
+                    <input class="input-campo form-control" asp-for="Producto.PrecioVenta" placeholder="Precio" required title=" " />
                 }
-                <label class="label-flotante">Precio</label>
 
-                <div class="invalid-feedback"></div>
-                <div class="valid-feedback">¡Todo bien!</div>
-                <span asp-validation-for="Producto.PrecioVenta" class="text-danger"></span>
+                
+                    <div class="invalid-feedback"></div>
+                    <div class="valid-feedback">¡Todo bien!</div>
+                    <span asp-validation-for="Producto.PrecioVenta" class="text-danger"></span>
+                
             </div>
 
             <div class="campos-flotantes">
+                @*<span class="label-flotante">Categoria</span>*@
                 <select class="input-campo form-control" id="Producto_IdCategoria" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria" required title=" ">
                     @if (ViewBag.SelectC != null)
                     {
@@ -64,13 +66,14 @@
                     }
                             
                 </select>
-                <label class="label-flotante">Categoria</label>
-
-                <div class="invalid-feedback"></div>
-                <div class="valid-feedback">¡Todo bien!</div>
+                
+                    <div class="invalid-feedback"></div>
+                    <div class="valid-feedback">¡Todo bien!</div>
+                
             </div>
 
             <div id="Tamano_Oculto" class="d-none campos-flotantes">
+                @*<span class="label-flotante">Tamaño</span>*@
                 <select class="input-campo form-control" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
                 @if (ViewBag.SelectT != null)
                 {
@@ -83,14 +86,10 @@
                 }
                             
                 </select>
-                <label class="label-flotante">Tamaño</label>
-
-                <div class="invalid-feedback">
-                    Selecione un tamaño por favor .
-                </div>
-                <div class="valid-feedback">
-                    ¡Todo bien!
-                </div>
+                
+                    <div class="invalid-feedback">Selecione un tamaño por favor.</div>
+                    <div class="valid-feedback">¡Todo bien!</div>
+                
             </div>
             
             <hr>
@@ -98,21 +97,22 @@
             <hr>
 
             <div class="campos-flotantes">
+                @*<span class="label-flotante">Insumo</span>*@
                 <select class="input-campo form-control" asp-for="Receta.IdInsumo" asp-items="ViewBag.Insumo">
                     <option></option>
                 </select>
-                <label class="label-flotante">Insumo</label>
-                <div class="invalid-feedback">
-                </div>
-                <div class="valid-feedback">
-                    ¡Todo bien!
-                </div>
+               
+                    <div class="invalid-feedback"></div>
+                    <div class="valid-feedback">¡Todo bien!</div>
+               
             </div>
             <div class="campos-flotantes">
-                <input class="input-campo form-control" asp-for="Receta.CantInsumo" type="number">
-                <label class="label-flotante">Cantidad</label>
-                <div class="invalid-feedback"></div>
-                <div class="valid-feedback">¡Todo bien!</div>
+                @*<span class="label-flotante">Cantidad</span>*@
+                <input class="input-campo form-control" asp-for="Receta.CantInsumo" type="number" placeholder="Producto">
+               
+                    <div class="invalid-feedback"></div>
+                    <div class="valid-feedback">¡Todo bien!</div>
+               
             </div>
             <div class="form-group float-bottom">
                 <button type="submit" asp-action="Create" asp-controller="Recetas" class="btn btn-primary botones-agregar"> Agregar Insumo </button>

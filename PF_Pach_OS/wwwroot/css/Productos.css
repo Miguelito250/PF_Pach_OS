@@ -22,19 +22,18 @@
 /*Labels Flotantes*/
 
 .campos-flotantes {
-    position: relative;
+    /*position: relative;*/
     margin-bottom: 15px
 }
 
 .label-flotante {
     position: absolute;
-    left: 0;
     transform-origin: top left;
     transition: transform 0.2s ease-out, font-size 0.2s ease-out;
     font-size: 16px;
     color: #6c757d;
     pointer-events: none;
-    margin: 2px 0 0 2.7px;
+    margin: 2px 0 0 13px;
     background-color: transparent;
 }
 
@@ -47,7 +46,7 @@
 }
 
 .input-campo:focus + .label-flotante {
-    background-color: #FFF;
+    background-color: magenta;
 }
 
 
