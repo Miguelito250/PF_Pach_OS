@@ -14,7 +14,7 @@ namespace PF_Pach_OS.Models
         public int IdProducto { get; set; }
         public string? NomProducto { get; set; }
         public int? PrecioVenta { get; set; }
-        public string? Estado { get; set; }
+        public byte? Estado { get; set; }
         public byte? IdTamano { get; set; }
         public byte? IdCategoria { get; set; }
 

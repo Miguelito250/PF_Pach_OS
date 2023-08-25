@@ -10,15 +10,23 @@
 <div class="crear-productos">
     <form method="post" novalidate >
         <div class="registrar-productos d-flex justify-content-between">
-            @{
-                
+
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.IdProducto"/>
+                    
+
 
                     <div>
                         <label class="label-campo tamano-label">
                             <span class="nombre-campo">Producto</span>
-                            <input class="input-campo" asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" required />
+                            @if (ViewBag.ProductoActivo != null)
+                            {
+                                <input class="input-campo" asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" required title=" " />
+                            }
+                            else
+                            {
+                                <input class="input-campo" asp-for="Producto.NomProducto" required title=" " />
+                            }
                         <div class="invalid-feedback">
                             
 
@@ -33,7 +41,14 @@
                     <div>
                         <label class="label-campo">
                             <span class="nombre-campo">Precio</span>
-                            <input class="input-campo " asp-for="Producto.PrecioVenta" value="@ViewBag.ProductoActivo.PrecioVenta" />
+                             @if (ViewBag.ProductoActivo != null)
+                            {
+                             <input class="input-campo" asp-for="Producto.PrecioVenta" value="@ViewBag.ProductoActivo.PrecioVenta" required title=" " />
+                            }
+                            else
+                            {
+                                <input class="input-campo" asp-for="Producto.PrecioVenta" required title=" " />
+                            }
                             <div class="invalid-feedback">
                                
                             </div>
@@ -47,8 +62,17 @@
                 <div>
                     <label class="label-campo tamano-label">
                         <span class="nombre-campo">Categoria</span>
-                        <select class="input-campo select-campo" id="Producto_IdCategoria" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria">
-                            <option value="@ViewBag.SelectCID">@ViewBag.SelectC</option>
+                        <select class="input-campo select-campo" id="Producto_IdCategoria" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria" required title=" ">
+                        @if (ViewBag.SelectC != null)
+                            {
+                                
+                                <option value="@ViewBag.SelectCID">@ViewBag.SelectC</option>
+                            }
+                            else
+                            {
+                                <option></option>
+                            }
+                            
                         </select>
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback">¡Todo bien!</div>
@@ -59,7 +83,16 @@
                         <label class="label-campo">
                             <span class="nombre-campo">Tamaño</span>
                             <select class ="input-campo select-campo" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
-                            <option value="@ViewBag.SelectTID">@ViewBag.SelectT</option>
+                        @if (ViewBag.SelectT != null)
+                                {
+
+                                    <option value="@ViewBag.SelectTID">@ViewBag.SelectT</option>
+                                }
+                                else
+                                {
+                                    <option></option>
+                                }
+                            
                             </select>
                             <div class="invalid-feedback">
                                 Selecione un tamaño por favor .
@@ -68,14 +101,8 @@
                                 ¡Todo bien!
                             </div>
                         </label>
-                </div>
-
-                
-
-
-
-                
-            }
+                </div>  
+            
         </div>
         <div class="recetas">
             <div class="d-flex justify-content-between">
@@ -149,6 +176,7 @@
                                             </td>
 
                                             <td>
+                                            
                                                 <a asp-action="Delete" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto">Delete</a>
                                             </td>
                                         }
@@ -169,6 +197,7 @@
 @*@-----VALIDACION DE CAMPOS EN TIEMPO REAL-----@*@
 <script>
     $(document).ready(function () {
+
         // Manejar el evento de cambio en el campo de NomProducto
         $('#Producto_NomProducto').on('input', function () {
             validateNomProducto();
@@ -215,7 +244,7 @@
                 mostrarError('El nombre del producto debe tener al menos 4 caracteres.', '#Producto_NomProducto');
             } else if (contarNombre > maxCaracteres) {
                 validacion = true;
-                mostrarError('El nombre del producto no puede exceder los 30 caracteres.');
+                mostrarError('El nombre del producto no puede exceder los 30 caracteres.', '#Producto_NomProducto');
             }
             resultado(validacion, '#Producto_NomProducto');
             
@@ -246,7 +275,7 @@
 
         function validateCategoria() {
             var categoria = $('#Producto_IdCategoria').val();
-            var idPizza = 13;
+            var idPizza = 1;
             var validacion = false;
 
             if (categoria == 0) {
@@ -334,6 +363,27 @@
 
         }
      })
+</script>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
 </script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

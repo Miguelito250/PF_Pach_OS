@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 }
 
 <h1>Index</h1>
@@ -41,11 +42,43 @@
             </td>
            
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdProducto">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdProducto">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdProducto">Delete</a>
+                
+                    
+               
+                    @if (item.Estado == 0)
+                    {
+                        <form asp-action="Disable" asp-route-id="@item.IdProducto" method="post" class="align-self-end">
+                            <a asp-action="Details" asp-route-IdProducto="@item.IdProducto">Editar</a> |
+                            <button type="submit" class="btn btn-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                    <circle cx="8" cy="8" r="8" />
+                                </svg>
+                            </button>
+                            
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="Enable" asp-route-id="@item.IdProducto" method="post" class="align-self-end">
+                            <a asp-action="Details" asp-route-IdProducto="@item.IdProducto">Editar</a> |
+                            <button type="submit" class="btn btn-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                    <circle cx="8" cy="8" r="8" />
+                                </svg>
+                            </button>
+                            
+                        </form>
+                    }
+
+
+
+
+
             </td>
         </tr>
 }
     </tbody>
 </table>
+<!-- Ventana modal -->
+
+
