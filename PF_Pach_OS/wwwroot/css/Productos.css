@@ -1,92 +1,53 @@
-﻿.crear-productos{
-    padding: 5vh 5vh 0 5vh 
+﻿.lista-productos{
+    max-height:max-content;
+    overflow: auto;
 }
 
 .registrar-productos {
-    width: 100%;
-    height: 15vh;
-    background-color: #F2F1EC;
-    padding: 30px 20px 20px 20px;
-    background: #F2F1EC;
-    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
+    width: 30vw;
+    padding: 5px 20px 20px 20px;
+    background: #FFF;
+    box-shadow:  0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
 }
 
-.recetas {
-    background-color: #F2F1EC;
-    margin: 5vh 0 0 8vw;
-    width: 70%;
-    padding: 30px 20px 20px 20px;
-    height: 55vh;
-    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
+
+.input-campo {
+    border: 1px solid #ced4da;
+    height: 28px;
+    border-radius: 4px;
+    
 }
 
-/* Inputs en resposo */
-.label-campo {
-    display: inline-block;
-    width: 135px;
-    border: 1px solid orange;
-    padding: 5px 10px;
+/*Labels Flotantes*/
+
+.campos-flotantes {
     position: relative;
-    box-sizing: border-box;
-    transition: .25s;
-    cursor: text;
-    background-color: #F2F1EC   
+    margin-bottom: 15px
 }
 
-.label-campo .input-campo{
-    display: inline-block;
-    width: 100%;
-    border: none;
-    background-color: transparent;
-    outline: none;
-}
-
-.label-campo .nombre-campo{
-    color: #000;
+.label-flotante {
     position: absolute;
-    top: 8px;
-    left: 10px;
-    transition: 0.25s;
+    left: 0;
+    transform-origin: top left;
+    transition: transform 0.2s ease-out, font-size 0.2s ease-out;
+    font-size: 16px;
+    color: #6c757d;
+    pointer-events: none;
+    margin: 2px 0 0 2.7px;
+    background-color: transparent;
 }
 
-.nombre-campo, .input-campo {
-    font: 16px/16px verdana;
-    padding: 0;
+.input-campo:focus + .label-flotante {
+    transform: translateY(-55%) scale(0.8);
+    font-size: 0.8rem;
+    margin-left: 4px;
+    padding: 0 2px 0 1px;
+    
 }
 
-/* Inputs en focus */
-.label-campo.focus {
-    border-color: yellow;
+.input-campo:focus + .label-flotante {
+    background-color: #FFF;
 }
 
-.label-campo .nombre-campo.focus {
-    color: rgb(255, 216, 0);
-}
 
-/* Inputs activos */
-.label-campo .nombre-campo.top {
-    left: 2px;
-    top: -10px;
-    font-size: 12px;
-    background-color: #F2F1EC;
-    padding: 2px 2px;
-}
-
-.select-campo {
-    appearance: none;
-    border: none;
-    background-color: #fff;
-    width: 100%;
-    cursor: pointer
-}
-
-.tamano-label {
-    width: 300px
-}
-
-.insumoReceta{
-    border-radius: 8px;
-    height: 30px
-}

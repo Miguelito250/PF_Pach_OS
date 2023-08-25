@@ -1,4 +1,4 @@
-﻿body{
+﻿body {
     background-color: #eeeeee;
 }
 
@@ -8,27 +8,32 @@ aside {
     color: #FFF
 }
 
-.navbar{
+.navbar {
     height: 5vh !important;
 }
 
-.content-wrapper{
+
+.content-wrapper {
     background-color: #eeeeee;
     overflow: auto;
 }
 
 .modulos {
     background-color: #FFF;
-    margin: 2vh 0 0 5vh;
+    margin: 6vh 0 0 5vh;
     width: 95%;
-    height: 84vh;
+    height: 86vh;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
 }
 
-.btn-crear-registros {
-    margin: 1vh 0 0px 5vh;
+.btn-crear-posicion {
+    position: absolute;
+    top: 6vh;
     width: 150px;
+}
+
+.estilo-btn-naranja {
     background: linear-gradient(180deg, #FF9200 2.08%, #8D5F20 100%);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
@@ -43,7 +48,6 @@ aside {
     border-radius: 10px;
     width: 110% !important;
     font-size: 18px !important;
-
 }
 
 .activo {
@@ -55,9 +59,9 @@ aside {
     width: 115%;
 }
 
-.activo:hover{
-    color: #000;
-}
+    .activo:hover {
+        color: #000;
+    }
 
 .contenedor-configuracion {
     background-color: #4E2B19;
