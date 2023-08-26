@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PF_Pach_OS.Models.Venta>
+﻿@model IEnumerable<PF_Pach_OS.Models.DetalleVenta>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,39 +12,42 @@
 </form>
 
 <div class=" d-flex lista-proveedores flex-wrap justify-content-between">
-    <article class="card card__content">
-        <header>
-            <h1 class="title--primary">Nombre Producto</h1>
-            <label>Total</label>
-            <label class="float-end">Id</label>
-            
-        </header>
-        <main class="card__body">
-            <div class="acciones-ventas d-flex justify-content-center">
-                <button class="btn btn-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="orange" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
-                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
-                    </svg>
-                </button>
-                <button class="btn btn-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="green" class="bi bi-cash-stack" viewBox="0 0 16 16">
-                        <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
-                        <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z" />
-                    </svg>
-                </button>
-            </div>
-            <div class="pt-2">
-                <div class="d-flex justify-content-between">
-                    <label class="fs-6">Fecha</label>
-                    <p class="fs-6">Fecha</p>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <label class="fs-6">Cliente</label>
-                    <p class="fs-6">Nombre</p>
-                </div>
-                
-            </div>
-        </main>
-    </article>
+    @if (Model != null)
+    {
+        @foreach (var item in Model)
+        {
+            var colorIcono = "";
+            if(item.IdVentaNavigation.Estado == "Pendiente")
+            {
+               colorIcono = "red";
+            }
+            else
+            {
+                colorIcono = "green";
+            }
+            <article class="card card__content">
+                <header>
+                    <h1 class="title--primary">@item.IdProductoNavigation.NomProducto</h1>
+
+                    <span>@item.IdVentaNavigation.TotalVenta</span>
+                    <span class="float-end">@item.IdVenta</span>
+                </header>
+                <main class="card__body">
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="orange" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                            </svg>
+                        </button>
+                        <a asp-controller="Ventas" asp-action="CambiarEstado" asp-route-idVenta="@item.IdVenta">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="@colorIcono" class="bi bi-cash-stack" viewBox="0 0 16 16">
+                                <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
+                                <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z" />
+                            </svg>
+                        </a>
+                    </div>
+                </main>
+            </article>
+        }
+    }
 </div>
-<script src="~/js/ventas.js"></script>

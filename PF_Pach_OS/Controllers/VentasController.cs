@@ -25,7 +25,9 @@ namespace PF_Pach_OS.Controllers
         {
             ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "NomProducto");
 
-            var pach_OSContext = _context.Ventas.Include(v => v.IdEmpleadoNavigation);
+            var pach_OSContext = _context.DetalleVentas
+                .Include(d => d.IdVentaNavigation)
+                .Include(d => d.IdProductoNavigation);
             return View(await pach_OSContext.ToListAsync());
         }
         
@@ -88,6 +90,27 @@ namespace PF_Pach_OS.Controllers
             return View(venta);
         }
 
+        public async Task<IActionResult> CambiarEstado(int IdVenta)
+        {
+            var cambioEstado = "";
+
+            var estadoVenta = _context.Ventas
+                .FirstOrDefault(d => d.IdVenta == IdVenta);
+
+            if (estadoVenta.Estado == "Pendiente")
+            {
+                cambioEstado = "Entregado";
+            }
+            else
+            {
+                cambioEstado = "Pendiente";
+            }
+
+            estadoVenta.Estado = cambioEstado;
+            _context.Update(estadoVenta); 
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Ventas");
+        }
         private bool VentaExists(int id)
         {
           return (_context.Ventas?.Any(e => e.IdVenta == id)).GetValueOrDefault();

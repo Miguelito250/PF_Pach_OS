@@ -223,9 +223,7 @@ namespace PF_Pach_OS.Models
 
                 entity.Property(e => e.IdProducto).HasColumnName("id_producto");
 
-                entity.Property(e => e.Estado)
-                    .HasMaxLength(255)
-                    .HasColumnName("estado");
+                entity.Property(e => e.Estado).HasColumnName("estado");
 
                 entity.Property(e => e.IdCategoria).HasColumnName("id_categoria");
 
