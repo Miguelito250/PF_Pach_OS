@@ -90,6 +90,24 @@ namespace PF_Pach_OS.Controllers
             return View(venta);
         }
 
+        public async Task<IActionResult> DetallesVentas(int? IdVenta)
+        {
+            if (IdVenta == null)
+            {
+                return NotFound();
+            }
+
+            var detallesVentas = await _context.Ventas
+                .FirstOrDefaultAsync(v => v.IdVenta == IdVenta);
+
+            if (detallesVentas == null)
+            {
+                return NotFound();
+            }
+            return View(detallesVentas);
+            
+        }
+
         public async Task<IActionResult> CambiarEstado(int IdVenta)
         {
             var cambioEstado = "";

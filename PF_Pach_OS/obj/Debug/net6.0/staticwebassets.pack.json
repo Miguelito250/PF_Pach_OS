@@ -8241,16 +8241,12 @@
       "PackagePath": "staticwebassets\\css\\ventas.css"
     },
     {
-      "Id": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Scripst-generales.js",
-      "PackagePath": "staticwebassets\\js\\Scripst-generales.js"
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\IndexVentas.js",
+      "PackagePath": "staticwebassets\\js\\Ventas\\IndexVentas.js"
     },
     {
-      "Id": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas.js",
-      "PackagePath": "staticwebassets\\js\\Ventas.js"
-    },
-    {
-      "Id": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\site.js",
-      "PackagePath": "staticwebassets\\js\\site.js"
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\Ventas.js",
+      "PackagePath": "staticwebassets\\js\\Ventas\\Ventas.js"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\lib\\bootstrap\\LICENSE",

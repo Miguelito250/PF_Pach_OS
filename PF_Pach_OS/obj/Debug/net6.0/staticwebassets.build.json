@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "jyYoqcwotiwZqmjx8p9meP+ROLQK6AH1RvnHQXs3FNA=",
+  "Hash": "XUQl7boHA4K+TcFUXGyzZUdv1F7Nhv5z/lBn+j45/+o=",
   "Source": "PF_Pach_OS",
   "BasePath": "_content/PF_Pach_OS",
   "Mode": "Default",
@@ -35054,12 +35054,12 @@
       "OriginalItemSpec": "wwwroot\\css\\ventas.css"
     },
     {
-      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Scripst-generales.js",
+      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\IndexVentas.js",
       "SourceId": "PF_Pach_OS",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
       "BasePath": "_content/PF_Pach_OS",
-      "RelativePath": "js/Scripst-generales.js",
+      "RelativePath": "js/Ventas/IndexVentas.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -35068,15 +35068,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\Scripst-generales.js"
+      "OriginalItemSpec": "wwwroot\\js\\Ventas\\IndexVentas.js"
     },
     {
-      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\site.js",
+      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\Ventas.js",
       "SourceId": "PF_Pach_OS",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
       "BasePath": "_content/PF_Pach_OS",
-      "RelativePath": "js/site.js",
+      "RelativePath": "js/Ventas/Ventas.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -35085,24 +35085,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\site.js"
-    },
-    {
-      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas.js",
-      "SourceId": "PF_Pach_OS",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
-      "BasePath": "_content/PF_Pach_OS",
-      "RelativePath": "js/Ventas.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\Ventas.js"
+      "OriginalItemSpec": "wwwroot\\js\\Ventas\\Ventas.js"
     },
     {
       "Identity": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
