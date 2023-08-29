@@ -97,8 +97,18 @@ namespace PF_Pach_OS.Controllers
                 return NotFound();
             }
 
-            var detallesVentas = await _context.Ventas
-                .FirstOrDefaultAsync(v => v.IdVenta == IdVenta);
+            var detallesVentas = await _context.DetalleVentas
+                .Include(d => d.IdVentaNavigation)
+                .FirstOrDefaultAsync(d => d.IdVenta == IdVenta);
+
+            var listaDetalles = _context.DetalleVentas
+                .Where(d => d.IdVenta == IdVenta)
+                .Include(d => d.IdProductoNavigation)
+                .ToList();
+
+            List<DetalleVenta> detallesLista = listaDetalles.ToList();
+
+            ViewBag.listaDetalles = detallesLista;
 
             if (detallesVentas == null)
             {

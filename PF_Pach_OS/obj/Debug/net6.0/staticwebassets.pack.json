@@ -8241,6 +8241,10 @@
       "PackagePath": "staticwebassets\\css\\ventas.css"
     },
     {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\DetallesVentas.js",
+      "PackagePath": "staticwebassets\\js\\Ventas\\DetallesVentas.js"
+    },
+    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\IndexVentas.js",
       "PackagePath": "staticwebassets\\js\\Ventas\\IndexVentas.js"
     },

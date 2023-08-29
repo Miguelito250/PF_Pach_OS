@@ -61,3 +61,4 @@ filasDetalles.forEach(function(fila) {
 
 InsertarTotal(subtotalProducto);
 InsertarFecha();
+
