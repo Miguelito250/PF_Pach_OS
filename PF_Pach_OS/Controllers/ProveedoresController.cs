@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PF_Pach_OS.Models;
 
+
 namespace Pach_OS.Controllers
 {
     public class ProveedoresController : Controller
@@ -18,7 +19,7 @@ namespace Pach_OS.Controllers
             _context = context;
         }
 
-        // GET: Proveedores
+
         public async Task<IActionResult> Index()
         {
               return _context.Proveedores != null ? 
@@ -26,7 +27,7 @@ namespace Pach_OS.Controllers
                           Problem("Entity set 'Pach_OSContext.Proveedores'  is null.");
         }
 
-        // GET: Proveedores/Details/5
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Proveedores == null)
@@ -44,30 +45,38 @@ namespace Pach_OS.Controllers
             return View(proveedore);
         }
 
-        // GET: Proveedores/Create
+
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Proveedores/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        public IActionResult CheckNitAvailability(string nit)
+        {
+            bool isAvailable = !_context.Proveedores.Any(p => p.Nit == nit);
+            return Json(isAvailable);
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdProveedor,Nit,NomLocal,Direccion,Telefono,Correo")] Proveedore proveedore)
         {
             if (ModelState.IsValid)
             {
-                proveedore.Estado = 1; // Establecer el estado inicial como activo
+                proveedore.Estado = 1; 
                 _context.Add(proveedore);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(proveedore);
         }
+        [HttpPost]
+        public IActionResult IsNitAvailable(string Nit)
+        {
+            bool isAvailable = !_context.Proveedores.Any(p => p.Nit == Nit);
+            return Json(isAvailable);
+        }
 
-        // GET: Proveedores/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Proveedores == null)
@@ -83,9 +92,6 @@ namespace Pach_OS.Controllers
             return View(proveedore);
         }
 
-        // POST: Proveedores/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdProveedor,Nit,NomLocal,Direccion,Telefono,Correo")] Proveedore proveedore)
@@ -118,7 +124,6 @@ namespace Pach_OS.Controllers
             return View(proveedore);
         }
 
-        // GET: Proveedores/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Proveedores == null)
@@ -136,7 +141,6 @@ namespace Pach_OS.Controllers
             return View(proveedore);
         }
 
-        // POST: Proveedores/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -159,14 +163,14 @@ namespace Pach_OS.Controllers
         {
           return (_context.Proveedores?.Any(e => e.IdProveedor == id)).GetValueOrDefault();
         }
-        //Metodo para habilitar
+
         [HttpPost]
         public IActionResult Disable(int id)
         {
             var proveedor = _context.Proveedores.Find(id);
             if (proveedor != null)
             {
-                proveedor.Estado = 1; // Deshabilitado
+                proveedor.Estado = 1; 
                 _context.SaveChanges();
             }
             return RedirectToAction("Index");
@@ -178,13 +182,12 @@ namespace Pach_OS.Controllers
             var proveedor = _context.Proveedores.Find(id);
             if (proveedor != null)
             {
-                proveedor.Estado = 0; // Habilitado
+                proveedor.Estado = 0; 
                 _context.SaveChanges();
             }
             return RedirectToAction("Index");
         }
 
-        //Metodo Para barra de busqueda
 
 
     }

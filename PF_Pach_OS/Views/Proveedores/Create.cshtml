@@ -13,14 +13,14 @@
             <div class="form-group">
                 <label asp-for="Nit" class="control-label"></label>
                 <input asp-for="Nit" class="form-control" required />
-                <div class="invalid-feedback">
-                    Por favor ingrese un Nit valido.
-                </div>
+                <span id="nitResult" class="text-danger"></span>
+                <span asp-validation-for="Nit" class="text-danger"></span>
                 <div class="valid-feedback">
                     ¡Todo bien!
                 </div>
                 <span asp-validation-for="Nit" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="NomLocal" class="control-label">Nombre Local</label>
                 <input asp-for="NomLocal" class="form-control" required />
@@ -36,7 +36,7 @@
                 <label asp-for="Direccion" class="control-label"></label>
                 <input asp-for="Direccion" class="form-control" required/>
                 <div class="invalid-feedback">
-                    Por favor ingrese una cantidad.
+                    Por favor ingrese la direccion correcta.
                 </div>
                 <div class="valid-feedback">
                     ¡Todo bien!
@@ -71,94 +71,13 @@
         </form>
     </div>
 </div>
+
 <script>
-    $(document).ready(function () {
 
-        $('#Nit').on('input', function () {
-            validateNit();
-        });
-
-        $('#NomLocal').on('input', function () {
-            validatenomLocal();
-        });
-
-        $('#Direccion').on('input', function () {
-            validateDireccion();
-        });
-        $('#Telefono').on('input', function () {
-            validateTelefono();
-        });
-        $('#Correo').on('input', function () {
-            validateCorreo();
-        });
-        function validateNit() {
-            var direccion = $('#Nit').val();
-            if (direccion.trim() === '') {
-                $('#Nit').removeClass('is-valid').addClass('is-invalid');
-            } else {
-                $('#Nit').removeClass('is-invalid').addClass('is-valid');
-            }
-        }
-        function validateDireccion() {
-            var direccion = $('#Direccion').val();
-            if (direccion.trim() === '') {
-                $('#Direccion').removeClass('is-valid').addClass('is-invalid');
-            } else {
-                $('#Direccion').removeClass('is-invalid').addClass('is-valid');
-            }
-        }
-        function validateTelefono() {
-            var telefono = $('#Telefono').val();
-            if (telefono.trim() === '') {
-                $('#Telefono').removeClass('is-valid').addClass('is-invalid');
-            } else {
-                $('#Telefono').removeClass('is-invalid').addClass('is-valid');
-            }
-        }
-        function validateCorreo() {
-            var correo = $('#Correo').val();
-            if (correo.trim() === '') {
-                $('#Correo').removeClass('is-valid').addClass('is-invalid');
-            } else {
-                $('#Correo').removeClass('is-invalid').addClass('is-valid');
-            }
-        }
-        // function validateNomLocal() {
-        //     var nomlocal = $('#NomLocal').val();
-        //     if (correo.trim() === '') {
-        //         $('#NomLocal').removeClass('is-valid').addClass('is-invalid');
-        //     } else {
-        //         $('#NomLocal').removeClass('is-invalid').addClass('is-valid');
-        //     }
-        // }
-
-        function validatenomLocal() {
-            var nomlocal = $('#NomLocal').val();
-            var onlyLetters = /^[A-Za-z]+$/.test(nomlocal);
-            var medidaFeedback = $('#nomlocal-feedback');
-
-            if (nomlocal === '') {
-                medidaFeedback.text('Por favor ingrese el nombre');
-                $('#NomLocal').removeClass('is-valid').addClass('is-invalid');
-            } else if (!onlyLetters) {
-                medidaFeedback.text('No se aceptan números');
-                $('#NomLocal').addClass('is-invalid');
-            } else {
-                medidaFeedback.text('');
-                $('#NomLocal').removeClass('is-invalid').addClass('is-valid');
-            }
-        }
-    });
-</script>
-@*-----VALIDACION DE LOS CAMPOS CUANDO SE LE DA AL BOTON DE AGREGAR-----*@
-<script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function () {
         'use strict';
         window.addEventListener('load', function () {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
             var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
             var validation = Array.prototype.filter.call(forms, function (form) {
                 form.addEventListener('submit', function (event) {
                     if (form.checkValidity() === false) {
@@ -170,11 +89,40 @@
             });
         }, false);
     })();
+    }
 </script>
+    <script>
+            $('#Nit').on('input', function () {
+                var nit = $(this).val();
+                if (nit) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("IsNitAvailable", "Proveedores")',
+                        data: { Nit: nit },
+                        success: function (data) {
+                            if (data) {
+                                $('#nitResult').text('');
+                                $('#nit-validation-message').hide();
+                                $('#Nit').removeClass('is-invalid').addClass('is-valid');
+                            } else {
+                                $('#nitResult').text('El NIT ya está registrado.');
+                                $('#nit-validation-message').show();
+                                $('#Nit').removeClass('is-valid').addClass('is-invalid');
+                            }
+                        }
+                    });
+                }
+            });
+    </script>
+
+
+
+
+
 @*<div>
     <a asp-action="Index">Back to List</a>
 </div>*@
-
+<script src="~/js/Proveedores/Validaciones.js"></script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
