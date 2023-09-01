@@ -1,8 +1,11 @@
-﻿.lista-proveedores{
-    padding: 15px 0 0 15px; 
+﻿@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,300&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300&family=Roboto:wght@100;300;400;500;700;900&display=swap");
+.lista-proveedores{
+    padding: 15px;
+    overflow: auto;
+    height: 100%;
+
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,300&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300&family=Roboto:wght@100;300;400;500;700;900&display=swap");
 
 *,
 *::before,
@@ -35,18 +38,6 @@
     --anim-time--lo: 600ms;
 }
 
-a {
-    text-decoration: none;
-}
-
-/*body {
-    display: grid;
-    place-content: center;
-    min-block-size: 100vh;
-    font: 16px/1.3 "Roboto", sans-serif;
-    background-color: hsl(190, 17%, 75%);
-}
-*/
 .card {
     --header-size--min: 12.75rem;
     --header-size--max: 19rem;
@@ -62,9 +53,9 @@ a {
     block-size: var(--height);
     border-radius: 0.125em;
     background: #F6F6F6;
-    overflow: hidden;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3);
     border-radius: 10px;
+    
 }
 
 .card:hover {
@@ -75,46 +66,14 @@ a {
 
 header {
     display: flex;
-    height: var(--header-size--max);
-    position: relative;
+    height: 3vh;
     overflow: hidden;
     transition: transform var(--anim-time--med) ease;
-    isolation: isolate;
-    background-color: #543C33;
+    background: linear-gradient(180deg, #FF9200 2.08%, #8D5F20 100%);
+    border-radius: 10px 10px 0 0;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3);
+    
 }
-
-    header::before,
-    header::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        transition-property: opacity, transform;
-        transition-duration: var(--anim-time--med), var(--anim-time--med);
-        transition-timing-function: ease, ease;
-    }
-
-    header::before {
-        background: linear-gradient(to top, hsla(0, 0%, 0%, 0.8) 0%, hsla(0, 0%, 0%, 0.7) 12%, hsla(0, 0%, 0%, 0.2) 41.6%, hsla(0, 0%, 0%, 0.125) 50%, hsla(0, 0%, 0%, 0.01) 59.9%, hsla(0, 0%, 0%, 0) 100%);
-        opacity: 0;
-        z-index: 4;
-    }
-
-    header::after {
-        background-size: cover;
-        background-position: 80%;
-    }
-
-.card__content:hover header {
-    transform: translateY(calc(var(--header-size--min) - var(--header-size--max)));
-}
-
-    .card__content:hover header::after {
-        transform: translateY(calc(var(--header-size--max) - var(--header-size--min))) scale(1.2);
-    }
-
-    .card__content:hover header::before {
-        opacity: 0.8;
-    }
 
 .header__caption {
     z-index: 10;
@@ -134,68 +93,19 @@ header {
     transition: opacity var(--anim-time--hi) var(--easing), transform var(--anim-time--lo) var(--easing2);
 }
 
-.header__tag {
-    width: max-content;
-    color: var(--clr-default);
-}
 
-.tag--primary {
+/*.card__body {
     margin-inline: var(--space);
-    font-size: var(--fs-l);
-}
-
-#tag {
-    color: #222;
-    font: 600 italic var(--fs-xs) / 1 sans-serif;
-}
-
-.tag--secondary {
-    font: 600 0.9rem/1 sans-serif;
-    color: var(--blue-accent100);
-    background: linear-gradient(to bottom, hsla(0, 0%, 90%), 20%, var(--clr-default) 80%);
-    padding: 0.5rem 1.25em;
-    letter-spacing: 2px;
-    border-radius: 0 0.35rem 0 0;
-    box-shadow: 1px -1px 0 2px var(--cyan);
-}
-
-.card__body {
-    margin-inline: var(--space);
-    height: calc(var(--header-size--max) - var(--header-size--min));
     padding-block-end: var(--space-s);
-    transition: transform var(--anim-time--med) ease;
     font-family: "Poppins", sans-serif;
-}
-
-
-
-.card__content:hover .card__body {
-    transform: translateY(calc(var(--header-size--min) - var(--header-size--max)));
-}
+}*/
 
 .title--primary {
     font-size: var(--fs-l);
     font-weight: 600;
     color: #4a5e6c;
-    padding-block: var(--space-l) var(--space-s);
 }
 
-.card__content:hover .expand__indicator {
-    opacity: 0;
-    transition: opacity var(--anim-time--lo) var(--easing3);
-}
-
-@keyframes pulse {
-
-    0%, 100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.3);
-    }
-}
-
-.icon__link:focus-within {
-    color: var(--cyan);
+.letra-pequeña{
+    font-size: 12px
 }

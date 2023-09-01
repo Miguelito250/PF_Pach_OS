@@ -19,7 +19,7 @@ namespace Pach_OS.Controllers
             _context = context;
         }
 
-
+    
         public async Task<IActionResult> Index()
         {
               return _context.Proveedores != null ? 
