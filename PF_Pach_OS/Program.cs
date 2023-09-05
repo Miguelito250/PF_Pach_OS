@@ -26,12 +26,29 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();;
-
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.Use(async (context, next) =>
+{
+    if (!context.User.Identity.IsAuthenticated)
+    {
+        
+        if (context.Request.Path != "/Identity/Account/Login")
+        {
+            context.Response.Redirect("/Identity/Account/Login");
+            return;
+        }
+    }
+
+    // Si el usuario está autenticado o la solicitud está en la página de Login o Registro,
+    // continuar con el siguiente middleware
+    await next.Invoke();
+});
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.MapRazorPages();
 app.Run();

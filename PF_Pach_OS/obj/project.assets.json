@@ -11093,19 +11093,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\vamil\\.nuget\\packages\\": {}
+    "C:\\Users\\asuus\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\PF_Pach_OS.csproj",
+      "projectUniqueName": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\PF_Pach_OS.csproj",
       "projectName": "PF_Pach_OS",
-      "projectPath": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\PF_Pach_OS.csproj",
-      "packagesPath": "C:\\Users\\vamil\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\obj\\",
+      "projectPath": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\PF_Pach_OS.csproj",
+      "packagesPath": "C:\\Users\\asuus\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\asuus\\Desktop\\Progrmación\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\vamil\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\asuus\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11173,7 +11173,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }
