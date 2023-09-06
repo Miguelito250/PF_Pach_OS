@@ -21,8 +21,35 @@ namespace PF_Pach_OS.Controllers
         // GET: Productos
         public async Task<IActionResult> Index()
         {
-            var pach_OSContext = _context.Productos;
-            return View(await pach_OSContext.ToListAsync());
+            var pach_OSContext = await _context.Productos.ToListAsync();
+            foreach (var pach in pach_OSContext)
+            {
+                if(pach.NomProducto == null)
+                {
+                    return RedirectToAction("Details", "Productos", new { pach.IdProducto, accion = "Create" });
+                }
+                if (pach.PrecioVenta == null)
+                {
+                    return RedirectToAction("Details", "Productos", new { pach.IdProducto, accion = "Create" });
+
+                }
+                if (pach.IdCategoria == null)
+                {
+                    return RedirectToAction("Details", "Productos", new { pach.IdProducto, accion = "Create" });
+
+                }
+                if (pach.IdCategoria == 1)
+                {
+                    if (pach.IdTamano == null)
+                    {
+                        return RedirectToAction("Details", "Productos", new { pach.IdProducto, accion = "Create" });
+
+                    }
+                }
+            }
+
+            
+            return View(Enumerable.Reverse(pach_OSContext).ToList());
         }
 
         // GET: Productos/Details/5
