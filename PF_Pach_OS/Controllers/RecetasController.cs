@@ -54,9 +54,9 @@ namespace PF_Pach_OS.Controllers
         {
             bool exite = false;
             var recetaActiva = new Receta() ;
-            
 
-            
+
+            producto.Estado = 1;
             if (ModelState.IsValid)
 
             {
@@ -110,8 +110,9 @@ namespace PF_Pach_OS.Controllers
             return RedirectToAction("Details", "Productos", new { receta.IdProducto });
         }
 
-        
+
         // GET: Recetas/Delete/5
+       
         public async Task<IActionResult> Delete(int? id, int IdProducto)
         {
             if (_context.Recetas == null)

@@ -55,8 +55,16 @@ namespace PF_Pach_OS.Controllers
             }
 
         }
-        public IActionResult Details(int IdProducto)
+        public IActionResult Details(int IdProducto, string accion)
         {
+            if(accion != null)
+            {
+                ViewBag.Cancelar = 1;
+            }
+            else
+            {
+                ViewBag.Cancelar = 2;
+            }
             ProductoActivo(IdProducto);
             var recetas = _context.Recetas.ToList();
             var insumos = _context.Insumos.ToList();
@@ -91,12 +99,12 @@ namespace PF_Pach_OS.Controllers
 
                 // Redirige a la acción "Crear" con el IdProducto como parámetro en la URL
                 ViewBag.IdProducto = producto.IdProducto;
-                return RedirectToAction("Details", "Productos", new {producto.IdProducto });
+                return RedirectToAction("Details", "Productos", new {producto.IdProducto, accion="Create" });
             }
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
             ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
-            
 
+            
 
             ViewBag.Insumo = new SelectList(_context.Insumos, "IdInsumo", "NomInsumo");
             return NotFound();
@@ -113,6 +121,7 @@ namespace PF_Pach_OS.Controllers
             
             if (ModelState.IsValid)
             {
+
                
                     if (producto.Estado == 0)
                     {
@@ -213,7 +222,35 @@ namespace PF_Pach_OS.Controllers
             }
             return RedirectToAction("Index");
         }
+        
 
+        public async Task<IActionResult> Cancelar(int IdProducto)
+        {
+            if (_context.Recetas == null)
+            {
+                return Problem("Entity set 'Pach_OSContext.Recetas'  is null.");
+            }
+            var receta = await _context.Recetas
+                .Where(r => r.IdProducto == IdProducto)
+                .ToListAsync();
+            if (receta != null)
+            {
+                foreach (var rec in receta)
+                {
+                    _context.Recetas.Remove(rec);
+
+                }
+            }
+            var producto = await _context.Productos.FindAsync(IdProducto);
+            if (producto != null) {
+                _context.Productos.Remove(producto);
+            }
+            
+            
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
 
         private bool ProductoExists(int id)
         {
