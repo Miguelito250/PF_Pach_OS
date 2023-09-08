@@ -567,10 +567,12 @@ namespace PF_Pach_OS.Models
                     .WithMany(p => p.Venta)
                     .HasForeignKey(d => d.IdEmpleado)
                     .HasConstraintName("FK__ventas__id_emple__02084FDA");
+
+                base.OnModelCreating(modelBuilder);
             });
 
             OnModelCreatingPartial(modelBuilder);
-        }
+            }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }

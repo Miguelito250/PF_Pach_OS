@@ -23,14 +23,15 @@
                 <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
             </svg>
         </div>
+
         <h2 class="text-center">Iniciar Sesión</h2>
-        <p class="text-center">Bienvenido al sistema administrativo Pach_OS de Pachito-ché <br> Por favor ingrese su usuario y contraseña</p>
-        
+        <p class="text-center">Bienvenido al sistema administrativo Pach-OS de Pachito-ché <br> Por favor ingrese su usuario y contraseña</p>
+
         <form id="account" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div>
                 <label class="form-label">Correo</label>
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true"/>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div>
@@ -38,7 +39,7 @@
                 <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
-        
+
             <a id="forgot-password" asp-page="./ForgotPassword">Recuperar contraseña</a>
 
             <button id="login-submit" type="submit" class="w-100 btn botones-agregar text-light">Ingresar</button>
