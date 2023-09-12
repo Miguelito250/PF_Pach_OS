@@ -11,6 +11,7 @@ builder.Services.AddDbContext<Pach_OSContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<Pach_OSContext>();
 
 var app = builder.Build();
