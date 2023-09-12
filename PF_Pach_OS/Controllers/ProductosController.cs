@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -17,46 +18,63 @@ namespace PF_Pach_OS.Controllers
         {
             _context = context;
         }
+        public void Eliminar_Receta(int id_Productos)
+        {
+            var resta = _context.Recetas;
 
+            if (resta != null)
+            {
+                foreach (var rec in resta)
+                {
+                    if (rec.IdProducto == id_Productos)
+                    {
+                        _context.Recetas.Remove(rec);
+
+                    }
+
+                }
+            }
+
+        }
         // GET: Productos
         public async Task<IActionResult> Index()
         {
             var pach_OSContext = await _context.Productos.ToListAsync();
+
             foreach (var pach in pach_OSContext)
             {
-                if(pach.NomProducto == null)
-                {
-                    return RedirectToAction("Details", "Productos", new { pach.IdProducto, accion = "Create" });
-                }
-                if (pach.PrecioVenta == null)
-                {
-                    return RedirectToAction("Details", "Productos", new { pach.IdProducto, accion = "Create" });
 
-                }
-                if (pach.IdCategoria == null)
+                if (pach.NomProducto == null || pach.PrecioVenta == null || pach.IdCategoria == null || pach.Estado==null)
                 {
-                    return RedirectToAction("Details", "Productos", new { pach.IdProducto, accion = "Create" });
+                    Eliminar_Receta(pach.IdProducto);
+                    _context.Productos.Remove(pach);
+                    _context.SaveChanges();
 
                 }
                 if (pach.IdCategoria == 1)
                 {
                     if (pach.IdTamano == null)
                     {
-                        return RedirectToAction("Details", "Productos", new { pach.IdProducto, accion = "Create" });
+                        Eliminar_Receta(pach.IdProducto);
+                        _context.Productos.Remove(pach);
+                        _context.SaveChanges();
 
                     }
                 }
+
+
+
             }
 
-            
+
             return View(Enumerable.Reverse(pach_OSContext).ToList());
         }
 
-        // GET: Productos/Details/5
-        
+
+
 
         // GET: Productos/Create
-        public void ProductoActivo (int id)
+        public void ProductoActivo(int id)
         {
             var productoActivo = _context.Productos.FirstOrDefault(p => p.IdProducto == id);
 
@@ -82,37 +100,31 @@ namespace PF_Pach_OS.Controllers
             }
 
         }
-        public IActionResult Details(int IdProducto, string accion)
+        public IActionResult Details(int IdProducto)
         {
-            if(accion != null)
-            {
-                ViewBag.Cancelar = 1;
-            }
-            else
-            {
-                ViewBag.Cancelar = 2;
-            }
+            
             ProductoActivo(IdProducto);
             var recetas = _context.Recetas.ToList();
             var insumos = _context.Insumos.ToList();
 
             var recetasConInsumos = recetas.Select(receta => new
             {
-                IdReceta= receta.IdReceta,
+                IdReceta = receta.IdReceta,
                 CantInsumo = receta.CantInsumo,
                 NomInsumo = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.NomInsumo,
-                IdProducto = receta.IdProducto
+                IdProducto = receta.IdProducto,
+                Medida = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.Medida,
             }).ToList();
 
             ViewBag.RecetasConInsumos = recetasConInsumos.Cast<object>().ToList();
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
             ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
             ViewBag.NombreTamano = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
-            ViewBag.Insumo = new SelectList(_context.Insumos, "IdInsumo", "NomInsumo");
+            ViewBag.Insumo = _context.Insumos;
             ViewBag.IdProducto = IdProducto;
             return View("Create");
         }
-        
+
 
 
         [HttpPost]
@@ -120,18 +132,18 @@ namespace PF_Pach_OS.Controllers
         public async Task<IActionResult> Create([Bind("IdProducto")] Producto producto)
         {
             if (ModelState.IsValid)
-            {   
+            {
                 _context.Add(producto);
                 await _context.SaveChangesAsync();
 
                 // Redirige a la acción "Crear" con el IdProducto como parámetro en la URL
                 ViewBag.IdProducto = producto.IdProducto;
-                return RedirectToAction("Details", "Productos", new {producto.IdProducto, accion="Create" });
+                return RedirectToAction("Details", "Productos", new { producto.IdProducto});
             }
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
             ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
 
-            
+
 
             ViewBag.Insumo = new SelectList(_context.Insumos, "IdInsumo", "NomInsumo");
             return NotFound();
@@ -145,20 +157,20 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Crear([Bind("IdProducto, NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
         {
-            
+
             if (ModelState.IsValid)
             {
 
-               
-                    if (producto.Estado == 0)
-                    {
-                        producto.Estado = 0;
-                    }
-                    else
-                    {
-                        producto.Estado = 1;
-                    }
-                
+
+                if (producto.Estado == 0)
+                {
+                    producto.Estado = 0;
+                }
+                else
+                {
+                    producto.Estado = 1;
+                }
+
 
                 _context.Update(producto);
                 await _context.SaveChangesAsync();
@@ -167,7 +179,7 @@ namespace PF_Pach_OS.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+            return RedirectToAction("Details", "Productos", new { producto.IdProducto, accion = "Create" });
         }
 
         // GET: Productos/Edit/5
@@ -199,7 +211,7 @@ namespace PF_Pach_OS.Controllers
             {
                 return NotFound();
             }
-            
+
             if (ModelState.IsValid)
             {
                 try
@@ -225,7 +237,7 @@ namespace PF_Pach_OS.Controllers
             return View(producto);
         }
 
-    
+
         [HttpPost]
         public IActionResult Disable(int id)
         {
@@ -249,39 +261,13 @@ namespace PF_Pach_OS.Controllers
             }
             return RedirectToAction("Index");
         }
+
+
         
-
-        public async Task<IActionResult> Cancelar(int IdProducto)
-        {
-            if (_context.Recetas == null)
-            {
-                return Problem("Entity set 'Pach_OSContext.Recetas'  is null.");
-            }
-            var receta = await _context.Recetas
-                .Where(r => r.IdProducto == IdProducto)
-                .ToListAsync();
-            if (receta != null)
-            {
-                foreach (var rec in receta)
-                {
-                    _context.Recetas.Remove(rec);
-
-                }
-            }
-            var producto = await _context.Productos.FindAsync(IdProducto);
-            if (producto != null) {
-                _context.Productos.Remove(producto);
-            }
-            
-            
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
 
         private bool ProductoExists(int id)
         {
-          return (_context.Productos?.Any(e => e.IdProducto == id)).GetValueOrDefault();
+            return (_context.Productos?.Any(e => e.IdProducto == id)).GetValueOrDefault();
         }
     }
 }

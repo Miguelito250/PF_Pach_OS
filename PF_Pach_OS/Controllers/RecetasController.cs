@@ -53,66 +53,45 @@ namespace PF_Pach_OS.Controllers
         public async Task<IActionResult> Create([Bind("IdReceta,CantInsumo,IdProducto,IdInsumo")] Receta receta, [Bind("IdProducto,NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
         {
             bool exite = false;
-            var recetaActiva = new Receta() ;
+            var recetaActiva = new Receta();
+            
+            _context.Update(producto);
+            await _context.SaveChangesAsync();
 
-
-            producto.Estado = 1;
-            if (ModelState.IsValid)
-
+            if (!ProductoExists(producto.IdProducto))
             {
-
-                try
+                return NotFound();
+            }
+           
+            var recetasExistente = _context.Recetas.ToList();
+            foreach (var rec in recetasExistente)
+            {
+                if (rec.IdProducto == receta.IdProducto && rec.IdInsumo == receta.IdInsumo)
                 {
-
-                    _context.Update(producto);
-                    await _context.SaveChangesAsync();
+                    recetaActiva = rec;
+                    exite = true;
+                    break;
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductoExists(producto.IdProducto))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                var recetasExistente = _context.Recetas.ToList();
-                foreach (var rec in recetasExistente)
-                {
-                    if (rec.IdProducto == receta.IdProducto && rec.IdInsumo == receta.IdInsumo ) {
-                        recetaActiva = rec;
-                        exite=true;
-                        break;
-                    }
-                }
-                if (exite)
-                {
-                     recetaActiva.CantInsumo += receta.CantInsumo;
-                    _context.Update(recetaActiva);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Details", "Productos", new { receta.IdProducto });
-                }
-                else
-                {
-                    _context.Add(receta);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Details", "Productos", new { receta.IdProducto });
-
-                }
-
+            }
+            if (exite)
+            {
+                recetaActiva.CantInsumo += receta.CantInsumo;
+                _context.Update(recetaActiva);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Details", "Productos", new { receta.IdProducto });
+            }
+            else
+            {
+                _context.Add(receta);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Details", "Productos", new { receta.IdProducto });
 
             }
-
-            ViewData["IdInsumo"] = new SelectList(_context.Insumos, "IdInsumo", "IdInsumo", receta.IdInsumo);
-            ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "IdProducto", receta.IdProducto);
-            return RedirectToAction("Details", "Productos", new { receta.IdProducto });
         }
 
 
         // GET: Recetas/Delete/5
-       
+
         public async Task<IActionResult> Delete(int? id, int IdProducto)
         {
             if (_context.Recetas == null)
@@ -131,7 +110,7 @@ namespace PF_Pach_OS.Controllers
 
         private bool RecetaExists(int id)
         {
-          return (_context.Recetas?.Any(e => e.IdReceta == id)).GetValueOrDefault();
+            return (_context.Recetas?.Any(e => e.IdReceta == id)).GetValueOrDefault();
         }
         private bool ProductoExists(int id)
         {

@@ -6,7 +6,7 @@
 
 }
 <link href="~/css/productos.css" rel="stylesheet" />
-<div class="d-flex">
+
 <form method="post" novalidate id="formulario1">
     <input type="submit" asp-action="Crear" asp-controller="Productos" class="estilo-btn-naranja btn-crear-posicion" value="Terminar Producto" />
 
@@ -21,14 +21,10 @@
             <div class="campos-flotantes">
                 @*<span class="label-flotante">Producto</span>*@
 
-                @if (ViewBag.ProductoActivo != null)
-                {
-                    <input class="input-campo form-control" asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" placeholder="Producto" required title=" " />
-                }
-                else
-                {
-                    <input class="input-campo form-control" asp-for="Producto.NomProducto" placeholder="Producto" required title=" " />
-                }
+
+                <input class="input-campo form-control" asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" placeholder="Producto" required title=" " />
+
+
 
                 <div class="invalid-feedback"></div>
                 <div class="valid-feedback">¡Todo bien!</div>
@@ -37,14 +33,9 @@
 
             <div class="campos-flotantes">
                 @*<span class="label-flotante">Precio</span>*@
-                @if (ViewBag.ProductoActivo != null)
-                {
-                    <input class="input-campo form-control" asp-for="Producto.PrecioVenta" value="@ViewBag.ProductoActivo.PrecioVenta" placeholder="Precio" required title=" " />
-                }
-                else
-                {
-                    <input class="input-campo form-control" asp-for="Producto.PrecioVenta" placeholder="Precio" required title=" " />
-                }
+
+                <input class="input-campo form-control" asp-for="Producto.PrecioVenta" value="@ViewBag.ProductoActivo.PrecioVenta" placeholder="Precio" required title=" " />
+
 
 
                 <div class="invalid-feedback"></div>
@@ -56,15 +47,10 @@
             <div class="campos-flotantes">
                 @*<span class="label-flotante">Categoria</span>*@
                 <select class="input-campo form-control" id="Producto_IdCategoria" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria" required title=" ">
-                    @if (ViewBag.SelectC != null)
-                    {
 
-                        <option value="@ViewBag.SelectCID">@ViewBag.SelectC</option>
-                    }
-                    else
-                    {
-                        <option></option>
-                    }
+
+                    <option value="@ViewBag.SelectCID">@ViewBag.SelectC</option>
+
 
                 </select>
 
@@ -76,15 +62,10 @@
             <div id="Tamano_Oculto" class="d-none campos-flotantes">
                 @*<span class="label-flotante">Tamaño</span>*@
                 <select class="input-campo form-control" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
-                    @if (ViewBag.SelectT != null)
-                    {
 
-                        <option value="@ViewBag.SelectTID">@ViewBag.SelectT</option>
-                    }
-                    else
-                    {
-                        <option></option>
-                    }
+
+                    <option value="@ViewBag.SelectTID">@ViewBag.SelectT</option>
+
 
                 </select>
 
@@ -95,7 +76,7 @@
         </div>
     </div>
 </form>
-<form method="post" id="formulario2" novalidate>
+<form method="post" id="miFormulario" novalidate>
 
     <hr>
     <h2>Receta</h2>
@@ -109,8 +90,12 @@
 
     <div class="campos-flotantes">
         @*<span class="label-flotante">Insumo</span>*@
-        <select class="input-campo form-control" asp-for="Receta.IdInsumo" asp-items="ViewBag.Insumo" required>
+        <select class="input-campo form-control" asp-for="Receta.IdInsumo" required>
             <option></option>
+            @foreach (var insu in ViewBag.Insumo)
+            {
+                <option value="@insu.IdInsumo"> @insu.NomInsumo / @insu.Medida </option>
+            }
         </select>
 
         <div class="invalid-feedback"></div>
@@ -144,6 +129,7 @@
                 <thead>
                     <tr>
                         <th>Insumo</th>
+                        <th>Medida</th>
                         <th>Cantidad</th>
                         <th>Acciones</th>
                     </tr>
@@ -156,6 +142,7 @@
                             {
                                 <td>@recetaConInsumo.NomInsumo</td>
                                 <td>@recetaConInsumo.CantInsumo</td>
+                                <td>@recetaConInsumo.Medida</td>
                                 <td>
                                     <a asp-action="Delete" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Remover</a>
                                 </td>
@@ -167,14 +154,13 @@
             </table>
         }
     </div>
-    @if (ViewBag.Cancelar==1)
-    {
-        <a asp-action="Cancelar" asp-controller="Productos" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Cancelar </a>
-    }
-   
-    
+
+    <a asp-action="Index" asp-controller="Productos" class="btn btn-outline-danger ">Cancelar </a>
+
+
+
 </form>
-</div>
+
 
 @*@-----VALIDACION DE CAMPOS EN TIEMPO REAL-----@*@
 <script>
@@ -209,7 +195,26 @@
         $('#Receta_IdInsumo').on('change', function () {
             validateIdInsumo();
         });
+        $('#miFormulario').submit(function (event) {
+            // Tu código para llenar el campo aquí
+            var NomProducto = $('#Producto_NomProducto').val();
+            var llenar_Nombre = document.getElementById("nom_Pro")
+            llenar_Nombre.value = NomProducto;
 
+            var precio = $('#Producto_PrecioVenta').val();
+            var llenar_Precio = document.getElementById("pre_Pro")
+            llenar_Precio.value = precio;
+
+            var categoria = $('#Producto_IdCategoria').val();
+            var llenar_Categoria = document.getElementById("cat_Pro")
+            llenar_Categoria.value = categoria;
+
+            var precio = $('#Producto_IdTamano').val();
+            var llenar_Precio = document.getElementById("tam_Pro")
+            llenar_Precio.value = precio;
+            // Continúa con el envío del formulario
+            return true; // Devuelve true para continuar con el envío, o false para detenerlo
+        });
         function validateNomProducto() {
             var maxCaracteres = 30;
             var minCaracteres = 4;
@@ -217,8 +222,7 @@
 
             var NomProducto = $('#Producto_NomProducto').val();
             var contarNombre = NomProducto.length;
-            var llenar_Nombre = document.getElementById("nom_Pro")
-            llenar_Nombre.value = NomProducto;
+            
 
             console.log(llenar_Nombre);
             if (contarNombre == 0) {
@@ -241,8 +245,7 @@
             var precio = $('#Producto_PrecioVenta').val();
             var minVenta = 100;
             var validacion = false;
-            var llenar_Precio = document.getElementById("pre_Pro")
-            llenar_Precio.value = precio;
+            
             if (precio == 0) {
                 validacion = true;
                 mostrarError('Por favor ingrese un Precio', '#Producto_PrecioVenta');
@@ -264,8 +267,7 @@
             var categoria = $('#Producto_IdCategoria').val();
             var idPizza = 1;
             var validacion = false;
-            var llenar_Categoria = document.getElementById("cat_Pro")
-            llenar_Categoria.value = categoria;
+            
             if (categoria == 0) {
                 mostrarError('Por favor seleccione una categoria', '#Producto_IdCategoria');
                 Ocultar_Campo_Oculto();
@@ -300,6 +302,7 @@
                 mostrarError('Por favor selecione un insumo', '#Receta_IdInsumo');
                 validacion = true;
             }
+           
             resultado(validacion, '#Receta_IdInsumo');
 
         }
