@@ -17,6 +17,7 @@ namespace PF_Pach_OS.Models
         {
         }
 
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public virtual DbSet<Categoria> Categorias { get; set; } = null!;
         public virtual DbSet<Compra> Compras { get; set; } = null!;
         public virtual DbSet<DetalleVenta> DetalleVentas { get; set; } = null!;
