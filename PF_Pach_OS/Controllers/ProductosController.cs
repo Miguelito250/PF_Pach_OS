@@ -157,6 +157,18 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Crear([Bind("IdProducto, NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
         {
+            var insumo = _context.Recetas;
+            bool existe = true;
+            foreach(var insu in insumo)
+            {
+                if(insu.IdProducto == producto.IdProducto)
+                {
+                    existe = false;
+                    break;
+                }
+            }
+
+            
 
             if (ModelState.IsValid)
             {
@@ -176,6 +188,13 @@ namespace PF_Pach_OS.Controllers
                 await _context.SaveChangesAsync();
                 ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", producto.IdCategoria);
                 ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "nombre_tamano", producto.IdTamano);
+
+                if (existe)
+                {
+                    return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+
+                }
+
                 return RedirectToAction(nameof(Index));
             }
 
