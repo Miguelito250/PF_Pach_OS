@@ -1,165 +1,145 @@
 ﻿@model PF_Pach_OS.Models.CreateViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear";
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 }
 <link href="~/css/productos.css" rel="stylesheet" />
 
-<form method="post" novalidate id="formulario1">
-    <input type="submit" asp-action="Crear" asp-controller="Productos" class="estilo-btn-naranja btn-crear-posicion" value="Terminar Producto" />
+<div class="row pl-2 pt-2">
 
-    <div class="d-flex pl-2 pt-2">
-        <div class="registrar-productos">
+    <div class="col-4 ml-3 p-2 bg-white rounded border px-4 py-4">
+        <form method="post" novalidate id="formulario1">
             <h2>Producto</h2>
             <hr>
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.IdProducto" />
 
-            <div class="campos-flotantes">
-                @*<span class="label-flotante">Producto</span>*@
-
-
-                <input class="input-campo form-control" asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" placeholder="Producto" required title=" " />
-
-
-
+            <div class="form-group">
+                <label  class="form-label">Producto</label>
+                <input asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" class="form-control" title=" " required />
                 <div class="invalid-feedback"></div>
                 <div class="valid-feedback">¡Todo bien!</div>
-
             </div>
 
-            <div class="campos-flotantes">
-                @*<span class="label-flotante">Precio</span>*@
-
-                <input class="input-campo form-control" asp-for="Producto.PrecioVenta" value="@ViewBag.ProductoActivo.PrecioVenta" placeholder="Precio" required title=" " />
-
-
-
+            <div class="form-group">
+                <label asp-for="Producto.PrecioVenta" class="form-label">Precio</label>
+                <input asp-for="Producto.PrecioVenta" value="@ViewBag.ProductoActivo.PrecioVenta" class="form-control" required />
                 <div class="invalid-feedback"></div>
                 <div class="valid-feedback">¡Todo bien!</div>
-                <span asp-validation-for="Producto.PrecioVenta" class="text-danger"></span>
-
             </div>
 
-            <div class="campos-flotantes">
-                @*<span class="label-flotante">Categoria</span>*@
-                <select class="input-campo form-control" id="Producto_IdCategoria" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria" required title=" ">
-
-
-                    <option value="@ViewBag.SelectCID">@ViewBag.SelectC</option>
-
-
+            <div class="form-group">
+                <label asp-for="Producto.IdCategoria" class="form-label">Categoria</label>
+                <select class="form-select" id="Producto_IdCategoria" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria" required>
+                    <option disabled selected>Seleccione una categoria</option>
+                    <option value="@ViewBag.SelectCID">@ViewBag.SelectC</option> 
                 </select>
 
                 <div class="invalid-feedback"></div>
                 <div class="valid-feedback">¡Todo bien!</div>
-
             </div>
 
-            <div id="Tamano_Oculto" class="d-none campos-flotantes">
-                @*<span class="label-flotante">Tamaño</span>*@
-                <select class="input-campo form-control" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
-
-
+            <div id="Tamano_Oculto" class="d-none form-group">
+                <label asp-for="Producto.IdTamano" class="form-label">Tamaño</label>
+                <select class="form-select" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
+                    <option disabled selected>Seleccione una tamaño</option>
                     <option value="@ViewBag.SelectTID">@ViewBag.SelectT</option>
-
-
                 </select>
 
                 <div class="invalid-feedback">Selecione un tamaño por favor.</div>
                 <div class="valid-feedback">¡Todo bien!</div>
-
             </div>
+        </form>
+
+        <div class="col">
+            <input type="submit" asp-action="Crear" asp-controller="Productos" class="col-6 botones-agregar btn btn-success w-auto" value="Terminar Producto" />
+            <a asp-action="Index" asp-controller="Productos" class="col-6 btn btn-outline-danger">Cancelar</a>
+        </div>
+
+    </div>
+    <div class="col-6 mr-2 ml-5 mt-4">
+        <div>
+            <h2>Receta</h2>
+
+            <form method="post" id="miFormulario" class="row" novalidate>
+                <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.Idproducto" />
+                <input type="hidden" id="nom_Pro" asp-for="Producto.NomProducto" value="" />
+                <input type="hidden" id="pre_Pro" asp-for="Producto.PrecioVenta" value="" />
+                <input type="hidden" id="cat_Pro" asp-for="Producto.IdCategoria" value="" />
+                <input type="hidden" id="tam_Pro" asp-for="Producto.IdTamano" value="" />
+
+
+                <div class="col-6">
+                    <select class="form-control" asp-for="Receta.IdInsumo" required>
+                        <option disabled selected>Seleccione un insumo</option>
+                        @foreach (var insu in ViewBag.Insumo)
+                        {
+                            <option value="@insu.IdInsumo"> @insu.NomInsumo / @insu.Medida </option>
+                        }
+                    </select>
+                    <div class="invalid-feedback"></div>
+                    <div class="valid-feedback">¡Todo bien!</div>
+                </div>
+
+                <div class="col-3">
+                    <input class="input-campo form-control" asp-for="Receta.CantInsumo" type="number" placeholder="Cantidad" required>
+                    <div class="invalid-feedback"></div>
+                    <div class="valid-feedback">¡Todo bien!</div>
+                </div>
+
+                <div class="col-3">
+                    <button type="submit" asp-action="Create" asp-controller="Recetas" class="form-control btn btn-primary botones-agregar"> Agregar </button>
+                </div>
+            </form>
+        </div>
+        <div class="mt-4 border rounded bg-white">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Receta.IdProducto" value="@ViewBag.Idproducto">
+
+            @if (ViewBag.RecetasConInsumos == null)
+            {
+                <h4>No hay insumos de receta</h4>
+            }
+            else
+            {
+                <table class="table table-borderless mb-0">
+                    <thead>
+                        <tr>
+                            <th>Insumo</th>
+                            <th>Cantidad</th>
+                            <th>Medida</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var recetaConInsumo in (List<dynamic>)ViewBag.RecetasConInsumos)
+                        {
+                            <tr>
+                                @if (recetaConInsumo.IdProducto == ViewBag.IdProducto)
+                                {
+                                    <td>@recetaConInsumo.NomInsumo</td>
+                                    <td>@recetaConInsumo.Medida</td>
+                                    <td>@recetaConInsumo.CantInsumo</td>
+                                    <td>
+                                        <a asp-action="Delete" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Remover</a>
+                                    </td>
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
         </div>
     </div>
-</form>
-<form method="post" id="miFormulario" novalidate>
-
-    <hr>
-    <h2>Receta</h2>
-    <hr>
-    <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.Idproducto" />
-    <input type="hidden" id="nom_Pro" asp-for="Producto.NomProducto" value="" />
-    <input type="hidden" id="pre_Pro" asp-for="Producto.PrecioVenta" value="" />
-    <input type="hidden" id="cat_Pro" asp-for="Producto.IdCategoria" value="" />
-    <input type="hidden" id="tam_Pro" asp-for="Producto.IdTamano" value="" />
-
-
-    <div class="campos-flotantes">
-        @*<span class="label-flotante">Insumo</span>*@
-        <select class="input-campo form-control" asp-for="Receta.IdInsumo" required>
-            <option></option>
-            @foreach (var insu in ViewBag.Insumo)
-            {
-                <option value="@insu.IdInsumo"> @insu.NomInsumo / @insu.Medida </option>
-            }
-        </select>
-
-        <div class="invalid-feedback"></div>
-        <div class="valid-feedback">¡Todo bien!</div>
-
-    </div>
-    <div class="campos-flotantes">
-        @*<span class="label-flotante">Cantidad</span>*@
-        <input class="input-campo form-control" asp-for="Receta.CantInsumo" type="number" placeholder="Producto" required>
-
-        <div class="invalid-feedback"></div>
-        <div class="valid-feedback">¡Todo bien!</div>
-
-    </div>
-    <div class="form-group float-bottom">
-        <button type="submit" asp-action="Create" asp-controller="Recetas" class="btn btn-primary botones-agregar"> Agregar Insumo </button>
-    </div>
-
-    <div class="ml-3 w-100 p-2">
-
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="Receta.IdProducto" value="@ViewBag.Idproducto">
-
-        @if (ViewBag.RecetasConInsumos == null)
-        {
-            <h4>No hay insumos de receta</h4>
-        }
-        else
-        {
-            <table class="table table-warning">
-                <thead>
-                    <tr>
-                        <th>Insumo</th>
-                        <th>Medida</th>
-                        <th>Cantidad</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var recetaConInsumo in (List<dynamic>)ViewBag.RecetasConInsumos)
-                    {
-                        <tr>
-                            @if (recetaConInsumo.IdProducto == ViewBag.IdProducto)
-                            {
-                                <td>@recetaConInsumo.NomInsumo</td>
-                                <td>@recetaConInsumo.CantInsumo</td>
-                                <td>@recetaConInsumo.Medida</td>
-                                <td>
-                                    <a asp-action="Delete" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Remover</a>
-                                </td>
-                            }
-
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-    </div>
-
-    <a asp-action="Index" asp-controller="Productos" class="btn btn-outline-danger ">Cancelar </a>
+</div>
 
 
 
-</form>
 
 
 @*@-----VALIDACION DE CAMPOS EN TIEMPO REAL-----@*@
@@ -222,7 +202,7 @@
 
             var NomProducto = $('#Producto_NomProducto').val();
             var contarNombre = NomProducto.length;
-            
+
 
             console.log(llenar_Nombre);
             if (contarNombre == 0) {
@@ -245,7 +225,7 @@
             var precio = $('#Producto_PrecioVenta').val();
             var minVenta = 100;
             var validacion = false;
-            
+
             if (precio == 0) {
                 validacion = true;
                 mostrarError('Por favor ingrese un Precio', '#Producto_PrecioVenta');
@@ -267,7 +247,7 @@
             var categoria = $('#Producto_IdCategoria').val();
             var idPizza = 1;
             var validacion = false;
-            
+
             if (categoria == 0) {
                 mostrarError('Por favor seleccione una categoria', '#Producto_IdCategoria');
                 Ocultar_Campo_Oculto();
@@ -302,7 +282,7 @@
                 mostrarError('Por favor selecione un insumo', '#Receta_IdInsumo');
                 validacion = true;
             }
-           
+
             resultado(validacion, '#Receta_IdInsumo');
 
         }
