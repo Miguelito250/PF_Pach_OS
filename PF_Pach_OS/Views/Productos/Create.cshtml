@@ -75,12 +75,12 @@
                 <div class="invalid-feedback">Selecione un tamaño por favor.</div>
                 <div class="valid-feedback">¡Todo bien!</div>
             </div>
-        </form>
-
         <div class="col">
             <input type="submit" asp-action="Crear" asp-controller="Productos" class="col-6 botones-agregar btn btn-success w-auto" value="Terminar Producto" />
             <a asp-action="Index" asp-controller="Productos" class="col-6 btn btn-outline-danger">Cancelar</a>
         </div>
+        </form>
+
 
     </div>
     <div class="col-6 mr-2 ml-5 mt-4">
@@ -132,7 +132,7 @@
             {
                 <table class="table table-borderless mb-0">
                     <thead>
-                        <tr>
+                        <tr class="text-gray bg-gray-300">
                             <th>Insumo</th>
                             <th>Cantidad</th>
                             <th>Medida</th>
