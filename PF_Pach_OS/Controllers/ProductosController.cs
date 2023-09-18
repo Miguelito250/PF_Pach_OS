@@ -44,7 +44,7 @@ namespace PF_Pach_OS.Controllers
             foreach (var pach in pach_OSContext)
             {
 
-                if (pach.NomProducto == null || pach.PrecioVenta == null || pach.IdCategoria == null || pach.Estado==null)
+                if (pach.NomProducto == null || pach.PrecioVenta == null || pach.IdCategoria == null || pach.Estado == null)
                 {
                     Eliminar_Receta(pach.IdProducto);
                     _context.Productos.Remove(pach);
@@ -98,11 +98,15 @@ namespace PF_Pach_OS.Controllers
                 }
 
             }
+            else
+            {
+                ViewBag.ProductoActivo = null;
+            }
 
         }
         public IActionResult Details(int IdProducto)
         {
-            
+         
             ProductoActivo(IdProducto);
             var recetas = _context.Recetas.ToList();
             var insumos = _context.Insumos.ToList();
@@ -138,7 +142,7 @@ namespace PF_Pach_OS.Controllers
 
                 // Redirige a la acción "Crear" con el IdProducto como parámetro en la URL
                 ViewBag.IdProducto = producto.IdProducto;
-                return RedirectToAction("Details", "Productos", new { producto.IdProducto});
+                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
             }
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
             ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
@@ -157,18 +161,22 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Crear([Bind("IdProducto, NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
         {
+            int idPizza = 1;
             var insumo = _context.Recetas;
             bool existe = true;
-            foreach(var insu in insumo)
+            foreach (var insu in insumo)
             {
-                if(insu.IdProducto == producto.IdProducto)
+                if (insu.IdProducto == producto.IdProducto)
                 {
                     existe = false;
                     break;
                 }
             }
+            if(producto.IdCategoria!= idPizza)
+            {
+                producto.IdTamano = null;
+            }
 
-            
 
             if (ModelState.IsValid)
             {
@@ -282,7 +290,7 @@ namespace PF_Pach_OS.Controllers
         }
 
 
-        
+
 
         private bool ProductoExists(int id)
         {

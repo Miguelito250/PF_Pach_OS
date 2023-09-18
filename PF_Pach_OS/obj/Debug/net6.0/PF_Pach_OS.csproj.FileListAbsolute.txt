@@ -757,7 +757,6 @@ C:\Users\vamil\OneDrive\Escritorio\Progrmacion\SENA\Proyecto Formativo Pach_OS\P
 C:\Users\vamil\OneDrive\Escritorio\Progrmacion\SENA\Proyecto Formativo Pach_OS\PF_Pach_OS\PF_Pach_OS\obj\Debug\net6.0\PF_Pach_OS.pdb
 C:\Users\vamil\OneDrive\Escritorio\Progrmacion\SENA\Proyecto Formativo Pach_OS\PF_Pach_OS\PF_Pach_OS\obj\Debug\net6.0\PF_Pach_OS.genruntimeconfig.cache
 C:\Users\vamil\OneDrive\Escritorio\Progrmacion\SENA\Proyecto Formativo Pach_OS\PF_Pach_OS\PF_Pach_OS\obj\Debug\net6.0\ref\PF_Pach_OS.dll
-C:\Users\user\OneDrive\Pictures\Documents\GitHub\PF_Pach_OS_1\PF_Pach_OS\bin\Debug\net6.0\appsettings.json
 C:\Users\SENA\Documents\GitHub\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\SENA\Documents\GitHub\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\PF_Pach_OS.staticwebassets.runtime.json
 C:\Users\SENA\Documents\GitHub\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\PF_Pach_OS.exe

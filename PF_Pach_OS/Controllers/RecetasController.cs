@@ -54,7 +54,14 @@ namespace PF_Pach_OS.Controllers
         {
             bool exite = false;
             var recetaActiva = new Receta();
-            
+
+            Console.Write("**************************************************************************************");
+            Console.Write(producto.IdProducto);
+            Console.Write(producto.NomProducto);
+            Console.Write(producto.PrecioVenta);
+
+            Console.Write("**************************************************************************************");
+
             _context.Update(producto);
             await _context.SaveChangesAsync();
 
@@ -78,13 +85,13 @@ namespace PF_Pach_OS.Controllers
                 recetaActiva.CantInsumo += receta.CantInsumo;
                 _context.Update(recetaActiva);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "Productos", new { receta.IdProducto });
+                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
             }
             else
             {
                 _context.Add(receta);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "Productos", new { receta.IdProducto });
+                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
 
             }
         }

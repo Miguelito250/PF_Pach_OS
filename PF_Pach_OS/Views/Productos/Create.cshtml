@@ -19,14 +19,31 @@
 
             <div class="form-group">
                 <label  class="form-label">Producto</label>
-                <input asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" class="form-control" title=" " required />
+                @if (ViewBag.ProductoActivo == null)
+                {
+                    <input asp-for="Producto.NomProducto" class="form-control" title=" " required />
+
+                }else{
+                    <input asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" class="form-control" title=" " required />
+
+                }
                 <div class="invalid-feedback"></div>
                 <div class="valid-feedback">¡Todo bien!</div>
             </div>
 
             <div class="form-group">
                 <label asp-for="Producto.PrecioVenta" class="form-label">Precio</label>
-                <input asp-for="Producto.PrecioVenta" value="@ViewBag.ProductoActivo.PrecioVenta" class="form-control" required />
+
+                @if (ViewBag.ProductoActivo == null)
+                {
+                    <input asp-for="Producto.PrecioVenta" class="form-control" title=" " required />
+
+                }
+                else
+                {
+                    <input asp-for="Producto.PrecioVenta" value="@ViewBag.ProductoActivo.PrecioVenta" class="form-control" required />
+
+                }
                 <div class="invalid-feedback"></div>
                 <div class="valid-feedback">¡Todo bien!</div>
             </div>
@@ -34,8 +51,14 @@
             <div class="form-group">
                 <label asp-for="Producto.IdCategoria" class="form-label">Categoria</label>
                 <select class="form-select" id="Producto_IdCategoria" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria" required>
-                    <option disabled selected>Seleccione una categoria</option>
-                    <option value="@ViewBag.SelectCID">@ViewBag.SelectC</option> 
+                    @if (ViewBag.SelectCID == null)
+                    {
+                        <option disabled selected>Seleccione una categoria</option>
+
+                    }else{
+                        <option value="@ViewBag.SelectCID">@ViewBag.SelectC</option>
+
+                    }
                 </select>
 
                 <div class="invalid-feedback"></div>
@@ -65,6 +88,8 @@
             <h2>Receta</h2>
 
             <form method="post" id="miFormulario" class="row" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Receta.IdProducto" value="@ViewBag.Idproducto">
                 <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.Idproducto" />
                 <input type="hidden" id="nom_Pro" asp-for="Producto.NomProducto" value="" />
                 <input type="hidden" id="pre_Pro" asp-for="Producto.PrecioVenta" value="" />
@@ -97,8 +122,7 @@
         </div>
         <div class="mt-4 border rounded bg-white">
 
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Receta.IdProducto" value="@ViewBag.Idproducto">
+            
 
             @if (ViewBag.RecetasConInsumos == null)
             {
@@ -149,6 +173,8 @@
         // Manejar el evento de cambio en el campo de NomProducto
         $('#Producto_NomProducto').on('input', function () {
             validateNomProducto();
+            var id = $('#Producto_IdProducto').val();
+            console.log(id)
         });
 
         // Manejar el evento de cambio en el campo de PrecioVenta
@@ -189,9 +215,11 @@
             var llenar_Categoria = document.getElementById("cat_Pro")
             llenar_Categoria.value = categoria;
 
-            var precio = $('#Producto_IdTamano').val();
-            var llenar_Precio = document.getElementById("tam_Pro")
-            llenar_Precio.value = precio;
+            var tamano = $('#Producto_IdTamano').val();
+            var llenar_tamano = document.getElementById("tam_Pro")
+            llenar_tamano.value = tamano;
+
+            console.log(NomProducto, precio, categoria, tamano,)
             // Continúa con el envío del formulario
             return true; // Devuelve true para continuar con el envío, o false para detenerlo
         });
@@ -203,8 +231,7 @@
             var NomProducto = $('#Producto_NomProducto').val();
             var contarNombre = NomProducto.length;
 
-
-            console.log(llenar_Nombre);
+            console.log(NomProducto)
             if (contarNombre == 0) {
                 validacion = true;
                 mostrarError('Por favor ingrese un nombre al producto.');
