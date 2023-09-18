@@ -106,7 +106,7 @@ namespace PF_Pach_OS.Controllers
         }
         public IActionResult Details(int IdProducto)
         {
-         
+
             ProductoActivo(IdProducto);
             var recetas = _context.Recetas.ToList();
             var insumos = _context.Insumos.ToList();
@@ -172,7 +172,7 @@ namespace PF_Pach_OS.Controllers
                     break;
                 }
             }
-            if(producto.IdCategoria!= idPizza)
+            if (producto.IdCategoria != idPizza)
             {
                 producto.IdTamano = null;
             }
@@ -182,14 +182,9 @@ namespace PF_Pach_OS.Controllers
             {
 
 
-                if (producto.Estado == 0)
-                {
-                    producto.Estado = 0;
-                }
-                else
-                {
-                    producto.Estado = 1;
-                }
+
+                producto.Estado = 1;
+
 
 
                 _context.Update(producto);

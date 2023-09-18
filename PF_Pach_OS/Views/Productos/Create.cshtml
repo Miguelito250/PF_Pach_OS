@@ -146,8 +146,8 @@
                                 @if (recetaConInsumo.IdProducto == ViewBag.IdProducto)
                                 {
                                     <td>@recetaConInsumo.NomInsumo</td>
-                                    <td>@recetaConInsumo.Medida</td>
                                     <td>@recetaConInsumo.CantInsumo</td>
+                                    <td>@recetaConInsumo.Medida</td>
                                     <td>
                                         <a asp-action="Delete" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Remover</a>
                                     </td>
