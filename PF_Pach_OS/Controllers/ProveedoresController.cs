@@ -91,10 +91,9 @@ namespace Pach_OS.Controllers
             }
             return View(proveedore);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProveedor,Nit,NomLocal,Direccion,Telefono,Correo")] Proveedore proveedore)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProveedor,NomLocal,Direccion,Telefono,Correo")] Proveedore proveedore)
         {
             if (id != proveedore.IdProveedor)
             {
@@ -105,8 +104,16 @@ namespace Pach_OS.Controllers
             {
                 try
                 {
-                    _context.Update(proveedore);
-                    await _context.SaveChangesAsync();
+                    var existingProveedor = await _context.Proveedores.FindAsync(id);
+                    if (existingProveedor != null)
+                    {
+                        existingProveedor.NomLocal = proveedore.NomLocal;
+                        existingProveedor.Direccion = proveedore.Direccion;
+                        existingProveedor.Telefono = proveedore.Telefono;
+                        existingProveedor.Correo = proveedore.Correo;
+
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -123,6 +130,7 @@ namespace Pach_OS.Controllers
             }
             return View(proveedore);
         }
+
 
         public async Task<IActionResult> Delete(int? id)
         {

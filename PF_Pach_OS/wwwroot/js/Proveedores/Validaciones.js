@@ -13,17 +13,17 @@
     $('#Correo').on('input', function () {
         validateCorreo();
     });
-
-    function validateCorreo() {
-        var correo = $('#Correo').val();
-        var correoFormato = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-        if (correo.trim() === '' || correoFormato.test(correo)) {
-            $('#Correo').removeClass('is-invalid').addClass('is-valid');
-        } else {
-            $('#Correo').removeClass('is-valid').addClass('is-invalid');
-        }
+function validateCorreo() {
+    var correo = $('#Correo').val();
+    var correoFormato = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (correo.trim() === '' || !correoFormato.test(correo)) {
+        $('#Correo').removeClass('is-valid').addClass('is-invalid');
+        $('#btnRegistrar').prop('disabled', true); 
+    } else {
+        $('#Correo').removeClass('is-invalid').addClass('is-valid');
+        $('#btnRegistrar').prop('disabled', false);
     }
+}
 
 $('#Direccion').on('input', function () {
     validateDireccion();
