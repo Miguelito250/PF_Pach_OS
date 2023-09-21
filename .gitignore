@@ -1,3 +1,4 @@
+
 ﻿################################################################################
 # Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
 ################################################################################
@@ -37,3 +38,7 @@ PF_Pach_OS/.vs/PF_Pach_OS/FileContentIndex/839ce05c-cd1e-4d20-bd6c-aa45dc2150a5.
 PF_Pach_OS/.vs/PF_Pach_OS/FileContentIndex/6fdc5161-39fc-429d-8516-ed7662a8fabb.vsidx
 PF_Pach_OS/.vs/PF_Pach_OS/FileContentIndex/237bf206-8fe2-4f68-afff-dff6d1f781b9.vsidx
 PF_Pach_OS/.vs/PF_Pach_OS/DesignTimeBuild/.dtbcache.v2
+# appesetings ignore 
+\appsettings.json
+/PF_Pach_OS/appsettings.json
+
