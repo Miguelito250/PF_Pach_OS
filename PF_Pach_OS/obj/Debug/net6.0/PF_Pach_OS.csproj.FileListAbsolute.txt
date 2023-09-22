@@ -1041,3 +1041,4 @@ C:\Users\vamil\OneDrive\Escritorio\Progrmacion\SENA\Proyecto Formativo Pach_OS\P
 C:\Users\vamil\OneDrive\Escritorio\Progrmacion\SENA\Proyecto Formativo Pach_OS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\vamil\OneDrive\Escritorio\Progrmacion\SENA\Proyecto Formativo Pach_OS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\runtimes\win-x86\native\e_sqlite3.dll
 C:\Users\vamil\OneDrive\Escritorio\Progrmacion\SENA\Proyecto Formativo Pach_OS\PF_Pach_OS\PF_Pach_OS\obj\Debug\net6.0\PF_Pach_OS.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\vamil\OneDrive\Escritorio\Progrmacion\SENA\Proyecto Formativo Pach_OS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\appsettings.json
