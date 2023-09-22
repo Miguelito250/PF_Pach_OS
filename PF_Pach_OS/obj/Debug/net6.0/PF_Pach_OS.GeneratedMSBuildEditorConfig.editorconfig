@@ -16,6 +16,74 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\vamil\OneDrive\Escritorio\Progrmacion\SENA\Proyecto Formativo Pach_OS\PF_Pach_OS\PF_Pach_OS
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/ConfirmEmail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxDb25maXJtRW1haWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Logout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Manage/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcQ2hhbmdlUGFzc3dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX01hbmFnZU5hdi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Compras/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcHJhc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/DetalleCompra/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV0YWxsZUNvbXByYVxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/DetalleCompra/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV0YWxsZUNvbXByYVxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -24,12 +92,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Productos/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXENyZWF0ZS5jc2h0bWw=
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Insumos/Editar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdW1vc1xFZGl0YXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Productos/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXERlbGV0ZS5jc2h0bWw=
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Insumos/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdW1vc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Productos/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Productos/Details.cshtml]
@@ -44,28 +116,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Recetas/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXRhc1xDcmVhdGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Recetas/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXRhc1xEZWxldGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Recetas/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXRhc1xEZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Recetas/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXRhc1xFZGl0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Recetas/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXRhc1xJbmRleC5jc2h0bWw=
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Roles/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/vamil/OneDrive/Escritorio/Progrmacion/SENA/Proyecto Formativo Pach_OS/PF_Pach_OS/PF_Pach_OS/Views/Shared/_Navbar.cshtml]
