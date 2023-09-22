@@ -1,9 +1,7 @@
-
-﻿################################################################################
 # Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
 ################################################################################
 
-/PF_Pach_OS/appsettings.json
+
 /PF_Pach_OS/Views/Productos/AAAA.cshtml
 /PF_Pach_OS/Views/Productos/AAAA.cshtml.cs
 PF_Pach_OS/obj/Debug/net6.0/staticwebassets.development.json
