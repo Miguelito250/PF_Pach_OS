@@ -8221,6 +8221,14 @@
       "PackagePath": "staticwebassets\\adminLTE\\plugins\\uplot\\uPlot.min.css"
     },
     {
+      "Id": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Compras.css",
+      "PackagePath": "staticwebassets\\css\\Compras.css"
+    },
+    {
+      "Id": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Login-roles-permisos\\Login.css",
+      "PackagePath": "staticwebassets\\css\\Login-roles-permisos\\Login.css"
+    },
+    {
       "Id": "C:\\Users\\vamil\\OneDrive\\Escritorio\\Progrmacion\\SENA\\Proyecto Formativo Pach_OS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Productos.css",
       "PackagePath": "staticwebassets\\css\\Productos.css"
     },
