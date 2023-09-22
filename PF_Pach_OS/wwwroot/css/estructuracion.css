@@ -12,6 +12,7 @@ aside {
     height: 5vh !important;
 }
 
+
 .content-wrapper {
     background-color: #eeeeee;
     overflow: auto;
@@ -58,9 +59,9 @@ aside {
     width: 115%;
 }
 
-.activo:hover {
-    color: #000;
-}
+    .activo:hover {
+        color: #000;
+    }
 
 .contenedor-configuracion {
     background-color: #4E2B19;
@@ -82,5 +83,4 @@ aside {
     color: #FFF;
     text-align: center;
     border: none;
-    width: 150px;
 }

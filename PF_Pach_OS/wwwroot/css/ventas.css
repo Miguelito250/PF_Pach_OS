@@ -1,0 +1,46 @@
+﻿.info-arriba{
+    display: flex;
+}
+
+.botones-detallesVentas{
+    border: none;
+    background-color: #fff;
+}
+
+.info-general{
+    display:grid;
+    grid-template-columns: repeat(2, 300px);
+}
+
+.lista-detalles{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.tamano-input {
+    width: 25%;
+    height: 20px;
+    border: none;
+    border-bottom: 1px solid #000;
+}
+
+.tamano-input:active, .tamano-input:focus {
+    outline: none;
+    border: none;
+    background: none;
+    box-shadow: none;
+    border-bottom: 1px solid #000;
+}
+
+.estilo-select {
+    all: unset;
+    -webkit-appearance: menulist;
+    -moz-appearance: menulist;
+    appearance: menulist;
+    
+}
+
+.formulario-detalles{
+    padding: 0 0 0 2%;
+}
