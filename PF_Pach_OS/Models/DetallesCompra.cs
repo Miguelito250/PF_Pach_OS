@@ -7,7 +7,7 @@ namespace PF_Pach_OS.Models
 {
     public partial class DetallesCompra
     {
-        
+
         public int IdDetallesCompra { get; set; }
         [Required(ErrorMessage = "Este campo es obligatorio")]
         public int? PrecioInsumo { get; set; }
