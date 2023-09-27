@@ -310,7 +310,8 @@ namespace PF_Pach_OS.Models
                 entity.HasOne(d => d.IdVentaNavigation)
                     .WithMany(p => p.DetalleVenta)
                     .HasForeignKey(d => d.IdVenta)
-                    .HasConstraintName("FK__detalleVe__id_ve__5070F446");
+                    .HasConstraintName("FK__detalleVe__id_ve__5070F446")
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<DetallesCompra>(entity =>

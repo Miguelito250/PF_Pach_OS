@@ -7,5 +7,3 @@ $(document).on("click", "#boton-detalles", function () {
 
     modalBody.load(url);
 });
-
-
