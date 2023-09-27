@@ -24,13 +24,19 @@ namespace PF_Pach_OS.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "NomProducto");
+            var ventasNulas = _context.Ventas.FirstOrDefault(v => v.TipoPago == null);
 
-            var pach_OSContext = _context.DetalleVentas
-                .Include(d => d.IdVentaNavigation)
-                .Include(d => d.IdProductoNavigation);
+            if (ventasNulas != null)
+            {
+                CancelarVenta(ventasNulas.IdVenta);
+            }
+
+            var pach_OSContext = _context.Ventas
+                .OrderByDescending(v => v.FechaVenta);
+
             return View(await pach_OSContext.ToListAsync());
         }
-        
+
         public IActionResult Crear(int IdVenta)
         {
             var DetallesVentas = _context.DetalleVentas
@@ -39,13 +45,15 @@ namespace PF_Pach_OS.Controllers
 
             ViewBag.IdVenta = IdVenta;
             ViewData["DetallesVentas"] = DetallesVentas;
-            ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "NomProducto");
+            ViewData["IdProducto"] = new SelectList(_context.Productos.
+                Where(p => p.Estado == 1),
+                "IdProducto", "NomProducto");
 
             Tuple<DetalleVenta, Venta> Venta_Detalle = new(new DetalleVenta(), new Venta());
             return View(Venta_Detalle);
         }
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearVenta([Bind("IdVenta")] Venta venta)
@@ -55,7 +63,7 @@ namespace PF_Pach_OS.Controllers
                 _context.Add(venta);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Crear", "Ventas", new { venta.IdVenta});
+                return RedirectToAction("Crear", "Ventas", new { venta.IdVenta });
             }
             ViewData["IdEmpleado"] = new SelectList(_context.Empleados, "IdEmpleado", "IdEmpleado", venta.IdEmpleado);
             return NotFound();
@@ -69,9 +77,58 @@ namespace PF_Pach_OS.Controllers
             {
                 try
                 {
-                    venta.Estado = "Pendiente";
-                    _context.Update(venta);
-                    await _context.SaveChangesAsync();
+
+                    var ventaVacia = _context.DetalleVentas
+                        .SingleOrDefault(d => d.IdVenta == venta.IdVenta);
+
+                    if(ventaVacia == null)
+                    {
+                        return RedirectToAction("Crear", "Ventas", new { venta.IdVenta });
+                    }
+                    
+
+                    if (venta.Pago < venta.TotalVenta || venta.Pago == null)
+                    {
+                        ViewBag.ValidacionPago = "El pago debe de ser mayor al total de la venta";
+                        return RedirectToAction("Crear", "Ventas", new { venta.IdVenta });
+                    }
+                    else
+                    {
+
+                        venta.Estado = "Pendiente";
+                        _context.Update(venta);
+
+                        var detallesVenta = _context.DetalleVentas
+                            .Where(v => v.IdVenta == venta.IdVenta)
+                            .ToList();
+
+                        
+                        foreach (var detalle in detallesVenta)
+                        {
+                            int? cantidadDisminuir = 0;
+                            var recetaProducto = _context.Recetas
+                                .Where(r => r.IdProducto == detalle.IdProducto)
+                                .ToList();
+
+                            foreach (var detalleReceta in recetaProducto)
+                            {
+                                cantidadDisminuir = detalleReceta.CantInsumo * detalle.CantVendida;
+
+                                var consultaInsumos = _context.Insumos
+                                    .SingleOrDefault(i => i.IdInsumo == detalleReceta.IdInsumo);
+
+                                int? cantidadInsumo = consultaInsumos.CantInsumo;
+
+                                int? insumoDisminuido = cantidadInsumo - cantidadDisminuir;
+
+                                consultaInsumos.CantInsumo = insumoDisminuido;
+
+                                _context.Update(consultaInsumos);
+
+                            }
+                        }
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -90,6 +147,22 @@ namespace PF_Pach_OS.Controllers
             return View(venta);
         }
 
+        public IActionResult CancelarVenta(int IdVenta)
+        {
+            var ventaCancelar = _context.Ventas.SingleOrDefault(v => v.IdVenta == IdVenta);
+            if (ventaCancelar != null)
+            {
+                _context.Ventas.Remove(ventaCancelar);
+                _context.SaveChanges();
+                Console.WriteLine("Venta cancelada");
+            }
+            else
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction("Index", "Ventas");
+        }
         public async Task<IActionResult> DetallesVentas(int? IdVenta)
         {
             if (IdVenta == null)
@@ -115,7 +188,7 @@ namespace PF_Pach_OS.Controllers
                 return NotFound();
             }
             return View(detallesVentas);
-            
+
         }
 
         public async Task<IActionResult> CambiarEstado(int IdVenta)
@@ -135,13 +208,13 @@ namespace PF_Pach_OS.Controllers
             }
 
             estadoVenta.Estado = cambioEstado;
-            _context.Update(estadoVenta); 
+            _context.Update(estadoVenta);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Ventas");
         }
         private bool VentaExists(int id)
         {
-          return (_context.Ventas?.Any(e => e.IdVenta == id)).GetValueOrDefault();
+            return (_context.Ventas?.Any(e => e.IdVenta == id)).GetValueOrDefault();
         }
     }
 }

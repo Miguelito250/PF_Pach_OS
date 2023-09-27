@@ -1,4 +1,6 @@
-﻿function CalcularCambio() {
+﻿console.log("toy dentro")
+
+function CalcularCambio() {
     let totalVenta = document.getElementById('totalVenta').textContent;
     var pago = document.getElementById('pago').textContent;
 
@@ -13,7 +15,6 @@ function InsertarCambio(cambio) {
 function InsertarId() {
     var idVenta = document.getElementById("IdVenta").textContent;
     var modal_header = document.getElementById("titulo-modal")
-    console.log(idVenta)
     tituloModal = "Registro de Venta Nro: " + idVenta;
     modal_header.innerHTML = tituloModal;
 }

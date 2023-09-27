@@ -247,7 +247,7 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnName("nom_categoria");
 
                     b.HasKey("IdCategoria")
-                        .HasName("PK__categori__CD54BC5AC013A8AC");
+                        .HasName("PK__categori__CD54BC5AB649B0E9");
 
                     b.ToTable("categorias", (string)null);
                 });
@@ -280,7 +280,7 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnName("total");
 
                     b.HasKey("IdCompra")
-                        .HasName("PK__compras__C4BAA6043CD63BFB");
+                        .HasName("PK__compras__C4BAA604A7DD9276");
 
                     b.HasIndex("IdProveedor");
 
@@ -297,6 +297,7 @@ namespace PF_Pach_OS.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdDetallesCompra"), 1L, 1);
 
                     b.Property<int?>("Cantidad")
+                        .IsRequired()
                         .HasColumnType("int")
                         .HasColumnName("cantidad");
 
@@ -309,17 +310,16 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnName("id_insumo");
 
                     b.Property<string>("Medida")
-                        .HasMaxLength(20)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(20)")
-                        .HasColumnName("medida");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PrecioInsumo")
+                        .IsRequired()
                         .HasColumnType("int")
                         .HasColumnName("precio_insumo");
 
                     b.HasKey("IdDetallesCompra")
-                        .HasName("PK__detalles__905DB0ED54001F5C");
+                        .HasName("PK__detalles__905DB0ED175A41C9");
 
                     b.HasIndex("IdCompra");
 
@@ -354,7 +354,7 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnName("precio");
 
                     b.HasKey("IdDetalleVenta")
-                        .HasName("PK__detalleV__3C2E445C48FCB97E");
+                        .HasName("PK__detalleV__3C2E445CAC618977");
 
                     b.HasIndex("IdProducto");
 
@@ -397,9 +397,9 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnName("correo");
 
                     b.Property<string>("Estado")
-                        .HasMaxLength(20)
+                        .HasMaxLength(10)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(20)")
+                        .HasColumnType("varchar(10)")
                         .HasColumnName("estado");
 
                     b.Property<string>("Nombre")
@@ -421,7 +421,7 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnName("tipo_documento");
 
                     b.HasKey("IdEmpleado")
-                        .HasName("PK__empleado__88B5139483CC8B74");
+                        .HasName("PK__empleado__88B513941CE0EF7C");
 
                     b.ToTable("empleados", (string)null);
                 });
@@ -452,7 +452,7 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnName("nom_insumo");
 
                     b.HasKey("IdInsumo")
-                        .HasName("PK__insumos__D4F202B1297E3169");
+                        .HasName("PK__insumos__D4F202B1AE226FBC");
 
                     b.ToTable("insumos", (string)null);
                 });
@@ -488,7 +488,7 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnName("precio_venta");
 
                     b.HasKey("IdProducto")
-                        .HasName("PK__producto__FF341C0DF0AEECF5");
+                        .HasName("PK__producto__FF341C0DAD2F40EB");
 
                     b.HasIndex("IdCategoria");
 
@@ -507,16 +507,10 @@ namespace PF_Pach_OS.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProveedor"), 1L, 1);
 
                     b.Property<string>("Correo")
-                        .HasMaxLength(30)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(30)")
-                        .HasColumnName("correo");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Direccion")
-                        .HasMaxLength(30)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(30)")
-                        .HasColumnName("direccion");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Estado")
                         .HasColumnType("int");
@@ -534,13 +528,10 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnName("nom_local");
 
                     b.Property<string>("Telefono")
-                        .HasMaxLength(30)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(30)")
-                        .HasColumnName("telefono");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdProveedor")
-                        .HasName("PK__proveedo__8D3DFE281562B3BA");
+                        .HasName("PK__proveedo__8D3DFE288859DED1");
 
                     b.ToTable("proveedores", (string)null);
                 });
@@ -567,7 +558,7 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnName("id_producto");
 
                     b.HasKey("IdReceta")
-                        .HasName("PK__recetas__11DB53AB771D52E7");
+                        .HasName("PK__recetas__11DB53ABAE38FAD1");
 
                     b.HasIndex("IdInsumo");
 
@@ -600,7 +591,7 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnName("tamano");
 
                     b.HasKey("IdTamano")
-                        .HasName("PK__tamanos__073FB91C101651A2");
+                        .HasName("PK__tamanos__073FB91C364ED960");
 
                     b.ToTable("tamanos", (string)null);
                 });
@@ -649,7 +640,7 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnName("total_venta");
 
                     b.HasKey("IdVenta")
-                        .HasName("PK__ventas__459533BF1E99A8D0");
+                        .HasName("PK__ventas__459533BF24E19040");
 
                     b.HasIndex("IdEmpleado");
 
@@ -685,63 +676,12 @@ namespace PF_Pach_OS.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("PF_Pach_OS.Models.Compra", b =>
                 {
                     b.HasOne("PF_Pach_OS.Models.Proveedore", "IdProveedorNavigation")
                         .WithMany("Compras")
                         .HasForeignKey("IdProveedor")
-                        .HasConstraintName("FK__compras__id_prov__6D0D32F4");
+                        .HasConstraintName("FK__compras__id_prov__4CA06362");
 
                     b.Navigation("IdProveedorNavigation");
                 });
@@ -751,12 +691,12 @@ namespace PF_Pach_OS.Migrations
                     b.HasOne("PF_Pach_OS.Models.Compra", "IdCompraNavigation")
                         .WithMany("DetallesCompras")
                         .HasForeignKey("IdCompra")
-                        .HasConstraintName("FK__detalles___id_co__72C60C4A");
+                        .HasConstraintName("FK__detalles___id_co__4D94879B");
 
                     b.HasOne("PF_Pach_OS.Models.Insumo", "IdInsumoNavigation")
                         .WithMany("DetallesCompras")
                         .HasForeignKey("IdInsumo")
-                        .HasConstraintName("FK__detalles___id_in__71D1E811");
+                        .HasConstraintName("FK__detalles___id_in__4E88ABD4");
 
                     b.Navigation("IdCompraNavigation");
 
@@ -768,12 +708,13 @@ namespace PF_Pach_OS.Migrations
                     b.HasOne("PF_Pach_OS.Models.Producto", "IdProductoNavigation")
                         .WithMany("DetalleVenta")
                         .HasForeignKey("IdProducto")
-                        .HasConstraintName("FK__detalleVe__id_pr__04E4BC85");
+                        .HasConstraintName("FK__detalleVe__id_pr__4F7CD00D");
 
                     b.HasOne("PF_Pach_OS.Models.Venta", "IdVentaNavigation")
                         .WithMany("DetalleVenta")
                         .HasForeignKey("IdVenta")
-                        .HasConstraintName("FK__detalleVe__id_ve__05D8E0BE");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("FK__detalleVe__id_ve__5070F446");
 
                     b.Navigation("IdProductoNavigation");
 
@@ -785,12 +726,12 @@ namespace PF_Pach_OS.Migrations
                     b.HasOne("PF_Pach_OS.Models.Categoria", "IdCategoriaNavigation")
                         .WithMany("Productos")
                         .HasForeignKey("IdCategoria")
-                        .HasConstraintName("FK__productos__id_ca__7A672E12");
+                        .HasConstraintName("FK__productos__id_ca__5165187F");
 
                     b.HasOne("PF_Pach_OS.Models.Tamano", "IdTamanoNavigation")
                         .WithMany("Productos")
                         .HasForeignKey("IdTamano")
-                        .HasConstraintName("FK__productos__id_ta__797309D9");
+                        .HasConstraintName("FK__productos__id_ta__52593CB8");
 
                     b.Navigation("IdCategoriaNavigation");
 
@@ -802,12 +743,12 @@ namespace PF_Pach_OS.Migrations
                     b.HasOne("PF_Pach_OS.Models.Insumo", "IdInsumoNavigation")
                         .WithMany("Receta")
                         .HasForeignKey("IdInsumo")
-                        .HasConstraintName("FK__recetas__id_insu__7E37BEF6");
+                        .HasConstraintName("FK__recetas__id_insu__534D60F1");
 
                     b.HasOne("PF_Pach_OS.Models.Producto", "IdProductoNavigation")
                         .WithMany("Receta")
                         .HasForeignKey("IdProducto")
-                        .HasConstraintName("FK__recetas__id_prod__7D439ABD");
+                        .HasConstraintName("FK__recetas__id_prod__5441852A");
 
                     b.Navigation("IdInsumoNavigation");
 
@@ -819,7 +760,7 @@ namespace PF_Pach_OS.Migrations
                     b.HasOne("PF_Pach_OS.Models.Empleado", "IdEmpleadoNavigation")
                         .WithMany("Venta")
                         .HasForeignKey("IdEmpleado")
-                        .HasConstraintName("FK__ventas__id_emple__02084FDA");
+                        .HasConstraintName("FK__ventas__id_emple__5535A963");
 
                     b.Navigation("IdEmpleadoNavigation");
                 });
