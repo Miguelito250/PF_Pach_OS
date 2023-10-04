@@ -21,6 +21,7 @@ namespace PF_Pach_OS.Controllers
             _context = context;
         }
 
+        //Vista para listar la informacion de ventas
         public async Task<IActionResult> Index()
         {
             ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "NomProducto");
@@ -37,6 +38,7 @@ namespace PF_Pach_OS.Controllers
             return View(await pach_OSContext.ToListAsync());
         }
 
+        //Funcion para redirigir con los datos necesarios a la vista de registrar los detalles de venta
         public IActionResult Crear(int IdVenta)
         {
             var DetallesVentas = _context.DetalleVentas
@@ -53,7 +55,7 @@ namespace PF_Pach_OS.Controllers
             return View(Venta_Detalle);
         }
 
-
+        //Funcion para crear la venta vacia para poder asignarle su detalle de venta
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearVenta([Bind("IdVenta")] Venta venta)
@@ -69,6 +71,8 @@ namespace PF_Pach_OS.Controllers
             return NotFound();
         }
 
+
+        //Funcion para confirmar la venta y hacer la disminuicion de insumos
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ConfirmarVenta([Bind("IdVenta,FechaVenta,TotalVenta,TipoPago,Pago,PagoDomicilio,IdEmpleado,Estado")] Venta venta)
@@ -119,11 +123,19 @@ namespace PF_Pach_OS.Controllers
 
                                 int? cantidadInsumo = consultaInsumos.CantInsumo;
 
-                                int? insumoDisminuido = cantidadInsumo - cantidadDisminuir;
+                                if (cantidadDisminuir < cantidadInsumo)
+                                {
+                                    int? insumoDisminuido = cantidadInsumo - cantidadDisminuir;
 
-                                consultaInsumos.CantInsumo = insumoDisminuido;
+                                    consultaInsumos.CantInsumo = insumoDisminuido;
 
-                                _context.Update(consultaInsumos);
+                                    _context.Update(consultaInsumos);
+                                }
+                                else
+                                {
+                                    ViewBag.MensajeAlerta = "No hay suficientes insumos";
+                                }
+
 
                             }
                         }
@@ -147,6 +159,7 @@ namespace PF_Pach_OS.Controllers
             return View(venta);
         }
 
+        //Funcion para cancelar la venta en caso de que ya no se vaya a registrar
         public IActionResult CancelarVenta(int IdVenta)
         {
             var ventaCancelar = _context.Ventas.SingleOrDefault(v => v.IdVenta == IdVenta);
@@ -163,6 +176,8 @@ namespace PF_Pach_OS.Controllers
 
             return RedirectToAction("Index", "Ventas");
         }
+
+        //Funcion para conultar los detalles de las ventas en el index de ventas
         public async Task<IActionResult> DetallesVentas(int? IdVenta)
         {
             if (IdVenta == null)
@@ -191,6 +206,7 @@ namespace PF_Pach_OS.Controllers
 
         }
 
+        //Funcion para cambiar de estado de la venta a pagado o a pendiente
         public async Task<IActionResult> CambiarEstado(int IdVenta)
         {
             var cambioEstado = "";
