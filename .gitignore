@@ -41,3 +41,7 @@ PF_Pach_OS/.vs/PF_Pach_OS/DesignTimeBuild/.dtbcache.v2
 /PF_Pach_OS/appsettings.json
 
 *.vsidx
+*.json
+*.vsidx
+*.props
+*.editorconfig
