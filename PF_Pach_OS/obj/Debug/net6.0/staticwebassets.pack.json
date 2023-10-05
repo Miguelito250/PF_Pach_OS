@@ -8253,6 +8253,10 @@
       "PackagePath": "staticwebassets\\css\\ventas.css"
     },
     {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Login-RecuperarContraseña\\Login.js",
+      "PackagePath": "staticwebassets\\js\\Login-RecuperarContraseña\\Login.js"
+    },
+    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Proveedores\\Proveedore.js",
       "PackagePath": "staticwebassets\\js\\Proveedores\\Proveedore.js"
     },

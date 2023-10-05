@@ -73,7 +73,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             public string EntryDay { get; set; }
 
             [Required]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "Por favor, ingrese una dirección de correo electrónico válida.")]
             [Display(Name = "Correo")]
             public string Email { get; set; }
 

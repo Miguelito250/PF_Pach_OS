@@ -43,11 +43,13 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "Por favor, ingrese una dirección de correo electrónico válida.")]
             public string Email { get; set; }
+
 
             [Required]
             [DataType(DataType.Password)]
+            [MinLength(6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres.")]
             public string Password { get; set; }
 
             [Display(Name = "Remember me?")]
