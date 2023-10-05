@@ -1,11 +1,13 @@
 ﻿@model IEnumerable<PF_Pach_OS.Models.Producto>
-
+<link href="~/css/compras.css" rel="stylesheet" />
 @{
     ViewData["Title"] = "Index";
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    
 }
 
-<form asp-action="Create" method="post">
+<input type="text" class="buscador" id="searchInput" placeholder="Buscar" aria-label="Buscar" aria-describedby="search-addon">
+
+<form asp-action="Crear" method="post">
     <button type="submit" class="btn-crear-posicion estilo-btn-naranja">Crear Producto</button>
 </form>
 
@@ -29,36 +31,26 @@
                         <td>@Html.DisplayFor(modelItem => item.PrecioVenta)</td>
                         <td>@Html.DisplayFor(modelItem => item.Estado)</td>
                         <td>
-                            @if (item.Estado == 0)
+                            <a asp-action="CrearInformacionFormulario" asp-route-IdProducto="@item.IdProducto">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="orange" class="bi bi-pen-fill" viewBox="0 0 16 16">
+                                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z" />
+                                </svg>
+                            </a>
+                            @if (item.Estado != 0)
                             {
-                                <form asp-action="Disable" asp-route-id="@item.IdProducto" method="post" class="align-self-end">
-                                    <a asp-action="Details" asp-route-IdProducto="@item.IdProducto">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="orange" class="bi bi-pen-fill" viewBox="0 0 16 16">
-                                            <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z" />
-                                        </svg>
-                                    </a>
-                                    <button type="submit" class="btn btn-link">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill" viewBox="0 0 16 16">
-                                            <circle cx="8" cy="8" r="8" />
-                                        </svg>
-                                    </button>
-
-                                </form>
+                                <a asp-action="Eliminar" asp-route-id="@item.IdProducto" class="btn btn-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                        <circle cx="8" cy="8" r="8" />
+                                    </svg>
+                                </a>
                             }
                             else
                             {
-                                <form asp-action="Enable" asp-route-id="@item.IdProducto" method="post" class="align-self-end">
-                                    <a asp-action="Details" asp-route-IdProducto="@item.IdProducto">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="orange" class="bi bi-pen-fill" viewBox="0 0 16 16">
-                                            <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z" />
-                                        </svg>
-                                    </a>
-                                    <button type="submit" class="btn btn-link">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-circle-fill" viewBox="0 0 16 16">
-                                            <circle cx="8" cy="8" r="8" />
-                                        </svg>
-                                    </button>
-                                </form>
+                                <a asp-action="Habilitar" asp-route-id="@item.IdProducto" class="btn btn-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                        <circle cx="8" cy="8" r="8" />
+                                    </svg>
+                                </a>
                             }
                         </td>
                     </tr>
@@ -73,36 +65,26 @@
                         <td>@Html.DisplayFor(modelItem => item.PrecioVenta)</td>
                         <td>@Html.DisplayFor(modelItem => item.Estado)</td>
                         <td>
-                            @if (item.Estado == 0)
+                            <a asp-action="CrearInformacionFormulario" asp-route-IdProducto="@item.IdProducto">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="orange" class="bi bi-pen-fill" viewBox="0 0 16 16">
+                                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z" />
+                                </svg>
+                            </a>
+                            @if (item.Estado != 0)
                             {
-                                <form asp-action="Disable" asp-route-id="@item.IdProducto" method="post" class="align-self-end">
-                                    <a asp-action="Details" asp-route-IdProducto="@item.IdProducto">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-pen-fill" viewBox="0 0 16 16">
-                                            <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z" />
-                                        </svg>
-                                    </a>
-                                    <button type="submit" class="btn btn-link">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill" viewBox="0 0 16 16">
-                                            <circle cx="8" cy="8" r="8" />
-                                        </svg>
-                                    </button>
-
-                                </form>
+                                <a asp-action="Eliminar" asp-route-id="@item.IdProducto" class="btn btn-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                        <circle cx="8" cy="8" r="8" />
+                                    </svg>
+                                </a>
                             }
                             else
                             {
-                                <form asp-action="Enable" asp-route-id="@item.IdProducto" method="post" class="align-self-end">
-                                    <a asp-action="Details" asp-route-IdProducto="@item.IdProducto">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-pen-fill" viewBox="0 0 16 16">
-                                            <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z" />
-                                        </svg>
-                                    </a>
-                                    <button type="submit" class="btn btn-link">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-circle-fill" viewBox="0 0 16 16">
-                                            <circle cx="8" cy="8" r="8" />
-                                        </svg>
-                                    </button>
-                                </form>
+                                <a asp-action="Habilitar" asp-route-id="@item.IdProducto" class="btn btn-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                        <circle cx="8" cy="8" r="8" />
+                                    </svg>
+                                </a>
                             }
                         </td>
                     </tr>
@@ -111,6 +93,42 @@
         </tbody>
     </table>
 </div>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var searchInput = $('#searchInput');
+
+        // Manejar el evento de cambio en el campo de búsqueda mientras se escribe
+        $('#searchInput').on('input', function () {
+            var searchText = $(this).val().trim().toLowerCase();
+
+            // Filtrar las filas de la tabla que coincidan con la búsqueda
+            $('tbody tr').each(function () {
+                var purchaseDate = $(this).find('td:eq(1)').text().trim().toLowerCase();
+                var provider = $(this).find('td:eq(0)').text().trim().toLowerCase();
+                if (
+                    purchaseDate.includes(searchText) ||
+                    provider.includes(searchText)
+                ) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+        // Restablecer el placeholder cuando se borre el contenido o se pierda el foco
+        searchInput.on('blur', function () {
+            if ($(this).val().trim() === '') {
+                $(this).addClass('empty');
+            }
+        });
+
+        searchInput.on('focus', function () {
+            $(this).removeClass('empty');
+        });
+    });
+</script>
 
 
 

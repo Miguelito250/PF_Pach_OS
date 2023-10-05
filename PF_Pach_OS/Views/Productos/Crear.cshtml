@@ -1,7 +1,7 @@
 ﻿@model PF_Pach_OS.Models.CreateViewModel
 
 @{
-    ViewData["Title"] = "Crear";
+    ViewData["Title"] = "Actualizar";
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 }
@@ -28,7 +28,7 @@
 
                 }
                 <div class="invalid-feedback"></div>
-                <div class="valid-feedback">¡Todo bien!</div>
+                
             </div>
 
             <div class="form-group">
@@ -45,18 +45,18 @@
 
                 }
                 <div class="invalid-feedback"></div>
-                <div class="valid-feedback">¡Todo bien!</div>
+                
             </div>
 
             <div class="form-group">
                 <label asp-for="Producto.IdCategoria" class="form-label">Categoria</label>
                 <select class="form-select" id="Producto_IdCategoria" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria" required>
-                    @if (ViewBag.SelectCID == null)
+                    @if (ViewBag.SelectCategoriaID == null)
                     {
                         <option disabled selected>Seleccione una categoria</option>
 
                     }else{
-                        <option value="@ViewBag.SelectCID">@ViewBag.SelectC</option>
+                        <option value="@ViewBag.SelectCategoriaID">@ViewBag.SelectCategoria</option>
 
                     }
                 </select>
@@ -68,15 +68,23 @@
             <div id="Tamano_Oculto" class="d-none form-group">
                 <label asp-for="Producto.IdTamano" class="form-label">Tamaño</label>
                 <select class="form-select" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
-                    <option disabled selected>Seleccione una tamaño</option>
-                    <option value="@ViewBag.SelectTID">@ViewBag.SelectT</option>
+                    @if (ViewBag.SelectTamanoID == null)
+                    {
+                        <option disabled selected>Seleccione un Tamaño</option>
+
+                    }
+                    else
+                    {
+                        <option value="@ViewBag.SelectTamanoID">@ViewBag.SelectTamano</option>
+
+                    }
                 </select>
 
                 <div class="invalid-feedback">Selecione un tamaño por favor.</div>
-                <div class="valid-feedback">¡Todo bien!</div>
+                
             </div>
         <div class="col">
-            <input type="submit" asp-action="Crear" asp-controller="Productos" class="col-6 botones-agregar btn btn-success w-auto" value="Terminar Producto" />
+            <input type="submit" asp-action="Actualizar" asp-controller="Productos" class="col-6 botones-agregar btn btn-success w-auto" value="Terminar Producto" />
             <a asp-action="Index" asp-controller="Productos" class="col-6 btn btn-outline-danger">Cancelar</a>
         </div>
         </form>
@@ -106,17 +114,17 @@
                         }
                     </select>
                     <div class="invalid-feedback"></div>
-                    <div class="valid-feedback">¡Todo bien!</div>
+                    
                 </div>
 
                 <div class="col-3">
                     <input class="input-campo form-control" asp-for="Receta.CantInsumo" type="number" placeholder="Cantidad" required>
                     <div class="invalid-feedback"></div>
-                    <div class="valid-feedback">¡Todo bien!</div>
+                    
                 </div>
 
                 <div class="col-3">
-                    <button type="submit" asp-action="Create" asp-controller="Recetas" class="form-control btn btn-primary botones-agregar"> Agregar </button>
+                    <button type="submit" asp-action="Crear" asp-controller="Recetas" class="form-control btn btn-primary botones-agregar"> Agregar </button>
                 </div>
             </form>
         </div>
@@ -149,7 +157,7 @@
                                     <td>@recetaConInsumo.CantInsumo</td>
                                     <td>@recetaConInsumo.Medida</td>
                                     <td>
-                                        <a asp-action="Delete" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Remover</a>
+                                        <a asp-action="Eliminar" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Remover</a>
                                     </td>
                                 }
 

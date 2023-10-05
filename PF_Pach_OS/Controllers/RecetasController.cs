@@ -1,4 +1,6 @@
-﻿using System;
+﻿//Autor: Juan Andres Navarro Herrera
+//Fecha se reación: 10 de agosto del 2023
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,54 +20,17 @@ namespace PF_Pach_OS.Controllers
             _context = context;
         }
 
-        // GET: Recetas
-        public async Task<IActionResult> Index()
-        {
-            var pach_OSContext = _context.Recetas.Include(r => r.IdInsumoNavigation).Include(r => r.IdProductoNavigation);
-            return View(await pach_OSContext.ToListAsync());
-        }
-
-        // GET: Recetas/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Recetas == null)
-            {
-                return NotFound();
-            }
-
-            var receta = await _context.Recetas
-                .Include(r => r.IdInsumoNavigation)
-                .Include(r => r.IdProductoNavigation)
-                .FirstOrDefaultAsync(m => m.IdReceta == id);
-            if (receta == null)
-            {
-                return NotFound();
-            }
-
-            return View(receta);
-        }
-
-        // POST: Recetas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        
+        //Crea un insumo asosiado(Reseta) a un producto tambien guarda la informacion del producto para mostrarla en el formulario 
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdReceta,CantInsumo,IdProducto,IdInsumo")] Receta receta, [Bind("IdProducto,NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
+        public async Task<IActionResult> Crear([Bind("IdReceta,CantInsumo,IdProducto,IdInsumo")] Receta receta, [Bind("IdProducto,NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
         {
             bool exite = false;
             var recetaActiva = new Receta();
-
-            Console.Write("**************************************************************************************");
-            Console.Write(producto.IdProducto);
-            Console.Write(producto.NomProducto);
-            Console.Write(producto.PrecioVenta);
-
-            Console.Write("**************************************************************************************");
-
             _context.Update(producto);
             await _context.SaveChangesAsync();
 
-            if (!ProductoExists(producto.IdProducto))
+            if (!ExisteElProducto(producto.IdProducto))
             {
                 return NotFound();
             }
@@ -85,21 +50,19 @@ namespace PF_Pach_OS.Controllers
                 recetaActiva.CantInsumo += receta.CantInsumo;
                 _context.Update(recetaActiva);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+                return RedirectToAction("CrearInformacionFormulario", "Productos", new { producto.IdProducto });
             }
             else
             {
                 _context.Add(receta);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+                return RedirectToAction("CrearInformacionFormulario", "Productos", new { producto.IdProducto });
 
             }
         }
 
-
-        // GET: Recetas/Delete/5
-
-        public async Task<IActionResult> Delete(int? id, int IdProducto)
+        //Elimina un insumo asosiado(Reseta) a un producto 
+        public async Task<IActionResult> Eliminar(int? id, int IdProducto)
         {
             if (_context.Recetas == null)
             {
@@ -112,16 +75,14 @@ namespace PF_Pach_OS.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction("Details", "Productos", new { IdProducto });
+            return RedirectToAction("CrearInformacionFormulario", "Productos", new { IdProducto });
         }
 
-        private bool RecetaExists(int id)
-        {
-            return (_context.Recetas?.Any(e => e.IdReceta == id)).GetValueOrDefault();
-        }
-        private bool ProductoExists(int id)
+        //Verifica si el producto que se nesecita existe
+        private bool ExisteElProducto(int id)
         {
             return (_context.Productos?.Any(e => e.IdProducto == id)).GetValueOrDefault();
         }
+
     }
 }

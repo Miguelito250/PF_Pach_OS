@@ -1,4 +1,6 @@
-﻿using System;
+﻿//Autor: Juan Andres Navarro Herrera
+//Fecha se reación: 10 de agosto del 2023
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,13 +20,15 @@ namespace PF_Pach_OS.Controllers
         {
             _context = context;
         }
+
+        // Esta Función Permite eliminar los insumos asosiados a un producto 
         public void Eliminar_Receta(int id_Productos)
         {
-            var resta = _context.Recetas;
+            var reseta = _context.Recetas;
 
-            if (resta != null)
+            if (reseta != null)
             {
-                foreach (var rec in resta)
+                foreach (var rec in reseta)
                 {
                     if (rec.IdProducto == id_Productos)
                     {
@@ -36,7 +40,7 @@ namespace PF_Pach_OS.Controllers
             }
 
         }
-        // GET: Productos
+        // Elimina los regritros que poseean algun campo nulo para que no sea listado, envia una lista ordenada del mas reciente al mas antiguo
         public async Task<IActionResult> Index()
         {
             var pach_OSContext = await _context.Productos.ToListAsync();
@@ -73,7 +77,7 @@ namespace PF_Pach_OS.Controllers
 
 
 
-        // GET: Productos/Create
+        //Envia la informacion del producto que se esta creando o actualizando es ese momento
         public void ProductoActivo(int id)
         {
             var productoActivo = _context.Productos.FirstOrDefault(p => p.IdProducto == id);
@@ -88,13 +92,13 @@ namespace PF_Pach_OS.Controllers
                 {
 
 
-                    ViewBag.SelectC = categoriaActiva.NomCategoria;
-                    ViewBag.SelectCID = categoriaActiva.IdCategoria;
+                    ViewBag.SelectCategoria = categoriaActiva.NomCategoria;
+                    ViewBag.SelectCategoriaID = categoriaActiva.IdCategoria;
                 }
                 if (tamanoActivo != null)
                 {
-                    ViewBag.SelectT = tamanoActivo.NombreTamano;
-                    ViewBag.SelectTID = tamanoActivo.IdTamano;
+                    ViewBag.SelectTamano = tamanoActivo.NombreTamano;
+                    ViewBag.SelectTamanoID = tamanoActivo.IdTamano;
                 }
 
             }
@@ -104,7 +108,10 @@ namespace PF_Pach_OS.Controllers
             }
 
         }
-        public IActionResult Details(int IdProducto)
+
+        // Crea la informacion nesesaria para trabajar un Producto, las resetas ya relacionadas a este, se asosia los id's de resetas con los de insumos
+        //  Tambien se enivia la informacion de las categorias y tamaños en dos selects list 
+        public IActionResult CrearInformacionFormulario(int IdProducto)
         {
 
             ProductoActivo(IdProducto);
@@ -126,23 +133,23 @@ namespace PF_Pach_OS.Controllers
             ViewBag.NombreTamano = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
             ViewBag.Insumo = _context.Insumos;
             ViewBag.IdProducto = IdProducto;
-            return View("Create");
+            return View("Crear");
         }
 
 
-
+        // Crear un producto "vasio" solo con su Id para posteriormente actualizar lo con la informacion nueva 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdProducto")] Producto producto)
+        public async Task<IActionResult> Crear([Bind("IdProducto")] Producto producto)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(producto);
                 await _context.SaveChangesAsync();
 
-                // Redirige a la acción "Crear" con el IdProducto como parámetro en la URL
+                // Redirige a la acción "Actualizar" con el IdProducto como parámetro en la URL
                 ViewBag.IdProducto = producto.IdProducto;
-                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+                return RedirectToAction("CrearInformacionFormulario", "Productos", new { producto.IdProducto });
             }
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
             ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
@@ -153,13 +160,11 @@ namespace PF_Pach_OS.Controllers
             return NotFound();
         }
 
-        // POST: Productos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-
+       
+        // Acutualiza la informacion del Producto asi como la de su reseta
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Crear([Bind("IdProducto, NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
+        public async Task<IActionResult> Actualizar([Bind("IdProducto, NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
         {
             int idPizza = 1;
             var insumo = _context.Recetas;
@@ -194,18 +199,18 @@ namespace PF_Pach_OS.Controllers
 
                 if (existe)
                 {
-                    return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+                    return RedirectToAction("CrearInformacionFormulario", "Productos", new { producto.IdProducto });
 
                 }
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction("Details", "Productos", new { producto.IdProducto, accion = "Create" });
+            return RedirectToAction("CrearInformacionFormulario", "Productos", new { producto.IdProducto, accion = "Crear" });
         }
 
-        // GET: Productos/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        //Toma el producto que se desea editar y lo despliega en un formulario 
+        public async Task<IActionResult> Editar(int? id)
         {
             if (id == null || _context.Productos == null)
             {
@@ -222,12 +227,10 @@ namespace PF_Pach_OS.Controllers
             return View(producto);
         }
 
-        // POST: Productos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //Actualiza la informacion de un proeducto 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProducto,NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
+        public async Task<IActionResult> Editar(int id, [Bind("IdProducto,NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
         {
             if (id != producto.IdProducto)
             {
@@ -243,7 +246,7 @@ namespace PF_Pach_OS.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductoExists(producto.IdProducto))
+                    if (!ExisteElProducto(producto.IdProducto))
                     {
                         return NotFound();
                     }
@@ -259,37 +262,75 @@ namespace PF_Pach_OS.Controllers
             return View(producto);
         }
 
+        //Elimina un producto en caso que que este no se este utilizando en ninguna venta 
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            bool exsite= ExisteEnVentas(id);
+            if (exsite)
+            {
+                Deshabilitar(id);
+            }
+            else
+            {
+                var producto = await _context.Productos.FindAsync(id);
+                if (producto != null)
+                {
+                    Eliminar_Receta(id);
+                    _context.Productos.Remove(producto);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
 
-        [HttpPost]
-        public IActionResult Disable(int id)
+                }
+               
+
+            }
+            return RedirectToAction("Index");
+        }
+        //Habilita un producto que este deshabilitado 
+        public IActionResult Habilitar(int id)
         {
             var producto = _context.Productos.Find(id);
             if (producto != null)
             {
-                producto.Estado = 1; // Deshabilitado
+                producto.Estado = 1; 
                 _context.SaveChanges();
             }
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        public IActionResult Enable(int id)
+
+        //Deshabilita un producto que este habilitado 
+        public IActionResult Deshabilitar(int id)
         {
             var producto = _context.Productos.Find(id);
             if (producto != null)
             {
-                producto.Estado = 0; // Habilitado
+                producto.Estado = 0; 
                 _context.SaveChanges();
             }
             return RedirectToAction("Index");
         }
 
-
-
-
-        private bool ProductoExists(int id)
+        //Verifica si el producto que se nesecita existe
+        private bool ExisteElProducto(int id)
         {
             return (_context.Productos?.Any(e => e.IdProducto == id)).GetValueOrDefault();
+        }
+
+        //Verifica si el producto que se quiere consultar se ha usado en una venta(Detalleventa)
+        private bool ExisteEnVentas(int id)
+        {
+            bool existe = false;
+            var detallesVentas = _context.DetalleVentas;
+            foreach (var detalleVenta in detallesVentas)
+            {
+                if(detalleVenta.IdProducto == id)
+                {
+                    existe = true;
+                    break;
+                }
+            }
+            return existe;
         }
     }
 }
