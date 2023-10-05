@@ -41,7 +41,6 @@ function InsertarFecha() {
 function CalcularSubtotal() {
     var subtotalProducto = 0
 
-    // Obtener todas las filas de detalles
     var filasDetalles = document.querySelectorAll("#detalles-ventas tr");
 
     filasDetalles.forEach(function (fila) {
@@ -56,6 +55,9 @@ function CalcularSubtotal() {
     return subtotalProducto
 }
 
+function ValidarCantidad() {
+
+}
 var boton_domicilio = document.getElementById('domicilio')
 var boton_pago = document.getElementById('pago')
 

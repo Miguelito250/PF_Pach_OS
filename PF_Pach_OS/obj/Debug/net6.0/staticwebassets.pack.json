@@ -8225,6 +8225,10 @@
       "PackagePath": "staticwebassets\\css\\Compras.css"
     },
     {
+      "Id": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\DetalleVenta.css",
+      "PackagePath": "staticwebassets\\css\\DetalleVenta.css"
+    },
+    {
       "Id": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Estilos-generales.css",
       "PackagePath": "staticwebassets\\css\\Estilos-generales.css"
     },
@@ -8251,6 +8255,10 @@
     {
       "Id": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\ventas.css",
       "PackagePath": "staticwebassets\\css\\ventas.css"
+    },
+    {
+      "Id": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\img\\Logo_Empresa.jpg",
+      "PackagePath": "staticwebassets\\img\\Logo_Empresa.jpg"
     },
     {
       "Id": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Proveedores\\Proveedore.js",

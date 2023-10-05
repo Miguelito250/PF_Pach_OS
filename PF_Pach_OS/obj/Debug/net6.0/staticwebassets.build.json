@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "MsSLmbpucjMpt4GCx1SKC7B+FDJ0v0B8raWSDHsBEkA=",
+  "Hash": "krO14X8MCl93Vf7SsAgK+1bY06FXhSm5+IBMnOJzHHo=",
   "Source": "PF_Pach_OS",
   "BasePath": "_content/PF_Pach_OS",
   "Mode": "Default",
@@ -36006,6 +36006,23 @@
       "OriginalItemSpec": "wwwroot\\css\\Compras.css"
     },
     {
+      "Identity": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\DetalleVenta.css",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "css/DetalleVenta.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\DetalleVenta.css"
+    },
+    {
       "Identity": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Estilos-generales.css",
       "SourceId": "PF_Pach_OS",
       "SourceType": "Discovered",
@@ -36123,6 +36140,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\ventas.css"
+    },
+    {
+      "Identity": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\img\\Logo_Empresa.jpg",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "img/Logo_Empresa.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\Logo_Empresa.jpg"
     },
     {
       "Identity": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Proveedores\\Proveedore.js",
