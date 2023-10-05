@@ -5,11 +5,11 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
-    public class Roles : Controller
+    public class RolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public Roles(RoleManager<IdentityRole> roleManager)
+        public RolesController(RoleManager<IdentityRole> roleManager)
         {
             _roleManager = roleManager;
         }

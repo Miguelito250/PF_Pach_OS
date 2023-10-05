@@ -241,6 +241,40 @@ namespace PF_Pach_OS.Models
 
                 b.ToTable("AspNetUserTokens", (string)null);
             });
+            modelBuilder.Entity<Rol>(entity =>
+            {
+                entity.HasKey(e => e.IdRol)
+                    .HasName("PK_roles");
+
+                entity.ToTable("Rol");
+
+                entity.Property(e => e.NomRol)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("nombre_Rol");
+            });
+            modelBuilder.Entity<Permiso>(entity =>
+            {
+                entity.HasKey(e => e.IdPermiso)
+                    .HasName("PK_permisos");
+
+                entity.ToTable("Rol");
+
+                entity.Property(e => e.NomPermiso)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("nombre_Premiso");
+            });
+            modelBuilder.Entity<Permiso_Rol>(entity =>
+            {
+               
+
+                entity.ToTable("roles_permisos");
+
+                entity.Property(e => e.IdRol).HasColumnName("FK_roles_permisos_roles_id_rol");
+                entity.Property(e => e.Id_Permiso).HasColumnName("FK_roles_permisos_permisos_id_permiso");
+            });
+
 
             modelBuilder.Entity<Categoria>(entity =>
             {
