@@ -8281,6 +8281,10 @@
       "PackagePath": "staticwebassets\\js\\Ventas\\Ventas.js"
     },
     {
+      "Id": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\lib\\axios\\axios.min.js",
+      "PackagePath": "staticwebassets\\lib\\axios\\axios.min.js"
+    },
+    {
       "Id": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\lib\\bootstrap\\LICENSE",
       "PackagePath": "staticwebassets\\lib\\bootstrap"
     },

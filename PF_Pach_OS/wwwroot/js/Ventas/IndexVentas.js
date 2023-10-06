@@ -1,6 +1,6 @@
 ﻿function FiltroEstado(filtroSeleccionado) {
     $(document).ready(function () {
-        console.log("Ahora mismo el input esta: ", filtroSeleccionado)
+        
 
         if (filtroSeleccionado == true) {
             estado = "Pagada"

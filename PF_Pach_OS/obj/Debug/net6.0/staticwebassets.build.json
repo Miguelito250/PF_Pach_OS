@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "krO14X8MCl93Vf7SsAgK+1bY06FXhSm5+IBMnOJzHHo=",
+  "Hash": "+CmywflDZgvP43HfhXJJZ1uvXqjKTPSZuEjfOHwI2D0=",
   "Source": "PF_Pach_OS",
   "BasePath": "_content/PF_Pach_OS",
   "Mode": "Default",
@@ -36242,6 +36242,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Ventas\\Ventas.js"
+    },
+    {
+      "Identity": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\lib\\axios\\axios.min.js",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "lib/axios/axios.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\axios\\axios.min.js"
     },
     {
       "Identity": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",

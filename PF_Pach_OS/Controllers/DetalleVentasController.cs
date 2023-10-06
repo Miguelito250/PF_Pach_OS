@@ -1,4 +1,4 @@
-﻿using System;   
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,7 +46,7 @@ namespace PF_Pach_OS.Controllers
                 else
                 {
                     var detalleActualizar = _context.DetalleVentas.Find(productoExistente.IdDetalleVenta);
-                    if(detalleActualizar == null)
+                    if (detalleActualizar == null)
                     {
                         return NotFound();
                     }
@@ -54,7 +54,7 @@ namespace PF_Pach_OS.Controllers
                     {
                         detalleActualizar.CantVendida += detalleVenta.CantVendida;
                     }
-                    
+
                     _context.Update(detalleActualizar);
                     await _context.SaveChangesAsync();
                 }
@@ -66,41 +66,17 @@ namespace PF_Pach_OS.Controllers
             return View(detalleVenta);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdDetalleVenta,CantVendida,Precio,IdVenta,IdProducto")] DetalleVenta detalleVenta)
+        public async Task<object> ConsultarCategoria(int? IdProducto)
         {
-            if (id != detalleVenta.IdDetalleVenta)
+            if (IdProducto == null)
             {
                 return NotFound();
             }
+            var consultarCategoria = await _context.Productos.FindAsync(IdProducto);
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(detalleVenta);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DetalleVentaExists(detalleVenta.IdDetalleVenta))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "IdProducto", detalleVenta.IdProducto);
-            ViewData["IdVenta"] = new SelectList(_context.Ventas, "IdVenta", "IdVenta", detalleVenta.IdVenta);
-            return View(detalleVenta);
+            return consultarCategoria;
         }
 
-        
         public async Task<IActionResult> Delete(int? id)
         {
             var detalleVentas = await _context.DetalleVentas.FindAsync(id);
@@ -108,11 +84,10 @@ namespace PF_Pach_OS.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Crear", "Ventas", new { detalleVentas.IdVenta });
         }
-           
+
         private bool DetalleVentaExists(int id)
         {
-          return (_context.DetalleVentas?.Any(e => e.IdDetalleVenta == id)).GetValueOrDefault();
+            return (_context.DetalleVentas?.Any(e => e.IdDetalleVenta == id)).GetValueOrDefault();
         }
     }
 }
-    
