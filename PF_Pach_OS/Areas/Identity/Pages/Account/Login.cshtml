@@ -30,12 +30,12 @@
         <form id="account" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div>
-                <label asp-for="Input.Email" class="form-label">Correo</label>
+                <label asp-for="Input.Email" class="form-label">Correo: *</label>
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
                 <span id="validacion-correo" class="text-danger"></span>
             </div>
             <div>
-                <label asp-for="Input.Password" class="form-label">Contraseña</label>
+                <label asp-for="Input.Password" class="form-label">Contraseña : *</label>
                 <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
                 <span class="text-danger"></span>
             </div>

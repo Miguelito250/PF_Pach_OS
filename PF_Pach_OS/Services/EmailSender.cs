@@ -1,31 +1,30 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
-using PF_Pach_OS.Services;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-namespace PF.Services;
+namespace PF_Pach_OS.Services;
 
 public class EmailSender : IEmailSender
 {
     private readonly ILogger _logger;
 
-    public string SendGridApi { get; set; }
-
-    public EmailSender(IConfiguration _config,
-        ILogger<EmailSender> logger)
+    public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor,
+                       ILogger<EmailSender> logger)
     {
-        SendGridApi = _config.GetValue<string>("SendGrid:SecretKey");
+        Options = optionsAccessor.Value;
         _logger = logger;
     }
 
+    public AuthMessageSenderOptions Options { get; } //Set with Secret Manager.
+
     public async Task SendEmailAsync(string toEmail, string subject, string message)
     {
-        if (SendGridApi == null)
+        if (string.IsNullOrEmpty(Options.ObtenerApiKey()))
         {
             throw new Exception("Null SendGridKey");
         }
-        await Execute(SendGridApi, subject, message, toEmail);
+        await Execute(Options.SendGridKey, subject, message, toEmail);
     }
 
     public async Task Execute(string apiKey, string subject, string message, string toEmail)
@@ -33,7 +32,8 @@ public class EmailSender : IEmailSender
         var client = new SendGridClient(apiKey);
         var msg = new SendGridMessage()
         {
-            From = new EmailAddress("pachitoche2501259@gmail.com"),
+            From = new EmailAddress("pachitoche2501259@gmail.com", "Password Recovery"),
+            
             Subject = subject,
             PlainTextContent = message,
             HtmlContent = message
@@ -43,11 +43,11 @@ public class EmailSender : IEmailSender
         // Disable click tracking.
         // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
         msg.SetClickTracking(false, false);
-
         var response = await client.SendEmailAsync(msg);
         _logger.LogInformation(response.IsSuccessStatusCode
                                ? $"Email to {toEmail} queued successfully!"
                                : $"Failure Email to {toEmail}");
+        _logger.LogInformation(response.Body.ReadAsStringAsync().Result);
 
     }
 }

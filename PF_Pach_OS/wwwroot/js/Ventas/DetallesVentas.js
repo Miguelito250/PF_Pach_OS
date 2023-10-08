@@ -1,6 +1,4 @@
-﻿console.log("toy dentro")
-
-function CalcularCambio() {
+﻿function CalcularCambio() {
     let totalVenta = document.getElementById('totalVenta').textContent;
     var pago = document.getElementById('pago').textContent;
 

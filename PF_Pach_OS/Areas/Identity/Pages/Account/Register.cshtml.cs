@@ -16,6 +16,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using PF_Pach_OS.Models;
+using PF_Pach_OS.Services;
+using Microsoft.AspNetCore.Server;
+using Microsoft.AspNetCore.Hosting.Server.Features;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 
 namespace PF_Pach_OS.Areas.Identity.Pages.Account
 {
@@ -26,7 +31,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager; 
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -133,17 +138,16 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await _userManager.AddToRoleAsync(user, Input.Role); 
+                    await _userManager.AddToRoleAsync(user, Input.Role);
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
+                        values: new { area = "Identity", idUsuario = user.Id, code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirma tu email",
                         $"Por favor confirma tu cuenta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clickeando aqui</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
@@ -165,5 +169,11 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+
+
+
+
+
+
     }
 }
