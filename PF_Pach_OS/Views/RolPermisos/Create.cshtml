@@ -17,22 +17,23 @@
                 <label asp-for="rol.NomRol" class="control-label"></label>
                 <input type="text" asp-for="rol.NomRol" />
             </div>
-            <div class="form-group">
+            <div class="form-group row">
                 @if (ViewBag.Permisos != null)
                 {
                     @foreach (var valor in (List<dynamic>)ViewBag.Permisos)
                     {
-                        <label>@valor.nom_permiso</label>
-                        <input type="checkbox" name="ValoresSeleccionados" value="@valor" />
+                        <label class="col-2">@valor.nom_permiso</label>
+                        <input class="col-10" type="checkbox" name="ValoresSeleccionados" value="@valor" />
                     }
+
                 }
                 else
                 {
                     <p>La lista de permisos es nula.</p>
                 }
-
-                <button type="submit">Enviar</button>
             </div>
+
+            <button type="submit">Enviar</button>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -45,5 +46,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
