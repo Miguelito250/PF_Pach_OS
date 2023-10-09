@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace PF_Pach_OS.Models
 {
-    public partial class Pach_OSContext : IdentityDbContext
+    public partial class Pach_OSContext : DbContext
     {
         public Pach_OSContext()
         {
@@ -17,16 +16,25 @@ namespace PF_Pach_OS.Models
         {
         }
 
-        public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; } = null!;
+        public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; } = null!;
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; } = null!;
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; } = null!;
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; } = null!;
+        public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; } = null!;
+        public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; } = null!;
         public virtual DbSet<Categoria> Categorias { get; set; } = null!;
         public virtual DbSet<Compra> Compras { get; set; } = null!;
         public virtual DbSet<DetalleVenta> DetalleVentas { get; set; } = null!;
         public virtual DbSet<DetallesCompra> DetallesCompras { get; set; } = null!;
         public virtual DbSet<Empleado> Empleados { get; set; } = null!;
         public virtual DbSet<Insumo> Insumos { get; set; } = null!;
+        public virtual DbSet<Permiso> Permisos { get; set; } = null!;
         public virtual DbSet<Producto> Productos { get; set; } = null!;
         public virtual DbSet<Proveedore> Proveedores { get; set; } = null!;
         public virtual DbSet<Receta> Recetas { get; set; } = null!;
+        public virtual DbSet<RolPermiso> RolPermisos { get; set; } = null!;
+        public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Tamano> Tamanos { get; set; } = null!;
         public virtual DbSet<Venta> Ventas { get; set; } = null!;
 
@@ -34,212 +42,85 @@ namespace PF_Pach_OS.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=localhost;Initial Catalog=Pach_OS;integrated security=True; TrustServerCertificate=True;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=localhost;Initial Catalog=Pach_OS;Integrated Security=True;TrustServerCertificate=True");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity<AspNetRole>(entity =>
             {
-                b.Property<string>("Id")
-                    .HasColumnType("nvarchar(450)");
-
-                b.Property<string>("ConcurrencyStamp")
-                    .IsConcurrencyToken()
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<string>("Name")
-                    .HasMaxLength(256)
-                    .HasColumnType("nvarchar(256)");
-
-                b.Property<string>("NormalizedName")
-                    .HasMaxLength(256)
-                    .HasColumnType("nvarchar(256)");
-
-                b.HasKey("Id");
-
-                b.HasIndex("NormalizedName")
+                entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
                     .IsUnique()
-                    .HasDatabaseName("RoleNameIndex")
-                    .HasFilter("[NormalizedName] IS NOT NULL");
+                    .HasFilter("([NormalizedName] IS NOT NULL)");
 
-                b.ToTable("AspNetRoles", (string)null);
+                entity.Property(e => e.Name).HasMaxLength(256);
+
+                entity.Property(e => e.NormalizedName).HasMaxLength(256);
             });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity<AspNetRoleClaim>(entity =>
             {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("int");
-
-                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                b.Property<string>("ClaimType")
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<string>("ClaimValue")
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<string>("RoleId")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(450)");
-
-                b.HasKey("Id");
-
-                b.HasIndex("RoleId");
-
-                b.ToTable("AspNetRoleClaims", (string)null);
+                entity.HasIndex(e => e.RoleId, "IX_AspNetRoleClaims_RoleId");
             });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+            modelBuilder.Entity<AspNetUser>(entity =>
             {
-                b.Property<string>("Id")
-                    .HasColumnType("nvarchar(450)");
+                entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
 
-                b.Property<int>("AccessFailedCount")
-                    .HasColumnType("int");
-
-                b.Property<string>("ConcurrencyStamp")
-                    .IsConcurrencyToken()
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<string>("Email")
-                    .HasMaxLength(256)
-                    .HasColumnType("nvarchar(256)");
-
-                b.Property<bool>("EmailConfirmed")
-                    .HasColumnType("bit");
-
-                b.Property<bool>("LockoutEnabled")
-                    .HasColumnType("bit");
-
-                b.Property<DateTimeOffset?>("LockoutEnd")
-                    .HasColumnType("datetimeoffset");
-
-                b.Property<string>("NormalizedEmail")
-                    .HasMaxLength(256)
-                    .HasColumnType("nvarchar(256)");
-
-                b.Property<string>("NormalizedUserName")
-                    .HasMaxLength(256)
-                    .HasColumnType("nvarchar(256)");
-
-                b.Property<string>("PasswordHash")
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<string>("PhoneNumber")
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<bool>("PhoneNumberConfirmed")
-                    .HasColumnType("bit");
-
-                b.Property<string>("SecurityStamp")
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<bool>("TwoFactorEnabled")
-                    .HasColumnType("bit");
-
-                b.Property<string>("UserName")
-                    .HasMaxLength(256)
-                    .HasColumnType("nvarchar(256)");
-
-                b.HasKey("Id");
-
-                b.HasIndex("NormalizedEmail")
-                    .HasDatabaseName("EmailIndex");
-
-                b.HasIndex("NormalizedUserName")
+                entity.HasIndex(e => e.NormalizedUserName, "UserNameIndex")
                     .IsUnique()
-                    .HasDatabaseName("UserNameIndex")
-                    .HasFilter("[NormalizedUserName] IS NOT NULL");
+                    .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
-                b.ToTable("AspNetUsers", (string)null);
+                entity.Property(e => e.Discriminator).HasDefaultValueSql("(N'')");
+
+                entity.Property(e => e.Email).HasMaxLength(256);
+
+                entity.Property(e => e.IdRol).HasColumnName("Id_rol");
+
+                entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
+
+                entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
+
+                entity.Property(e => e.UserName).HasMaxLength(256);
+
+                entity.HasOne(d => d.IdRolNavigation)
+                    .WithMany(p => p.AspNetUsers)
+                    .HasForeignKey(d => d.IdRol)
+                    .HasConstraintName("FK_rol_usuario");
             });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity<AspNetUserClaim>(entity =>
             {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("int");
-
-                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                b.Property<string>("ClaimType")
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<string>("ClaimValue")
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<string>("UserId")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(450)");
-
-                b.HasKey("Id");
-
-                b.HasIndex("UserId");
-
-                b.ToTable("AspNetUserClaims", (string)null);
+                entity.HasIndex(e => e.UserId, "IX_AspNetUserClaims_UserId");
             });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity<AspNetUserLogin>(entity =>
             {
-                b.Property<string>("LoginProvider")
-                    .HasMaxLength(128)
-                    .HasColumnType("nvarchar(128)");
+                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
 
-                b.Property<string>("ProviderKey")
-                    .HasMaxLength(128)
-                    .HasColumnType("nvarchar(128)");
+                entity.HasIndex(e => e.UserId, "IX_AspNetUserLogins_UserId");
 
-                b.Property<string>("ProviderDisplayName")
-                    .HasColumnType("nvarchar(max)");
+                entity.Property(e => e.LoginProvider).HasMaxLength(128);
 
-                b.Property<string>("UserId")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(450)");
-
-                b.HasKey("LoginProvider", "ProviderKey");
-
-                b.HasIndex("UserId");
-
-                b.ToTable("AspNetUserLogins", (string)null);
+                entity.Property(e => e.ProviderKey).HasMaxLength(128);
             });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity<AspNetUserRole>(entity =>
             {
-                b.Property<string>("UserId")
-                    .HasColumnType("nvarchar(450)");
+                entity.HasKey(e => new { e.UserId, e.RoleId });
 
-                b.Property<string>("RoleId")
-                    .HasColumnType("nvarchar(450)");
-
-                b.HasKey("UserId", "RoleId");
-
-                b.HasIndex("RoleId");
-
-                b.ToTable("AspNetUserRoles", (string)null);
+                entity.HasIndex(e => e.RoleId, "IX_AspNetUserRoles_RoleId");
             });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity<AspNetUserToken>(entity =>
             {
-                b.Property<string>("UserId")
-                    .HasColumnType("nvarchar(450)");
+                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
 
-                b.Property<string>("LoginProvider")
-                    .HasMaxLength(128)
-                    .HasColumnType("nvarchar(128)");
+                entity.Property(e => e.LoginProvider).HasMaxLength(128);
 
-                b.Property<string>("Name")
-                    .HasMaxLength(128)
-                    .HasColumnType("nvarchar(128)");
-
-                b.Property<string>("Value")
-                    .HasColumnType("nvarchar(max)");
-
-                b.HasKey("UserId", "LoginProvider", "Name");
-
-                b.ToTable("AspNetUserTokens", (string)null);
+                entity.Property(e => e.Name).HasMaxLength(128);
             });
 
             modelBuilder.Entity<Categoria>(entity =>
@@ -265,6 +146,8 @@ namespace PF_Pach_OS.Models
                     .HasName("PK__compras__C4BAA604A7DD9276");
 
                 entity.ToTable("compras");
+
+                entity.HasIndex(e => e.IdProveedor, "IX_compras_id_proveedor");
 
                 entity.Property(e => e.IdCompra).HasColumnName("id_compra");
 
@@ -292,6 +175,10 @@ namespace PF_Pach_OS.Models
 
                 entity.ToTable("detalleVentas");
 
+                entity.HasIndex(e => e.IdProducto, "IX_detalleVentas_id_producto");
+
+                entity.HasIndex(e => e.IdVenta, "IX_detalleVentas_id_venta");
+
                 entity.Property(e => e.IdDetalleVenta).HasColumnName("id_detalleVenta");
 
                 entity.Property(e => e.CantVendida).HasColumnName("cant_vendida");
@@ -310,8 +197,8 @@ namespace PF_Pach_OS.Models
                 entity.HasOne(d => d.IdVentaNavigation)
                     .WithMany(p => p.DetalleVenta)
                     .HasForeignKey(d => d.IdVenta)
-                    .HasConstraintName("FK__detalleVe__id_ve__5070F446")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK__detalleVe__id_ve__5070F446");
             });
 
             modelBuilder.Entity<DetallesCompra>(entity =>
@@ -321,6 +208,10 @@ namespace PF_Pach_OS.Models
 
                 entity.ToTable("detalles_Compras");
 
+                entity.HasIndex(e => e.IdCompra, "IX_detalles_Compras_id_compra");
+
+                entity.HasIndex(e => e.IdInsumo, "IX_detalles_Compras_id_insumo");
+
                 entity.Property(e => e.IdDetallesCompra).HasColumnName("id_detalles_compra");
 
                 entity.Property(e => e.Cantidad).HasColumnName("cantidad");
@@ -328,6 +219,8 @@ namespace PF_Pach_OS.Models
                 entity.Property(e => e.IdCompra).HasColumnName("id_compra");
 
                 entity.Property(e => e.IdInsumo).HasColumnName("id_insumo");
+
+                entity.Property(e => e.Medida).HasDefaultValueSql("(N'')");
 
                 entity.Property(e => e.PrecioInsumo).HasColumnName("precio_insumo");
 
@@ -414,12 +307,31 @@ namespace PF_Pach_OS.Models
                     .HasColumnName("nom_insumo");
             });
 
+            modelBuilder.Entity<Permiso>(entity =>
+            {
+                entity.HasKey(e => e.IdPermiso)
+                    .HasName("PK__permisos__A5D405E8B6F5126A");
+
+                entity.ToTable("permisos");
+
+                entity.Property(e => e.IdPermiso).HasColumnName("Id_permiso");
+
+                entity.Property(e => e.NomPermiso)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("nom_permiso");
+            });
+
             modelBuilder.Entity<Producto>(entity =>
             {
                 entity.HasKey(e => e.IdProducto)
                     .HasName("PK__producto__FF341C0DAD2F40EB");
 
                 entity.ToTable("productos");
+
+                entity.HasIndex(e => e.IdCategoria, "IX_productos_id_categoria");
+
+                entity.HasIndex(e => e.IdTamano, "IX_productos_id_tamano");
 
                 entity.Property(e => e.IdProducto).HasColumnName("id_producto");
 
@@ -473,6 +385,10 @@ namespace PF_Pach_OS.Models
 
                 entity.ToTable("recetas");
 
+                entity.HasIndex(e => e.IdInsumo, "IX_recetas_id_insumo");
+
+                entity.HasIndex(e => e.IdProducto, "IX_recetas_id_producto");
+
                 entity.Property(e => e.IdReceta).HasColumnName("id_receta");
 
                 entity.Property(e => e.CantInsumo).HasColumnName("cant_insumo");
@@ -490,6 +406,45 @@ namespace PF_Pach_OS.Models
                     .WithMany(p => p.Receta)
                     .HasForeignKey(d => d.IdProducto)
                     .HasConstraintName("FK__recetas__id_prod__5441852A");
+            });
+
+            modelBuilder.Entity<RolPermiso>(entity =>
+            {
+                entity.HasKey(e => e.IdRolPermisos)
+                    .HasName("PK__Rol_perm__C48C7EB25F860379");
+
+                entity.ToTable("Rol_permisos");
+
+                entity.Property(e => e.IdRolPermisos).HasColumnName("Id_rol_permisos");
+
+                entity.Property(e => e.IdPermiso).HasColumnName("Id_permiso");
+
+                entity.Property(e => e.IdRol).HasColumnName("Id_rol");
+
+                entity.HasOne(d => d.IdPermisoNavigation)
+                    .WithMany(p => p.RolPermisos)
+                    .HasForeignKey(d => d.IdPermiso)
+                    .HasConstraintName("FK__Rol_permi__Id_pe__40F9A68C");
+
+                entity.HasOne(d => d.IdRolNavigation)
+                    .WithMany(p => p.RolPermisos)
+                    .HasForeignKey(d => d.IdRol)
+                    .HasConstraintName("FK__Rol_permi__Id_ro__40058253");
+            });
+
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.HasKey(e => e.IdRol)
+                    .HasName("PK__roles__2D95A8946F1A4A66");
+
+                entity.ToTable("roles");
+
+                entity.Property(e => e.IdRol).HasColumnName("Id_rol");
+
+                entity.Property(e => e.NomRol)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("nom_rol");
             });
 
             modelBuilder.Entity<Tamano>(entity =>
@@ -519,6 +474,8 @@ namespace PF_Pach_OS.Models
                     .HasName("PK__ventas__459533BF24E19040");
 
                 entity.ToTable("ventas");
+
+                entity.HasIndex(e => e.IdEmpleado, "IX_ventas_id_empleado");
 
                 entity.Property(e => e.IdVenta).HasColumnName("id_venta");
 
