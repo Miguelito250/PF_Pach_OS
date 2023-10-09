@@ -30,7 +30,6 @@ namespace PF_Pach_OS.Controllers
             {
                 CancelarVenta(ventasNulas.IdVenta);
             }
-            
 
             var pach_OSContext = _context.Ventas
                 .OrderByDescending(v => v.FechaVenta);
