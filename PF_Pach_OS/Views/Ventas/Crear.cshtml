@@ -4,7 +4,6 @@
     var detallesVentas = ViewData["DetallesVentas"] as List<DetalleVenta>;
 }
 
-<link href="~/css/ventas.css" rel="stylesheet" />
 <link href="~/css/detalleventa.css" rel="stylesheet" />
 
 <div class="d-flex p-4">
@@ -16,6 +15,8 @@
                     <label>Producto</label>
                     <select class="form-control form-select" aria-label="Default select example" asp-for="Item1.IdProducto" asp-items="ViewBag.IdProducto" name="IdProducto" required>
                         <option></option>
+                        <option value="1">Pizzas (Sabores)</option>
+
                     </select>
                     <div class="invalid-feedback">Por favor seleccione un producto</div>
                 </div>
@@ -23,7 +24,7 @@
                 <div class="col-3">
                     <label>Cantidad</label>
                     <input type="number" class="form-control" asp-for="Item1.CantVendida" name="CantVendida" min="0" required />
-                    <div class="invalid-feedback">
+                    <div id="Cantidad" class="invalid-feedback">
                         Por favor ingrese una cantidad mayor a 0.
                     </div>
                 </div>
@@ -136,19 +137,19 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 id="titulo-modal"></h5>
+                <h3 id="titulo-modal"></h3>
                 <button id="cerrar" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body" id="modal-body" data-url="/Ventas/DetallesVentas?IdVenta=">
-                Cargando Venta...
+                Cargando Sabores de pizza...
             </div>
         </div>
     </div>
 </div>
 <script src="~/js/ventas/ventas.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 @*-----VALIDACION DE CAMPOS EN TIEMPO REAL-----*@

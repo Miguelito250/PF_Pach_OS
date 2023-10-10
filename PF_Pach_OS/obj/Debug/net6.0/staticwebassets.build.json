@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+CmywflDZgvP43HfhXJJZ1uvXqjKTPSZuEjfOHwI2D0=",
+  "Hash": "Dy018zyfOYXwYdHcYDipfOiqlxh7qa34zq58HxznOTY=",
   "Source": "PF_Pach_OS",
   "BasePath": "_content/PF_Pach_OS",
   "Mode": "Default",
@@ -36142,6 +36142,23 @@
       "OriginalItemSpec": "wwwroot\\css\\ventas.css"
     },
     {
+      "Identity": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\SaboresPizza.css",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "css/Ventas/SaboresPizza.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\Ventas\\SaboresPizza.css"
+    },
+    {
       "Identity": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\img\\Logo_Empresa.jpg",
       "SourceId": "PF_Pach_OS",
       "SourceType": "Discovered",
@@ -36225,6 +36242,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Ventas\\IndexVentas.js"
+    },
+    {
+      "Identity": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\SaboresPizzas.js",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "js/Ventas/SaboresPizzas.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Ventas\\SaboresPizzas.js"
     },
     {
       "Identity": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\Ventas.js",

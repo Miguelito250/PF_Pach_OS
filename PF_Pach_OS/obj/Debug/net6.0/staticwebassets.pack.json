@@ -8245,6 +8245,10 @@
       "PackagePath": "staticwebassets\\css\\Proveedores.css"
     },
     {
+      "Id": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\SaboresPizza.css",
+      "PackagePath": "staticwebassets\\css\\Ventas\\SaboresPizza.css"
+    },
+    {
       "Id": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\estructuracion.css",
       "PackagePath": "staticwebassets\\css\\estructuracion.css"
     },
@@ -8275,6 +8279,10 @@
     {
       "Id": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\IndexVentas.js",
       "PackagePath": "staticwebassets\\js\\Ventas\\IndexVentas.js"
+    },
+    {
+      "Id": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\SaboresPizzas.js",
+      "PackagePath": "staticwebassets\\js\\Ventas\\SaboresPizzas.js"
     },
     {
       "Id": "C:\\Users\\SENA\\Desktop\\Miguel\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\Ventas.js",

@@ -48,7 +48,7 @@ namespace PF_Pach_OS.Controllers
             ViewBag.IdVenta = IdVenta;
             ViewData["DetallesVentas"] = DetallesVentas;
             ViewData["IdProducto"] = new SelectList(_context.Productos.
-                Where(p => p.Estado == 1),
+                Where(p => p.Estado == 1 && p.IdCategoria != 1),
                 "IdProducto", "NomProducto");
 
             Tuple<DetalleVenta, Venta> Venta_Detalle = new(new DetalleVenta(), new Venta());
@@ -85,11 +85,11 @@ namespace PF_Pach_OS.Controllers
                     var ventaVacia = _context.DetalleVentas
                         .SingleOrDefault(d => d.IdVenta == venta.IdVenta);
 
-                    if(ventaVacia == null)
+                    if (ventaVacia == null)
                     {
                         return RedirectToAction("Crear", "Ventas", new { venta.IdVenta });
                     }
-                    
+
 
                     if (venta.Pago < venta.TotalVenta || venta.Pago == null)
                     {
@@ -106,7 +106,7 @@ namespace PF_Pach_OS.Controllers
                             .Where(v => v.IdVenta == venta.IdVenta)
                             .ToList();
 
-                        
+
                         foreach (var detalle in detallesVenta)
                         {
                             int? cantidadDisminuir = 0;
@@ -231,6 +231,21 @@ namespace PF_Pach_OS.Controllers
         private bool VentaExists(int id)
         {
             return (_context.Ventas?.Any(e => e.IdVenta == id)).GetValueOrDefault();
+        }
+
+        //Funcion para escoger los sabores de las pizzas en la ventana modal cargada en la ventana modal
+        public async Task<IActionResult> SaboresPizza()
+        {
+            var saboresPizza = _context.Productos
+                .Where(p => p.IdTamano == 1 && p.IdCategoria == 1);
+
+            return View(await saboresPizza.ToListAsync());
+        }
+
+        public async Task<IActionResult> ConfirmarSabores(List<string> sabores)
+        {
+             
+            return View(sabores);
         }
     }
 }

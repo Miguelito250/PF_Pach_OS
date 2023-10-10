@@ -55,16 +55,6 @@ function CalcularSubtotal() {
     return subtotalProducto
 }
 
-const consultarCategoria = async () => {
-    try {
-        productoValor = producto.value;
-        const url = "https://localhost:7229/DetalleVentas/ConsultarCategoria?IdProducto=" + productoValor;
-        return axios.get(url)
-    } catch (error) {
-        console.error(error);
-    }
-}
-
 const boton_domicilio = document.getElementById('domicilio')
 const boton_pago = document.getElementById('pago')
 const producto = document.getElementById('Item1_IdProducto')
@@ -75,19 +65,22 @@ var subtotal = CalcularSubtotal()
 InsertarTotal(subtotal);
 InsertarFecha();
 
-producto.addEventListener('change', async function () {
-    const res = await consultarCategoria();
-    categoria = res.data.idCategoria;
+producto.addEventListener("change", function () {
 
-    if (categoria == 1) {
-        console.log("Soy pizza")
+    if (producto.value == 1) {
         var miModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
             keyboard: false
         });
+        // Agrega un controlador de eventos para el evento 'shown.bs.modal'
+        $('#exampleModal').on('shown.bs.modal', function () {
+            var modalBody = $("#modal-body");
+            var url = "/Ventas/SaboresPizza";
+            modalBody.empty();
+            modalBody.load(url);
+        });
+
         miModal.show();
     }
-
-
 })
 
 boton_domicilio.addEventListener('input', function () {
