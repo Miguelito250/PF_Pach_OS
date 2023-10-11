@@ -9,18 +9,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PF_Pach_OS.Models;
 
+
 namespace PF_Pach_OS.Controllers
 {
-    public class RecetasController : Controller
+    public class RecetasController : ProductosController
     {
         private readonly Pach_OSContext _context;
 
-        public RecetasController(Pach_OSContext context)
+        
+        public RecetasController(Pach_OSContext context) : base(context)
         {
             _context = context;
         }
 
         
+
         //Crea un insumo asosiado(Reseta) a un producto tambien guarda la informacion del producto para mostrarla en el formulario 
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Crear([Bind("IdReceta,CantInsumo,IdProducto,IdInsumo")] Receta receta, [Bind("IdProducto,NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
@@ -77,6 +80,7 @@ namespace PF_Pach_OS.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("CrearInformacionFormulario", "Productos", new { IdProducto });
         }
+
 
         //Verifica si el producto que se nesecita existe
         private bool ExisteElProducto(int id)

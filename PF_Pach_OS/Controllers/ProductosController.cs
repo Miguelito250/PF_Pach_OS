@@ -16,6 +16,8 @@ namespace PF_Pach_OS.Controllers
     {
         private readonly Pach_OSContext _context;
 
+        
+
         public ProductosController(Pach_OSContext context)
         {
             _context = context;
