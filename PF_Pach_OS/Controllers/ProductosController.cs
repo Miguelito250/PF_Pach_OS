@@ -313,6 +313,14 @@ namespace PF_Pach_OS.Controllers
             return RedirectToAction("Index");
         }
 
+        //Se llama la vista para Editar 
+        public IActionResult Informacin_Editar(int IdProducto)
+        {
+            var producto_editar = _context.Productos.FirstOrDefault(p => p.IdProducto == IdProducto);
+
+            return View("Editar");
+        }
+
         //Verifica si el producto que se nesecita existe
         private bool ExisteElProducto(int id)
         {

@@ -12,12 +12,12 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
-    public class RecetasController : ProductosController
+    public class RecetasController : Controller
     {
         private readonly Pach_OSContext _context;
 
         
-        public RecetasController(Pach_OSContext context) : base(context)
+        public RecetasController(Pach_OSContext context) 
         {
             _context = context;
         }
@@ -80,8 +80,7 @@ namespace PF_Pach_OS.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("CrearInformacionFormulario", "Productos", new { IdProducto });
         }
-
-
+       
         //Verifica si el producto que se nesecita existe
         private bool ExisteElProducto(int id)
         {

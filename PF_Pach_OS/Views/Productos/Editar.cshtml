@@ -16,18 +16,15 @@
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.IdProducto" />
-
             <div class="form-group">
                 <label class="form-label">Producto</label>
                 @if (ViewBag.ProductoActivo == null)
                 {
                     <input asp-for="Producto.NomProducto" class="form-control" title=" " required />
-
                 }
                 else
                 {
                     <input asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" class="form-control" title=" " required />
-
                 }
                 <div class="invalid-feedback"></div>
 
