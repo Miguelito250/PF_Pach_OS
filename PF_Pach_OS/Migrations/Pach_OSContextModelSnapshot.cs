@@ -659,6 +659,10 @@ namespace PF_Pach_OS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("EmailConfirmationToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("EntryDay")
                         .HasColumnType("datetime2");
 
@@ -667,6 +671,10 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordResetToken")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

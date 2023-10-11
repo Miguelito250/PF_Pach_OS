@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
+using NuGet.Packaging.Signing;
 
 namespace PF_Pach_OS.Areas.Identity.Pages.Account
 {
@@ -31,7 +32,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<IdentityRole> _roleManager; 
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -133,6 +134,9 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                     State = 1
 
                 };
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                user.EmailConfirmationToken = code;
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -140,12 +144,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
 
                     await _userManager.AddToRoleAsync(user, Input.Role);
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", idUsuario = user.Id, code },
-                        protocol: Request.Scheme);
+                    var callbackUrl = Url.Action("ConfirmarCorreo", "Acceso", new {idUsuario = user.Id, codigo = code}, Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirma tu email",
                         $"Por favor confirma tu cuenta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clickeando aqui</a>.");
@@ -169,11 +168,5 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
-
-
-
-
-
-
     }
 }

@@ -13,7 +13,6 @@ namespace PF_Pach_OS.Controllers
         {
             _logger = logger;
         }
-        [Authorize]
         public IActionResult Index()
         {
             return View();
