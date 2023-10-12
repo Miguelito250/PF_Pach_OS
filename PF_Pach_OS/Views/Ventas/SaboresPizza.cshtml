@@ -9,14 +9,16 @@
 <div>
     <form>
         <div class="row">
+            <input type="hidden" readonly value="@ViewBag.IdVenta">
+
             <div class="col-7">
                 <label>Tamaño</label>
-                <select class="form-select" asp-items="ViewBag.IdProducto">
+                <select class="form-select" asp-items="ViewBag.IdProducto" id="IdProducto">
                 </select>
             </div>
             <div class="col-5">
                 <label class="form-label">Maximo de sabores</label>
-                <input type="number" class="form-control" value="0" readonly>
+                <input type="number" class="form-control" value="0" id="maximoSabores" readonly>
             </div>
             <div class="col-7">
                 <label class="form-label">Cantidad</label>
@@ -37,7 +39,7 @@
                     @foreach (var saborPizza in Model)
                     {
                         <tr>
-                            <td><input type="checkbox" name="saborPizza"></td>
+                            <td><input type="checkbox" name="saborPizza" value="@saborPizza.IdProducto"></td>
                             <td><span>@saborPizza.NomProducto</span></td>
                         </tr>
                     }

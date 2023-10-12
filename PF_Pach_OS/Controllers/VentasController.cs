@@ -239,9 +239,7 @@ namespace PF_Pach_OS.Controllers
             var saboresPizza = _context.Productos
                 .Where(p => p.IdTamano == 1 && p.IdCategoria == 1);
 
-            ViewData["IdProducto"] = new SelectList(_context.Productos
-                .Where(p => p.IdCategoria == 1)
-                .Select(p => p.IdTamanoNavigation.NombreTamano));
+            ViewData["IdProducto"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
 
             return View(await saboresPizza.ToListAsync());
         }
@@ -249,7 +247,15 @@ namespace PF_Pach_OS.Controllers
         [HttpPost]
         public async Task<IActionResult> ConfirmarSabores(List<string> sabores)
         {
+            DetalleVenta detalleVenta = new DetalleVenta();
 
+            var nuevoDetalleVenta = _context.Add(detalleVenta);
+
+            //foreach (var sabor in sabores)
+            //{
+            //    _context.SaboresSeleccionado
+            //        .AddAsync(sabor);
+            //}
             return Json(sabores);
         }
     }

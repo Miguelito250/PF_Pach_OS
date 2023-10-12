@@ -34,9 +34,9 @@ namespace PF_Pach_OS.Migrations
 
 
             migrationBuilder.InsertData(
-        table: "categorias",
-        columns: new[] { "nom_categoria" },
-        values: new object[] { "Pizza" });
+            table: "categorias",
+            columns: new[] { "nom_categoria" },
+            values: new object[] { "Pizza" });
 
             migrationBuilder.InsertData(
                 table: "categorias",

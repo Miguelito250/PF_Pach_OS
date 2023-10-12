@@ -67,15 +67,15 @@ namespace PF_Pach_OS.Controllers
             return View(detalleVenta);
         }
 
-        public async Task<object> ConsultarCategoria(int? IdProducto)
+        public async Task<object> ConsultarMaximoSabores(int? IdProducto)
         {
             if (IdProducto == null)
             {
                 return NotFound();
             }
-            var consultarCategoria = await _context.Productos.FindAsync(IdProducto);
+            var consultarMaximoSabores = await _context.Tamanos.FindAsync(IdProducto);
 
-            return consultarCategoria;
+            return consultarMaximoSabores;
         }
 
         public async Task<IActionResult> Delete(int? id)

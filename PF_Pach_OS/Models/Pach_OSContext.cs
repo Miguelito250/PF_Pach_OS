@@ -29,7 +29,7 @@ namespace PF_Pach_OS.Models
         public virtual DbSet<Receta> Recetas { get; set; } = null!;
         public virtual DbSet<Tamano> Tamanos { get; set; } = null!;
         public virtual DbSet<Venta> Ventas { get; set; } = null!;
-
+        public virtual DbSet<Venta> SaboresSeleccionado { get; set; } = null!;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -490,6 +490,16 @@ namespace PF_Pach_OS.Models
                     .WithMany(p => p.Receta)
                     .HasForeignKey(d => d.IdProducto)
                     .HasConstraintName("FK__recetas__id_prod__5441852A");
+            });
+
+            modelBuilder.Entity<SaboresSeleccionados>(entity =>
+            {
+                entity.HasKey(e => e.IdSaborSeleccionado)
+                    .HasName("IdSaborSeleccionado");
+
+                entity.Property(e => e.IdProducto).HasColumnName("IdProducto");
+
+                entity.Property(e => e.IdDetalleVenta).HasColumnName("IdDetalleVenta");
             });
 
             modelBuilder.Entity<Tamano>(entity =>
