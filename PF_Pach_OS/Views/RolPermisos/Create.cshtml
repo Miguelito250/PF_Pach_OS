@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="rol.NomRol" class="control-label"></label>
@@ -23,7 +23,7 @@
                     @foreach (var valor in (List<dynamic>)ViewBag.Permisos)
                     {
                         <label class="col-2">@valor.nom_permiso</label>
-                        <input class="col-10" type="checkbox" name="ValoresSeleccionados" value="@valor" />
+                        <input class="col-10" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" />
                     }
 
                 }
@@ -33,10 +33,8 @@
                 }
             </div>
 
-            <button type="submit">Enviar</button>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+            <input id="btnEnviar" class="btn btn-primary">
+
         </form>
     </div>
 </div>
@@ -50,3 +48,39 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        var Permisos = [];
+        var nomRol;
+        $('#rol_NomRol').on('input', function () {
+            nomRol = $('#rol_NomRol').val();
+        });
+
+
+        $("#btnEnviar").on("click", function () {
+            $('input[name="ValoresSeleccionados"]:checked').each(function () {
+                Permisos.push($(this).val());
+            });
+            
+            $.ajax({
+                url: "/RolPermisos/Crear",
+                type: "POST",
+                data: {
+                    permisos: Permisos,
+                    nomRol: nomRol
+                },
+                success: function (data) {
+                    if (data.success) {
+                        window.location.href = 'https://localhost:7229/RolPermisos';
+                    }
+                }
+            });
+            console.log(nomRol)
+            console.log(Permisos)
+
+        });
+    });
+</script>

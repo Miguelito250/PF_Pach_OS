@@ -48,48 +48,47 @@ namespace PF_Pach_OS.Controllers
         }
 
         // GET: RolPermisos/Create
-        public IActionResult Create()
+        public IActionResult Crear()
         {
             var permisos = _context.Permisos.ToList();
-            
+
 
             var listarPermisos = permisos.Select(permisos => new
             {
                 nom_permiso = permisos.NomPermiso,
                 id_permiso = permisos.IdPermiso,
-               
+
             }).ToList();
 
-            Console.WriteLine("======================================================================");
-            Console.WriteLine(listarPermisos);
-            Console.WriteLine("======================================================================");
+
             ViewBag.Permisos = listarPermisos.Cast<object>().ToList();
 
-               
-
-            ViewData["IdPermiso"] = new SelectList(_context.Permisos, "IdPermiso", "IdPermiso");
-            ViewData["IdRol"] = new SelectList(_context.Roles, "IdRol", "IdRol");
-            return View();
+            return View("Create");
         }
 
         // POST: RolPermisos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdRolPermisos,IdRol,IdPermiso")] RolPermiso rolPermiso)
+        public JsonResult Crear(List<String> permisos, String nomRol)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(rolPermiso);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdPermiso"] = new SelectList(_context.Permisos, "IdPermiso", "IdPermiso", rolPermiso.IdPermiso);
-            ViewData["IdRol"] = new SelectList(_context.Roles, "IdRol", "IdRol", rolPermiso.IdRol);
-            return View(rolPermiso);
-        }
+            List<int> listaEnteros = permisos.Select(s => int.Parse(s)).ToList();
+            Role rol = new Role();
+            rol.NomRol = nomRol;
+            Crear_rol(listaEnteros, rol);
+            return  Json(new { success = true, redirectTo = Url.Action("Index", "RolPermisos") });
 
+        }
+        //Se crea el rol y se le asignan los permisos
+        public async void Crear_rol ( List<int> permisos, Role rol)
+        {
+            if(rol != null)
+            {
+            _context.Roles.Add(rol);
+            }
+
+            await _context.SaveChangesAsync();
+        }
         // GET: RolPermisos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -179,14 +178,14 @@ namespace PF_Pach_OS.Controllers
             {
                 _context.RolPermisos.Remove(rolPermiso);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RolPermisoExists(int id)
         {
-          return (_context.RolPermisos?.Any(e => e.IdRolPermisos == id)).GetValueOrDefault();
+            return (_context.RolPermisos?.Any(e => e.IdRolPermisos == id)).GetValueOrDefault();
         }
     }
 }
