@@ -5,6 +5,10 @@ namespace PF_Pach_OS.Models
 {
     public partial class DetalleVenta
     {
+        public DetalleVenta()
+        {
+            SaboresSeleccionados = new HashSet<SaboresSeleccionados>();
+        }
         public int IdDetalleVenta { get; set; }
         public int? CantVendida { get; set; }
         public int? Precio { get; set; }
@@ -13,5 +17,6 @@ namespace PF_Pach_OS.Models
 
         public virtual Producto? IdProductoNavigation { get; set; }
         public virtual Venta? IdVentaNavigation { get; set; }
+        public virtual ICollection<SaboresSeleccionados> SaboresSeleccionados { get; set; }
     }
 }

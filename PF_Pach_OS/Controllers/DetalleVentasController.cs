@@ -22,18 +22,19 @@ namespace PF_Pach_OS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
+        //Funcion para ir agregando los detalles de venta a la factura
         public async Task<IActionResult> AgregarDetalle([Bind("CantVendida,Precio,IdVenta,IdProducto")] DetalleVenta detalleVenta)
         {
             if (ModelState.IsValid)
             {
-                //Guardar el precio del producto seleccionado
+                
                 var precioProducto = _context.Productos
                     .Where(detalle => detalle.IdProducto == detalleVenta.IdProducto)
                     .Select(detalle => detalle.PrecioVenta)
                     .FirstOrDefault();
                 detalleVenta.Precio = precioProducto;
 
-                //Consulta para saber si el producto ya esta en la lista de detalles
+                
                 var productoExistente = _context.DetalleVentas
                     .Where(detalle => detalle.IdVenta == detalleVenta.IdVenta && detalle.IdProducto == detalleVenta.IdProducto)
                     .FirstOrDefault();

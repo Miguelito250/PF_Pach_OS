@@ -11,23 +11,20 @@
         <div class="row">
             <div class="col-7">
                 <label>Tamaño</label>
-                <select class="form-select">
-                    <option value="personal">Personal</option>
-                    <option value="pequena">Pequeña</option>
-                    <option value="grande">Grande</option>
-                    <option value="familiar">Familiar</option>
+                <select class="form-select" asp-items="ViewBag.IdProducto">
                 </select>
             </div>
             <div class="col-5">
                 <label class="form-label">Maximo de sabores</label>
                 <input type="number" class="form-control" value="0" readonly>
             </div>
+            <div class="col-7">
+                <label class="form-label">Cantidad</label>
+                <input type="number" class="form-control" value="0" readonly>
+            </div>
 
         </div>
         <div class="mt-3 col">
-
-
-
             <table class="table mb-0 table-borderless table-bordered">
                 <thead class="sombra">
                     <tr class="">
@@ -48,7 +45,7 @@
             </table>
         </div>
 
-        <input type="submit" class="btn btn-outline-success" id="btnEnviar">
+        <input class="btn btn-outline-success" id="btnEnviar">
     </form>
 </div>
 <script src="~/js/ventas/saborespizzas.js"></script>
