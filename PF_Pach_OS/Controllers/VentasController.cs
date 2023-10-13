@@ -41,6 +41,13 @@ namespace PF_Pach_OS.Controllers
         //Funcion para redirigir con los datos necesarios a la vista de registrar los detalles de venta
         public IActionResult Crear(int IdVenta)
         {
+            var ventaNula = _context.Ventas
+                .FirstOrDefault(v => v.IdVenta == IdVenta);
+
+            if (ventaNula == null)
+            { 
+                return RedirectToAction("Index");
+            }
             var DetallesVentas = _context.DetalleVentas
                 .Where(d => d.IdVenta == IdVenta)
                 .ToList();
@@ -48,7 +55,7 @@ namespace PF_Pach_OS.Controllers
             ViewBag.IdVenta = IdVenta;
             ViewData["DetallesVentas"] = DetallesVentas;
             ViewData["IdProducto"] = new SelectList(_context.Productos.
-                Where(p => p.Estado == 1 && p.IdCategoria != 1),
+                Where(p => p.Estado == 1 && p.IdTamano == 1),
                 "IdProducto", "NomProducto");
 
             Tuple<DetalleVenta, Venta> Venta_Detalle = new(new DetalleVenta(), new Venta());
@@ -239,7 +246,9 @@ namespace PF_Pach_OS.Controllers
             var saboresPizza = _context.Productos
                 .Where(p => p.IdTamano == 1 && p.IdCategoria == 1);
 
-            ViewData["IdProducto"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
+            ViewData["IdProducto"] = new SelectList(_context.Tamanos
+                .Where(t => t.IdTamano != 1),
+                "IdTamano", "NombreTamano");
 
             return View(await saboresPizza.ToListAsync());
         }

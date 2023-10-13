@@ -67,7 +67,7 @@ namespace PF_Pach_OS.Controllers
             return View(detalleVenta);
         }
 
-        public async Task<object> ConsultarMaximoSabores(int? IdProducto)
+        public async Task<object> ConsultarMaximoSabores(byte IdProducto)
         {
             if (IdProducto == null)
             {

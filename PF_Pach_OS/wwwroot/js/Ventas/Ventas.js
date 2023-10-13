@@ -67,11 +67,10 @@ InsertarFecha();
 
 producto.addEventListener("change", function () {
 
-    if (producto.value == 1) {
+    if (producto.value == 0) {
         var miModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
             keyboard: false
         });
-        // Agrega un controlador de eventos para el evento 'shown.bs.modal'
         $('#exampleModal').on('shown.bs.modal', function () {
             var modalBody = $("#modal-body");
             var url = "/Ventas/SaboresPizza";
