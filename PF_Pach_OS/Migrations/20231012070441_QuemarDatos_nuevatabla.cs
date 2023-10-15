@@ -59,25 +59,44 @@ namespace PF_Pach_OS.Migrations
                 values: new object[] { "Bar" });
 
             migrationBuilder.InsertData(
-        table: "tamanos",
-        columns: new[] { "nombre_tamano" },
-        values: new object[] { "Pizza(Personal)" });
+            table: "tamanos",
+            columns: new[] { "nombre_tamano", "tamano", "maximo_sabores" },
+            values: new object[] { "Pizza(Personal)", 15, 1 });
 
             migrationBuilder.InsertData(
                 table: "tamanos",
-                columns: new[] { "nombre_tamano" },
-                values: new object[] { "Pizza(Pequeña)" });
+                columns: new[] { "nombre_tamano", "tamano","maximo_sabores" },
+                values: new object[] { "Pizza(Pequeña)", 30, 2 });
 
             migrationBuilder.InsertData(
                 table: "tamanos",
-                columns: new[] { "nombre_tamano" },
-                values: new object[] { "Pizza(Grande)" });
+                columns: new[] { "nombre_tamano", "tamano","maximo_sabores" },
+                values: new object[] { "Pizza(Grande)", 40, 2 });
 
             migrationBuilder.InsertData(
                 table: "tamanos",
-                columns: new[] { "nombre_tamano" },
-                values: new object[] { "Pizza(Familiar)" });
+                columns: new[] { "nombre_tamano", "tamano","maximo_sabores" },
+                values: new object[] { "Pizza(Familiar)", 45, 3 });
 
+            migrationBuilder.InsertData(
+                table: "productos",
+                columns: new[] { "nom_producto", "precio_venta", "estado", "id_tamano", "id_categoria" },
+                values: new object[] { "Pizza(Personal)", 8000, 1, 1, 1 });
+
+            migrationBuilder.InsertData(
+                table: "productos",
+                columns: new[] { "nom_producto", "precio_venta", "estado", "id_tamano", "id_categoria" },
+                values: new object[] { "Pizza(Pequeña)", 27000, 1, 2, 1 });
+
+            migrationBuilder.InsertData(
+               table: "productos",
+               columns: new[] { "nom_producto", "precio_venta", "estado", "id_tamano", "id_categoria" },
+               values: new object[] { "Pizza(Grande)", 38000, 1, 3, 1 });
+
+            migrationBuilder.InsertData(
+               table: "productos",
+               columns: new[] { "nom_producto", "precio_venta", "estado", "id_tamano", "id_categoria" },
+               values: new object[] { "Pizza(Familiar)", 50000, 1, 4, 1 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

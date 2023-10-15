@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using NuGet.Versioning;
 using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
@@ -50,12 +51,13 @@ namespace PF_Pach_OS.Controllers
             }
             var DetallesVentas = _context.DetalleVentas
                 .Where(d => d.IdVenta == IdVenta)
+                .Include(d => d.IdProductoNavigation)
                 .ToList();
 
             ViewBag.IdVenta = IdVenta;
             ViewData["DetallesVentas"] = DetallesVentas;
             ViewData["IdProducto"] = new SelectList(_context.Productos.
-                Where(p => p.Estado == 1 && p.IdTamano == 1),
+                Where(p => p.Estado == 1 && p.IdTamano == 1 && p.IdProducto > 4),
                 "IdProducto", "NomProducto");
 
             Tuple<DetalleVenta, Venta> Venta_Detalle = new(new DetalleVenta(), new Venta());
@@ -88,7 +90,6 @@ namespace PF_Pach_OS.Controllers
             {
                 try
                 {
-
                     var ventaVacia = _context.DetalleVentas
                         .SingleOrDefault(d => d.IdVenta == venta.IdVenta);
 
@@ -111,40 +112,95 @@ namespace PF_Pach_OS.Controllers
 
                         var detallesVenta = _context.DetalleVentas
                             .Where(v => v.IdVenta == venta.IdVenta)
+                            .Include(v => v.IdProductoNavigation.IdTamanoNavigation)
                             .ToList();
 
+                        var tamanos = _context.Tamanos
+                            .Select(t => t.Tamano1)
+                            .ToList();
+
+                        float tamanoMasPequeno = (float)tamanos.Min();
+                        float tamanoMasGrande = (float)tamanos.Max();
 
                         foreach (var detalle in detallesVenta)
                         {
                             int? cantidadDisminuir = 0;
-                            var recetaProducto = _context.Recetas
-                                .Where(r => r.IdProducto == detalle.IdProducto)
-                                .ToList();
-
-                            foreach (var detalleReceta in recetaProducto)
+                            if (detalle.IdProducto <= 4 && detalle.IdProducto > 1)
                             {
-                                cantidadDisminuir = detalleReceta.CantInsumo * detalle.CantVendida;
+                                var saboresEscogidos = await  _context.SaboresSeleccionados
+                                    .Where(s => s.IdDetalleVenta == detalle.IdDetalleVenta)
+                                    .ToListAsync();
 
-                                var consultaInsumos = _context.Insumos
-                                    .SingleOrDefault(i => i.IdInsumo == detalleReceta.IdInsumo);
-
-                                int? cantidadInsumo = consultaInsumos.CantInsumo;
-
-                                if (cantidadDisminuir < cantidadInsumo)
+                                foreach (var sabor in saboresEscogidos)
                                 {
-                                    int? insumoDisminuido = cantidadInsumo - cantidadDisminuir;
+                                    int? porcentajeInsumo = 0;
+                                    var recetaPizza = _context.Recetas
+                                        .Where(r => r.IdProducto == sabor.IdProducto)
+                                        .Include(r => r.IdProductoNavigation.IdTamanoNavigation)
+                                        .ToList();
 
-                                    consultaInsumos.CantInsumo = insumoDisminuido;
+                                    foreach (var receta in recetaPizza)
+                                    {
+                                        float tamanoActual = (float)detalle.IdProductoNavigation.IdTamanoNavigation.Tamano1;
 
-                                    _context.Update(consultaInsumos);
+
+                                        float porcentajeGastar = (tamanoActual - tamanoMasPequeno) / (tamanoMasGrande - tamanoMasPequeno) * 100;
+                                         var consultaInsumos = _context.Insumos
+                                            .SingleOrDefault(i => i.IdInsumo == receta.IdInsumo);
+
+                                        int? cantidadInsumo = consultaInsumos.CantInsumo;
+
+                                        int cantidadGastar = (int)(receta.CantInsumo * porcentajeGastar) / 100;
+                                        cantidadDisminuir = (receta.CantInsumo + cantidadGastar) * detalle.CantVendida;
+
+
+                                        if (cantidadDisminuir < cantidadInsumo)
+                                        {
+                                            int? insumoDisminuido = cantidadInsumo - cantidadDisminuir;
+
+                                            consultaInsumos.CantInsumo = insumoDisminuido;
+
+                                            _context.Update(consultaInsumos);
+                                        }
+                                        else
+                                        {
+                                            ViewBag.MensajeAlerta = "No hay suficientes insumos";
+                                        }
+
+                                    }
                                 }
-                                else
-                                {
-                                    ViewBag.MensajeAlerta = "No hay suficientes insumos";
-                                }
-
-
                             }
+                            else
+                            {
+                                var recetaProducto = _context.Recetas
+                                    .Where(r => r.IdProducto == detalle.IdProducto)
+                                    .ToList();
+
+
+                                foreach (var detalleReceta in recetaProducto)
+                                {
+                                    var consultaInsumos = _context.Insumos
+                                        .SingleOrDefault(i => i.IdInsumo == detalleReceta.IdInsumo);
+
+                                    int? cantidadInsumo = consultaInsumos.CantInsumo;
+
+                                    if (cantidadDisminuir < cantidadInsumo)
+                                    {
+                                        int? insumoDisminuido = cantidadInsumo - cantidadDisminuir;
+
+                                        consultaInsumos.CantInsumo = insumoDisminuido;
+
+                                        _context.Update(consultaInsumos);
+                                    }
+                                    else
+                                    {
+                                        ViewBag.MensajeAlerta = "No hay suficientes insumos";
+                                    }
+
+
+                                }
+                            }
+
                         }
                         await _context.SaveChangesAsync();
                     }
@@ -240,11 +296,11 @@ namespace PF_Pach_OS.Controllers
             return (_context.Ventas?.Any(e => e.IdVenta == id)).GetValueOrDefault();
         }
 
-        //Funcion para escoger los sabores de las pizzas en la ventana modal cargada en la ventana modal
+        //Funcion para escoger los sabores de las pizzas a vender en la venta modal
         public async Task<IActionResult> SaboresPizza()
         {
             var saboresPizza = _context.Productos
-                .Where(p => p.IdTamano == 1 && p.IdCategoria == 1);
+                .Where(p => p.IdTamano == 1 && p.IdCategoria == 1 && p.IdProducto > 4);
 
             ViewData["IdProducto"] = new SelectList(_context.Tamanos
                 .Where(t => t.IdTamano != 1),
@@ -254,18 +310,39 @@ namespace PF_Pach_OS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ConfirmarSabores(List<string> sabores)
+        public async Task<IActionResult> ConfirmarSabores(List<int> sabores, DetalleVenta detalleVenta)
         {
-            DetalleVenta detalleVenta = new DetalleVenta();
+            var producto = await _context.Productos
+                .FirstOrDefaultAsync(d => d.IdProducto == detalleVenta.IdProducto);
 
-            var nuevoDetalleVenta = _context.Add(detalleVenta);
+            if (producto == null)
+            {
 
-            //foreach (var sabor in sabores)
-            //{
-            //    _context.SaboresSeleccionado
-            //        .AddAsync(sabor);
-            //}
-            return Json(sabores);
+                return NotFound();
+            }
+
+            detalleVenta.Precio = producto.PrecioVenta;
+
+            await _context.DetalleVentas.AddAsync(detalleVenta);
+            await _context.SaveChangesAsync();
+
+            foreach (var sabor in sabores)
+            {
+                SaborSeleccionado saborSeleccionado = new SaborSeleccionado();
+                var saborPizza = await _context.Productos
+                    .FirstOrDefaultAsync(p => p.IdProducto == sabor);
+                var recetaSaborPizza = await _context.Recetas
+                    .Where(r => r.IdProducto == sabor)
+                    .ToListAsync();
+
+                saborSeleccionado.IdSaborSeleccionado = null;
+                saborSeleccionado.IdProducto = sabor;
+                saborSeleccionado.IdDetalleVenta = detalleVenta.IdDetalleVenta;
+
+                await _context.SaboresSeleccionados.AddAsync(saborSeleccionado);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Crear", "Ventas", new { IdVenta = detalleVenta.IdVenta});
         }
     }
 }
