@@ -1,44 +1,48 @@
 ﻿@model PF_Pach_OS.Models.Compra;
 <link href="~/css/compras.css" rel="stylesheet" />
+<script src="~/js/compras/compras.js"></script>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
 }
-
-<input type="text" class="buscador" id="searchInput" placeholder="Buscar" aria-label="Buscar" aria-describedby="search-addon">
+<input type="text" class="buscador" id="searchInput" placeholder="Buscar" aria-label="Buscar" title="Buscador" aria-describedby="search-addon">
 
 
 <form method="post" asp-controller="Compras" asp-action="Create">
-    <button type="submit" class="btn-crear-posicion estilo-btn-naranja">Registrar Compra</button>
+    <button type="submit" class="btn-crear-posicion estilo-btn-naranja" title="Registra una compra">Registrar Compra</button>
 </form>
 
 
-<div class="mt-4 border rounded bg-white" style="max-height: 677px; overflow-y: auto;">
+<div class="mt-4 border rounded bg-white h-100 overflow-scroll">
     <table class="table mb-0 table-bordered table-striped">
         <thead class="table-warning">
             <tr>
-                <td>Proveedor</td>
                 <td>Fecha</td>
+                <td>Numero de Factura</td>
+                <td>Proveedor</td>
                 <td>Empleado</td>
                 <td>Total</td>
                 <td>Acciones</td>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="Datos">
             @foreach (var compra in ViewBag.Compras)
             {
                 <tr>
+                    <td>@(compra.FechaCompra != DateTime.MinValue ? compra.FechaCompra.ToString("d/M/yyyy") : "Sin Fecha")</td>
+                    <td>@compra.NumeroFactura</td>
                     <td>@compra.NomLocal</td>
-                    <td>@compra.FechaCompra</td>
                     <td>@compra.Nombre</td>
-                    <td>@compra.Total</td>
+                    <td>@(compra.Total % 1 == 0 ? compra.Total.ToString("C0").Replace(",", ".") : compra.Total.ToString("C2").Replace(",", "."))</td>
                     <td class="d-flex justify-content-center">
-                        <a asp-controller="DetalleCompra" asp-action="Details" asp-route-id="@compra.IdCompra" class="justify-content-center">
+                        <button class="btn btn-link" id="boton-detalles" data-toggle="modal" data-target="#exampleModal" data-idcompra="@compra.IdCompra" title="Ver detalle de la compra">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="orange" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
                                 <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
                             </svg>
-                        </a>
+                        </button>
                     </td>
                 </tr>
             }
@@ -46,38 +50,18 @@
     </table>
 </div>
 
-<script>
-    $(document).ready(function () {
-        // Manejar el evento de cambio en el campo de búsqueda mientras se escribe
-        $('#searchInput').on('input', function () {
-            var searchText = $(this).val().trim().toLowerCase();
-
-            // Filtrar las filas de la tabla que coincidan con la búsqueda
-            $('tbody tr').each(function () {
-                var purchaseDate = $(this).find('td:eq(1)').text().trim().toLowerCase();
-                var provider = $(this).find('td:eq(0)').text().trim().toLowerCase();
-                var employee = $(this).find('td:eq(2)').text().trim().toLowerCase();
-
-                if (
-                    purchaseDate.includes(searchText) ||
-                    provider.includes(searchText) ||
-                    employee.includes(searchText)
-                ) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-        });
-        // Restablecer el placeholder cuando se borre el contenido o se pierda el foco
-        searchInput.on('blur', function () {
-            if ($(this).val().trim() === '') {
-                $(this).addClass('empty');
-            }
-        });
-
-        searchInput.on('focus', function () {
-            $(this).removeClass('empty');
-        });
-    });
-</script>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="w-80 h4 text-center align-items-center" style="margin-bottom:-2rem"><strong>Pachito-ché</strong></span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body" data-url="/Compras/Accion?Parametro=">
+                Cargando Venta...
+            </div>
+        </div>
+    </div>
+</div>

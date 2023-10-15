@@ -11520,24 +11520,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\camil\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Anfev\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\PF_Pach_OS.csproj",
+      "projectUniqueName": "D:\\Repositorio - Guardar cambios del proyecto\\PF_Pach_OS\\PF_Pach_OS\\PF_Pach_OS.csproj",
       "projectName": "PF_Pach_OS",
-      "projectPath": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\PF_Pach_OS.csproj",
-      "packagesPath": "C:\\Users\\camil\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\obj\\",
+      "projectPath": "D:\\Repositorio - Guardar cambios del proyecto\\PF_Pach_OS\\PF_Pach_OS\\PF_Pach_OS.csproj",
+      "packagesPath": "C:\\Users\\Anfev\\.nuget\\packages\\",
+      "outputPath": "D:\\Repositorio - Guardar cambios del proyecto\\PF_Pach_OS\\PF_Pach_OS\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\camil\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\Anfev\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11545,6 +11540,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\sdk\\7.0.306\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -11609,7 +11605,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
       }
     }
   }
