@@ -1,5 +1,4 @@
 ﻿function ValidarCampos() {
-    console.log("Estoy dentro")
     const correo = correoInput.value.trim();
     const contrasena = contrasenaInput.value.trim();
     const divInfo = document.getElementById("botonDeshabilitado");

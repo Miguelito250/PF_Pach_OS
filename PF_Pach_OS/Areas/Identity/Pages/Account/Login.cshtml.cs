@@ -21,7 +21,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, 
+        public LoginModel(SignInManager<IdentityUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<IdentityUser> userManager)
         {
@@ -39,17 +39,15 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
 
         [TempData]
         public string ErrorMessage { get; set; }
-
+        
         public class InputModel
         {
             [Required]
-            [EmailAddress(ErrorMessage = "Por favor, ingrese una dirección de correo electrónico válida.")]
+            [EmailAddress]
             public string Email { get; set; }
-
 
             [Required]
             [DataType(DataType.Password)]
-            [MinLength(6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres.")]
             public string Password { get; set; }
 
             [Display(Name = "Remember me?")]
@@ -58,6 +56,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            Console.WriteLine("Estoy vivo");
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
@@ -78,7 +77,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
