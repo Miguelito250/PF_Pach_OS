@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,6 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
-
     public class VentasController : Controller
     {
         private readonly Pach_OSContext _context;
@@ -88,6 +88,14 @@ namespace PF_Pach_OS.Controllers
         {
             if (ModelState.IsValid)
             {
+                var detalleNulo = await _context.DetalleVentas
+                    .FirstOrDefaultAsync(v => v.IdVenta == venta.IdVenta);
+
+                if (detalleNulo == null)
+                {
+                    return RedirectToAction("Crear", "Ventas", new { venta.IdVenta });
+                }
+                    
                 try
                 {
                     if (venta.Pago < venta.TotalVenta || venta.Pago == null)

@@ -15,7 +15,7 @@
                 <div class="col-4">
                     <label>Producto</label>
                     <select class="form-control form-select" aria-label="Default select example" asp-for="Item1.IdProducto" asp-items="ViewBag.IdProducto" name="IdProducto" required>
-                        <option></option>
+                        <option value="NA"></option>
                         <option value="0">Pizzas (Sabores)</option>
 
                     </select>
@@ -67,7 +67,7 @@
 
     </div>
     <div class="col-4  bg-white rounded border px-4 py-4 factura">
-        <form asp-action="ConfirmarVenta" method="post" class="detail-container" novalidate>
+        <form asp-action="ConfirmarVenta" method="post" class="detail-container" id="formVentas" novalidate>
             <input asp-for="Item2.IdVenta" type="number" value="@ViewBag.IdVenta" name="IdVenta" hidden>
             <div>
                 <div class="d-flex fecha">
@@ -149,66 +149,11 @@
         </div>
     </div>
 </div>
-<script src="~/js/ventas/ventas.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/Ventas/Validaciones.js"></script>
+<script src="~/js/ventas/ventas.js"></script>
 
-@*-----VALIDACION DE CAMPOS EN TIEMPO REAL-----*@
-<script>
-    $(document).ready(function () {
-        // Manejar el evento de cambio en el campo de PrecioInsumo
-        $('#Item1_IdProducto').on('input', function () {
-            ValidarProducto();
-        });
-
-        // Manejar el evento de cambio en el campo de Cantidad
-        $('#Item1_CantVendida').on('input', function () {
-            ValidarCantidad();
-        });
-
-        $('#pago').on('input', function () {
-            ValidarPago();
-        });
-
-        function ValidarProducto() {
-            var producto = $('#Item1_IdProducto').val();
-            if (producto === '' || isNaN(producto)) {
-                $('#Item1_IdProducto').addClass('is-invalid');
-            } else {
-                $('#Item1_IdProducto').removeClass('is-invalid');
-                $('#Item1_IdProducto').addClass('is-valid');
-            }
-        }
-
-        function ValidarCantidad() {
-            var cantidad = $('#Item1_CantVendida').val();
-            if (cantidad === '' || isNaN(cantidad) || cantidad < 1) {
-                $('#Item1_CantVendida').addClass('is-invalid');
-
-            }
-            else {
-                $('#Item1_CantVendida').removeClass('is-invalid');
-                $('#Item1_CantVendida').addClass('is-valid');
-
-            }
-        }
-
-        function ValidarPago() {
-            var pago = $('#pago').val();
-            var totalVenta = $('#totalVenta').text();
-            totalVenta = parseInt(totalVenta);
-
-            console.log(pago)
-            console.log(totalVenta)
-            if (pago === '' || isNaN(pago) || pago < totalVenta) {
-                $('#pago').addClass('is-invalid');
-            }
-            else {
-                $('#pago').removeClass('is-invalid');
-            }
-        }
-    });
-</script>
 
 @* -----VALIDACION DE LOS CAMPOS CUANDO SE LE DA AL BOTON DE AGREGAR----- *@
 <script>

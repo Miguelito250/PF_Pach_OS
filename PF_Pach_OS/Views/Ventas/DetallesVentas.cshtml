@@ -45,7 +45,7 @@
                     <td>
                         @(ViewBag.Cambio != null && ViewBag.Cambio != 0
                             ? ((decimal)ViewBag.Cambio).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
-                            : "Sin Precio")
+                            : "0")
                     </td>
 
 
@@ -101,9 +101,29 @@
     </span>
 </div>
 
-<script src="~/js/ventas/detallesVenta.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var tablaDetalles = $("#TablaDetalles");
+        $(tablaDetalles).DataTable({
+            searching: false,
+            lengthChange: false,
+            info: false,
+            pageLength: 4,
+            filters: false,
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+            }
+        });
+
+        // Contar las filas de la tabla
+        var ContadorFilas = $('#TablaDetalles tbody tr').length;
+        console.log('Número de filas en la tabla: ' + ContadorFilas);
+    });
+
+</script>
 
 
 
