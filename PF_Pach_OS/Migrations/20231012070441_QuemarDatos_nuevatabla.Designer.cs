@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PF_Pach_OS.Models;
 
@@ -11,9 +12,10 @@ using PF_Pach_OS.Models;
 namespace PF_Pach_OS.Migrations
 {
     [DbContext(typeof(Pach_OSContext))]
-    partial class Pach_OSContextModelSnapshot : ModelSnapshot
+    [Migration("20231012070441_QuemarDatos_nuevatabla")]
+    partial class QuemarDatos_nuevatabla
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -575,8 +577,8 @@ namespace PF_Pach_OS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("IdSaborSeleccionado"), 1L, 1);
 
-                    //b.Property<int?>("DetalleVentaNavigationIdDetalleVenta")
-                    //    .HasColumnType("int");
+                    b.Property<int?>("DetalleVentaNavigationIdDetalleVenta")
+                        .HasColumnType("int");
 
                     b.Property<int?>("IdDetalleVenta")
                         .HasColumnType("int");
@@ -584,14 +586,14 @@ namespace PF_Pach_OS.Migrations
                     b.Property<int?>("IdProducto")
                         .HasColumnType("int");
 
-                    //b.Property<int?>("ProductoNavigationIdProducto")
-                    //    .HasColumnType("int");
+                    b.Property<int?>("ProductoNavigationIdProducto")
+                        .HasColumnType("int");
 
                     b.HasKey("IdSaborSeleccionado");
 
-                    b.HasIndex("IdProducto");
+                    b.HasIndex("DetalleVentaNavigationIdDetalleVenta");
 
-                    b.HasIndex("IdDetalleVenta");
+                    b.HasIndex("ProductoNavigationIdProducto");
 
                     b.ToTable("SaboresSeleccionados");
                 });
@@ -688,10 +690,6 @@ namespace PF_Pach_OS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmailConfirmationToken")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("EntryDay")
                         .HasColumnType("datetime2");
 
@@ -700,10 +698,6 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordResetToken")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

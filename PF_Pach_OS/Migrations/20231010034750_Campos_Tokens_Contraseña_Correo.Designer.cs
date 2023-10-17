@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PF_Pach_OS.Models;
 
@@ -11,9 +12,10 @@ using PF_Pach_OS.Models;
 namespace PF_Pach_OS.Migrations
 {
     [DbContext(typeof(Pach_OSContext))]
-    partial class Pach_OSContextModelSnapshot : ModelSnapshot
+    [Migration("20231010034750_Campos_Tokens_Contraseña_Correo")]
+    partial class Campos_Tokens_Contraseña_Correo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -567,35 +569,6 @@ namespace PF_Pach_OS.Migrations
                     b.ToTable("recetas", (string)null);
                 });
 
-            modelBuilder.Entity("PF_Pach_OS.Models.SaboresSeleccionados", b =>
-                {
-                    b.Property<int?>("IdSaborSeleccionado")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("IdSaborSeleccionado"), 1L, 1);
-
-                    //b.Property<int?>("DetalleVentaNavigationIdDetalleVenta")
-                    //    .HasColumnType("int");
-
-                    b.Property<int?>("IdDetalleVenta")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdProducto")
-                        .HasColumnType("int");
-
-                    //b.Property<int?>("ProductoNavigationIdProducto")
-                    //    .HasColumnType("int");
-
-                    b.HasKey("IdSaborSeleccionado");
-
-                    b.HasIndex("IdProducto");
-
-                    b.HasIndex("IdDetalleVenta");
-
-                    b.ToTable("SaboresSeleccionados");
-                });
-
             modelBuilder.Entity("PF_Pach_OS.Models.Tamano", b =>
                 {
                     b.Property<byte>("IdTamano")
@@ -792,21 +765,6 @@ namespace PF_Pach_OS.Migrations
                     b.Navigation("IdProductoNavigation");
                 });
 
-            modelBuilder.Entity("PF_Pach_OS.Models.SaboresSeleccionados", b =>
-                {
-                    b.HasOne("PF_Pach_OS.Models.DetalleVenta", "DetalleVentaNavigation")
-                        .WithMany("SaboresSeleccionados")
-                        .HasForeignKey("DetalleVentaNavigationIdDetalleVenta");
-
-                    b.HasOne("PF_Pach_OS.Models.Producto", "ProductoNavigation")
-                        .WithMany("SaboresSeleccionados")
-                        .HasForeignKey("ProductoNavigationIdProducto");
-
-                    b.Navigation("DetalleVentaNavigation");
-
-                    b.Navigation("ProductoNavigation");
-                });
-
             modelBuilder.Entity("PF_Pach_OS.Models.Venta", b =>
                 {
                     b.HasOne("PF_Pach_OS.Models.Empleado", "IdEmpleadoNavigation")
@@ -827,11 +785,6 @@ namespace PF_Pach_OS.Migrations
                     b.Navigation("DetallesCompras");
                 });
 
-            modelBuilder.Entity("PF_Pach_OS.Models.DetalleVenta", b =>
-                {
-                    b.Navigation("SaboresSeleccionados");
-                });
-
             modelBuilder.Entity("PF_Pach_OS.Models.Empleado", b =>
                 {
                     b.Navigation("Venta");
@@ -849,8 +802,6 @@ namespace PF_Pach_OS.Migrations
                     b.Navigation("DetalleVenta");
 
                     b.Navigation("Receta");
-
-                    b.Navigation("SaboresSeleccionados");
                 });
 
             modelBuilder.Entity("PF_Pach_OS.Models.Proveedore", b =>
