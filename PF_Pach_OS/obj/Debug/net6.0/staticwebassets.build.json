@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "auz0uXQCbsycudQekpVFll0/iEmuGKQnNQXXlJWSIoc=",
+  "Hash": "jEqFw1E9AfTqHP2wH4r9kZ7QN4Uf19mHrJqKL2OUp0I=",
   "Source": "PF_Pach_OS",
   "BasePath": "_content/PF_Pach_OS",
   "Mode": "Default",
@@ -36191,6 +36191,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Login-RecuperarContraseña\\Login.js"
+    },
+    {
+      "Identity": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Productos\\Editar.js",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "js/Productos/Editar.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Productos\\Editar.js"
     },
     {
       "Identity": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Proveedores\\Proveedore.js",
