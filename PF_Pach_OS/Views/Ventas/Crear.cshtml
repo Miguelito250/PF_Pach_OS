@@ -1,10 +1,11 @@
-﻿<link href="~/css/ventas.css" rel="stylesheet" />
-
-@model Tuple<DetalleVenta, Venta>;
+﻿@model Tuple<DetalleVenta, Venta>;
+@using System.Globalization;
 @{
     ViewData["Title"] = "Crear Venta";
     var detallesVentas = ViewData["DetallesVentas"] as List<DetalleVenta>;
 }
+
+<link href="~/css/detalleventa.css" rel="stylesheet" />
 
 <div class="d-flex p-4">
     <div class="container">
@@ -15,24 +16,22 @@
                     <label>Producto</label>
                     <select class="form-control form-select" aria-label="Default select example" asp-for="Item1.IdProducto" asp-items="ViewBag.IdProducto" name="IdProducto" required>
                         <option></option>
+                        <option value="0">Pizzas (Sabores)</option>
+
                     </select>
                     <div class="invalid-feedback">Por favor seleccione un producto</div>
-                    <div class="valid-feedback">¡Todo bien!</div>
                 </div>
 
                 <div class="col-3">
                     <label>Cantidad</label>
-                    <input type="number" class="form-control" asp-for="Item1.CantVendida" name="CantVendida" required />
-                    <div class="invalid-feedback">
+                    <input type="number" class="form-control" asp-for="Item1.CantVendida" name="CantVendida" min="0" required />
+                    <div id="Cantidad" class="invalid-feedback">
                         Por favor ingrese una cantidad mayor a 0.
-                    </div>
-                    <div class="valid-feedback">
-                        ¡Todo bien!
                     </div>
                 </div>
 
                 <div class="col-4 d-flex align-items-end">
-                    <button class="btn btn-primary botones-agregar" type="submit">
+                    <button class="btn btn-primary botones-agregar" type="submit" title="Agreagar producto a la venta">
                         Agregar Producto
                     </button>
                 </div>
@@ -67,12 +66,22 @@
         </div>
 
     </div>
-    <div class="col-4  bg-white rounded border px-4 py-4">
+    <div class="col-4  bg-white rounded border px-4 py-4 factura">
         <form asp-action="ConfirmarVenta" method="post" class="detail-container" novalidate>
             <input asp-for="Item2.IdVenta" type="number" value="@ViewBag.IdVenta" name="IdVenta" hidden>
             <div>
-                <div class="w-100 d-flex flex-column mb-3 align-items-center">
-                    <p class="w-100 h4 mb-3 text-center"><strong>Pach-OS</strong></p>
+                <div class="d-flex fecha">
+                    <span class="text-gray position-absolute text-end" id="fecha-hora"></span>
+                    <input asp-for="Item2.FechaVenta" type="text" id="fecha-input" name="FechaVenta" hidden>
+                </div>
+
+                <div class="w-100 d-flex flex-column mb-3 align-items-center mt-3">
+                    <strong>Pachito-Ché Pizza y Bar</strong>
+                    <img class="logoEmpresa" src="~/img/Logo_Empresa.jpg">
+                    
+                    <span class="mt-1"><strong>NIT: </strong>9203272</span>
+                    <span><strong>Telefono: </strong>311 332 3221</span>
+                    
                 </div>
 
                 <hr>
@@ -81,7 +90,7 @@
 
                     <div class="row">
                         <span class="col-8">Domicilio</span>
-                        <input asp-for="Item2.PagoDomicilio" type="number" id="domicilio" name="PagoDomicilio" class="col-4 border-0 text-end" value="0" min="0">
+                        <input asp-for="Item2.PagoDomicilio" type="number" id="domicilio" name="PagoDomicilio" class="col-4 form-control text-end" value="0" min="0">
                     </div>
 
                     <div class="row mt-2">
@@ -93,21 +102,15 @@
                             </select>
 
                         </div>
-                        <input asp-for="Item2.Pago" type="number" id="pago" name="Pago" class="col-4 border-0 text-end" value="0" required>
+                        <input asp-for="Item2.Pago" type="number" id="pago" name="Pago" class="col-4 form-control text-end" value="0" required>
                         <div class="invalid-feedback">El pago no debe de ser menor al total</div>
-                        <div class="valid-feedback">¡Todo bien!</div>
                     </div>
 
                     <div class="row mt-2">
-                        <span class="col-8">Cambio</span>
+                        <span class="col-8">Cambio al cliente</span>
                         <span class="col-4 text-end" id="texto-cambio">0</span>
                     </div>
 
-                    <div class="row mt-2">
-                        <span class="col-6">Fecha / Hora</span>
-                        <span class="col-6 text-end" id="fecha-hora"></span>
-                        <input asp-for="Item2.FechaVenta" type="text" id="fecha-input" name="FechaVenta" hidden>
-                    </div>
 
                 </div>
 
@@ -130,6 +133,22 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="titulo-modal"></h3>
+                <button id="cerrar" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body" data-url="/Ventas/DetallesVentas?IdVenta=">
+                Cargando Sabores de pizza...
+            </div>
+        </div>
+    </div>
+</div>
 <script src="~/js/ventas/ventas.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -157,6 +176,7 @@
                 $('#Item1_IdProducto').addClass('is-invalid');
             } else {
                 $('#Item1_IdProducto').removeClass('is-invalid');
+                $('#Item1_IdProducto').addClass('is-valid');
             }
         }
 
@@ -164,9 +184,12 @@
             var cantidad = $('#Item1_CantVendida').val();
             if (cantidad === '' || isNaN(cantidad) || cantidad < 1) {
                 $('#Item1_CantVendida').addClass('is-invalid');
+
             }
             else {
-                $('#Item1.CantVendida').removeClass('is-invalid');
+                $('#Item1_CantVendida').removeClass('is-invalid');
+                $('#Item1_CantVendida').addClass('is-valid');
+
             }
         }
 

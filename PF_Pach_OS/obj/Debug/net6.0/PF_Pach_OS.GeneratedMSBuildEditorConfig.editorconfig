@@ -52,6 +52,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/user/OneDrive/Pictures/Documents/GitHub/PF_Pach_OS_1/PF_Pach_OS/Areas/Identity/Pages/Account/RegisterConfirmation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3RlckNvbmZpcm1hdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/user/OneDrive/Pictures/Documents/GitHub/PF_Pach_OS_1/PF_Pach_OS/Areas/Identity/Pages/Account/ResetPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -70,6 +74,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/user/OneDrive/Pictures/Documents/GitHub/PF_Pach_OS_1/PF_Pach_OS/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/OneDrive/Pictures/Documents/GitHub/PF_Pach_OS_1/PF_Pach_OS/Views/Acceso/ConfirmarCorreo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNvXENvbmZpcm1hckNvcnJlby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/user/OneDrive/Pictures/Documents/GitHub/PF_Pach_OS_1/PF_Pach_OS/Views/Compras/Index.cshtml]
@@ -184,20 +192,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVudGFzXENyZWFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive/Pictures/Documents/GitHub/PF_Pach_OS_1/PF_Pach_OS/Views/Ventas/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVudGFzXERlbGV0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/user/OneDrive/Pictures/Documents/GitHub/PF_Pach_OS_1/PF_Pach_OS/Views/Ventas/DetallesVentas.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVudGFzXERldGFsbGVzVmVudGFzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive/Pictures/Documents/GitHub/PF_Pach_OS_1/PF_Pach_OS/Views/Ventas/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVudGFzXEVkaXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/user/OneDrive/Pictures/Documents/GitHub/PF_Pach_OS_1/PF_Pach_OS/Views/Ventas/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVudGFzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/OneDrive/Pictures/Documents/GitHub/PF_Pach_OS_1/PF_Pach_OS/Views/Ventas/SaboresPizza.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVudGFzXFNhYm9yZXNQaXp6YS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/user/OneDrive/Pictures/Documents/GitHub/PF_Pach_OS_1/PF_Pach_OS/Views/_ViewImports.cshtml]
