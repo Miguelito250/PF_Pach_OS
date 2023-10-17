@@ -316,9 +316,61 @@ namespace PF_Pach_OS.Controllers
         //Se llama la vista para Editar 
         public IActionResult Informacin_Editar(int IdProducto)
         {
+            var producto_Original = _context.Productos.FirstOrDefault(p => p.IdProducto == IdProducto);
+
+            if (producto_Original != null)
+            {
+
+                ViewBag.IdProducto = producto_Original.IdProducto;
+                ViewBag.ProductoActivo = producto_Original;
+                var categoriaActiva = _context.Categorias.FirstOrDefault(p => p.IdCategoria == producto_Original.IdCategoria);
+                var tamanoActivo = _context.Tamanos.FirstOrDefault(p => p.IdTamano == producto_Original.IdTamano);
+                if (categoriaActiva != null)
+                {
+                    ViewBag.SelectCategoria = categoriaActiva.NomCategoria;
+                    ViewBag.SelectCategoriaID = categoriaActiva.IdCategoria;
+                }
+                if (tamanoActivo != null)
+                {
+                    ViewBag.SelectTamano = tamanoActivo.NombreTamano;
+                    ViewBag.SelectTamanoID = tamanoActivo.IdTamano;
+                }
+            }
+            var recetas = _context.Recetas.Where(p => p.IdProducto == IdProducto).ToList();
+
+
+            var insumos = _context.Insumos.ToList();
+
+            var recetasConInsumos = recetas.Select(receta => new
+            {
+                IdReceta = receta.IdReceta,
+                CantInsumo = receta.CantInsumo,
+                IdInsumo = receta.IdInsumo,
+                NomInsumo = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.NomInsumo,
+                IdProducto = receta.IdProducto,
+                Medida = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.Medida,
+            }).ToList();
+            Console.WriteLine("=================================================");
+            foreach (var receta in recetasConInsumos)
+            {
+                Console.WriteLine($"IdReceta: {receta.IdReceta}, CantInsumo: {receta.CantInsumo}, IdProducto: {receta.IdProducto}, IdInsumo: {receta.IdInsumo}");
+            }
+            Console.WriteLine("=================================================");
+            ViewBag.RecetasConInsumos = recetasConInsumos;
+            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
+            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
+            ViewBag.NombreTamano = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
+            ViewBag.Insumo = _context.Insumos;
+            ViewBag.IdProducto = IdProducto;
             var producto_editar = _context.Productos.FirstOrDefault(p => p.IdProducto == IdProducto);
 
             return View("Editar");
+        }
+        public JsonResult ConsultarNomInsumo(int Idinsumo)
+        {
+            var insumo = _context.Insumos.Where(p => p.IdInsumo == Idinsumo).ToList();
+
+            return Json(insumo);
         }
 
         //Verifica si el producto que se nesecita existe

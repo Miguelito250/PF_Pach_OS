@@ -8225,6 +8225,10 @@
       "PackagePath": "staticwebassets\\css\\Compras.css"
     },
     {
+      "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\DetalleVenta.css",
+      "PackagePath": "staticwebassets\\css\\DetalleVenta.css"
+    },
+    {
       "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Estilos-generales.css",
       "PackagePath": "staticwebassets\\css\\Estilos-generales.css"
     },
@@ -8241,6 +8245,10 @@
       "PackagePath": "staticwebassets\\css\\Proveedores.css"
     },
     {
+      "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\SaboresPizza.css",
+      "PackagePath": "staticwebassets\\css\\Ventas\\SaboresPizza.css"
+    },
+    {
       "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\estructuracion.css",
       "PackagePath": "staticwebassets\\css\\estructuracion.css"
     },
@@ -8253,6 +8261,14 @@
       "PackagePath": "staticwebassets\\css\\ventas.css"
     },
     {
+      "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\img\\Logo_Empresa.jpg",
+      "PackagePath": "staticwebassets\\img\\Logo_Empresa.jpg"
+    },
+    {
+      "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Login-RecuperarContraseña\\Login.js",
+      "PackagePath": "staticwebassets\\js\\Login-RecuperarContraseña\\Login.js"
+    },
+    {
       "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Proveedores\\Proveedore.js",
       "PackagePath": "staticwebassets\\js\\Proveedores\\Proveedore.js"
     },
@@ -8261,16 +8277,32 @@
       "PackagePath": "staticwebassets\\js\\Proveedores\\Validaciones.js"
     },
     {
-      "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\DetallesVentas.js",
-      "PackagePath": "staticwebassets\\js\\Ventas\\DetallesVentas.js"
+      "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\DetallesVenta.js",
+      "PackagePath": "staticwebassets\\js\\Ventas\\DetallesVenta.js"
     },
     {
       "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\IndexVentas.js",
       "PackagePath": "staticwebassets\\js\\Ventas\\IndexVentas.js"
     },
     {
+      "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\SaboresPizzas.js",
+      "PackagePath": "staticwebassets\\js\\Ventas\\SaboresPizzas.js"
+    },
+    {
       "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\Ventas.js",
       "PackagePath": "staticwebassets\\js\\Ventas\\Ventas.js"
+    },
+    {
+      "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\lib\\axios\\axios.min.js",
+      "PackagePath": "staticwebassets\\lib\\axios\\axios.min.js"
+    },
+    {
+      "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\lib\\axios\\dist\\axios.js",
+      "PackagePath": "staticwebassets\\lib\\axios\\dist\\axios.js"
+    },
+    {
+      "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\lib\\axios\\dist\\axios.min.js",
+      "PackagePath": "staticwebassets\\lib\\axios\\dist\\axios.min.js"
     },
     {
       "Id": "C:\\Users\\SENA\\Documents\\GitHub\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\lib\\bootstrap\\LICENSE",
