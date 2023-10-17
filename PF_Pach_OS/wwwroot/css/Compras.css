@@ -36,7 +36,33 @@
 
 /* Estilos cuando el campo de búsqueda está enfocado */
 .buscador:focus {
-    width: 220px; /* Ancho ligeramente mayor */
-    transform: translateX(10px); /* Desplazamiento hacia la derecha */
-    box-shadow: 20px 0 20px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+    width: 220px; 
+    transform: translateX(10px); 
+    box-shadow: 20px 0 20px rgba(0, 0, 0, 0.2); 
 }
+
+.titulo_detalle {
+    font-size: 1rem;
+}
+
+.table-bordered td, .table-bordered th {
+    border: 1px solid #dee2e6;
+    align-items: center;
+}
+
+.sombra {
+    box-shadow: inset 0 0 10px #FACE75;
+}
+
+.dataTables_wrapper {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center; 
+}
+
+.DC{
+    margin-top:0;
+}
+
+
