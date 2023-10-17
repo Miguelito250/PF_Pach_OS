@@ -20,9 +20,15 @@ function CalcularCambio() {
     let totalVenta = document.getElementById('totalVenta').textContent;
     var pago = document.getElementById('pago').value;
 
-    var cambio = pago - totalVenta
-    InsertarCambio(cambio)
+    var cambio = pago - totalVenta;
+
+    // Formatear el valor de cambio a pesos colombianos
+    var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+    var cambioFormateado = formatoColombiano.format(cambio);
+
+    InsertarCambio(cambioFormateado);
 }
+
 
 function InsertarCambio(cambio) {
     document.getElementById("texto-cambio").innerHTML = cambio;

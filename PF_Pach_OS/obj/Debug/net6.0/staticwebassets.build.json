@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "XOyaQG1ayma3ypEpqSyqqSvqB0jutOatiHMC4CD/jwk=",
+  "Hash": "CZz7YWTdbJajtstys/ffbv9FAVBrt3ApzAP5iEOjLMc=",
   "Source": "PF_Pach_OS",
   "BasePath": "_content/PF_Pach_OS",
   "Mode": "Default",
@@ -36210,12 +36210,12 @@
       "OriginalItemSpec": "wwwroot\\js\\Proveedores\\Validaciones.js"
     },
     {
-      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\DetallesVentas.js",
+      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\DetallesVenta.js",
       "SourceId": "PF_Pach_OS",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
       "BasePath": "_content/PF_Pach_OS",
-      "RelativePath": "js/Ventas/DetallesVentas.js",
+      "RelativePath": "js/Ventas/DetallesVenta.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -36224,7 +36224,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\Ventas\\DetallesVentas.js"
+      "OriginalItemSpec": "wwwroot\\js\\Ventas\\DetallesVenta.js"
     },
     {
       "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\IndexVentas.js",

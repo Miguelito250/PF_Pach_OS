@@ -46,7 +46,7 @@ namespace PF_Pach_OS.Controllers
                 .FirstOrDefault(v => v.IdVenta == IdVenta);
 
             if (ventaNula == null)
-            { 
+            {
                 return RedirectToAction("Index");
             }
             var DetallesVentas = _context.DetalleVentas
@@ -90,15 +90,6 @@ namespace PF_Pach_OS.Controllers
             {
                 try
                 {
-                    var ventaVacia = _context.DetalleVentas
-                        .SingleOrDefault(d => d.IdVenta == venta.IdVenta);
-
-                    if (ventaVacia == null)
-                    {
-                        return RedirectToAction("Crear", "Ventas", new { venta.IdVenta });
-                    }
-
-
                     if (venta.Pago < venta.TotalVenta || venta.Pago == null)
                     {
                         ViewBag.ValidacionPago = "El pago debe de ser mayor al total de la venta";
@@ -108,7 +99,7 @@ namespace PF_Pach_OS.Controllers
                     {
 
                         venta.Estado = "Pendiente";
-                        _context.Update(venta);
+                        _context.Ventas.Update(venta);
 
                         var detallesVenta = _context.DetalleVentas
                             .Where(v => v.IdVenta == venta.IdVenta)
@@ -127,7 +118,7 @@ namespace PF_Pach_OS.Controllers
                             int? cantidadDisminuir = 0;
                             if (detalle.IdProducto <= 4 && detalle.IdProducto > 1)
                             {
-                                var saboresEscogidos = await  _context.SaboresSeleccionados
+                                var saboresEscogidos = await _context.SaboresSeleccionados
                                     .Where(s => s.IdDetalleVenta == detalle.IdDetalleVenta)
                                     .ToListAsync();
 
@@ -145,8 +136,8 @@ namespace PF_Pach_OS.Controllers
 
 
                                         float porcentajeGastar = (tamanoActual - tamanoMasPequeno) / (tamanoMasGrande - tamanoMasPequeno) * 100;
-                                         var consultaInsumos = _context.Insumos
-                                            .SingleOrDefault(i => i.IdInsumo == receta.IdInsumo);
+                                        var consultaInsumos = _context.Insumos
+                                           .SingleOrDefault(i => i.IdInsumo == receta.IdInsumo);
 
                                         int? cantidadInsumo = consultaInsumos.CantInsumo;
 
@@ -156,6 +147,7 @@ namespace PF_Pach_OS.Controllers
 
                                         if (cantidadDisminuir < cantidadInsumo)
                                         {
+                                            Console.WriteLine($"El insumo {receta.IdInsumo} se le disminuyó {cantidadDisminuir} y este porcentaje: {porcentajeGastar}");
                                             int? insumoDisminuido = cantidadInsumo - cantidadDisminuir;
 
                                             consultaInsumos.CantInsumo = insumoDisminuido;
@@ -183,6 +175,7 @@ namespace PF_Pach_OS.Controllers
                                         .SingleOrDefault(i => i.IdInsumo == detalleReceta.IdInsumo);
 
                                     int? cantidadInsumo = consultaInsumos.CantInsumo;
+                                    cantidadDisminuir = detalle.CantVendida * detalleReceta.CantInsumo;
 
                                     if (cantidadDisminuir < cantidadInsumo)
                                     {
@@ -230,7 +223,6 @@ namespace PF_Pach_OS.Controllers
             {
                 _context.Ventas.Remove(ventaCancelar);
                 _context.SaveChanges();
-                Console.WriteLine("Venta cancelada");
             }
             else
             {
@@ -259,6 +251,8 @@ namespace PF_Pach_OS.Controllers
 
             List<DetalleVenta> detallesLista = listaDetalles.ToList();
 
+            int cambio = (int)(detallesVentas.IdVentaNavigation.Pago - detallesVentas.IdVentaNavigation.TotalVenta);
+            ViewBag.Cambio = cambio;
             ViewBag.listaDetalles = detallesLista;
 
             if (detallesVentas == null)
@@ -342,7 +336,7 @@ namespace PF_Pach_OS.Controllers
                 await _context.SaboresSeleccionados.AddAsync(saborSeleccionado);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction("Crear", "Ventas", new { IdVenta = detalleVenta.IdVenta});
+            return RedirectToAction("Crear", "Ventas", new { IdVenta = detalleVenta.IdVenta });
         }
     }
 }
