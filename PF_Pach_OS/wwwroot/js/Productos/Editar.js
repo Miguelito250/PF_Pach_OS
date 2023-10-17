@@ -196,7 +196,7 @@
     }, false);
 })();
 
-var Insumo = [];
+var Nuevas_Recetas = [];
 document.getElementById("miFormulario").addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -260,6 +260,10 @@ document.getElementById("miFormulario").addEventListener("submit", function (eve
                     enlace.className = 'btn btn-outline-danger';
                     enlace.textContent = 'Remover';
                     acciones.appendChild(enlace);
+                    var id_producto_texto = document.getElementById("Producto_IdProducto").value
+                    var id_producto = parseInt(id_producto_texto)
+                    var receta = { cantInsumo: cantidadInsumo, id_producto: id_producto, id_insumo: Insumo.idInsumo };
+                    Agregar_a_la_lista(receta);
                 } else {
                     console.log("Insumo es undefined o nulo.");
                 }
@@ -274,6 +278,6 @@ document.getElementById("miFormulario").addEventListener("submit", function (eve
 
 });
 function Agregar_a_la_lista(objetoJSON) {
-    Insumo.push(objetoJSON);
-    console.log(Insumo);
+    Nuevas_Recetas.push(objetoJSON);
+    console.log(Nuevas_Recetas);
 }
