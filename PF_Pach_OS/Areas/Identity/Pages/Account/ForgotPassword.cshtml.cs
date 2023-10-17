@@ -31,7 +31,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "Por favor, ingrese una dirección de correo electrónico válida.")]
             public string Email { get; set; }
         }
 

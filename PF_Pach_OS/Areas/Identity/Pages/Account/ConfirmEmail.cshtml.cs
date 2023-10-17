@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace PF_Pach_OS.Areas.Identity.Pages.Account
+namespace PF_Pach_OS.Views.Recursos
 {
     [AllowAnonymous]
     public class ConfirmEmailModel : PageModel
