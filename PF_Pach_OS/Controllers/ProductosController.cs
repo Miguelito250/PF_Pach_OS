@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PF_Pach_OS.Models;
+using Newtonsoft.Json;
 
 namespace PF_Pach_OS.Controllers
 {
@@ -16,7 +18,7 @@ namespace PF_Pach_OS.Controllers
     {
         private readonly Pach_OSContext _context;
 
-        
+
 
         public ProductosController(Pach_OSContext context)
         {
@@ -64,20 +66,11 @@ namespace PF_Pach_OS.Controllers
                         Eliminar_Receta(pach.IdProducto);
                         _context.Productos.Remove(pach);
                         _context.SaveChanges();
-
                     }
                 }
-
-
-
             }
-
-
             return View(Enumerable.Reverse(pach_OSContext).ToList());
         }
-
-
-
 
         //Envia la informacion del producto que se esta creando o actualizando es ese momento
         public void ProductoActivo(int id)
@@ -124,6 +117,7 @@ namespace PF_Pach_OS.Controllers
             {
                 IdReceta = receta.IdReceta,
                 CantInsumo = receta.CantInsumo,
+                Idinsumo = receta.IdInsumo,
                 NomInsumo = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.NomInsumo,
                 IdProducto = receta.IdProducto,
                 Medida = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.Medida,
@@ -162,7 +156,7 @@ namespace PF_Pach_OS.Controllers
             return NotFound();
         }
 
-       
+
         // Acutualiza la informacion del Producto asi como la de su reseta
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -267,7 +261,7 @@ namespace PF_Pach_OS.Controllers
         //Elimina un producto en caso que que este no se este utilizando en ninguna venta 
         public async Task<IActionResult> Eliminar(int id)
         {
-            bool exsite= ExisteEnVentas(id);
+            bool exsite = ExisteEnVentas(id);
             if (exsite)
             {
                 Deshabilitar(id);
@@ -283,7 +277,7 @@ namespace PF_Pach_OS.Controllers
                     return RedirectToAction("Index");
 
                 }
-               
+
 
             }
             return RedirectToAction("Index");
@@ -294,7 +288,7 @@ namespace PF_Pach_OS.Controllers
             var producto = _context.Productos.Find(id);
             if (producto != null)
             {
-                producto.Estado = 1; 
+                producto.Estado = 1;
                 _context.SaveChanges();
             }
             return RedirectToAction("Index");
@@ -307,18 +301,70 @@ namespace PF_Pach_OS.Controllers
             var producto = _context.Productos.Find(id);
             if (producto != null)
             {
-                producto.Estado = 0; 
+                producto.Estado = 0;
                 _context.SaveChanges();
             }
             return RedirectToAction("Index");
         }
 
+
         //Se llama la vista para Editar 
         public IActionResult Informacin_Editar(int IdProducto)
         {
-            var producto_editar = _context.Productos.FirstOrDefault(p => p.IdProducto == IdProducto);
+            var producto_Original = _context.Productos.FirstOrDefault(p => p.IdProducto == IdProducto);
+
+            if (producto_Original != null)
+            {
+                
+                ViewBag.IdProducto = producto_Original.IdProducto;
+                ViewBag.ProductoActivo = producto_Original;
+                var categoriaActiva = _context.Categorias.FirstOrDefault(p => p.IdCategoria == producto_Original.IdCategoria);
+                var tamanoActivo = _context.Tamanos.FirstOrDefault(p => p.IdTamano == producto_Original.IdTamano);
+                if (categoriaActiva != null)
+                {
+                    ViewBag.SelectCategoria = categoriaActiva.NomCategoria;
+                    ViewBag.SelectCategoriaID = categoriaActiva.IdCategoria;
+                }
+                if (tamanoActivo != null)
+                {
+                    ViewBag.SelectTamano = tamanoActivo.NombreTamano;
+                    ViewBag.SelectTamanoID = tamanoActivo.IdTamano;
+                }
+            }
+            var recetas = _context.Recetas.Where(p => p.IdProducto == IdProducto).ToList();
+            
+
+            var insumos = _context.Insumos.ToList();
+
+            var recetasConInsumos = recetas.Select(receta => new
+            {
+                IdReceta = receta.IdReceta,
+                CantInsumo = receta.CantInsumo,
+                IdInsumo = receta.IdInsumo,
+                NomInsumo = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.NomInsumo,
+                IdProducto = receta.IdProducto,
+                Medida = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.Medida,
+            }).ToList();
+            Console.WriteLine("=================================================");
+            foreach (var receta in recetasConInsumos)
+            {
+                Console.WriteLine($"IdReceta: {receta.IdReceta}, CantInsumo: {receta.CantInsumo}, IdProducto: {receta.IdProducto}, IdInsumo: {receta.IdInsumo}");
+            }
+            Console.WriteLine("=================================================");
+            ViewBag.RecetasConInsumos = recetasConInsumos;
+            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
+            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
+            ViewBag.NombreTamano = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
+            ViewBag.Insumo = _context.Insumos;
+            ViewBag.IdProducto = IdProducto;
 
             return View("Editar");
+        }
+        public JsonResult ConsultarNomInsumo(int Idinsumo)
+        {
+            var insumo= _context.Insumos.Where(p => p.IdInsumo==Idinsumo).ToList();
+
+            return Json(insumo);
         }
 
         //Verifica si el producto que se nesecita existe
@@ -326,7 +372,6 @@ namespace PF_Pach_OS.Controllers
         {
             return (_context.Productos?.Any(e => e.IdProducto == id)).GetValueOrDefault();
         }
-
         //Verifica si el producto que se quiere consultar se ha usado en una venta(Detalleventa)
         private bool ExisteEnVentas(int id)
         {
@@ -334,7 +379,7 @@ namespace PF_Pach_OS.Controllers
             var detallesVentas = _context.DetalleVentas;
             foreach (var detalleVenta in detallesVentas)
             {
-                if(detalleVenta.IdProducto == id)
+                if (detalleVenta.IdProducto == id)
                 {
                     existe = true;
                     break;
