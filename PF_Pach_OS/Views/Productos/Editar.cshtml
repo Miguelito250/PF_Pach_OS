@@ -96,14 +96,22 @@
         <div>
             <h2>Receta</h2>
 
-            <form id="miFormulario" class="row" novalidate>
+            <form method="post" id="miFormulario" class="row" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Receta.IdProducto" value="@ViewBag.Idproducto">
+                <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.Idproducto" />
+                <input type="hidden" id="nom_Pro" asp-for="Producto.NomProducto" value="" />
+                <input type="hidden" id="pre_Pro" asp-for="Producto.PrecioVenta" value="" />
+                <input type="hidden" id="cat_Pro" asp-for="Producto.IdCategoria" value="" />
+                <input type="hidden" id="tam_Pro" asp-for="Producto.IdTamano" value="" />
+
 
                 <div class="col-6">
                     <select class="form-control" asp-for="Receta.IdInsumo" required>
                         <option disabled selected>Seleccione un insumo</option>
                         @foreach (var insu in ViewBag.Insumo)
                         {
-                            <option value="@insu.IdInsumo"> @insu.NomInsumo/@insu.Medida </option>
+                            <option value="@insu.IdInsumo"> @insu.NomInsumo / @insu.Medida </option>
                         }
                     </select>
                     <div class="invalid-feedback"></div>
@@ -117,7 +125,7 @@
                 </div>
 
                 <div class="col-3">
-                    <button type="submit" class="form-control btn btn-primary botones-agregar"> Agregar </button>
+                    <button type="submit" asp-action="Crear" asp-controller="Recetas" class="form-control btn btn-primary botones-agregar"> Agregar </button>
                 </div>
             </form>
         </div>
@@ -131,7 +139,7 @@
             }
             else
             {
-                <table id="miTabla" class="table table-borderless mb-0">
+                <table class="table table-borderless mb-0">
                     <thead>
                         <tr class="text-gray bg-gray-300">
                             <th>Insumo</th>
@@ -140,20 +148,21 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="Tabla1">
-                        @foreach (var recetaConInsumo in ViewBag.RecetasConInsumos)
+                    <tbody>
+                        @foreach (var recetaConInsumo in (List<dynamic>)ViewBag.RecetasConInsumos)
                         {
                             <tr>
-                                <td class="d-none">@recetaConInsumo.IdInsumo </td>
-                                <td>@recetaConInsumo.NomInsumo</td>
-                                <td id="CantInsumo">@recetaConInsumo.CantInsumo</td>
-                                <td>@recetaConInsumo.Medida</td>
-                                <td>
-                                    <a asp-action="Eliminar" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger">Remover</a>
-                                </td>
+                                @if (recetaConInsumo.IdProducto == ViewBag.IdProducto)
+                                {
+                                    <td>@recetaConInsumo.NomInsumo</td>
+                                    <td>@recetaConInsumo.CantInsumo</td>
+                                    <td>@recetaConInsumo.Medida</td>
+                                    <td>
+                                        <a asp-action="Eliminar" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Remover</a>
+                                    </td>
+                                }
+
                             </tr>
-
-
                         }
                     </tbody>
                 </table>
@@ -163,85 +172,7 @@
 </div>
 
 
-<script>
-    var Insumo = [];
-    document.getElementById("miFormulario").addEventListener("submit", function (event) {
-        event.preventDefault(); // Evita que se envíe el formulario
-        // Captura los valores del formulario
-        var campo_idInsumo = $('#Receta_IdInsumo').val()
-        var campo_cantidadInsumo = $('#Receta_CantInsumo').val()
-        var idInsumo_Input = parseInt(campo_idInsumo);
-        var cantidadInsumo = parseInt(campo_cantidadInsumo);
 
-        var encontrado = false;
-        var NoExiste = false;
-        console.log(cantidadInsumo)
-        console.log(idInsumo_Input)
-
-
-        // Realiza la actualización visual de la tabla
-        var filas = document.querySelectorAll("#Tabla1 tr");
-        filas.forEach(function (fila) {
-            var Idinsumo_tabla = parseInt(fila.cells[0].textContent);
-            if (idInsumo_Input == Idinsumo_tabla) {
-                var Cantidad_Existente = parseInt(fila.cells[2].textContent);
-                console.log(Cantidad_Existente)
-                var total = Cantidad_Existente + cantidadInsumo;
-                fila.querySelector("#CantInsumo").textContent = total;
-                encontrado = true;
-            }
-        });
-        if (!encontrado) {
-            NoExiste = true;
-        }
-        if (NoExiste) {
-            $.ajax({
-                url: '/Productos/ConsultarNomInsumo',
-                type: 'GET',
-                data: { Idinsumo: idInsumo_Input },
-                success: function (data) {
-                    var Insumo = data[0];
-                    console.log(Insumo)
-                    
-                    if (typeof Insumo !== 'undefined' && Insumo !== null) {
-                        var tabla = document.getElementById("miTabla").getElementsByTagName('tbody')[0];
-                        var nuevaFila = tabla.insertRow(tabla.rows.length);
-                        var idInsumo = nuevaFila.insertCell(0);
-                        var nomInsumo = nuevaFila.insertCell(1);
-                        var cantInsumo = nuevaFila.insertCell(2);
-                        var medida = nuevaFila.insertCell(3);
-                        var acciones = nuevaFila.insertCell(4);
-
-                        idInsumo.classList.add('d-none');
-                        idInsumo.innerHTML = Insumo.idInsumo;
-                        nomInsumo.innerHTML = Insumo.nomInsumo;
-                        cantInsumo.id = 'CantInsumo';
-                        cantInsumo.innerHTML = cantidadInsumo;
-                        medida.innerHTML = Insumo.medida;
-
-                        var enlace = document.createElement('a');
-                        enlace.href = '/Recetas/';
-                        enlace.className = 'btn btn-outline-danger';
-                        enlace.textContent = 'Remover';
-                        acciones.appendChild(enlace);
-                    } else {
-                        console.log("Insumo es undefined o nulo.");
-                    }
-                },
-                error: function (xhr, status, error) {
-                    reject(error);
-                }
-
-            });
-            
-        }
-
-    });
-    function Agregar_a_la_lista(objetoJSON) {
-        Insumo.push(objetoJSON);
-        console.log(Insumo);
-    }
-</script>
 
 
 @*@-----VALIDACION DE CAMPOS EN TIEMPO REAL-----@*@
@@ -287,7 +218,27 @@
         $('#Receta_IdInsumo').on('change', function () {
             validateIdInsumo();
         });
+        $('#miFormulario').submit(function (event) {
+            // Tu código para llenar el campo aquí
+            var NomProducto = $('#Producto_NomProducto').val();
+            var llenar_Nombre = document.getElementById("nom_Pro")
+            llenar_Nombre.value = NomProducto;
 
+            var precio = $('#Producto_PrecioVenta').val();
+            var llenar_Precio = document.getElementById("pre_Pro")
+            llenar_Precio.value = precio;
+
+            var categoria = $('#Producto_IdCategoria').val();
+            var llenar_Categoria = document.getElementById("cat_Pro")
+            llenar_Categoria.value = categoria;
+
+            var tamano = $('#Producto_IdTamano').val();
+            var llenar_tamano = document.getElementById("tam_Pro")
+            llenar_tamano.value = tamano;
+
+
+            return true;
+        });
         function validateNomProducto() {
             var maxCaracteres = 30;
             var minCaracteres = 4;
