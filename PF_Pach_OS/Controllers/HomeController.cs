@@ -5,7 +5,6 @@ using System.Diagnostics;
 
 namespace PF_Pach_OS.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -14,6 +13,7 @@ namespace PF_Pach_OS.Controllers
         {
             _logger = logger;
         }
+        [Authorize]
         public IActionResult Index()
         {
             return View();

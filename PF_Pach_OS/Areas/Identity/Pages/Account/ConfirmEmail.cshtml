@@ -1,5 +1,8 @@
-﻿
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Confirm email";
+}
 
 <h1>@ViewData["Title"]</h1>
-<p>Gracias por confirmar su correo {{UserName}}</p>
-<a href="{{callBackUrl}}">Confirme su correo aca</a>
+<partial name="_StatusMessage" model="Model.StatusMessage" />

@@ -26,10 +26,10 @@ namespace PF_Pach_OS.Models
         public virtual DbSet<Insumo> Insumos { get; set; } = null!;
         public virtual DbSet<Producto> Productos { get; set; } = null!;
         public virtual DbSet<Proveedore> Proveedores { get; set; } = null!;
-        public virtual DbSet<SaborSeleccionado> SaboresSeleccionados { get; set; } = null!;
         public virtual DbSet<Receta> Recetas { get; set; } = null!;
         public virtual DbSet<Tamano> Tamanos { get; set; } = null!;
         public virtual DbSet<Venta> Ventas { get; set; } = null!;
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -491,22 +491,6 @@ namespace PF_Pach_OS.Models
                     .HasForeignKey(d => d.IdProducto)
                     .HasConstraintName("FK__recetas__id_prod__5441852A");
             });
-
-            modelBuilder.Entity<SaborSeleccionado>(entity =>
-            {
-                entity.HasKey(e => e.IdSaborSeleccionado);
-
-                entity.HasOne(d => d.IdDetalleVentaNavigation)
-                    .WithMany(p => p.SaboresSeleccionados)
-                    .HasForeignKey(d => d.IdDetalleVenta)
-                    .HasConstraintName("FK_SaboresSeleccionados_detalleVentas");
-
-                entity.HasOne(d => d.IdProductoNavigation)
-                    .WithMany(p => p.SaboresSeleccionados)
-                    .HasForeignKey(d => d.IdProducto)
-                    .HasConstraintName("FK_SaboresSeleccionados_productos");
-            });
-
 
             modelBuilder.Entity<Tamano>(entity =>
             {

@@ -16,12 +16,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using PF_Pach_OS.Models;
-using PF_Pach_OS.Services;
-using Microsoft.AspNetCore.Server;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
-using NuGet.Packaging.Signing;
 
 namespace PF_Pach_OS.Areas.Identity.Pages.Account
 {
@@ -79,7 +73,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             public string EntryDay { get; set; }
 
             [Required]
-            [EmailAddress(ErrorMessage = "Por favor, ingrese una dirección de correo electrónico válida.")]
+            [EmailAddress]
             [Display(Name = "Correo")]
             public string Email { get; set; }
 
@@ -134,19 +128,22 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                     State = 1
 
                 };
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                user.EmailConfirmationToken = code;
-
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await _userManager.AddToRoleAsync(user, Input.Role);
+                    await _userManager.AddToRoleAsync(user, Input.Role); 
 
-                    var callbackUrl = Url.Action("ConfirmarCorreo", "Acceso", new {idUsuario = user.Id, codigo = code}, Request.Scheme);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
+                        protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirma tu email",
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Por favor confirma tu cuenta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clickeando aqui</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
