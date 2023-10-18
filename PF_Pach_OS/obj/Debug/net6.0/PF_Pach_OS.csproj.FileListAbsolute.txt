@@ -1393,3 +1393,5 @@ C:\Users\SENA\Documents\GitHub\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\runtimes\w
 C:\Users\SENA\Documents\GitHub\PF_Pach_OS\PF_Pach_OS\obj\Debug\net6.0\PF_Pach_OS.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\SENA\Documents\GitHub\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\SendGrid.dll
 C:\Users\SENA\Documents\GitHub\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\StarkbankEcdsa.dll
+C:\Users\user\OneDrive\Pictures\Documents\GitHub\PF_Pach_OS_1\PF_Pach_OS\bin\Debug\net6.0\SendGrid.dll
+C:\Users\user\OneDrive\Pictures\Documents\GitHub\PF_Pach_OS_1\PF_Pach_OS\bin\Debug\net6.0\StarkbankEcdsa.dll

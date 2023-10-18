@@ -10,7 +10,7 @@
 <div class="row pl-2 pt-2">
 
     <div class="col-4 ml-3 p-2 bg-white rounded border px-4 py-4">
-        <form method="post" novalidate id="formulario1">
+        <form method="post" class="needs-validation" novalidate id="formulario1">
             <h2>Producto</h2>
             <hr>
 
@@ -85,7 +85,7 @@
 
             </div>
             <div class="col">
-                <input type="submit" asp-action="Actualizar" asp-controller="Productos" class="col-6 botones-agregar btn btn-success w-auto" value="Terminar Producto" />
+                <input type="submit" class="col-6 botones-agregar btn btn-success w-auto"  />
                 <a asp-action="Index" asp-controller="Productos" class="col-6 btn btn-outline-danger">Cancelar</a>
             </div>
         </form>
