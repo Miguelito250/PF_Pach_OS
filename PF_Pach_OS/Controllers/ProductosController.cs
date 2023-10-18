@@ -211,59 +211,6 @@ namespace PF_Pach_OS.Controllers
             return RedirectToAction("CrearInformacionFormulario", "Productos", new { producto.IdProducto, accion = "Crear" });
         }
 
-        //Toma el producto que se desea editar y lo despliega en un formulario 
-        public async Task<IActionResult> Editar(int? id)
-        {
-            if (id == null || _context.Productos == null)
-            {
-                return NotFound();
-            }
-
-            var producto = await _context.Productos.FindAsync(id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", producto.IdCategoria);
-            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "IdTamano", producto.IdTamano);
-            return View(producto);
-        }
-
-        //Actualiza la informacion de un proeducto 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editar(int id, [Bind("IdProducto,NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
-        {
-            if (id != producto.IdProducto)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(producto);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ExisteElProducto(producto.IdProducto))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", producto.IdCategoria);
-            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "IdTamano", producto.IdTamano);
-            return View(producto);
-        }
-
         //Elimina un producto en caso que que este no se este utilizando en ninguna venta 
         public async Task<IActionResult> Eliminar(int id)
         {
@@ -396,18 +343,17 @@ namespace PF_Pach_OS.Controllers
         }
 
         [HttpPost]
-        public IActionResult Interfas(List<dynamic> Actualizar, List<dynamic> Crear, List<dynamic> Eliminar)
+        public IActionResult Interfaz(List<int> Actualizar_Id, List<int> Actualizar_Cantidad, List<int> Crear_id, List<int> Crear_Cantidad, int id_producto , List<int> Eliminar)
         {
-            if (Actualizar != null)
+            if (Actualizar_Id != null && Actualizar_Cantidad != null)
             {
-                Console.WriteLine("=================================================");
-                Console.WriteLine("Entrada 1");
-                Console.WriteLine("=================================================");
-                Actualizar_recetas(Actualizar);
+                Actualizar_recetas(Actualizar_Id, Actualizar_Cantidad);
             }
-            if (Crear != null)
+
+            if (Crear_id != null && Crear_Cantidad != null)
             {
-                Crear_recetas(Crear);
+                
+                Crear_recetas(Crear_id, Crear_Cantidad, id_producto);
             }
             if (Eliminar != null)
             {
@@ -417,32 +363,62 @@ namespace PF_Pach_OS.Controllers
             return Json(datos);
         }
 
-        public void Actualizar_recetas(List<dynamic> Actualizar)
+        public void Actualizar_recetas(List<int> Actualizar_Id, List<int> Actualizar_Cantidad)
         {
-            Console.WriteLine("=================================================");
-            Console.WriteLine("Entrada 3");
-            Console.WriteLine("=================================================");
-            foreach (var item in Actualizar)
+
+            for (int i = 0; i < Actualizar_Id.Count; i++)
             {
-                int idReceta = item.IdReceta;
-                int nuevaCantidad = item.NuevaCantidad;
+                int idReceta = Actualizar_Id[i];
+                int cantidad = Actualizar_Cantidad[i];
 
                 Receta receta = _context.Recetas.FirstOrDefault(p => p.IdReceta == idReceta);
                 if (receta != null)
                 {
-                    receta.CantInsumo = nuevaCantidad;
-                    _context.Recetas.Update(receta);
+
+                    receta.CantInsumo = cantidad;
+                    _context.Update(receta);
                     _context.SaveChanges();
                 }
+
+
             }
         }
-        public void Crear_recetas(List<dynamic> Crear)
+        public void Crear_recetas(List<int> Crear_id, List<int> Crear_Cantidad, int id_producto)
         {
+            
 
+            for (int i = 0; i < Crear_id.Count; i++)
+            {
+                
+                Receta receta = new Receta();
+                receta.IdProducto = id_producto;
+                receta.IdInsumo = Crear_id[i];
+                receta.CantInsumo = Crear_Cantidad[i];
+                _context.Add(receta);
+                _context.SaveChanges();
+
+            }
         }
-        public void Eliminar_recetas(List<dynamic> Eliminar)
+        public void Eliminar_recetas(List<int> Eliminar)
         {
-
+            foreach(int i in Eliminar) 
+            { 
+                Receta receta = _context.Recetas.Where(p=> p.IdReceta==i).FirstOrDefault();
+                _context.Remove(receta);
+                _context.SaveChanges();
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Actualizar_Producto([Bind("IdProducto, NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
+        {
+            producto.Estado = 1;
+            if (producto != null)
+            {
+                _context.Update(producto);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
     }
 }

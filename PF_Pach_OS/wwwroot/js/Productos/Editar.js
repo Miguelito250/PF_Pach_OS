@@ -196,9 +196,12 @@
     }, false);
 })();
 
-var Nuevas_Recetas = [];
-var Recetas_Actualizadas = []
-var Eliminar_Receta = []
+var Nuevas_Recetas_ID = [];
+var Nuevas_Recetas_Cant = [];
+var Id_Producto;
+var Recetas_Actualizadas_ID = [];
+var Recetas_Actualizadas_Cant = [];
+var Eliminar_Receta = [];
 document.getElementById("miFormulario").addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -217,30 +220,29 @@ document.getElementById("miFormulario").addEventListener("submit", function (eve
     var filas = document.querySelectorAll("#Tabla1 tr");
     filas.forEach(function (fila) {
         var Idinsumo_tabla = parseInt(fila.cells[0].textContent);
-
-
-
+        var IdREceta = parseInt(fila.cells[5].textContent);
         if (idInsumo_Input == Idinsumo_tabla) {
             var Cantidad_Existente = parseInt(fila.cells[2].textContent);
             var total = Cantidad_Existente + cantidadInsumo;
             fila.querySelector("#CantInsumo").textContent = total;
-            var IdREceta = parseInt(fila.cells[5].textContent);
 
-            var Atualizar = { IdReceta: IdREceta, NuevaCantidad: total }
+            var IdReceta = IdREceta;
+            var NuevaCantidad = total;
             if (IdREceta == 0) {
-                Nuevas_Recetas.forEach(function (Elemento) {
-                    if (Elemento.id_insumo == Idinsumo_tabla) {
-                        Elemento.cantInsumo = total;
-                        console.log(Elemento.cantInsumo + "__" + Elemento.id_insumo);
-                        console.log(Nuevas_Recetas);
+                for (var i = 0; i < Nuevas_Recetas_ID.length; i++) {
+                    if (Nuevas_Recetas_ID[i] == idInsumo_Input) {
+
+                        Nuevas_Recetas_Cant[i] = total;
                     }
-                });
+                }
             } else {
 
-                Atualizar_Recetas(Atualizar)
+                Atualizar_Recetas(IdReceta, NuevaCantidad)
             }
             encontrado = true;
         }
+
+
     });
     if (!encontrado) {
         NoExiste = true;
@@ -284,8 +286,8 @@ document.getElementById("miFormulario").addEventListener("submit", function (eve
                     acciones.appendChild(boton);
                     var id_producto_texto = document.getElementById("Producto_IdProducto").value
                     var id_producto = parseInt(id_producto_texto)
-                    var receta = { cantInsumo: cantidadInsumo, id_producto: id_producto, id_insumo: Insumo.idInsumo };
-                    Agregar_Nuevas_Recetas(receta);
+
+                    Agregar_Nuevas_Recetas(cantidadInsumo, id_producto, Insumo.idInsumo);
                 } else {
                     console.log("Insumo es undefined o nulo.");
                 }
@@ -323,28 +325,40 @@ function Sacar_de_Crear() {
     });
     console.log(Nuevas_Recetas);
 }
-function Agregar_Nuevas_Recetas(objetoJSON) {
-    Nuevas_Recetas.push(objetoJSON);
-    console.log(Nuevas_Recetas);
+function Agregar_Nuevas_Recetas(cantidadInsumo, id_producto, idInsumo) {
+    Nuevas_Recetas_ID.push(idInsumo);
+    Nuevas_Recetas_Cant.push(cantidadInsumo);
+    Id_Producto = id_producto;
+    console.log("=========");
+    console.log(Nuevas_Recetas_ID);
+    console.log(Nuevas_Recetas_Cant);
+    console.log(Id_Producto);
+    console.log("=========");
+
+
 }
-function Atualizar_Recetas(objetoJSON) {
-    Recetas_Actualizadas.push(objetoJSON);
-    console.log(Recetas_Actualizadas);
+function Atualizar_Recetas(IdReceta, NuevaCantidad) {
+    Recetas_Actualizadas_ID.push(IdReceta);
+    Recetas_Actualizadas_Cant.push(NuevaCantidad);
+    console.log(Recetas_Actualizadas_ID);
+    console.log(Recetas_Actualizadas_Cant);
+
 }
 
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("formulario1").addEventListener("submit", function (event) {
-        event.preventDefault();
-        event.stopPropagation();
         $.ajax({
-            url: '/Productos/Interfas',
+            url: '/Productos/Interfaz',
             type: 'POST',
             data: {
-                Actualizar: Recetas_Actualizadas,
-                Crear: Nuevas_Recetas,
+                Actualizar_Id: Recetas_Actualizadas_ID,
+                Actualizar_Cantidad: Recetas_Actualizadas_Cant,
+                Crear_id: Nuevas_Recetas_ID,
+                Crear_Cantidad: Nuevas_Recetas_Cant,
+                id_producto: Id_Producto,
                 Eliminar: Eliminar_Receta
             },
-            contentType: 'application/x-www-form-urlencoded',
+
             success: function (data) {
                 console.log("-*****************")
 
