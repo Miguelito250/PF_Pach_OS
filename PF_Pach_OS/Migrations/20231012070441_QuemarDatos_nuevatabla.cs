@@ -24,7 +24,8 @@ namespace PF_Pach_OS.Migrations
                         name: "FK_SaboresSeleccionados_detalleVentas",
                         column: x => x.IdDetalleVenta,
                         principalTable: "detalleVentas",
-                        principalColumn: "id_detalleVenta");
+                        principalColumn: "id_detalleVenta",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SaboresSeleccionados_productos",
                         column: x => x.IdProducto,
@@ -32,6 +33,19 @@ namespace PF_Pach_OS.Migrations
                         principalColumn: "id_producto");
                 });
 
+            migrationBuilder.AddColumn<string>(
+                "NumeroFactura", 
+                table: "compras", 
+                maxLength: 30,
+                nullable: true);
+
+            migrationBuilder.AddColumn<int>(
+                "Estado",
+                table: "insumos",
+                type: "tinyint",
+                nullable: true);
+
+            
 
             migrationBuilder.InsertData(
             table: "categorias",

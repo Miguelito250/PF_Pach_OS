@@ -499,12 +499,13 @@ namespace PF_Pach_OS.Models
                 entity.HasOne(d => d.IdDetalleVentaNavigation)
                     .WithMany(p => p.SaboresSeleccionados)
                     .HasForeignKey(d => d.IdDetalleVenta)
-                    .HasConstraintName("FK_SaboresSeleccionados_detalleVentas");
+                    .HasConstraintName("FK_SaboresSeleccionados_detalleVentas")
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(d => d.IdProductoNavigation)
                     .WithMany(p => p.SaboresSeleccionados)
                     .HasForeignKey(d => d.IdProducto)
-                    .HasConstraintName("FK_SaboresSeleccionados_productos");
+                    .HasConstraintName("FK_SaboresSeleccionados_productos"); 
             });
 
 
