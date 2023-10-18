@@ -396,14 +396,14 @@ namespace PF_Pach_OS.Controllers
         }
 
         [HttpPost]
-        public IActionResult Interfas(int intento, List<dynamic> Crear, List<dynamic> Eliminar)
+        public IActionResult Interfas(List<dynamic> Actualizar, List<dynamic> Crear, List<dynamic> Eliminar)
         {
-            if (intento != 0)
+            if (Actualizar != null)
             {
                 Console.WriteLine("=================================================");
-                Console.WriteLine(intento);
+                Console.WriteLine("Entrada 1");
                 Console.WriteLine("=================================================");
-                //Actualizar_recetas(Actualizar);
+                Actualizar_recetas(Actualizar);
             }
             if (Crear != null)
             {
@@ -436,7 +436,6 @@ namespace PF_Pach_OS.Controllers
                 }
             }
         }
-
         public void Crear_recetas(List<dynamic> Crear)
         {
 

@@ -331,7 +331,7 @@ function Atualizar_Recetas(objetoJSON) {
     Recetas_Actualizadas.push(objetoJSON);
     console.log(Recetas_Actualizadas);
 }
-var intento = 1
+
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("formulario1").addEventListener("submit", function (event) {
         event.preventDefault();
@@ -340,7 +340,7 @@ document.addEventListener("DOMContentLoaded", function () {
             url: '/Productos/Interfas',
             type: 'POST',
             data: {
-                intento: intento,
+                Actualizar: Recetas_Actualizadas,
                 Crear: Nuevas_Recetas,
                 Eliminar: Eliminar_Receta
             },
