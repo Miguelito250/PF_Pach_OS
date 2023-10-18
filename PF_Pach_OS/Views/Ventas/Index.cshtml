@@ -31,8 +31,8 @@
                 <th>Fecha</th>
                 <th>Metodo de pago</th>
                 <th>Total</th>
-                <th>Pago de Domicilio</th>
                 <th>Pago</th>
+                <th>Pago de Domicilio</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -60,15 +60,15 @@
                             : "Sin Precio")
                     </td>
                     <td>
-                        @(item.PagoDomicilio.HasValue ? (item.PagoDomicilio % 1 == 0
-                           ? ((decimal)item.PagoDomicilio).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
-                           : ((decimal)item.PagoDomicilio).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
-                            : "Sin Precio")
-                    </td>
-                    <td>
                         @(item.Pago.HasValue ? (item.Pago % 1 == 0
                            ? ((decimal)item.Pago).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
                            : ((decimal)item.Pago).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                            : "Sin Precio")
+                    </td>
+                    <td>
+                        @(item.PagoDomicilio.HasValue ? (item.PagoDomicilio % 1 == 0
+                           ? ((decimal)item.PagoDomicilio).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                           : ((decimal)item.PagoDomicilio).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
                             : "Sin Precio")
                     </td>
                     <td class="d-flex">

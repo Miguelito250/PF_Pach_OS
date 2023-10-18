@@ -84,7 +84,7 @@ namespace PF_Pach_OS.Controllers
         //Funcion para confirmar la venta y hacer la disminuicion de insumos
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmarVenta([Bind("IdVenta,FechaVenta,TotalVenta,TipoPago,Pago,PagoDomicilio,IdEmpleado,Estado")] Venta venta)
+        public async Task<IActionResult> ConfirmarVenta([Bind("IdVenta,FechaVenta,TotalVenta,TipoPago,Pago,PagoDomicilio,IdEmpleado,Estado, mesa")] Venta venta)
         {
             if (ModelState.IsValid)
             {
@@ -282,15 +282,11 @@ namespace PF_Pach_OS.Controllers
             if (estadoVenta.Estado == "Pendiente")
             {
                 cambioEstado = "Entregado";
-            }
-            else
-            {
-                cambioEstado = "Pendiente";
+                estadoVenta.Estado = cambioEstado;
+                _context.Update(estadoVenta);
+                await _context.SaveChangesAsync();
             }
 
-            estadoVenta.Estado = cambioEstado;
-            _context.Update(estadoVenta);
-            await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Ventas");
         }
         private bool VentaExists(int id)

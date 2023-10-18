@@ -45,7 +45,11 @@ namespace PF_Pach_OS.Migrations
                 type: "tinyint",
                 nullable: true);
 
-            
+            migrationBuilder.AddColumn<int>(
+                "mesa",
+                table: "ventas",
+                type: "tinyint",
+                nullable: true);
 
             migrationBuilder.InsertData(
             table: "categorias",
