@@ -16,7 +16,7 @@ namespace PF_Pach_OS.Controllers
     {
         private readonly Pach_OSContext _context;
 
-        
+
 
         public ProductosController(Pach_OSContext context)
         {
@@ -162,7 +162,7 @@ namespace PF_Pach_OS.Controllers
             return NotFound();
         }
 
-       
+
         // Acutualiza la informacion del Producto asi como la de su reseta
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -267,7 +267,7 @@ namespace PF_Pach_OS.Controllers
         //Elimina un producto en caso que que este no se este utilizando en ninguna venta 
         public async Task<IActionResult> Eliminar(int id)
         {
-            bool exsite= ExisteEnVentas(id);
+            bool exsite = ExisteEnVentas(id);
             if (exsite)
             {
                 Deshabilitar(id);
@@ -283,7 +283,7 @@ namespace PF_Pach_OS.Controllers
                     return RedirectToAction("Index");
 
                 }
-               
+
 
             }
             return RedirectToAction("Index");
@@ -294,7 +294,7 @@ namespace PF_Pach_OS.Controllers
             var producto = _context.Productos.Find(id);
             if (producto != null)
             {
-                producto.Estado = 1; 
+                producto.Estado = 1;
                 _context.SaveChanges();
             }
             return RedirectToAction("Index");
@@ -307,7 +307,7 @@ namespace PF_Pach_OS.Controllers
             var producto = _context.Productos.Find(id);
             if (producto != null)
             {
-                producto.Estado = 0; 
+                producto.Estado = 0;
                 _context.SaveChanges();
             }
             return RedirectToAction("Index");
@@ -386,13 +386,64 @@ namespace PF_Pach_OS.Controllers
             var detallesVentas = _context.DetalleVentas;
             foreach (var detalleVenta in detallesVentas)
             {
-                if(detalleVenta.IdProducto == id)
+                if (detalleVenta.IdProducto == id)
                 {
                     existe = true;
                     break;
                 }
             }
             return existe;
+        }
+
+        [HttpPost]
+        public IActionResult Interfas(int intento, List<dynamic> Crear, List<dynamic> Eliminar)
+        {
+            if (intento != 0)
+            {
+                Console.WriteLine("=================================================");
+                Console.WriteLine(intento);
+                Console.WriteLine("=================================================");
+                //Actualizar_recetas(Actualizar);
+            }
+            if (Crear != null)
+            {
+                Crear_recetas(Crear);
+            }
+            if (Eliminar != null)
+            {
+                Eliminar_recetas(Eliminar);
+            }
+            var datos = new { Nombre = "Ejemplo", Edad = 30 };
+            return Json(datos);
+        }
+
+        public void Actualizar_recetas(List<dynamic> Actualizar)
+        {
+            Console.WriteLine("=================================================");
+            Console.WriteLine("Entrada 3");
+            Console.WriteLine("=================================================");
+            foreach (var item in Actualizar)
+            {
+                int idReceta = item.IdReceta;
+                int nuevaCantidad = item.NuevaCantidad;
+
+                Receta receta = _context.Recetas.FirstOrDefault(p => p.IdReceta == idReceta);
+                if (receta != null)
+                {
+                    receta.CantInsumo = nuevaCantidad;
+                    _context.Recetas.Update(receta);
+                    _context.SaveChanges();
+                }
+            }
+        }
+
+        public void Crear_recetas(List<dynamic> Crear)
+        {
+
+        }
+        public void Eliminar_recetas(List<dynamic> Eliminar)
+        {
+
         }
     }
 }

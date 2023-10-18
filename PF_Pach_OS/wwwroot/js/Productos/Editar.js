@@ -331,10 +331,28 @@ function Atualizar_Recetas(objetoJSON) {
     Recetas_Actualizadas.push(objetoJSON);
     console.log(Recetas_Actualizadas);
 }
-
-ocument.addEventListener("DOMContentLoaded", function () {
+var intento = 1
+document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("formulario1").addEventListener("submit", function (event) {
         event.preventDefault();
         event.stopPropagation();
+        $.ajax({
+            url: '/Productos/Interfas',
+            type: 'POST',
+            data: {
+                intento: intento,
+                Crear: Nuevas_Recetas,
+                Eliminar: Eliminar_Receta
+            },
+            contentType: 'application/x-www-form-urlencoded',
+            success: function (data) {
+                console.log("-*****************")
+
+                console.log("Si funciona :))")
+
+                console.log("********************")
+
+            }
+        });
     });
 });
