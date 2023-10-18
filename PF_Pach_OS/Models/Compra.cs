@@ -17,7 +17,7 @@ namespace PF_Pach_OS.Models
         public int? IdEmpleado { get; set; }
         public int? IdProveedor { get; set; }
         public string? NumeroFactura { get; set; }
-        
+
         public virtual Proveedore? IdProveedorNavigation { get; set; }
         public virtual ICollection<DetallesCompra> DetallesCompras { get; set; }
     }

@@ -10,7 +10,7 @@
     var NumeroFeedback = document.getElementById('NumeroFeedback');
     var ProveedorFeedback = document.getElementById('ProveedorFeedback');
 
-    
+
 
 
     function EnvioCompra(event) {
@@ -154,7 +154,7 @@
         }
     }
 
-    
+
 }); // Aquí se agrega el paréntesis de cierre
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -183,6 +183,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Formulario válido');
             fomularioAgregar.removeEventListener('submit', EnvioDetalle);
             fomularioAgregar.submit();
+            $('#Item1_IdInsumo').trigger('change');
         } else {
             Toast.fire({
                 icon: 'error',
@@ -236,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function () {
         validarInsumoCompra();
     });
 
-    
+
 
     function validarInsumoCompra() {
         // Obtener el valor seleccionado del campo select
@@ -246,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
         InsumoCompra.classList.remove('is-invalid', 'is-valid');
         InsumoFeedback.textContent = '';
 
-        if (InsumoSeleccion === '' ) {
+        if (InsumoSeleccion === '') {
             InsumoCompra.classList.add('is-invalid');
             InsumoFeedback.textContent = 'Por favor, Escoja una opcion.';
             cambiarClaseBotonInusumo();
@@ -271,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function () {
         CantidadCompra.classList.remove('is-invalid', 'is-valid');
         CantidadFeedback.textContent = '';
 
-        if (Cantidad.trim() === '' ) {
+        if (Cantidad.trim() === '') {
             CantidadCompra.classList.add('is-invalid');
             CantidadFeedback.textContent = 'Por favor, ingrese la cantidad.';
             cambiarClaseBotonInusumo();
@@ -356,9 +357,9 @@ document.addEventListener('DOMContentLoaded', function () {
             PrecioCompra.classList.add('is-valid');
         }
     }
-    
 
-    
+
+
 }); // Aquí se agrega el paréntesis de cierre
 
 window.addEventListener('load', function () {
@@ -424,3 +425,58 @@ window.addEventListener('load', function () {
 
 //    return numeroFormateado;
 //}
+
+// When "NomInsumo" changes
+$('#Item1_IdInsumo').on('change', function () {
+    var MedidaSeleccionada = $(this).find('option:selected').data('medida');
+    updateMedidaOptions(MedidaSeleccionada);
+});
+
+// Function to update "Medida" options
+function updateMedidaOptions(MedidaSeleccionada) {
+    var Medida = $('#MedidaCompra');
+
+    // Clear existing options
+    Medida.find('option').remove();
+
+    // Add default option
+    Medida.append($('<option>', {
+        value: '',
+        text: 'Elige una opción',
+        selected: true
+    }));
+
+    // Add options based on the selected measure
+    if (MedidaSeleccionada === 'Gramo') {
+        Medida.append($('<option>', {
+            value: 'Gramos',
+            text: 'Gramos'
+        }));
+        Medida.append($('<option>', {
+            value: 'Kilogramos',
+            text: 'Kilogramos'
+        }));
+        Medida.append($('<option>', {
+            value: 'Libras',
+            text: 'Libras'
+        }));
+    } else if (MedidaSeleccionada === 'Mililitro') {
+        Medida.append($('<option>', {
+            value: 'Mililitro',
+            text: 'Mililitro'
+        }));
+        Medida.append($('<option>', {
+            value: 'Litros',
+            text: 'Litros'
+        }));
+        Medida.append($('<option>', {
+            value: 'Onza',
+            text: 'Onza'
+        }));
+    } else if (MedidaSeleccionada === 'Unidad') {
+        Medida.append($('<option>', {
+            value: 'Unidad',
+            text: 'Unidad'
+        }));
+    }
+}

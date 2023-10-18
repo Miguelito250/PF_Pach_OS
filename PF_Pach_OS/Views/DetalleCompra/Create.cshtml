@@ -58,7 +58,7 @@
                 @*-----Ingresar numero de Factura-----*@
                 <div class="">
                     <p class="mb-0"><strong>Numero de factura</strong></p>
-                    <input type="text" asp-for="Item2.NumeroFactura" id="NumeroFactura" name="Item2.NumeroFactura" placeholder="Numero de factura" class="form-control" min="1" title="Aqui puede ingresar el numero de la factura" required/>
+                    <input type="text" asp-for="Item2.NumeroFactura" id="NumeroFactura" name="Item2.NumeroFactura" placeholder="Numero de factura" class="form-control" min="1" title="Aqui puede ingresar el numero de la factura" required />
                     <div id="NumeroFeedback" class="invalid-feedback">
                         Por favor, ingresa factura.
                     </div>
@@ -105,7 +105,7 @@
                 @*-----BOTON DE CANCELAR COMPRA-----*@
                 <a id="cancelarCompraBtn" class="btn btn-light border mb-2 cancelarCompraBtn" asp-controller="Compras" asp-action="Delete" asp-route-id="@ViewBag.IdCompra" title="Cancelar la compra actual">Cancelar compra</a>
                 @*-----BOTON DE REALIZAR COMPRA-----*@
-                <button id="confirmarCompraBtn" class="btn btn-primary botones-agregar" type="submit"title="Confirmar la compra actual">Realizar compra</button>
+                <button id="confirmarCompraBtn" class="btn btn-primary botones-agregar" type="submit" title="Confirmar la compra actual">Realizar compra</button>
             </div>
         </form>
     </div>
@@ -123,7 +123,7 @@
                     {
                         @if (insumo.Estado == 1)
                         {
-                            <option value="@insumo.IdInsumo">@insumo.NomInsumo</option>
+                            <option value="@insumo.IdInsumo" data-medida="@insumo.Medida">@insumo.NomInsumo</option>
                         }
                     }
                 </select>
@@ -169,14 +169,14 @@
             @*-----INGRESAR PRECIO-----*@
             <div class="col-4 DC">
                 <label>Precio</label>
-                <input id="PrecioCompra" type="text" asp-for="Item1.PrecioInsumo" placeholder="Precio de insumo" class="form-control" title="Aqui puede ingresar el valor del insumo" required/>
+                <input id="PrecioCompra" type="text" asp-for="Item1.PrecioInsumo" placeholder="Precio de insumo" class="form-control" title="Aqui puede ingresar el valor del insumo" required />
                 <div id="PrecioFeedback" class="invalid-feedback">
                     Por favor, ingrese precio del insumo.
                 </div>
                 <div class="valid-feedback">
                 </div>
             </div>
-            
+
             <input type="hidden" asp-for="Item1.IdCompra" value="@ViewBag.IdCompra" />
 
             @*-----BOTON PARA AGREGAR UN INSUMO AL DETALLE DE LA COMPRA-----*@
@@ -278,7 +278,7 @@
     </div>
 </div>
 
-@*----------------------------------------------------------------------VALIDACION DE CAMPOS EN TIEMPO REAL----------------------------------------------------------------------*@    
+@*----------------------------------------------------------------------VALIDACION DE CAMPOS EN TIEMPO REAL----------------------------------------------------------------------*@
 
 
 
@@ -293,14 +293,15 @@
 
     $('#Item1_IdInsumo').on('change', function () {
         Valor = $('#Item1_IdInsumo').val();
+        var selectedMeasure = $(this).find('option:selected').data('medida');
+        updateMedidaOptions(selectedMeasure);
         console.log(Valor)
 
-        if(Valor>0){
+        if (Valor > 0) {
             Item1_IdInsumo.classList.add('is-valid');
-        }else{
+        } else {
             Item1_IdInsumo.classList.add('is-invalid');
             InsumoFeedback.textContent = 'Por favor, Escoja una opcion.';
         }
     });
-    
-</script>   
+</script>
