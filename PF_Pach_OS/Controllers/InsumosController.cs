@@ -26,10 +26,10 @@ namespace PF_Pach_OS.Controllers
         // GET: Insumos
         public async Task<IActionResult> Index()
         {
-              return _context.Insumos != null ? 
-                          View(await _context.Insumos.ToListAsync()) :
-                          Problem("Entity set 'Pach_OSContext.Insumos'  is null.");
-            
+            return _context.Insumos != null ?
+                        View(await _context.Insumos.ToListAsync()) :
+                        Problem("Entity set 'Pach_OSContext.Insumos'  is null.");
+
         }
 
 
@@ -127,7 +127,7 @@ namespace PF_Pach_OS.Controllers
 
 
 
-        
+
         public IActionResult HabilitarDeshabilitar(int? id)
         {
             if (id == null || _context.Insumos == null)
@@ -158,7 +158,9 @@ namespace PF_Pach_OS.Controllers
             if (insumo.Estado == 1)
             {
                 insumo.Estado = 0;
-            }else{
+            }
+            else
+            {
                 insumo.Estado = 1;
             }
 
@@ -175,6 +177,11 @@ namespace PF_Pach_OS.Controllers
             return Json(response);
         }
 
+        public bool EstaAsociadoAReceta(int id)
+        {
+            return _context.Recetas.Any(p => p.IdInsumo == id);
+        }
+
 
         public IActionResult EditarInsumo(int id)
         {
@@ -183,6 +190,18 @@ namespace PF_Pach_OS.Controllers
             {
                 return NotFound();
             }
+
+            // Determinar si el insumo está asociado a una receta
+            bool estaAsociadoAReceta = EstaAsociadoAReceta(id);
+            ViewBag.EstaAsociadoAReceta = estaAsociadoAReceta;
+
+            List<SelectListItem> estados = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Activo", Value = "1"},
+                new SelectListItem { Text = "Inactivo", Value = "0"}
+            };
+            ViewBag.Estados = new SelectList(estados, "Value", "Text", insumo.Estado);
+
             return PartialView("_EditarInsumo", insumo);
         }
 
@@ -199,6 +218,7 @@ namespace PF_Pach_OS.Controllers
                 {
                     // Actualizar el insumo en la base de datos
                     insumo.NomInsumo = Ortografia(insumo.NomInsumo);
+                    insumo.Estado = insumo.Estado;
                     _context.Update(insumo);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -224,7 +244,7 @@ namespace PF_Pach_OS.Controllers
 
         private bool InsumoExists(int id)
         {
-          return (_context.Insumos?.Any(e => e.IdInsumo == id)).GetValueOrDefault();
+            return (_context.Insumos?.Any(e => e.IdInsumo == id)).GetValueOrDefault();
         }
     }
 }
