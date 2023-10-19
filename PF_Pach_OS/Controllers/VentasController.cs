@@ -45,7 +45,7 @@ namespace PF_Pach_OS.Controllers
             var ventaNula = _context.Ventas
                 .FirstOrDefault(v => v.IdVenta == IdVenta);
 
-            if (ventaNula == null)
+            if (ventaNula == null || ventaNula.Estado == "Pagada")
             {
                 return RedirectToAction("Index");
             }
@@ -84,7 +84,7 @@ namespace PF_Pach_OS.Controllers
         //Funcion para confirmar la venta y hacer la disminuicion de insumos
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmarVenta([Bind("IdVenta,FechaVenta,TotalVenta,TipoPago,Pago,PagoDomicilio,IdEmpleado,Estado, mesa")] Venta venta)
+        public async Task<IActionResult> ConfirmarVenta([Bind("IdVenta,FechaVenta,TotalVenta,TipoPago,Pago,PagoDomicilio,IdEmpleado,Estado,Mesa")] Venta venta)
         {
             if (ModelState.IsValid)
             {
@@ -220,7 +220,7 @@ namespace PF_Pach_OS.Controllers
                 return RedirectToAction("Index", "Ventas");
             }
             ViewData["IdEmpleado"] = new SelectList(_context.Empleados, "IdEmpleado", "IdEmpleado", venta.IdEmpleado);
-            return View(venta);
+            return RedirectToAction("Crear", "Ventas", new { venta.IdVenta });
         }
 
         //Funcion para cancelar la venta en caso de que ya no se vaya a registrar

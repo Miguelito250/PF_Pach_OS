@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -45,10 +46,18 @@ namespace PF_Pach_OS.Migrations
                 type: "tinyint",
                 nullable: true);
 
-            migrationBuilder.AddColumn<int>(
+            migrationBuilder.AddColumn<string>(
+               "TipoDocumento",
+               table: "proveedores",
+               type: "varchar(10)",
+               maxLength: 10,
+               nullable: true);
+
+            migrationBuilder.AddColumn<string>(
                 "mesa",
                 table: "ventas",
-                type: "tinyint",
+                type: "varchar(20)",
+                maxLength: 20,
                 nullable: true);
 
             migrationBuilder.InsertData(
