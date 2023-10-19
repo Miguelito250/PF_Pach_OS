@@ -27,7 +27,11 @@ namespace PF_Pach_OS.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+                if(detalleVenta.CantVendida <= 0 || detalleVenta.IdProducto == 0)
+                {
+                    return RedirectToAction("Crear", "Ventas", new { detalleVenta.IdVenta });
+                }
+
                 var precioProducto = _context.Productos
                     .Where(detalle => detalle.IdProducto == detalleVenta.IdProducto)
                     .Select(detalle => detalle.PrecioVenta)

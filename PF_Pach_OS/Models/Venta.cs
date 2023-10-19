@@ -18,7 +18,7 @@ namespace PF_Pach_OS.Models
         public int? PagoDomicilio { get; set; }
         public string? Estado { get; set; }
         public int? IdEmpleado { get; set; }
-
+        public string? Mesa { get; set; }
         public virtual Empleado? IdEmpleadoNavigation { get; set; }
         public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
     }

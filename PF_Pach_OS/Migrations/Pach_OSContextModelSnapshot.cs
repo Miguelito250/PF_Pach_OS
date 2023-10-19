@@ -575,8 +575,8 @@ namespace PF_Pach_OS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("IdSaborSeleccionado"), 1L, 1);
 
-                    //b.Property<int?>("DetalleVentaNavigationIdDetalleVenta")
-                    //    .HasColumnType("int");
+                    b.Property<int?>("DetalleVentaNavigationIdDetalleVenta")
+                        .HasColumnType("int");
 
                     b.Property<int?>("IdDetalleVenta")
                         .HasColumnType("int");
@@ -584,16 +584,16 @@ namespace PF_Pach_OS.Migrations
                     b.Property<int?>("IdProducto")
                         .HasColumnType("int");
 
-                    //b.Property<int?>("ProductoNavigationIdProducto")
-                    //    .HasColumnType("int");
+                    b.Property<int?>("ProductoNavigationIdProducto")
+                        .HasColumnType("int");
 
                     b.HasKey("IdSaborSeleccionado");
 
-                    b.HasIndex("IdProducto");
+                    b.HasIndex("DetalleVentaNavigationIdDetalleVenta");
 
-                    b.HasIndex("IdDetalleVenta");
+                    b.HasIndex("ProductoNavigationIdProducto");
 
-                    b.ToTable("SaboresSeleccionados");
+                    b.ToTable("SaboresSeleccionados", (string)null);
                 });
 
             modelBuilder.Entity("PF_Pach_OS.Models.Tamano", b =>
@@ -688,10 +688,6 @@ namespace PF_Pach_OS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmailConfirmationToken")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("EntryDay")
                         .HasColumnType("datetime2");
 
@@ -700,10 +696,6 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordResetToken")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
