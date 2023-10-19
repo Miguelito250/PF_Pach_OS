@@ -60,3 +60,4 @@ PF_Pach_OS/obj/Debug/net6.0/apphost.exe
 *.props
 *.json
 *.cache
+*.dll
