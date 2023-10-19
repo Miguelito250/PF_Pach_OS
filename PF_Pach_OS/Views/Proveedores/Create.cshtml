@@ -11,57 +11,59 @@
         <form asp-action="Create" id="formulario" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="TipoDocumento" class="control-label">Tipo de Documento</label>
+                <select asp-for="TipoDocumento" class="form-control">
+                    <option value="NIT">NIT</option>
+                    <option value="Cédula">Cédula</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label asp-for="Nit" class="control-label"></label>
-                <input asp-for="Nit" class="form-control" required />
+                <input asp-for="Nit" class="form-control" maxlength="10" required />
                 <span id="nitResult" class="text-danger"></span>
                 <span asp-validation-for="Nit" class="text-danger"></span>
                 <div class="valid-feedback">
-                    ¡Todo bien!
                 </div>
                 <span asp-validation-for="Nit" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="NomLocal" class="control-label">Nombre Local</label>
-                <input asp-for="NomLocal" class="form-control" required />
+                <input asp-for="NomLocal" class="form-control" maxlength="30" required />
                 <div class="invalid-feedback" id="nomlocal-feedback">
                     Por favor rellene el campo.
                 </div>
                 <div class="valid-feedback">
-                    ¡Todo bien!
                 </div>
                 <span asp-validation-for="NomLocal" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" required/>
+                <input asp-for="Direccion" class="form-control" maxlength="30" required />
                 <div class="invalid-feedback">
                     Por favor ingrese la direccion correcta.
                 </div>
                 <div class="valid-feedback">
-                    ¡Todo bien!
                 </div>
                 <span asp-validation-for="Direccion" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control"  required/>
+                <input asp-for="Telefono" class="form-control" maxlength="10" required />
                 <div class="invalid-feedback">
                     Por favor ingrese el telefono
                 </div>
                 <div class="valid-feedback">
-                    ¡Todo bien!
                 </div>
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Correo" class="control-label"></label>
-                <input asp-for="Correo" class="form-control" required />
+                <input asp-for="Correo" class="form-control" maxlength="30" required />
                 <div class="invalid-feedback">
                     Por favor ingrese el correo
                 </div>
                 <div class="valid-feedback">
-                    ¡Todo bien!
                 </div>
                 <span asp-validation-for="Correo" class="text-danger"></span>
             </div>
@@ -106,7 +108,7 @@
                         $('#Nit').removeClass('is-invalid').addClass('is-valid');
                         $('#btnRegistrar').prop('disabled', false); 
                     } else {
-                        $('#nitResult').text('El NIT ya está registrado.');
+                        $('#nitResult').text('Documento registrado.');
                         $('#nit-validation-message').show();
                         $('#Nit').removeClass('is-valid').addClass('is-invalid');
                         $('#btnRegistrar').prop('disabled', true); 
