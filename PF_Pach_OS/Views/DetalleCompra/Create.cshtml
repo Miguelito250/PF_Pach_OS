@@ -1,5 +1,6 @@
 ﻿@model Tuple<DetallesCompra, Compra, Insumo>;
-<link href="~/css/compras.css" rel="stylesheet" />
+<link href="~/css/compras/detallecompra.css" rel="stylesheet" />
+
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -47,7 +48,7 @@
 
 <div class="grid row g-4 column-2 py-2 cuadroblanco">
     @*------------------------------------------------------------------------FORMULARIO DE COMPRAS----------------------------------------------------------------------*@
-    <div class="col-4 p-2 bg-white rounded border px-4 py-4 Compras">
+    <div class="col-md-4 p-2 bg-white rounded border px-4 py-4 Compras">
         @*-----INICIO DEL FORMULARIO-----*@
         <form id="formCompra" class="detail-container needs-validation" asp-action="ComfirmarCompra" method="post" novalidate>
             <input type="hidden" asp-for="Item2.IdCompra" value="@ViewBag.IdCompra" />
@@ -58,7 +59,7 @@
                 @*-----Ingresar numero de Factura-----*@
                 <div class="">
                     <p class="mb-0"><strong>Numero de factura</strong></p>
-                    <input type="text" asp-for="Item2.NumeroFactura" id="NumeroFactura" name="Item2.NumeroFactura" placeholder="Numero de factura" class="form-control" min="1" title="Aqui puede ingresar el numero de la factura" required />
+                    <input type="text" asp-for="Item2.NumeroFactura" id="NumeroFactura" name="Item2.NumeroFactura" placeholder="Numero de factura" class="form-control" min="1" title="Aqui puede ingresar el numero de la factura" required/>
                     <div id="NumeroFeedback" class="invalid-feedback">
                         Por favor, ingresa factura.
                     </div>
@@ -105,13 +106,13 @@
                 @*-----BOTON DE CANCELAR COMPRA-----*@
                 <a id="cancelarCompraBtn" class="btn btn-light border mb-2 cancelarCompraBtn" asp-controller="Compras" asp-action="Delete" asp-route-id="@ViewBag.IdCompra" title="Cancelar la compra actual">Cancelar compra</a>
                 @*-----BOTON DE REALIZAR COMPRA-----*@
-                <button id="confirmarCompraBtn" class="btn btn-primary botones-agregar" type="submit" title="Confirmar la compra actual">Realizar compra</button>
+                <button id="confirmarCompraBtn" class="btn btn-primary botones-agregar" type="submit"title="Confirmar la compra actual">Realizar compra</button>
             </div>
         </form>
     </div>
 
     @*----------------------------------------------------------------------FORMULARIO DE DETALLE COMPRAS----------------------------------------------------------------------*@
-    <div class="col-7">
+    <div class="col-md-7 AgregarInsumo">
         @*-----INICIO DEL FORMULARIO-----*@
         <form id="formAgregar" class="row g-2 needs-validation" asp-action="Create" method="post" novalidate>
             @*-----SELECCIONAR EL INSUMO-----*@
@@ -145,7 +146,7 @@
             </div>
             @*-----BOTON PARA CREAR UN INSUMO DESDE DETALLE DE COMPRA-----*@
             <div class="col-4 d-flex align-items-end justify-content-center divBotonInsumo DC">
-                <button type="button" class="btn btn-primary botones-agregar" data-toggle="modal" data-target="#createModal" title="Con este boton puede registrar un insumo desde esta página">Crear insumo</button>
+                <button type="button" class="btn btn-primary botones-agregar detalleCom" data-toggle="modal" data-target="#createModal" title="Con este boton puede registrar un insumo desde esta página">Crear insumo</button>
             </div>
             @*-----SELECCIONAR UNIDAD DE MEDIDA-----*@
             <div class="col-4 DC">
@@ -169,25 +170,25 @@
             @*-----INGRESAR PRECIO-----*@
             <div class="col-4 DC">
                 <label>Precio</label>
-                <input id="PrecioCompra" type="text" asp-for="Item1.PrecioInsumo" placeholder="Precio de insumo" class="form-control" title="Aqui puede ingresar el valor del insumo" required />
+                <input id="PrecioCompra" type="text" asp-for="Item1.PrecioInsumo" placeholder="Precio de insumo" class="form-control" title="Aqui puede ingresar el valor del insumo" required/>
                 <div id="PrecioFeedback" class="invalid-feedback">
                     Por favor, ingrese precio del insumo.
                 </div>
                 <div class="valid-feedback">
                 </div>
             </div>
-
+            
             <input type="hidden" asp-for="Item1.IdCompra" value="@ViewBag.IdCompra" />
 
             @*-----BOTON PARA AGREGAR UN INSUMO AL DETALLE DE LA COMPRA-----*@
             <div class="col-4 d-flex align-items-end justify-content-center DivBotonAgregar DC">
-                <button class="btn btn-primary botones-agregar" title="Con este boton puede agregar el insumo a la compra" type="submit">
+                <button class="btn btn-primary botones-agregar detalleCom" title="Con este boton puede agregar el insumo a la compra" type="submit">
                     Agregar insumo
                 </button>
             </div>
         </form>
         @*-----CABECERA DE LA TABLA QUE MUESTRA LA INFORMACION DE LOS INSUMOS QUE SE ESTAN COMPRANDO-----*@
-        <div class="mt-3 border rounded bg-white detallecompra" style="max-height: 27rem; overflow-y: auto;">
+        <div class="mt-3 border rounded bg-white detallecompra" style="max-height: 26rem; overflow-y: auto;">
             <table class="table table-borderless mb-0 tablaDetallesCompra">
                 <thead>
                     <tr class="text-gray bg-gray-300">
@@ -278,7 +279,7 @@
     </div>
 </div>
 
-@*----------------------------------------------------------------------VALIDACION DE CAMPOS EN TIEMPO REAL----------------------------------------------------------------------*@
+@*----------------------------------------------------------------------VALIDACION DE CAMPOS EN TIEMPO REAL----------------------------------------------------------------------*@    
 
 
 
@@ -297,11 +298,11 @@
         updateMedidaOptions(selectedMeasure);
         console.log(Valor)
 
-        if (Valor > 0) {
+        if(Valor>0){
             Item1_IdInsumo.classList.add('is-valid');
-        } else {
+        }else{
             Item1_IdInsumo.classList.add('is-invalid');
             InsumoFeedback.textContent = 'Por favor, Escoja una opcion.';
         }
-    });
-</script>
+    }); 
+</script>   
