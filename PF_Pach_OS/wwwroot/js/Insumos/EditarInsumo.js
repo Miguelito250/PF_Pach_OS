@@ -16,7 +16,7 @@ function EditarInsumo(event) {
             console.log('Formulario válido');
             fomulario.removeEventListener('submit', EditarInsumo);
             fomulario.submit();
-        })
+        })        
     } else {
         Toast.fire({
             icon: 'error',

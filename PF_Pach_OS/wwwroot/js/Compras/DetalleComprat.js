@@ -10,7 +10,7 @@
     var NumeroFeedback = document.getElementById('NumeroFeedback');
     var ProveedorFeedback = document.getElementById('ProveedorFeedback');
 
-
+    
 
 
     function EnvioCompra(event) {
@@ -154,7 +154,7 @@
         }
     }
 
-
+    
 }); // Aquí se agrega el paréntesis de cierre
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function () {
         validarInsumoCompra();
     });
 
-
+    
 
     function validarInsumoCompra() {
         // Obtener el valor seleccionado del campo select
@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
         InsumoCompra.classList.remove('is-invalid', 'is-valid');
         InsumoFeedback.textContent = '';
 
-        if (InsumoSeleccion === '') {
+        if (InsumoSeleccion === '' ) {
             InsumoCompra.classList.add('is-invalid');
             InsumoFeedback.textContent = 'Por favor, Escoja una opcion.';
             cambiarClaseBotonInusumo();
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function () {
         CantidadCompra.classList.remove('is-invalid', 'is-valid');
         CantidadFeedback.textContent = '';
 
-        if (Cantidad.trim() === '') {
+        if (Cantidad.trim() === '' ) {
             CantidadCompra.classList.add('is-invalid');
             CantidadFeedback.textContent = 'Por favor, ingrese la cantidad.';
             cambiarClaseBotonInusumo();
@@ -357,9 +357,9 @@ document.addEventListener('DOMContentLoaded', function () {
             PrecioCompra.classList.add('is-valid');
         }
     }
+    
 
-
-
+    
 }); // Aquí se agrega el paréntesis de cierre
 
 window.addEventListener('load', function () {
