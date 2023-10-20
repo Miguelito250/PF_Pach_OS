@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "KpoSLoBGkqjTHwdpeF+hwtDVnc7jK6gRKemgjC4sz2A=",
+  "Hash": "SUo7Wn2j1GyyjoW4yN4X8lBzRHt/qbnss26pa+TresM=",
   "Source": "PF_Pach_OS",
   "BasePath": "_content/PF_Pach_OS",
   "Mode": "Default",
@@ -36040,23 +36040,6 @@
       "OriginalItemSpec": "wwwroot\\css\\estructuracion.css"
     },
     {
-      "Identity": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\IndexVentas.css",
-      "SourceId": "PF_Pach_OS",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
-      "BasePath": "_content/PF_Pach_OS",
-      "RelativePath": "css/IndexVentas.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\IndexVentas.css"
-    },
-    {
       "Identity": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Login-roles-permisos\\Login.css",
       "SourceId": "PF_Pach_OS",
       "SourceType": "Discovered",
@@ -36140,6 +36123,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\ventas.css"
+    },
+    {
+      "Identity": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Informe\\Informe.js",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "js/Informe/Informe.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Informe\\Informe.js"
     },
     {
       "Identity": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Proveedores\\Proveedore.js",
