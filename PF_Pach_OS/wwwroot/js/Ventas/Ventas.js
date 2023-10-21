@@ -64,7 +64,6 @@ function CalcularSubtotal() {
 const boton_domicilio = document.getElementById('domicilio')
 const boton_pago = document.getElementById('pago')
 const producto = document.getElementById('Item1_IdProducto')
-const botonCerrar = document.getElementById("cerrar")
 
 var subtotal = CalcularSubtotal()
 
@@ -75,6 +74,7 @@ producto.addEventListener("change", function () {
 
     if (producto.value == 0) {
         var miModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+            backdrop: 'static',
             keyboard: false
         });
         $('#exampleModal').on('shown.bs.modal', function () {
