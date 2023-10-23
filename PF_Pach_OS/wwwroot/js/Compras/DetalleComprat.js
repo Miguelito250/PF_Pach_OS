@@ -286,6 +286,11 @@ document.addEventListener('DOMContentLoaded', function () {
             CantidadCompra.classList.add('is-invalid');
             CantidadFeedback.textContent = 'No se pueden ingresar caracteres especiales.';
         }
+        else if (Cantidad.length > 10) {
+            CantidadCompra.classList.add('is-invalid');
+            CantidadFeedback.textContent = 'No se pueden ingresar mas de 10 numeros.';
+            cambiarClaseBotonInusumo();
+        }
         else {
             // El campo es válido
             if (!InsumoCompra.classList.contains('is-invalid') && !CantidadCompra.classList.contains('is-invalid')) {
@@ -347,6 +352,10 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (/[^a-zA-Z0-9\s]/.test(Precio)) {
             PrecioCompra.classList.add('is-invalid');
             PrecioFeedback.textContent = 'No se pueden ingresar caracteres especiales.';
+            cambiarClaseBotonAgregar();
+        } else if (Precio.length > 10) {
+            PrecioCompra.classList.add('is-invalid');
+            PrecioFeedback.textContent = 'No se pueden ingresar mas e 10 numeros.';
             cambiarClaseBotonAgregar();
         }
         else {
