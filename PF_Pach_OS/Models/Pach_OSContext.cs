@@ -302,6 +302,11 @@ namespace PF_Pach_OS.Models
 
                 entity.Property(e => e.Precio).HasColumnName("precio");
 
+                entity.Property(e => e.Estado)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("estado");
+
                 entity.HasOne(d => d.IdProductoNavigation)
                     .WithMany(p => p.DetalleVenta)
                     .HasForeignKey(d => d.IdProducto)

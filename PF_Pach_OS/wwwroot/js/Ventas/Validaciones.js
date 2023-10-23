@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', function () {
     producto.addEventListener('change', ValidarProducto)
     cantidad.addEventListener('input', ValidarCantidad)
 
-    //Funciones para validar ventas
-    //Funcion para validar los campos en tiempo real con SweetAlert2
+    //---------------Funciones para validar ventas------------------------
+    //Miguel 22/10/2023: Función para validar los campos en tiempo real con SweetAlert2
     function EnvioVenta(event) {
         event.preventDefault();
 
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
 
-    //Funcion para validar el campo de pago con todas sus posibilidades
+    //Miguel 22/10/2023: Función para validar el campo de pago con todas sus posibilidades
     function ValidarPago() {
         var valorPago = pago.value;
         var totalVenta = document.getElementById("totalVenta-input").value;
@@ -108,17 +108,32 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    //Funciones para validar detalles de venta
-    //Funcion para validar los campos en tiempo real con SweetAlert2
+    //------------------------Funciones para validar detalles de venta------------------------
+    //Miguel 22/10/2023: Función para validar los campos en tiempo real con SweetAlert2
     function EnvioDetalle(event) {
         event.preventDefault();
         if (fomularioAgregar.checkValidity() && !producto.classList.contains('is-invalid') && !cantidad.classList.contains('is-invalid')) {
             console.log('Formulario válido');
-            fomularioAgregar.removeEventListener('submit', EnvioDetalle);
-            fomularioAgregar.submit();
-            $(producto).trigger('change');
-
-        } else {
+            ValidarInsumos().then(function (data) {
+                if (data) {
+                    console.log("Toy dentro del if")
+                    fomularioAgregar.removeEventListener('submit', EnvioDetalle);
+                    fomularioAgregar.submit();
+                    $(producto).trigger('change');
+                } else {
+                    Swal.fire({
+                        title: 'Ups...',
+                        timer: 2700,
+                        text: 'No hay insumos suficientes para este producto.',
+                        icon: 'error',
+                        showConfirmButton: false,
+                    });
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+        else {
             Toast.fire({
                 icon: 'error',
                 title: 'Formulario inválido'
@@ -127,10 +142,11 @@ document.addEventListener('DOMContentLoaded', function () {
             CambiarClaseBotonAgregar();
             ValidarProducto();
             ValidarCantidad();
+
         }
     }
-    
-    //Funcion para validar que el campo de producto no esté vacío 
+
+    //Miguel 22/10/2023: Función para validar que el campo de producto no esté vacío
     function ValidarProducto() {
         let valorProducto = producto.value
 
@@ -145,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    //Funcion para validar que el campo de cantidad no sea menor a 1 
+    //Miguel 22/10/2023: Función para validar que el campo de cantidad no sea menor a 1
     function ValidarCantidad() {
         let valorCantidad = cantidad.value
 
@@ -160,6 +176,30 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
     }
+
+    //Miguel 22/10/2023: Función para validar que haya insumos suficientes en el sistema antes de ingresar otro detalle
+    function ValidarInsumos() {
+        let productoConsultar = producto.value
+        let cantidadConsultar = cantidad.value
+
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: "/DetalleVentas/InsumosSuficientes",
+                data: { idProducto: productoConsultar, cantidadVender: cantidadConsultar },
+                success: function (data) {
+
+                    console.log(data);
+                    resolve(data);
+
+                },
+                error: function (xhr, status, error) {
+                    // Esta función se ejecutará si hay un error en la solicitud.
+                    console.log("Error en la solicitud: " + error);
+                }
+            });
+        });
+    }
+
     function CambiarClaseBotonAgregar() {
         var DivBotonAgregar = document.querySelector('.DivBotonAgregar');
         if (DivBotonAgregar) {

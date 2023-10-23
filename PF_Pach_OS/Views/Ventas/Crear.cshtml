@@ -58,7 +58,10 @@
                             <td>@detalles.CantVendida</td>
                             <td>@detalles.Precio</td>
                             <td id="texto-total"></td>
-                            <td><a asp-controller="DetalleVentas" asp-action="Delete" asp-route-id="@detalles.IdDetalleVenta" class="btn btn-outline-danger">Remover</a></td>
+                            @if (detalles.Estado != "Descontado")
+                            {
+                                <td><a asp-controller="DetalleVentas" asp-action="EliminarDetalle" asp-route-id="@detalles.IdDetalleVenta" class="btn btn-outline-danger">Remover</a></td>
+                            }
                         </tr>
                     }
                 </tbody>
