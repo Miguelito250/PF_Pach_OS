@@ -1,4 +1,4 @@
-﻿using System;   
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,18 +22,23 @@ namespace PF_Pach_OS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
+        //Funcion para ir agregando los detalles de venta a la factura
         public async Task<IActionResult> AgregarDetalle([Bind("CantVendida,Precio,IdVenta,IdProducto")] DetalleVenta detalleVenta)
         {
             if (ModelState.IsValid)
             {
-                //Guardar el precio del producto seleccionado
+                if(detalleVenta.CantVendida <= 0 || detalleVenta.IdProducto == 0)
+                {
+                    return RedirectToAction("Crear", "Ventas", new { detalleVenta.IdVenta });
+                }
+
                 var precioProducto = _context.Productos
                     .Where(detalle => detalle.IdProducto == detalleVenta.IdProducto)
                     .Select(detalle => detalle.PrecioVenta)
                     .FirstOrDefault();
                 detalleVenta.Precio = precioProducto;
 
-                //Consulta para saber si el producto ya esta en la lista de detalles
+                
                 var productoExistente = _context.DetalleVentas
                     .Where(detalle => detalle.IdVenta == detalleVenta.IdVenta && detalle.IdProducto == detalleVenta.IdProducto)
                     .FirstOrDefault();
@@ -46,7 +51,7 @@ namespace PF_Pach_OS.Controllers
                 else
                 {
                     var detalleActualizar = _context.DetalleVentas.Find(productoExistente.IdDetalleVenta);
-                    if(detalleActualizar == null)
+                    if (detalleActualizar == null)
                     {
                         return NotFound();
                     }
@@ -54,7 +59,7 @@ namespace PF_Pach_OS.Controllers
                     {
                         detalleActualizar.CantVendida += detalleVenta.CantVendida;
                     }
-                    
+
                     _context.Update(detalleActualizar);
                     await _context.SaveChangesAsync();
                 }
@@ -66,41 +71,17 @@ namespace PF_Pach_OS.Controllers
             return View(detalleVenta);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdDetalleVenta,CantVendida,Precio,IdVenta,IdProducto")] DetalleVenta detalleVenta)
+        public async Task<object> ConsultarMaximoSabores(byte IdProducto)
         {
-            if (id != detalleVenta.IdDetalleVenta)
+            if (IdProducto == null)
             {
                 return NotFound();
             }
+            var consultarMaximoSabores = await _context.Tamanos.FindAsync(IdProducto);
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(detalleVenta);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DetalleVentaExists(detalleVenta.IdDetalleVenta))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "IdProducto", detalleVenta.IdProducto);
-            ViewData["IdVenta"] = new SelectList(_context.Ventas, "IdVenta", "IdVenta", detalleVenta.IdVenta);
-            return View(detalleVenta);
+            return consultarMaximoSabores;
         }
 
-        
         public async Task<IActionResult> Delete(int? id)
         {
             var detalleVentas = await _context.DetalleVentas.FindAsync(id);
@@ -108,11 +89,10 @@ namespace PF_Pach_OS.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Crear", "Ventas", new { detalleVentas.IdVenta });
         }
-           
+
         private bool DetalleVentaExists(int id)
         {
-          return (_context.DetalleVentas?.Any(e => e.IdDetalleVenta == id)).GetValueOrDefault();
+            return (_context.DetalleVentas?.Any(e => e.IdDetalleVenta == id)).GetValueOrDefault();
         }
     }
 }
-    

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -32,12 +32,12 @@ namespace PF_Pach_OS.Models
         public virtual DbSet<Permiso> Permisos { get; set; } = null!;
         public virtual DbSet<Producto> Productos { get; set; } = null!;
         public virtual DbSet<Proveedore> Proveedores { get; set; } = null!;
+        public virtual DbSet<SaborSeleccionado> SaboresSeleccionados { get; set; } = null!;
         public virtual DbSet<Receta> Recetas { get; set; } = null!;
         public virtual DbSet<RolPermiso> RolPermisos { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Tamano> Tamanos { get; set; } = null!;
         public virtual DbSet<Venta> Ventas { get; set; } = null!;
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -408,6 +408,7 @@ namespace PF_Pach_OS.Models
                     .HasConstraintName("FK__recetas__id_prod__5441852A");
             });
 
+
             modelBuilder.Entity<RolPermiso>(entity =>
             {
                 entity.HasKey(e => e.IdRolPermisos)
@@ -446,6 +447,24 @@ namespace PF_Pach_OS.Models
                     .IsUnicode(false)
                     .HasColumnName("nom_rol");
             });
+
+            modelBuilder.Entity<SaborSeleccionado>(entity =>
+            {
+                entity.HasKey(e => e.IdSaborSeleccionado);
+
+                entity.HasOne(d => d.IdDetalleVentaNavigation)
+                    .WithMany(p => p.SaboresSeleccionados)
+                    .HasForeignKey(d => d.IdDetalleVenta)
+                    .HasConstraintName("FK_SaboresSeleccionados_detalleVentas")
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(d => d.IdProductoNavigation)
+                    .WithMany(p => p.SaboresSeleccionados)
+                    .HasForeignKey(d => d.IdProducto)
+                    .HasConstraintName("FK_SaboresSeleccionados_productos"); 
+            });
+
+
 
             modelBuilder.Entity<Tamano>(entity =>
             {
@@ -501,6 +520,11 @@ namespace PF_Pach_OS.Models
                     .HasColumnName("tipo_pago");
 
                 entity.Property(e => e.TotalVenta).HasColumnName("total_venta");
+
+                entity.Property(e => e.Mesa)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("mesa");
 
                 entity.HasOne(d => d.IdEmpleadoNavigation)
                     .WithMany(p => p.Venta)

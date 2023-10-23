@@ -1,27 +1,39 @@
 ﻿@model IEnumerable<PF_Pach_OS.Models.Venta>
+@using System.Globalization;
 
 @{
     ViewData["Title"] = "Index";
     var colorIcono = "";
+    var estado = "";
 }
 
+<link rel="stylesheet" href="~/css/Estilos-generales.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/ventas.css" asp-append-version="true" />
-
-
 
 <form method="post">
     <button type="submit" asp-action="CrearVenta" class="btn-crear-posicion estilo-btn-naranja">Registrar Venta</button>
 </form>
+
+<section class="position-absolute top-4 left-50">
+    <!-- Slide THREE -->
+    <div class="slideThree">
+        <input type="checkbox" id="slideThree" name="check" />
+        <label for="slideThree"></label>
+    </div>
+</section>
+
+<input type="text" class="buscador" id="searchInput" placeholder="Buscar" aria-label="Buscar" aria-describedby="search-addon">
 
 <div class="mt-4 border rounded bg-white h-100 overflow-scroll">
     <table class="table mb-0 table-bordered table-striped">
         <thead class="table-warning">
             <tr>
                 <th>Fecha</th>
+                <th>Mesa</th>
                 <th>Metodo de pago</th>
                 <th>Total</th>
-                <th>Pago de Domicilio</th>
                 <th>Pago</th>
+                <th>Pago de Domicilio</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -31,34 +43,68 @@
                 if (item.Estado == "Pendiente")
                 {
                     colorIcono = "red";
+                    estado = "Pendiente";
                 }
                 else
                 {
                     colorIcono = "green";
+                    estado = "Pagada";
                 }
 
                 <tr>
                     <td>@item.FechaVenta</td>
+                    <td>@item.Mesa</td>
                     <td>@item.TipoPago</td>
-                    <td>@item.TotalVenta</td>
-                    <td>@item.PagoDomicilio</td>
-                    <td>@item.Pago</td>
+                    <td>
+                        @(item.TotalVenta.HasValue ? (item.TotalVenta % 1 == 0
+                            ? ((decimal)item.TotalVenta).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                            : ((decimal)item.TotalVenta).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                            : "Sin Precio")
+                    </td>
+                    <td>
+                        @(item.Pago.HasValue ? (item.Pago % 1 == 0
+                           ? ((decimal)item.Pago).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                           : ((decimal)item.Pago).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                            : "Sin Precio")
+                    </td>
+                    <td>
+                        @(item.PagoDomicilio.HasValue ? (item.PagoDomicilio % 1 == 0
+                            ? ((decimal)item.PagoDomicilio).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                            : ((decimal)item.PagoDomicilio).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                            : "Sin Precio")
+                    </td>
                     <td class="d-flex">
                         <button class="btn btn-link" id="boton-detalles" data-toggle="modal" data-target="#exampleModal" data-idventa="@item.IdVenta">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="orange" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
                                 <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
                             </svg>
                         </button>
-
-                        <form asp-controller="Ventas" asp-action="CambiarEstado" asp-route-idVenta="@item.IdVenta">
-                            <button class="btn btn-link">
+                        @if(item.Estado == "Pendiente")
+                        {
+                            <form asp-controller="Ventas" asp-action="CambiarEstado" asp-route-idVenta="@item.IdVenta">
+                                <button class="btn btn-link boton-Estado" data-estado="@estado">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="@colorIcono" class="bi bi-cash-stack" viewBox="0 0 16 16">
+                                        <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
+                                        <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z" />
+                                    </svg>
+                                </button>
+                            </form>
+                            <form asp-controller="Ventas" asp-action="Crear" asp-route-IdVenta="@item.IdVenta">
+                                <button class="btn btn-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="green" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                                        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z" />
+                                    </svg>
+                                </button>
+                            </form>
+                        }else
+                        {
+                            <button class="btn btn-link boton-Estado" data-estado="@estado">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="@colorIcono" class="bi bi-cash-stack" viewBox="0 0 16 16">
                                     <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
                                     <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z" />
                                 </svg>
                             </button>
-                        </form>
-
+                        }
                     </td>
                 </tr>
             }
@@ -116,7 +162,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 id="titulo-modal"></h5>
+                <h5 id="titulo-modal">Pachito-ché</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -129,4 +175,44 @@
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var searchInput = $('#searchInput');
+
+        // Manejar el evento de cambio en el campo de búsqueda mientras se escribe
+        $('#searchInput').on('input', function () {
+            var searchText = $(this).val().trim().toLowerCase();
+
+            // Filtrar las filas de la tabla que coincidan con la búsqueda
+            $('tbody tr').each(function () {
+                var fecha = $(this).find('td:eq(0)').text().trim().toLowerCase();
+                var metodoPago = $(this).find('td:eq(1)').text().trim().toLowerCase();
+                var total = $(this).find('td:eq(2)').text().trim().toLowerCase();
+
+                if (
+                    fecha.includes(searchText) ||
+                    metodoPago.includes(searchText) ||
+                    total.includes(searchText)
+                ) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+        // Restablecer el placeholder cuando se borre el contenido o se pierda el foco
+        searchInput.on('blur', function () {
+            if ($(this).val().trim() === '') {
+                $(this).addClass('empty');
+            }
+        });
+
+        searchInput.on('focus', function () {
+            $(this).removeClass('empty');
+        });
+    });
+</script>
+
 <script src="~/js/ventas/indexventas.js"></script>

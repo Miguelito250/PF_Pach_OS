@@ -567,6 +567,35 @@ namespace PF_Pach_OS.Migrations
                     b.ToTable("recetas", (string)null);
                 });
 
+            modelBuilder.Entity("PF_Pach_OS.Models.SaboresSeleccionados", b =>
+                {
+                    b.Property<int?>("IdSaborSeleccionado")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("IdSaborSeleccionado"), 1L, 1);
+
+                    b.Property<int?>("DetalleVentaNavigationIdDetalleVenta")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdDetalleVenta")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdProducto")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductoNavigationIdProducto")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdSaborSeleccionado");
+
+                    b.HasIndex("DetalleVentaNavigationIdDetalleVenta");
+
+                    b.HasIndex("ProductoNavigationIdProducto");
+
+                    b.ToTable("SaboresSeleccionados", (string)null);
+                });
+
             modelBuilder.Entity("PF_Pach_OS.Models.Tamano", b =>
                 {
                     b.Property<byte>("IdTamano")
@@ -755,6 +784,21 @@ namespace PF_Pach_OS.Migrations
                     b.Navigation("IdProductoNavigation");
                 });
 
+            modelBuilder.Entity("PF_Pach_OS.Models.SaboresSeleccionados", b =>
+                {
+                    b.HasOne("PF_Pach_OS.Models.DetalleVenta", "DetalleVentaNavigation")
+                        .WithMany("SaboresSeleccionados")
+                        .HasForeignKey("DetalleVentaNavigationIdDetalleVenta");
+
+                    b.HasOne("PF_Pach_OS.Models.Producto", "ProductoNavigation")
+                        .WithMany("SaboresSeleccionados")
+                        .HasForeignKey("ProductoNavigationIdProducto");
+
+                    b.Navigation("DetalleVentaNavigation");
+
+                    b.Navigation("ProductoNavigation");
+                });
+
             modelBuilder.Entity("PF_Pach_OS.Models.Venta", b =>
                 {
                     b.HasOne("PF_Pach_OS.Models.Empleado", "IdEmpleadoNavigation")
@@ -775,6 +819,11 @@ namespace PF_Pach_OS.Migrations
                     b.Navigation("DetallesCompras");
                 });
 
+            modelBuilder.Entity("PF_Pach_OS.Models.DetalleVenta", b =>
+                {
+                    b.Navigation("SaboresSeleccionados");
+                });
+
             modelBuilder.Entity("PF_Pach_OS.Models.Empleado", b =>
                 {
                     b.Navigation("Venta");
@@ -792,6 +841,8 @@ namespace PF_Pach_OS.Migrations
                     b.Navigation("DetalleVenta");
 
                     b.Navigation("Receta");
+
+                    b.Navigation("SaboresSeleccionados");
                 });
 
             modelBuilder.Entity("PF_Pach_OS.Models.Proveedore", b =>

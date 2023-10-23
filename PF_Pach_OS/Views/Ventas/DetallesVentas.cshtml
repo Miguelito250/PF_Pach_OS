@@ -1,75 +1,129 @@
 ﻿@model PF_Pach_OS.Models.DetalleVenta
+@using System.Globalization;
 
+<link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/css/estilos-generales.css">
 @{
     int contadorDetalles = 0;
     List<DetalleVenta> listaDetalles = ViewBag.listaDetalles;
     Layout = null;
 }
 
+
 <div>
     <div class="w-100 d-flex flex-column mb-3 align-items-center">
-        <span class="w-80 h4 mb-3 text-center"><strong>Pachito-ché</strong></span>
+        <span class="w-80 h4 mb-3 text-center"><strong>Venta</strong></span>
+        <div>
+            <span class=""><strong>N-Venta: </strong>@Html.DisplayFor(model => model.IdVenta) Realizada: @Html.DisplayFor(model => model.IdVentaNavigation.FechaVenta)</span>
+        </div>
     </div>
 
-    <hr>
-
     <div>
-        <table class="table table-borderless mb-0">
-            <thead>
+        <table class="table  table-borderless mb-0 text-center table-bordered ">
+            <thead class="sombra">
                 <tr class="text-gray bg-gray-300">
-                    <th>#</th>
-                    <th>Producto</th>
-                    <th>Precio</th>
-                    <th>Cantidad</th>
-                    <th>Total</th>
+                    <th>Metodo Pago</th>
+                    <th>Pago Domicilio</th>
+                    <th>Recibido</th>
+                    <th>Cambio</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach(var detalle in listaDetalles)
+                <tr>
+
+                    <td>@Html.DisplayFor(model => model.IdVentaNavigation.TipoPago)</td>
+                    <td>
+                        @(Model.IdVentaNavigation.PagoDomicilio.HasValue
+                            ? Model.IdVentaNavigation.PagoDomicilio.Value.ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                            : "Sin Precio")
+                    </td>
+                     <td>
+                        @(Model.IdVentaNavigation.Pago.HasValue
+                            ? Model.IdVentaNavigation.Pago.Value.ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                            : "Sin Precio")
+                    </td>
+                    <td>
+                        @(ViewBag.Cambio != null && ViewBag.Cambio != 0
+                            ? ((decimal)ViewBag.Cambio).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                            : "0")
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class="w-100 d-flex flex-column mb-3 align-items-center">
+        <span class="w-80 h4 mb-3 text-center"><strong>DETALLE DE VENTA</strong></span>
+    </div>
+
+    <div>
+        <table id="TablaDetalles" class="table mb-0 text-center">
+            <thead class="sombra">
+                <tr class="text-gray bg-gray-300">
+                    <th>#</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detalle in listaDetalles)
                 {
                     var total = detalle.Precio * detalle.CantVendida;
                     contadorDetalles += 1;
                     <tr>
                         <td>@contadorDetalles</td>
                         <td>@detalle.IdProductoNavigation.NomProducto</td>
-                        <td>@detalle.Precio</td>
                         <td>@detalle.CantVendida</td>
-                        <td>@total</td>
+                        <td>
+                            @(total.HasValue ? (total % 1 == 0
+                                ? ((decimal)total).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                                : ((decimal)total).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                                : "Sin Precio")
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-
-    <hr>
-
-    <div>
-        <span id="IdVenta" hidden>@Html.DisplayFor(model => model.IdVenta)</span>
-
-        <div class="d-flex justify-content-between">
-            <span class="">Domicilio</span>
-            <span>@Html.DisplayFor(model => model.IdVentaNavigation.PagoDomicilio)</span>
-        </div>
-        <div class="d-flex justify-content-between">
-            <span>@Html.DisplayFor(model => model.IdVentaNavigation.TipoPago)</span>
-            <span id="pago">@Html.DisplayFor(model => model.IdVentaNavigation.Pago)</span>
-        </div>
-        <div class="d-flex justify-content-between">
-            <span>Cambio</span>
-            <span class="ms-auto" id="texto-cambio">0</span>
-        </div>
-        <div class="d-flex justify-content-between">
-            <span>Fecha / Hora</span>
-            <span>@Html.DisplayFor(model => model.IdVentaNavigation.FechaVenta)</span>
-        </div>
-
-    </div>
-    <hr>
-    <div class="d-flex flex-column align-items-center justify-content-between">
-        <span class="mb-0 display-4"><strong id="totalVenta">@Html.DisplayFor(model => model.IdVentaNavigation.TotalVenta)</strong></span>
-        <span class="mb-0">Total</span>
-    </div>
+</div>
+<div class=" d-flex flex-column align-items-center">
+    <input type="hidden" id="totalVenta" value="@Html.DisplayFor(model => model.IdVentaNavigation.TotalVenta)">
+    <span class="w-80 h2 text-center" style="margin-top:1rem">
+        <strong>
+            Total: @(Model.IdVentaNavigation.TotalVenta.HasValue
+            ? Model.IdVentaNavigation.TotalVenta.Value.ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+            : "Sin Precio")
+        </strong>
+    </span>
 </div>
 
-<script src="~/js/ventas/detallesventas.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var tablaDetalles = $("#TablaDetalles");
+        $(tablaDetalles).DataTable({
+            searching: false,
+            lengthChange: false,
+            info: false,
+            pageLength: 4,
+            filters: false,
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+            }
+        });
+
+        // Contar las filas de la tabla
+        var ContadorFilas = $('#TablaDetalles tbody tr').length;
+        console.log('Número de filas en la tabla: ' + ContadorFilas);
+    });
+
+</script>
+
+
 
