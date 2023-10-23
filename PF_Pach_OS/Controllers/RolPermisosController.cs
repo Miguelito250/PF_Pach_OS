@@ -23,8 +23,8 @@ namespace PF_Pach_OS.Controllers
         // GET: RolPermisos
         public async Task<IActionResult> Index()
         {
-            var pach_OSContext = _context.RolPermisos.Include(r => r.IdPermisoNavigation).Include(r => r.IdRolNavigation);
-            return View(await pach_OSContext.ToListAsync());
+            var roles = _context.Roles.ToList();
+            return View(roles);
         }
 
         // GET: RolPermisos/Details/5
@@ -66,25 +66,48 @@ namespace PF_Pach_OS.Controllers
             return View("Create");
         }
 
-        // POST: RolPermisos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        public JsonResult Crear(List<String> permisos, String nomRol)
-        {
-            List<int> listaEnteros = permisos.Select(s => int.Parse(s)).ToList();
-            Role rol = new Role();
-            rol.NomRol = nomRol;
-            Crear_rol(listaEnteros, rol);
-            return  Json(new { success = true, redirectTo = Url.Action("Index", "RolPermisos") });
 
+
+        [HttpPost]
+        public IActionResult Crear(List<int> permisos, String nomRol)
+        {
+            int id_Rol = 0;
+            if (nomRol != null)
+            {
+                Role nuevo_Rol = new Role();
+                nuevo_Rol.NomRol = nomRol;
+                _context.Roles.Add(nuevo_Rol);
+                _context.SaveChanges();
+
+            }
+            Role rol = _context.Roles.FirstOrDefault(p => p.NomRol == nomRol);
+            if (rol != null)
+            {
+                id_Rol = rol.IdRol;
+            }
+
+            for (int i = 0; i < permisos.Count; i++)
+            {
+                Console.WriteLine("====================================");
+                Console.WriteLine(permisos[i]);
+                Console.WriteLine("====================================");
+                var rolPermiso = new RolPermiso();
+                rolPermiso.IdPermiso = permisos[i];
+                rolPermiso.IdRol = id_Rol;
+                _context.RolPermisos.Add(rolPermiso);
+
+                _context.SaveChanges();
+
+            }
+            var datos = new { Nombre = "Ejemplo", Edad = 30 };
+            return Json(datos);
         }
         //Se crea el rol y se le asignan los permisos
-        public async void Crear_rol ( List<int> permisos, Role rol)
+        public async void Crear_rol(List<int> permisos, Role rol)
         {
-            if(rol != null)
+            if (rol != null)
             {
-            _context.Roles.Add(rol);
+                _context.Roles.Add(rol);
             }
 
             await _context.SaveChangesAsync();

@@ -16,6 +16,7 @@ namespace PF_Pach_OS.Models
         {
         }
 
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; } = null!;
         public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; } = null!;
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; } = null!;

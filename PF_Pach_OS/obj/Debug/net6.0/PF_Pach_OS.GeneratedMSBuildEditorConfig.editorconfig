@@ -28,6 +28,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/ForgotPasswordConfirmation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxGb3Jnb3RQYXNzd29yZENvbmZpcm1hdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -80,6 +84,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNvXENvbmZpcm1hckNvcnJlby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Views/Compras/DetalleCompra.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcHJhc1xEZXRhbGxlQ29tcHJhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Views/Compras/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcHJhc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -120,12 +128,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Views/Informes/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5mb3JtZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Views/Insumos/Editar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdW1vc1xFZGl0YXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Views/Insumos/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdW1vc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Views/Insumos/_EditarInsumo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdW1vc1xfRWRpdGFySW5zdW1vLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Views/Productos/Crear.cshtml]
@@ -164,8 +180,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Views/Roles/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcSW5kZXguY3NodG1s
+[C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sUGVybWlzb3NcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sUGVybWlzb3NcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sUGVybWlzb3NcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sUGVybWlzb3NcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sUGVybWlzb3NcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/SENA/Documents/GitHub/PF_Pach_OS/PF_Pach_OS/Views/Shared/Error.cshtml]

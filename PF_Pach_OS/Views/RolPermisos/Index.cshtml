@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PF_Pach_OS.Models.RolPermiso>
+﻿@model IEnumerable<PF_Pach_OS.Models.Role>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,24 +14,25 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdRolNavigation)
+                <p>Roles</p>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.IdRolNavigation.NomRol)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdRolPermisos">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdRolPermisos">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdRolPermisos">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.NomRol)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdRol">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdRol">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdRol">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form>
+        <form id="formulario1">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="rol.NomRol" class="control-label"></label>
@@ -33,7 +33,7 @@
                 }
             </div>
 
-            <input id="btnEnviar" class="btn btn-primary">
+            <button type="submit" id="btnEnviar" asp-action="Index" class="btn btn-primary">Crear Rol</button>
 
         </form>
     </div>
@@ -49,38 +49,4 @@
     }
 }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-
-        var Permisos = [];
-        var nomRol;
-        $('#rol_NomRol').on('input', function () {
-            nomRol = $('#rol_NomRol').val();
-        });
-
-
-        $("#btnEnviar").on("click", function () {
-            $('input[name="ValoresSeleccionados"]:checked').each(function () {
-                Permisos.push($(this).val());
-            });
-            
-            $.ajax({
-                url: "/RolPermisos/Crear",
-                type: "POST",
-                data: {
-                    permisos: Permisos,
-                    nomRol: nomRol
-                },
-                success: function (data) {
-                    if (data.success) {
-                        window.location.href = 'https://localhost:7229/RolPermisos';
-                    }
-                }
-            });
-            console.log(nomRol)
-            console.log(Permisos)
-
-        });
-    });
-</script>
+<script src="~/js/RolPermisos/Crear.js"> </script>
