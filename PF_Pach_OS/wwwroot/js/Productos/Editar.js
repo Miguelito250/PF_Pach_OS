@@ -174,10 +174,35 @@
         errorFeedback.text(mensaje);
     }
 
-
+    
 
 });
+document.getElementById("Formurario_Modal").addEventListener("submit", function (event) {
+    event.preventDefault();
+    event.stopPropagation();
 
+    var Idproducto_Exportar = $('#IdSeleccionado').val()
+    var Idproducto_Exportar = parseInt(Idproducto_Exportar);
+    console.log("Entada 1");
+    $.ajax({
+        type: "GET",
+        url: "/Productos/ConsultarRecetas",
+        data: { Id_PRoducto: Idproducto_Exportar },
+        success: function (data) {
+            for (var i = 0; i < data.length; i++) {
+                var receta = data[i];
+                console.log("CantInsumo: " + receta.CantInsumo);
+                console.log("IdInsumo: " + receta.IdInsumo);
+                console.log("NomInsumo: " + receta.NomInsumo);
+                console.log("Medida: " + receta.Medida);
+            }
+            $("#myModal").modal("hide");
+        },
+        error: function (xhr, status, error) {
+
+        }
+    });
+});
 (function () {
     'use strict';
     window.addEventListener('load', function () {

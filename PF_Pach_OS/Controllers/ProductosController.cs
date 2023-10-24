@@ -128,7 +128,7 @@ namespace PF_Pach_OS.Controllers
                 IdProducto = receta.IdProducto,
                 Medida = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.Medida,
             }).ToList();
-
+            ViewBag.Productos = new SelectList(_context.Productos.Where(p => p.Estado == 1), "IdProducto", "NomProducto");
             ViewBag.RecetasConInsumos = recetasConInsumos.Cast<object>().ToList();
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
             ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
@@ -208,7 +208,7 @@ namespace PF_Pach_OS.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction("CrearInformacionFormulario", "Productos", new { producto.IdProducto, accion = "Crear" });
+            return RedirectToAction("CrearInformacionFormulario", "Productos", new { producto.IdProducto });
         }
 
         //Elimina un producto en caso que que este no se este utilizando en ninguna venta 
@@ -297,13 +297,9 @@ namespace PF_Pach_OS.Controllers
                 IdProducto = receta.IdProducto,
                 Medida = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.Medida,
             }).ToList();
-            Console.WriteLine("=================================================");
-            foreach (var receta in recetasConInsumos)
-            {
-                Console.WriteLine($"IdReceta: {receta.IdReceta}, CantInsumo: {receta.CantInsumo}, IdProducto: {receta.IdProducto}, IdInsumo: {receta.IdInsumo}");
-            }
-            Console.WriteLine("=================================================");
+
             ViewBag.RecetasConInsumos = recetasConInsumos;
+            ViewBag.Productos = _context.Productos.Where(p => p.Estado == 1).ToList();
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
             ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
             ViewBag.NombreTamano = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
@@ -343,7 +339,7 @@ namespace PF_Pach_OS.Controllers
         }
 
         [HttpPost]
-        public IActionResult Interfaz(List<int> Actualizar_Id, List<int> Actualizar_Cantidad, List<int> Crear_id, List<int> Crear_Cantidad, int id_producto , List<int> Eliminar)
+        public IActionResult Interfaz(List<int> Actualizar_Id, List<int> Actualizar_Cantidad, List<int> Crear_id, List<int> Crear_Cantidad, int id_producto, List<int> Eliminar)
         {
             if (Actualizar_Id != null && Actualizar_Cantidad != null)
             {
@@ -352,7 +348,7 @@ namespace PF_Pach_OS.Controllers
 
             if (Crear_id != null && Crear_Cantidad != null)
             {
-                
+
                 Crear_recetas(Crear_id, Crear_Cantidad, id_producto);
             }
             if (Eliminar != null)
@@ -385,11 +381,11 @@ namespace PF_Pach_OS.Controllers
         }
         public void Crear_recetas(List<int> Crear_id, List<int> Crear_Cantidad, int id_producto)
         {
-            
+
 
             for (int i = 0; i < Crear_id.Count; i++)
             {
-                
+
                 Receta receta = new Receta();
                 receta.IdProducto = id_producto;
                 receta.IdInsumo = Crear_id[i];
@@ -401,9 +397,9 @@ namespace PF_Pach_OS.Controllers
         }
         public void Eliminar_recetas(List<int> Eliminar)
         {
-            foreach(int i in Eliminar) 
-            { 
-                Receta receta = _context.Recetas.Where(p=> p.IdReceta==i).FirstOrDefault();
+            foreach (int i in Eliminar)
+            {
+                Receta receta = _context.Recetas.Where(p => p.IdReceta == i).FirstOrDefault();
                 _context.Remove(receta);
                 _context.SaveChanges();
             }
@@ -420,5 +416,43 @@ namespace PF_Pach_OS.Controllers
             }
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public IActionResult Exportar_Receta([Bind("IdProducto,NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto, int IdSeleccionado)
+        {
+            _context.Update(producto);
+            _context.SaveChanges();
+            var recetas = _context.Recetas.Where(p=>p.IdProducto == IdSeleccionado).ToList();
+            foreach (var receta in recetas)
+            {
+                var nuevaReceta = new Receta
+                {
+                    IdProducto = producto.IdProducto,
+                    
+                    CantInsumo = receta.CantInsumo,
+                    IdInsumo = receta.IdInsumo
+                    
+                };
+
+                _context.Recetas.Add(nuevaReceta);
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("CrearInformacionFormulario", "Productos", new { producto.IdProducto });
+        }
+        public JsonResult ConsultarRecetas(int Id_PRoducto)
+        {
+            var Recetas = _context.Recetas.Where(p => p.IdProducto == Id_PRoducto).ToList();
+            var insumos = _context.Insumos.ToList();
+            var Recetas_Insumos = Recetas.Select(receta => new
+            {
+                CantInsumo = receta.CantInsumo,
+                IdInsumo = receta.IdInsumo,
+                NomInsumo = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.NomInsumo,
+                Medida = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.Medida,
+            }).ToList();
+            return Json(Recetas_Insumos);
+        }
+
     }
 }

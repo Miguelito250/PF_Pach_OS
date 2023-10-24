@@ -85,7 +85,7 @@
 
             </div>
             <div class="col">
-                <input type="submit" class="col-6 botones-agregar btn btn-success w-auto"  />
+                <input type="submit" class="col-6 botones-agregar btn btn-success w-auto" />
                 <a asp-action="Index" asp-controller="Productos" class="col-6 btn btn-outline-danger">Cancelar</a>
             </div>
         </form>
@@ -127,6 +127,11 @@
                 <div class="col-3">
                     <button type="submit" class="form-control btn btn-primary botones-agregar"> Agregar </button>
                 </div>
+                <div class="col-3">
+                    <button type="button" class="form-control btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        Importar Receta
+                    </button>
+                </div>
             </form>
         </div>
         <div class="mt-4 border rounded bg-white">
@@ -160,7 +165,7 @@
                                 <td>@recetaConInsumo.Medida</td>
                                 <td>
                                     <button class="btn btn-outline-danger" onclick="ocultarFila(this)">Remover</button>
-                                    
+
                                 </td>
                                 <td class="d-none">@recetaConInsumo.IdReceta </td>
                             </tr>
@@ -174,6 +179,38 @@
     </div>
 </div>
 
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Cabecera de la ventana modal -->
+            <div class="modal-header">
+                <h4 class="modal-title">Formulario Modal</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+
+            <form id="Formurario_Modal">
+                <div class="modal-body">
+                    <select class="form-control" required >
+                        @foreach (var item in ViewBag.Productos)
+                        {
+                            <option value="@item.IdProducto">@item.NomProducto </option>
+                        }
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+                </div>
+            </form>
+
+
+
+        </div>
+    </div>
+</div>
 <script src="~/js/Productos/Editar.js"></script>
 
 @section Scripts {
