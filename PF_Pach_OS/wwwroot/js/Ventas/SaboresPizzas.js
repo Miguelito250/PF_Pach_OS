@@ -62,11 +62,8 @@
 
     function ValidarCantidad() {
         let valorCantidad = cantidad.value
-        console.log("Hola soy cantidad", valorCantidad)
         cantidad.classList.remove('is-invalid', 'is-valid');
         cantidadMensaje.textContent = '';
-
-        console.log(cantidadMensaje)
 
         if (valorCantidad <= 0) {
             cantidad.classList.add('is-invalid');
@@ -86,7 +83,7 @@
     const maximoSaboresPermitidos = document.getElementById("maximoSabores");
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     const productoTamano = document.getElementById("ProductoEscoger");
-    const btnRecargarPagina = document.getElementById("recargarPagina")
+    //const btnRecargarPagina = document.getElementById("recargarPagina")
     const cantidad = document.getElementById("CantVendida");
     const cantidadMensaje = document.getElementById("cantidadMensaje");
 
@@ -98,7 +95,7 @@
 
     //Miguel 19/10/2023
     //Escuchador de Eventos para recargar la pagina al confirmar los sabores de las pizzas
-    btnRecargarPagina.addEventListener("click", RecargarPagina);
+    /*btnRecargarPagina.addEventListener("click", RecargarPagina);*/
     
 
 
@@ -162,7 +159,10 @@
                             icon: 'success',
                             timer: 2400,
                             showConfirmButton: false
-                        });
+                        }).then(function () {
+                            RecargarPagina();
+                            
+                        });;
                     },
                     error: function (xhr, status, error) {
                         // Esta función se ejecutará si hay un error en la solicitud.
