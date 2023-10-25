@@ -14,6 +14,7 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
+    [Authorize]
     public class VentasController : Controller
     {
         private readonly Pach_OSContext _context;
