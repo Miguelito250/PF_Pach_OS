@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var cantidadMensaje = document.getElementById('cantidadMensaje');
     var DivBotonAgregar = document.querySelector('.DivBotonAgregar');
 
+    const enlacesMenu = document.querySelectorAll('.links-modulos');
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -57,10 +58,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
             else {
+                let tipoCuenta = document.getElementById("Mesa");
+                valorTipoCuenta = tipoCuenta.value;
+                var mensajeAlerta = valorTipoCuenta === "General" ? "Venta registrada como Pagada" : "Venta registrada como cuenta abierta";
 
                 Swal.fire({
                     title: '¡Éxito!',
-                    text: 'Venta registrada',
+                    text: mensajeAlerta,
                     timer: 2400,
                     icon: 'success',
                     showConfirmButton: false,
@@ -75,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 icon: 'error',
                 title: 'Formulario inválido'
             });
-            console.log('Formulario inválido');
             ValidarPago();
         }
 
@@ -113,10 +116,8 @@ document.addEventListener('DOMContentLoaded', function () {
     function EnvioDetalle(event) {
         event.preventDefault();
         if (fomularioAgregar.checkValidity() && !producto.classList.contains('is-invalid') && !cantidad.classList.contains('is-invalid')) {
-            console.log('Formulario válido');
             ValidarInsumos().then(function (data) {
                 if (data) {
-                    console.log("Toy dentro del if")
                     fomularioAgregar.removeEventListener('submit', EnvioDetalle);
                     fomularioAgregar.submit();
                     $(producto).trigger('change');
@@ -187,10 +188,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 url: "/DetalleVentas/InsumosSuficientes",
                 data: { idProducto: productoConsultar, cantidadVender: cantidadConsultar },
                 success: function (data) {
-
-                    console.log(data);
                     resolve(data);
-
                 },
                 error: function (xhr, status, error) {
                     // Esta función se ejecutará si hay un error en la solicitud.
@@ -200,6 +198,35 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    //Miguel 24/10/2023: Función para saber si hay detalles de venta sin confirmar en la cuenta
+    function DetallesSinConfirmar() {
+        const detallesTable = document.querySelector('.tablaDetalles-ventas');
+        const filas = detallesTable.querySelectorAll('tr');
+
+        for (let i = 0; i < filas.length; i++) {
+            const columnaAcciones = filas[i].querySelector('td:last-child');
+
+            if (columnaAcciones && columnaAcciones.querySelector('#btnEliminar')) {
+                return true
+            }
+        }
+    }
+
+    //Miguel 24/10/2023: Función para enviar al controlador con AJAX los detalles a eliminar
+    function EliminarDetalles() {
+        IdVenta = document.getElementById("Item2_IdVenta").value
+        $.ajax({
+            url: '/DetalleVentas/DetallesSinConfirmar',
+            type: 'POST',
+            data: { IdVenta },
+            success: function (response) {
+                console.log("Todo fue bien")
+            },
+            error: function (xhr, status, error) {
+                Swal.fire('Error', 'Ha ocurrido un error al enviar la solicitud', 'error');
+            }
+        });
+    }
     function CambiarClaseBotonAgregar() {
         var DivBotonAgregar = document.querySelector('.DivBotonAgregar');
         if (DivBotonAgregar) {
@@ -212,25 +239,56 @@ document.addEventListener('DOMContentLoaded', function () {
         const cancelarCompraBtn = document.querySelector('.cancelarCompraBtn');
 
         // Agregar evento de clic al botón
-        cancelarCompraBtn.addEventListener('click', function (event) {
-            event.preventDefault(); // Evitar que el enlace se siga ejecutando
+        if (cancelarCompraBtn != null) {
 
-            // Mostrar la SweetAlert de confirmación
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: 'Esta acción cancelará la venta actual.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, cancelar',
-                cancelButtonText: 'No, volver'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Si el usuario confirma, redirigir a la función "Delete" en el controlador de ventas
-                    window.location.href = cancelarCompraBtn.getAttribute('href');
-                }
+            cancelarCompraBtn.addEventListener('click', function (event) {
+                event.preventDefault(); // Evitar que el enlace se siga ejecutando
+
+                // Mostrar la SweetAlert de confirmación
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: 'Esta acción cancelará la venta actual.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, cancelar',
+                    cancelButtonText: 'No, volver'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Si el usuario confirma, redirigir a la función "Delete" en el controlador de ventas
+                        window.location.href = cancelarCompraBtn.getAttribute('href');
+                    }
+                });
             });
+        }
+    });
+
+    //Foreach para recorrer las etiquetas 'a' del menu y lanzar una alerta para evitar que se salga al instante
+    enlacesMenu.forEach(enlace => {
+        enlace.addEventListener('click', e => {
+
+            e.preventDefault();
+
+            if (DetallesSinConfirmar()) {
+                Swal.fire({
+                    title: 'Advertencia',
+                    text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, salir',
+                    cancelButtonText: 'Cancelar'
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        EliminarDetalles();
+
+                        window.location.href = e.target.href;
+
+                    }
+                });
+            } else {
+                window.location.href = e.target.href;
+            }
         });
     });
 });

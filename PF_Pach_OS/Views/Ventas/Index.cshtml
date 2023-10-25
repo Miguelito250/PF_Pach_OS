@@ -81,8 +81,8 @@
                         </button>
                         @if(item.Estado == "Pendiente")
                         {
-                            <form asp-controller="Ventas" asp-action="CambiarEstado" asp-route-idVenta="@item.IdVenta">
-                                <button class="btn btn-link boton-Estado" data-estado="@estado">
+                            <form asp-controller="Ventas" asp-action="CambiarEstado" asp-route-idVenta="@item.IdVenta" id="botonEstado">
+                                <button class="btn btn-link boton-Estado" data-estado="@estado" type="submit">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="@colorIcono" class="bi bi-cash-stack" viewBox="0 0 16 16">
                                         <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
                                         <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z" />
@@ -179,40 +179,12 @@
 
 <script>
     $(document).ready(function () {
-        var searchInput = $('#searchInput');
-
-        // Manejar el evento de cambio en el campo de búsqueda mientras se escribe
-        $('#searchInput').on('input', function () {
-            var searchText = $(this).val().trim().toLowerCase();
-
-            // Filtrar las filas de la tabla que coincidan con la búsqueda
-            $('tbody tr').each(function () {
-                var fecha = $(this).find('td:eq(0)').text().trim().toLowerCase();
-                var metodoPago = $(this).find('td:eq(1)').text().trim().toLowerCase();
-                var total = $(this).find('td:eq(2)').text().trim().toLowerCase();
-
-                if (
-                    fecha.includes(searchText) ||
-                    metodoPago.includes(searchText) ||
-                    total.includes(searchText)
-                ) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-        });
-        // Restablecer el placeholder cuando se borre el contenido o se pierda el foco
-        searchInput.on('blur', function () {
-            if ($(this).val().trim() === '') {
-                $(this).addClass('empty');
-            }
-        });
-
-        searchInput.on('focus', function () {
-            $(this).removeClass('empty');
-        });
+        
     });
 </script>
 
 <script src="~/js/ventas/indexventas.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

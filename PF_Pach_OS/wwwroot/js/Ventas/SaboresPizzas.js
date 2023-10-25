@@ -173,7 +173,7 @@
                 // Mostrar una alerta SweetAlert de error si no se seleccionan sabores
                 Swal.fire({
                     title: 'Ups...',
-                    text: 'Debes seleccionar al menos un sabor de pizza antes de agregar la venta.',
+                    text: 'Debes seleccionar al menos un sabor de pizza antes de agregarla a la venta.',
                     icon: 'error',
                     timer: 2700,
                     showConfirmButton: false

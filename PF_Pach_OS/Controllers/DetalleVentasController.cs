@@ -98,6 +98,8 @@ namespace PF_Pach_OS.Controllers
         }
 
         //Miguel 22/10/2023: Función para eliminar un detalle de venta en especifico
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EliminarDetalle(int? id)
         {
             var detalleVentas = await _context.DetalleVentas.FindAsync(id);
@@ -203,5 +205,27 @@ namespace PF_Pach_OS.Controllers
             return View(detallesVentas);
         }
 
+        //Function 24/10/2023: Función para eliminar los detalles de venta no confirmados
+        [HttpPost]
+        public async Task<bool> DetallesSinConfirmar(int IdVenta)
+        {
+            var detalleVentas = await _context.DetalleVentas
+                .Where(d => d.IdVenta == IdVenta && d.Estado != "Descontado")
+                .ToListAsync();
+
+            if (detalleVentas == null)
+            {
+                NotFound();
+            }
+
+            foreach(var detalle in detalleVentas)
+            {
+                _context.Remove(detalle);
+                await _context.SaveChangesAsync();
+            }
+
+
+            return true;
+        }
     }
 }

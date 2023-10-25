@@ -1,6 +1,7 @@
 ﻿@model Tuple<DetalleVenta, Venta>;
 @using System.Globalization;
 @{
+    Venta venta = Model.Item2;
     ViewData["Title"] = "Crear Venta";
     var detallesVentas = ViewData["DetallesVentas"] as List<DetalleVenta>;
 }
@@ -11,7 +12,7 @@
     <div class="container">
         <div class="col-12">
             <form id="formAgregar" class="row g-2 needs-validation formulario-detalles" asp-controller="DetalleVentas" asp-action="AgregarDetalle" method="post" novalidate>
-                <input type="number" value="@ViewBag.IdVenta" name="IdVenta" hidden>
+                <input type="number" value="@ViewBag.IdVenta" name="IdVenta" asp-for="Item2.IdVenta" hidden>
                 <div class="col-4">
                     <label>Producto</label>
                     <select class="form-control form-select" aria-label="Default select example" asp-for="Item1.IdProducto" asp-items="ViewBag.IdProducto" name="IdProducto" required>
@@ -31,8 +32,8 @@
                 </div>
 
                 <div class="col-4 d-flex align-items-end">
-                    <button class="btn btn-primary botones-agregar" type="submit" title="Agreagar producto a la venta">
-                        Agregar Producto
+                    <button class="btn btn-primary botones-agregar" type="submit" title="Agregar producto a la venta">
+                        Agregar
                     </button>
                 </div>
             </form>
@@ -53,14 +54,29 @@
                 <tbody id="detalles-ventas">
                     @foreach (var detalles in detallesVentas)
                     {
+                        float? totalDetalle = detalles.Precio * detalles.CantVendida;
                         <tr>
                             <td>@detalles.IdProductoNavigation.NomProducto</td>
                             <td>@detalles.CantVendida</td>
-                            <td>@detalles.Precio</td>
-                            <td id="texto-total"></td>
+                            <td>
+                                @(detalles.Precio.HasValue ? (detalles.Precio % 1 == 0
+                                    ? ((decimal)detalles.Precio).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                                    : ((decimal)detalles.Precio).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                                    : "Sin Precio")
+                            </td>
+                            <td>
+                                @(totalDetalle.HasValue ? (totalDetalle % 1 == 0
+                                    ? ((decimal)totalDetalle).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                                    : ((decimal)totalDetalle).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                                    : "Sin Precio")
+                            </td>
                             @if (detalles.Estado != "Descontado")
                             {
-                                <td><a asp-controller="DetalleVentas" asp-action="EliminarDetalle" asp-route-id="@detalles.IdDetalleVenta" class="btn btn-outline-danger">Remover</a></td>
+                                <td>
+                                    <form method="post">
+                                        <input type="submit" asp-controller="DetalleVentas" asp-action="EliminarDetalle" asp-route-id="@detalles.IdDetalleVenta" class="btn btn-outline-danger" id="btnEliminar" value="Eliminar">
+                                    </form>
+                                </td>
                             }
                         </tr>
                     }
@@ -84,7 +100,7 @@
                     <img class="logoEmpresa" src="~/img/Logo_Empresa.jpg">
 
                     <span class="mt-1"><strong>NIT: </strong>9203272</span>
-                    <span><strong>Telefono: </strong>311 332 3221</span>
+                    <span><strong>Telefono: </strong>+57 324-523-5382</span>
 
                 </div>
 
@@ -92,8 +108,8 @@
 
                 <div>
                     <div class="row">
-                        <span class="col-8">Mesa</span>
-                        <select asp-for="Item2.Mesa" name="Mesa" id="Mesa" class="col-4 form-select">
+                        <span class="col-7">Mesa</span>
+                        <select asp-for="Item2.Mesa" name="Mesa" id="Mesa" class="col-5 form-select">
                             <option value="General">General</option>
                             <option value="Barra Interior">Barra Interior</option>
                             <option value="Barra Exterior">Barra Exterior</option>
@@ -105,7 +121,7 @@
 
                         </select>
                     </div>
-                    <div class="row mt-2">
+                    <div class="row mt-2" id="campo-domicilio">
                         <span class="col-8">Domicilio</span>
                         <input asp-for="Item2.PagoDomicilio" type="number" id="domicilio" name="PagoDomicilio" class="col-4 form-control text-end" value="0" min="0">
                     </div>
@@ -135,8 +151,11 @@
                 <hr>
 
                 <div class="d-flex flex-column align-items-center justify-content-between">
-                    <p class="mb-0 display-4"><strong id="totalVenta">0</strong></p>
-                    <input asp-for="Item2.TotalVenta" id="totalVenta-input" name="TotalVenta" hidden>
+                    <p class="mb-0 display-4">
+                        <strong id="totalVenta">
+                        </strong>
+                    </p>
+                    <input type="number" asp-for="Item2.TotalVenta" id="totalVenta-input" name="TotalVenta" value="@ViewBag.Total" hidden>
                     <p class="mb-0">Total</p>
                 </div>
                 @*<input type="hidden" asp-for="Item2.Total" value="@total" />*@
@@ -144,7 +163,10 @@
                 <hr>
                 <div class="w-100 d-flex flex-column mt-auto">
                     <button class="btn btn-primary botones-agregar" type="submit">Realizar venta</button>
-                    <a class="btn btn-outline-danger border mt-2 cancelarCompraBtn" asp-controller="Ventas" asp-action="CancelarVenta" asp-route-IdVenta="@ViewBag.IdVenta">Cancelar venta</a>
+                    @if (venta.Estado == null)
+                    {
+                        <a class="btn btn-outline-danger border mt-2 cancelarCompraBtn" asp-controller="Ventas" asp-action="CancelarVenta" asp-route-IdVenta="@ViewBag.IdVenta">Cancelar venta</a>
+                    }
                 </div>
             </div>
         </form>

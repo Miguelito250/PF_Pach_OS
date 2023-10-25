@@ -45,6 +45,7 @@ namespace PF_Pach_OS.Controllers
         //Miguel 22/10/2023: Función para redirigir con los datos necesarios a la vista de registrar los detalles de venta
         public IActionResult Crear(int IdVenta)
         {
+            float? total = 0;
             var ventaNula = _context.Ventas
                 .FirstOrDefault(v => v.IdVenta == IdVenta);
 
@@ -57,13 +58,30 @@ namespace PF_Pach_OS.Controllers
                 .Include(d => d.IdProductoNavigation)
                 .ToList();
 
+            foreach (var detalle in DetallesVentas)
+            {
+                total += detalle.Precio * detalle.CantVendida;
+            }
+
             ViewBag.IdVenta = IdVenta;
+            ViewBag.Total = total;
             ViewData["DetallesVentas"] = DetallesVentas;
             ViewData["IdProducto"] = new SelectList(_context.Productos.
-                Where(p=> (p.IdProducto > 4 || p.IdTamano == null )&& p.Estado == 1 ) ,
+                Where(p => (p.IdProducto > 4 || p.IdTamano == null) && p.Estado == 1),
                 "IdProducto", "NomProducto");
 
+            if (ventaNula.Estado != null)
+            {
+                DetalleVenta detalleExistente = new DetalleVenta();
+                Venta ventaExistente = ventaNula;
+
+                Tuple<DetalleVenta, Venta> Venta_DetalleExistente = new Tuple<DetalleVenta, Venta>(detalleExistente, ventaExistente);
+                return View(Venta_DetalleExistente);
+            }
+
             Tuple<DetalleVenta, Venta> Venta_Detalle = new(new DetalleVenta(), new Venta());
+
+
             return View(Venta_Detalle);
         }
 
@@ -316,6 +334,6 @@ namespace PF_Pach_OS.Controllers
             }
             return RedirectToAction("Crear", "Ventas", new { IdVenta = detalleVenta.IdVenta });
         }
-        
+
     }
 }
