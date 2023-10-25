@@ -10,5 +10,8 @@ namespace PF_Pach_OS.Models
         public string LastName { get; set; }
         public DateTime EntryDay { get; set; }
         public int State { get; set; }
+        public string EmailConfirmationToken { get; set; }
+        public string PasswordResetToken { get; set; }
+
     }
 }

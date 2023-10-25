@@ -26,10 +26,10 @@ namespace PF_Pach_OS.Models
         public virtual DbSet<Insumo> Insumos { get; set; } = null!;
         public virtual DbSet<Producto> Productos { get; set; } = null!;
         public virtual DbSet<Proveedore> Proveedores { get; set; } = null!;
+        public virtual DbSet<SaborSeleccionado> SaboresSeleccionados { get; set; } = null!;
         public virtual DbSet<Receta> Recetas { get; set; } = null!;
         public virtual DbSet<Tamano> Tamanos { get; set; } = null!;
         public virtual DbSet<Venta> Ventas { get; set; } = null!;
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -302,6 +302,11 @@ namespace PF_Pach_OS.Models
 
                 entity.Property(e => e.Precio).HasColumnName("precio");
 
+                entity.Property(e => e.Estado)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("estado");
+
                 entity.HasOne(d => d.IdProductoNavigation)
                     .WithMany(p => p.DetalleVenta)
                     .HasForeignKey(d => d.IdProducto)
@@ -310,7 +315,8 @@ namespace PF_Pach_OS.Models
                 entity.HasOne(d => d.IdVentaNavigation)
                     .WithMany(p => p.DetalleVenta)
                     .HasForeignKey(d => d.IdVenta)
-                    .HasConstraintName("FK__detalleVe__id_ve__5070F446");
+                    .HasConstraintName("FK__detalleVe__id_ve__5070F446")
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<DetallesCompra>(entity =>
@@ -491,6 +497,23 @@ namespace PF_Pach_OS.Models
                     .HasConstraintName("FK__recetas__id_prod__5441852A");
             });
 
+            modelBuilder.Entity<SaborSeleccionado>(entity =>
+            {
+                entity.HasKey(e => e.IdSaborSeleccionado);
+
+                entity.HasOne(d => d.IdDetalleVentaNavigation)
+                    .WithMany(p => p.SaboresSeleccionados)
+                    .HasForeignKey(d => d.IdDetalleVenta)
+                    .HasConstraintName("FK_SaboresSeleccionados_detalleVentas")
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(d => d.IdProductoNavigation)
+                    .WithMany(p => p.SaboresSeleccionados)
+                    .HasForeignKey(d => d.IdProducto)
+                    .HasConstraintName("FK_SaboresSeleccionados_productos"); 
+            });
+
+
             modelBuilder.Entity<Tamano>(entity =>
             {
                 entity.HasKey(e => e.IdTamano)
@@ -543,6 +566,11 @@ namespace PF_Pach_OS.Models
                     .HasColumnName("tipo_pago");
 
                 entity.Property(e => e.TotalVenta).HasColumnName("total_venta");
+
+                entity.Property(e => e.Mesa)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("mesa");
 
                 entity.HasOne(d => d.IdEmpleadoNavigation)
                     .WithMany(p => p.Venta)

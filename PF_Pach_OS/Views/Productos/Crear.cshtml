@@ -1,7 +1,7 @@
 ﻿@model PF_Pach_OS.Models.CreateViewModel
 
 @{
-    ViewData["Title"] = "Crear";
+    ViewData["Title"] = "Actualizar";
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 }
@@ -10,7 +10,7 @@
 <div class="row pl-2 pt-2">
 
     <div class="col-4 ml-3 p-2 bg-white rounded border px-4 py-4">
-        <form method="post" novalidate id="formulario1">
+        <form method="post" class="needs-validation" novalidate id="formulario1">
             <h2>Producto</h2>
             <hr>
 
@@ -18,17 +18,19 @@
             <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.IdProducto" />
 
             <div class="form-group">
-                <label  class="form-label">Producto</label>
+                <label class="form-label">Producto</label>
                 @if (ViewBag.ProductoActivo == null)
                 {
                     <input asp-for="Producto.NomProducto" class="form-control" title=" " required />
 
-                }else{
+                }
+                else
+                {
                     <input asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" class="form-control" title=" " required />
 
                 }
                 <div class="invalid-feedback"></div>
-                <div class="valid-feedback">¡Todo bien!</div>
+
             </div>
 
             <div class="form-group">
@@ -45,18 +47,20 @@
 
                 }
                 <div class="invalid-feedback"></div>
-                <div class="valid-feedback">¡Todo bien!</div>
+
             </div>
 
             <div class="form-group">
                 <label asp-for="Producto.IdCategoria" class="form-label">Categoria</label>
                 <select class="form-select" id="Producto_IdCategoria" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria" required>
-                    @if (ViewBag.SelectCID == null)
+                    @if (ViewBag.SelectCategoriaID == null)
                     {
                         <option disabled selected>Seleccione una categoria</option>
 
-                    }else{
-                        <option value="@ViewBag.SelectCID">@ViewBag.SelectC</option>
+                    }
+                    else
+                    {
+                        <option value="@ViewBag.SelectCategoriaID">@ViewBag.SelectCategoria</option>
 
                     }
                 </select>
@@ -68,17 +72,25 @@
             <div id="Tamano_Oculto" class="d-none form-group">
                 <label asp-for="Producto.IdTamano" class="form-label">Tamaño</label>
                 <select class="form-select" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
-                    <option disabled selected>Seleccione una tamaño</option>
-                    <option value="@ViewBag.SelectTID">@ViewBag.SelectT</option>
+                    @if (ViewBag.SelectTamanoID == null)
+                    {
+                        <option disabled selected>Seleccione un Tamaño</option>
+
+                    }
+                    else
+                    {
+                        <option value="@ViewBag.SelectTamanoID">@ViewBag.SelectTamano</option>
+
+                    }
                 </select>
 
                 <div class="invalid-feedback">Selecione un tamaño por favor.</div>
-                <div class="valid-feedback">¡Todo bien!</div>
+
             </div>
-        <div class="col">
-            <input type="submit" asp-action="Crear" asp-controller="Productos" class="col-6 botones-agregar btn btn-success w-auto" value="Terminar Producto" />
-            <a asp-action="Index" asp-controller="Productos" class="col-6 btn btn-outline-danger">Cancelar</a>
-        </div>
+            <div class="col">
+                <input type="submit" asp-action="Actualizar" asp-controller="Productos" class="col-6 botones-agregar btn btn-success w-auto" value="Terminar Producto" />
+                <a asp-action="Index" asp-controller="Productos" class="col-6 btn btn-outline-danger">Cancelar</a>
+            </div>
         </form>
 
 
@@ -106,23 +118,23 @@
                         }
                     </select>
                     <div class="invalid-feedback"></div>
-                    <div class="valid-feedback">¡Todo bien!</div>
+
                 </div>
 
                 <div class="col-3">
                     <input class="input-campo form-control" asp-for="Receta.CantInsumo" type="number" placeholder="Cantidad" required>
                     <div class="invalid-feedback"></div>
-                    <div class="valid-feedback">¡Todo bien!</div>
+
                 </div>
 
                 <div class="col-3">
-                    <button type="submit" asp-action="Create" asp-controller="Recetas" class="form-control btn btn-primary botones-agregar"> Agregar </button>
+                    <button type="submit" asp-action="Crear" asp-controller="Recetas" class="form-control btn btn-primary botones-agregar"> Agregar </button>
                 </div>
             </form>
         </div>
         <div class="mt-4 border rounded bg-white">
 
-            
+
 
             @if (ViewBag.RecetasConInsumos == null)
             {
@@ -149,7 +161,7 @@
                                     <td>@recetaConInsumo.CantInsumo</td>
                                     <td>@recetaConInsumo.Medida</td>
                                     <td>
-                                        <a asp-action="Delete" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Remover</a>
+                                        <a asp-action="Eliminar" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Remover</a>
                                     </td>
                                 }
 
@@ -170,7 +182,15 @@
 <script>
     $(document).ready(function () {
 
-        // Manejar el evento de cambio en el campo de NomProducto
+        var categoria = $('#Producto_IdCategoria').val();
+        var idPizza = 1;
+        if (categoria == idPizza) {
+            Mostrar_Campo_Oculto();
+
+        } else if (categoria != idPizza) {
+            Ocultar_Campo_Oculto();
+        }
+
         $('#Producto_NomProducto').on('input', function () {
             validateNomProducto();
             var id = $('#Producto_IdProducto').val();
@@ -219,9 +239,8 @@
             var llenar_tamano = document.getElementById("tam_Pro")
             llenar_tamano.value = tamano;
 
-            console.log(NomProducto, precio, categoria, tamano,)
-            // Continúa con el envío del formulario
-            return true; // Devuelve true para continuar con el envío, o false para detenerlo
+
+            return true;
         });
         function validateNomProducto() {
             var maxCaracteres = 30;
