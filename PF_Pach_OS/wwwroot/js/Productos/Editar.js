@@ -174,34 +174,102 @@
         errorFeedback.text(mensaje);
     }
 
-    
+
 
 });
+var Nuevas_Recetas_ID = [];
+var Nuevas_Recetas_Cant = [];
+var Id_Producto;
+var Recetas_Actualizadas_ID = [];
+var Recetas_Actualizadas_Cant = [];
+var Eliminar_Receta = [];
 document.getElementById("Formurario_Modal").addEventListener("submit", function (event) {
-    event.preventDefault();
-    event.stopPropagation();
+
 
     var Idproducto_Exportar = $('#IdSeleccionado').val()
     var Idproducto_Exportar = parseInt(Idproducto_Exportar);
-    console.log("Entada 1");
+    var filas = document.querySelectorAll("#Tabla1 tr");
+
     $.ajax({
         type: "GET",
         url: "/Productos/ConsultarRecetas",
         data: { Id_PRoducto: Idproducto_Exportar },
         success: function (data) {
+            console.log(data)
             for (var i = 0; i < data.length; i++) {
                 var receta = data[i];
-                console.log("CantInsumo: " + receta.CantInsumo);
-                console.log("IdInsumo: " + receta.IdInsumo);
-                console.log("NomInsumo: " + receta.NomInsumo);
-                console.log("Medida: " + receta.Medida);
+                var encontrado = false;
+
+                // Itera sobre las filas existentes para verificar si el insumo ya está en la tabla
+                filas.forEach(function (fila) {
+                    var idInsumo_tabla = parseInt(fila.cells[0].textContent);
+
+                    if (receta.idInsumo === idInsumo_tabla) {
+                        var total = receta.cantInsumo;
+                        fila.querySelector("#CantInsumo").textContent = total;
+
+                        var IdReceta = parseInt(fila.cells[5].textContent);
+                        var NuevaCantidad = total;
+
+                        if (IdReceta === 0) {
+                            for (var j = 0; j < Nuevas_Recetas_ID.length; j++) {
+                                if (Nuevas_Recetas_ID[j] === receta.idInsumo) {
+                                    Nuevas_Recetas_Cant[j] = total;
+                                }
+                            }
+                        } else {
+                            Atualizar_Recetas(IdReceta, NuevaCantidad);
+                        }
+
+                        encontrado = true;
+                    }
+                });
+
+                if (!encontrado) {
+                    // El insumo no se encontró en las filas existentes, así que insertamos una nueva fila
+                    var tabla = document.getElementById("Tabla1");
+                    var nuevaFila = tabla.insertRow(-1);
+
+                    var idInsumo = nuevaFila.insertCell(0);
+                    var nomInsumo = nuevaFila.insertCell(1);
+                    var cantInsumo = nuevaFila.insertCell(2);
+                    var medida = nuevaFila.insertCell(3);
+                    var acciones = nuevaFila.insertCell(4);
+                    var IdReceta = nuevaFila.insertCell(5);
+
+                    idInsumo.classList.add('d-none');
+                    IdReceta.classList.add('d-none');
+
+                    idInsumo.innerHTML = receta.idInsumo;
+                    nomInsumo.innerHTML = receta.nomInsumo;
+                    cantInsumo.id = 'CantInsumo';
+                    cantInsumo.innerHTML = receta.cantInsumo;
+                    medida.innerHTML = receta.medida;
+                    IdReceta.innerHTML = 0;
+
+                    var boton = document.createElement('button');
+                    boton.className = 'btn btn-outline-danger';
+                    boton.textContent = 'Remover';
+                    boton.addEventListener('click', function () {
+                        ocultarFila(this);
+                    });
+                    acciones.appendChild(boton);
+
+                    var id_producto_texto = document.getElementById("Producto_IdProducto").value;
+                    var id_producto = parseInt(id_producto_texto);
+                    Agregar_Nuevas_Recetas(receta.cantInsumo, id_producto, receta.idInsumo);
+                }
             }
-            $("#myModal").modal("hide");
         },
         error: function (xhr, status, error) {
 
+            console.log("Error en la solicitud: " + error);
         }
     });
+    $("#myModal").modal("hide");
+
+    event.preventDefault();
+
 });
 (function () {
     'use strict';
@@ -221,12 +289,7 @@ document.getElementById("Formurario_Modal").addEventListener("submit", function 
     }, false);
 })();
 
-var Nuevas_Recetas_ID = [];
-var Nuevas_Recetas_Cant = [];
-var Id_Producto;
-var Recetas_Actualizadas_ID = [];
-var Recetas_Actualizadas_Cant = [];
-var Eliminar_Receta = [];
+
 document.getElementById("miFormulario").addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -344,11 +407,11 @@ function Sacar_de_Crear() {
     var filas = document.querySelectorAll("#Tabla1 tr");
     filas.forEach(function (fila, index) {
         var Idinsumo_tabla = parseInt(fila.cells[0].textContent);
-        Nuevas_Recetas = Nuevas_Recetas.filter(function (Elemento) {
-            return Elemento.id_insumo !== Idinsumo_tabla;
+        Nuevas_Recetas_ID = Nuevas_Recetas_ID.filter(function (Elemento) {
+            return Elemento !== Idinsumo_tabla;
         });
     });
-    console.log(Nuevas_Recetas);
+    console.log(Nuevas_Recetas_ID);
 }
 function Agregar_Nuevas_Recetas(cantidadInsumo, id_producto, idInsumo) {
     Nuevas_Recetas_ID.push(idInsumo);

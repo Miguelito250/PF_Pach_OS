@@ -192,7 +192,7 @@
 
             <form id="Formurario_Modal">
                 <div class="modal-body">
-                    <select class="form-control" required >
+                    <select class="form-control" id="IdSeleccionado" required>
                         @foreach (var item in ViewBag.Productos)
                         {
                             <option value="@item.IdProducto">@item.NomProducto </option>

@@ -128,7 +128,7 @@ namespace PF_Pach_OS.Controllers
                 IdProducto = receta.IdProducto,
                 Medida = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.Medida,
             }).ToList();
-            ViewBag.Productos = new SelectList(_context.Productos.Where(p => p.Estado == 1), "IdProducto", "NomProducto");
+            ViewBag.Productos = new SelectList(_context.Productos.Where(p => p.Estado == 1 && p.IdProducto > 4), "IdProducto", "NomProducto");
             ViewBag.RecetasConInsumos = recetasConInsumos.Cast<object>().ToList();
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
             ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
@@ -299,7 +299,7 @@ namespace PF_Pach_OS.Controllers
             }).ToList();
 
             ViewBag.RecetasConInsumos = recetasConInsumos;
-            ViewBag.Productos = _context.Productos.Where(p => p.Estado == 1).ToList();
+            ViewBag.Productos = _context.Productos.Where(p => p.Estado == 1 && p.IdProducto > 4).ToList();
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
             ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
             ViewBag.NombreTamano = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
@@ -421,20 +421,36 @@ namespace PF_Pach_OS.Controllers
         {
             _context.Update(producto);
             _context.SaveChanges();
-            var recetas = _context.Recetas.Where(p=>p.IdProducto == IdSeleccionado).ToList();
+            var recetas_Existente = _context.Recetas.Where(p => p.IdProducto == producto.IdProducto).ToList();
+            var recetas = _context.Recetas.Where(p => p.IdProducto == IdSeleccionado).ToList();
+            
+
+            
             foreach (var receta in recetas)
             {
-                var nuevaReceta = new Receta
-                {
-                    IdProducto = producto.IdProducto,
-                    
-                    CantInsumo = receta.CantInsumo,
-                    IdInsumo = receta.IdInsumo
-                    
-                };
+                
+                var receta_Existente = recetas_Existente.FirstOrDefault(re => re.IdInsumo == receta.IdInsumo);
 
-                _context.Recetas.Add(nuevaReceta);
+                if (receta_Existente != null)
+                {
+                    
+                    receta_Existente.CantInsumo = receta.CantInsumo;
+                    _context.Recetas.Update(receta_Existente);
+                }
+                else
+                {
+                   
+                    var nuevaReceta = new Receta
+                    {
+                        IdProducto = producto.IdProducto,
+                        IdInsumo = receta.IdInsumo,
+                        CantInsumo = receta.CantInsumo
+                    };
+
+                    _context.Recetas.Add(nuevaReceta);
+                }
             }
+
 
             _context.SaveChanges();
 
