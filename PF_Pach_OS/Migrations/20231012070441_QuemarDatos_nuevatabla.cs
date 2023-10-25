@@ -60,6 +60,13 @@ namespace PF_Pach_OS.Migrations
                 maxLength: 20,
                 nullable: true);
 
+            migrationBuilder.AddColumn<string>(
+                "estado",
+                table: "detalleVentas",
+                type: "varchar(20)",
+                maxLength: 20,
+                nullable: true);
+
             migrationBuilder.InsertData(
             table: "categorias",
             columns: new[] { "nom_categoria" },
