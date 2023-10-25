@@ -59,6 +59,7 @@ namespace PF_Pach_OS.Controllers
                 id_permiso = permisos.IdPermiso,
 
             }).ToList();
+            
 
 
             ViewBag.Permisos = listarPermisos.Cast<object>().ToList();
@@ -69,8 +70,10 @@ namespace PF_Pach_OS.Controllers
 
 
         [HttpPost]
-        public IActionResult Crear(List<int> permisos, String nomRol)
+        public async void Crear(List<int> permisos, String nomRol)
         {
+            
+
             int id_Rol = 0;
             if (nomRol != null)
             {
@@ -78,6 +81,7 @@ namespace PF_Pach_OS.Controllers
                 nuevo_Rol.NomRol = nomRol;
                 _context.Roles.Add(nuevo_Rol);
                 _context.SaveChanges();
+               
 
             }
             Role rol = _context.Roles.FirstOrDefault(p => p.NomRol == nomRol);
@@ -88,9 +92,8 @@ namespace PF_Pach_OS.Controllers
 
             for (int i = 0; i < permisos.Count; i++)
             {
-                Console.WriteLine("====================================");
-                Console.WriteLine(permisos[i]);
-                Console.WriteLine("====================================");
+                
+
                 var rolPermiso = new RolPermiso();
                 rolPermiso.IdPermiso = permisos[i];
                 rolPermiso.IdRol = id_Rol;
@@ -100,7 +103,7 @@ namespace PF_Pach_OS.Controllers
 
             }
             var datos = new { Nombre = "Ejemplo", Edad = 30 };
-            return Json(datos);
+            
         }
         //Se crea el rol y se le asignan los permisos
         public async void Crear_rol(List<int> permisos, Role rol)
@@ -113,58 +116,75 @@ namespace PF_Pach_OS.Controllers
             await _context.SaveChangesAsync();
         }
         // GET: RolPermisos/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Editar(int? id)
         {
             if (id == null || _context.RolPermisos == null)
             {
                 return NotFound();
             }
 
-            var rolPermiso = await _context.RolPermisos.FindAsync(id);
+            var rolPermiso = _context.RolPermisos.Where(p=> p.IdRol== id).ToList();
+            var rol = _context.Roles.FirstOrDefault(p => p.IdRol == id);
             if (rolPermiso == null)
             {
                 return NotFound();
             }
-            ViewData["IdPermiso"] = new SelectList(_context.Permisos, "IdPermiso", "IdPermiso", rolPermiso.IdPermiso);
-            ViewData["IdRol"] = new SelectList(_context.Roles, "IdRol", "IdRol", rolPermiso.IdRol);
-            return View(rolPermiso);
+            var permisos = _context.Permisos.ToList();
+            var listarPermisos = permisos.Select(permisos => new
+            {
+                nom_permiso = permisos.NomPermiso,
+                id_permiso = permisos.IdPermiso,
+
+            }).ToList();
+            ViewBag.rol = rol;
+            ViewBag.PermisosUsados = rolPermiso.Cast<object>().ToList();
+            ViewBag.Permisos = listarPermisos.Cast<object>().ToList();
+
+
+            return View();
         }
 
-        // POST: RolPermisos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdRolPermisos,IdRol,IdPermiso")] RolPermiso rolPermiso)
+        public async void Editar(int id, List<int> permisos, String nomRol)
         {
-            if (id != rolPermiso.IdRolPermisos)
-            {
-                return NotFound();
-            }
+            Console.WriteLine("=============================");
+            Console.WriteLine("Entrada 1");
+            Console.WriteLine("=============================");
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(rolPermiso);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RolPermisoExists(rolPermiso.IdRolPermisos))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+            var rol = _context.Roles.Where(p=> p.IdRol== id).ToList();
+            if (rol != null) {
+                rol[0].NomRol = nomRol;
+                _context.Roles.Update(rol[0]);
+                _context.SaveChanges();
+                Console.WriteLine("=============================");
+                Console.WriteLine("Entrada 2");
+                Console.WriteLine("=============================");
+
             }
-            ViewData["IdPermiso"] = new SelectList(_context.Permisos, "IdPermiso", "IdPermiso", rolPermiso.IdPermiso);
-            ViewData["IdRol"] = new SelectList(_context.Roles, "IdRol", "IdRol", rolPermiso.IdRol);
-            return View(rolPermiso);
+            var permisos_Desactualizados = _context.RolPermisos.Where(p=> p.IdRol== id).ToList();
+            foreach(var permiso_desactualizado in permisos_Desactualizados)
+            {
+                Console.WriteLine("=============================");
+                Console.WriteLine("Entrada 3: " + permiso_desactualizado);
+                Console.WriteLine("=============================");
+                _context.RolPermisos.Remove(permiso_desactualizado);
+                _context.SaveChanges();
+
+            }
+            foreach (var permiso in permisos)
+            {
+                Console.WriteLine("=============================");
+                Console.WriteLine("Entrada 4: " + permiso);
+                Console.WriteLine("=============================");
+                RolPermiso rolPermiso = new RolPermiso();
+                rolPermiso.IdRol = id;
+                rolPermiso.IdPermiso = permiso;
+                _context.RolPermisos.Add(rolPermiso);
+                _context.SaveChanges();
+
+            }
+     
         }
 
         // GET: RolPermisos/Delete/5

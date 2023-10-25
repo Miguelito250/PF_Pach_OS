@@ -1,29 +1,27 @@
 ﻿@model PF_Pach_OS.Models.Asignar_Permisos
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
     Layout = null;
 }
-
-<h2>Crear Rol</h2>
-
-
-<hr />
+<h5 id="titulo-modal">Editar Rol</h5>
 <div class="row">
     <div class="col-md-4">
         <form id="formulario1">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group" >
+            <input type="hidden" id="idrol" asp-for="rol.IdRol" value="@ViewBag.rol.IdRol" />
+            <div class="form-group">
                 <label asp-for="rol.NomRol" class="control-label"></label>
-                <input type="text" asp-for="rol.NomRol" />
+                <input type="text" asp-for="rol.NomRol" value="@ViewBag.rol.NomRol" />
             </div>
             <div class="form-group row">
                 @if (ViewBag.Permisos != null)
                 {
                     @foreach (var valor in (List<dynamic>)ViewBag.Permisos)
                     {
+                        var isChecked = ((List<dynamic>)ViewBag.PermisosUsados).Any(item => item.IdPermiso == valor.id_permiso);
                         <label class="col-2">@valor.nom_permiso</label>
-                        <input class="col-10" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" />
+                        <input class="col-10" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" @(isChecked ? "checked" : "") />
                     }
 
                 }
@@ -33,7 +31,7 @@
                 }
             </div>
 
-            <button type="submit" id="btnEnviar"  class="btn btn-primary">Crear Rol</button>
+            <button type="submit" id="btnEnviar" class="btn btn-primary">Crear Rol</button>
 
         </form>
     </div>
@@ -49,4 +47,4 @@
     }
 }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="~/js/RolPermisos/Crear.js"> </script>
+<script src="~/js/RolPermisos/Editar.js"> </script>
