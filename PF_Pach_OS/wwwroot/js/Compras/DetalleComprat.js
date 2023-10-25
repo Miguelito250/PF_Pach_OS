@@ -43,6 +43,9 @@
                     console.log('Formulario válido');
                     fomulario.removeEventListener('submit', EnvioCompra);
                     fomulario.submit();
+                    localStorage.removeItem('NumeroFacturaL');
+                    localStorage.removeItem('EmpleadoL');
+                    localStorage.removeItem('ProveedorL');
                 });
             }
         } else {
@@ -334,6 +337,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function validarPrecioCompra() {
         // Obtener el valor seleccionado del campo select
         var Precio = PrecioCompra.value;
+        const esNumerico = /^[0-9]*$/.test(Precio);
 
         // Restablecer los estilos y mensajes de validación
         PrecioCompra.classList.remove('is-invalid', 'is-valid');
@@ -342,6 +346,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if (Precio.trim() === '') {
             PrecioCompra.classList.add('is-invalid');
             PrecioFeedback.textContent = 'Por favor, ingrese la precio del insumo';
+            cambiarClaseBotonAgregar();
+        } else if (!esNumerico) {
+            PrecioCompra.classList.add('is-invalid');
+            PrecioFeedback.textContent = 'No se pueden ingresar letras';
             cambiarClaseBotonAgregar();
         }
         // Validar longitud del nombre
@@ -355,7 +363,7 @@ document.addEventListener('DOMContentLoaded', function () {
             cambiarClaseBotonAgregar();
         } else if (Precio.length > 10) {
             PrecioCompra.classList.add('is-invalid');
-            PrecioFeedback.textContent = 'No se pueden ingresar mas e 10 numeros.';
+            PrecioFeedback.textContent = 'No se pueden ingresar mas de 10 numeros.';
             cambiarClaseBotonAgregar();
         }
         else {
@@ -392,6 +400,9 @@ window.addEventListener('load', function () {
             if (result.isConfirmed) {
                 // Si el usuario confirma, redirigir a la función "Delete" en el controlador de compras
                 window.location.href = cancelarCompraBtn.getAttribute('href');
+                localStorage.removeItem('NumeroFacturaL');
+                localStorage.removeItem('EmpleadoL');
+                localStorage.removeItem('ProveedorL');
             }
         });
     });
@@ -489,3 +500,36 @@ function updateMedidaOptions(MedidaSeleccionada) {
         }));
     }
 }
+
+// script.js
+document.addEventListener('DOMContentLoaded', function () {
+
+    $('#formAgregar').submit(function (event) {
+        var NumeroFactura = $('#NumeroFactura').val();
+        localStorage.setItem('NumeroFacturaL', NumeroFactura)
+
+        var Empleado = $('#Empleado').val();
+        localStorage.setItem('EmpleadoL', Empleado)
+
+        var Proveedor = $('#Proveedor').val();
+        localStorage.setItem('ProveedorL', Proveedor)
+
+        console.log(NumeroFacturaLG)
+
+        return true;
+    })
+
+    var NumeroFacturaLG = localStorage.getItem('NumeroFacturaL');
+    var EmpleadoLG = localStorage.getItem('EmpleadoL');
+    var ProveedorLG = localStorage.getItem('ProveedorL');
+
+    if (NumeroFacturaLG !== null) {
+        $('#NumeroFactura').val(NumeroFacturaLG);
+    }
+    if (EmpleadoLG !== null) {
+        $('#Empleado').val(EmpleadoLG);
+    }
+    if (ProveedorLG !== null) {
+        $('#Proveedor').val(ProveedorLG);
+    }
+});
