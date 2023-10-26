@@ -259,6 +259,7 @@ namespace PF_Pach_OS.Controllers
                         else
                         {
                             ViewBag.MensajeAlerta = "No hay suficientes insumos";
+                            return RedirectToAction("Crear", "Ventas", new { detalle.IdVenta });
                         }
                     }
                 }
@@ -304,19 +305,24 @@ namespace PF_Pach_OS.Controllers
 
         //Miguel 22/10/2023: Función para confirmar los sabores de las pizzas escogidos y agregarlos al detalle
         [HttpPost]
-        public async Task<IActionResult> ConfirmarSabores(List<int> sabores, DetalleVenta detalleVenta)
+        public async Task<bool> ConfirmarSabores(List<int> sabores, DetalleVenta detalleVenta)
         {
             var producto = await _context.Productos
                 .FirstOrDefaultAsync(d => d.IdProducto == detalleVenta.IdProducto);
 
             if (producto == null)
             {
-
-                return NotFound();
+                NotFound();
             }
 
             detalleVenta.Precio = producto.PrecioVenta;
 
+            bool resultado = _detalleVentasController.InsumosSuficientesPizzas(sabores, detalleVenta);
+            if (!resultado)
+            {
+                return false;
+            }
+            bool insumosSufucientes = true;
             await _context.DetalleVentas.AddAsync(detalleVenta);
             await _context.SaveChangesAsync();
 
@@ -336,7 +342,7 @@ namespace PF_Pach_OS.Controllers
                 await _context.SaboresSeleccionados.AddAsync(saborSeleccionado);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction("Crear", "Ventas", new { IdVenta = detalleVenta.IdVenta });
+            return insumosSufucientes;
         }
 
     }
