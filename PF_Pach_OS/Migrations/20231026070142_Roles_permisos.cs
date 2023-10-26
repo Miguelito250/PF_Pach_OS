@@ -62,13 +62,13 @@ namespace PF_Pach_OS.Migrations
                 });
             migrationBuilder.AddColumn<int>(
                 name: "Id_Rol",
-                table: "AspNetUsers", 
+                table: "AspNetUsers",
                 nullable: false
             );
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Id_Rol",
-                table: "AspNetUsers", 
+                table: "AspNetUsers",
                 column: "Id_Rol",
                 principalTable: "roles",
                 principalColumn: "Id_rol",
@@ -129,3 +129,4 @@ namespace PF_Pach_OS.Migrations
 
     }
 }
+
