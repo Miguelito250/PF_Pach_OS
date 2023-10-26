@@ -14,7 +14,6 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
-    [Authorize]
     public class VentasController : Controller
     {
         private readonly Pach_OSContext _context;
@@ -115,22 +114,30 @@ namespace PF_Pach_OS.Controllers
                 }
                 else
                 {
-                    string estado = venta.Mesa == "General"
+                     venta.Estado = venta.Mesa == "General"
                         ? venta.Estado = "Pagada"
                         : venta.Estado = "Pendiente";
 
-                    DescontarInsumos(venta.IdVenta);
 
-                    // Aquí cargamos la entidad desde el contexto o marcamos como modificado
-                    var ventaExiste = _context.Ventas.Find(venta.IdVenta);
+                    var ventaActualizar = await _context.Ventas
+                        .FirstOrDefaultAsync(v => v.IdVenta == venta.IdVenta);
 
-                    if (ventaExiste != null)
+                    if (ventaActualizar != null)
                     {
-                        _context.Entry(ventaExiste).CurrentValues.SetValues(venta);
-                        ventaExiste.Estado = estado;
+                        ventaActualizar.FechaVenta = venta.FechaVenta;
+                        ventaActualizar.TotalVenta = venta.TotalVenta;
+                        ventaActualizar.TipoPago = venta.TipoPago;
+                        ventaActualizar.Pago = venta.Pago;
+                        ventaActualizar.PagoDomicilio = venta.PagoDomicilio;
+                        ventaActualizar.IdEmpleado = venta.IdEmpleado;
+                        ventaActualizar.Estado = venta.Estado;
+                        ventaActualizar.Mesa= venta.Mesa;
+
+                        _context.Ventas.Update(ventaActualizar); 
+                        await _context.SaveChangesAsync();
                     }
 
-                    await _context.SaveChangesAsync();
+                    DescontarInsumos(venta);
                 }
                 return RedirectToAction("Index", "Ventas");
             }
@@ -157,20 +164,12 @@ namespace PF_Pach_OS.Controllers
         }
 
         //Miguel 22/10/2023: Función para descontar insumos de los productos vendidos
-        public IActionResult DescontarInsumos(int? idVenta)
+        public async Task<IActionResult> DescontarInsumos(Venta venta)
         {
             int? cantidadDisminuir = 0;
 
-            var venta = _context.Ventas
-                .FirstOrDefault(v => v.IdVenta == idVenta);
-
-            if (venta == null)
-            {
-                return NotFound();
-            }
-
             var detalleVenta = _context.DetalleVentas
-                .Where(d => d.IdVenta == idVenta && d.Estado != "Descontado")
+                .Where(d => d.IdVenta == venta.IdVenta && d.Estado != "Descontado")
                 .ToList();
 
             foreach (var detalle in detalleVenta)
@@ -178,7 +177,7 @@ namespace PF_Pach_OS.Controllers
                 var producto = _context.Productos
                     .FirstOrDefault(p => p.IdProducto == detalle.IdProducto);
 
-                _detalleVentasController.OrganizarDetalles(idVenta, detalle.IdProducto);
+                _detalleVentasController.OrganizarDetalles(venta.IdVenta, detalle.IdProducto);
 
                 if (producto.IdProducto is <= 4 and > 1)
                 {
@@ -222,6 +221,7 @@ namespace PF_Pach_OS.Controllers
                                 consultaInsumos.CantInsumo = insumoDisminuido;
 
                                 _context.Update(consultaInsumos);
+                                await _context.SaveChangesAsync();
                             }
                             else
                             {
@@ -253,6 +253,7 @@ namespace PF_Pach_OS.Controllers
                             consultaInsumos.CantInsumo = insumoDisminuido;
 
                             _context.Update(consultaInsumos);
+                            _context.SaveChanges();
                         }
                         else
                         {
@@ -262,6 +263,7 @@ namespace PF_Pach_OS.Controllers
                 }
                 detalle.Estado = "Descontado";
                 _context.DetalleVentas.Update(detalle);
+                _context.SaveChanges();
             }
             return RedirectToAction("Index", "Ventas");
         }
