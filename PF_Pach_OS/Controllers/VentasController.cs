@@ -137,7 +137,7 @@ namespace PF_Pach_OS.Controllers
                         await _context.SaveChangesAsync();
                     }
 
-                    DescontarInsumos(venta);
+                    await DescontarInsumos(venta);
                 }
                 return RedirectToAction("Index", "Ventas");
             }
@@ -170,6 +170,7 @@ namespace PF_Pach_OS.Controllers
 
             var detalleVenta = _context.DetalleVentas
                 .Where(d => d.IdVenta == venta.IdVenta && d.Estado != "Descontado")
+                .Include(d => d.IdProductoNavigation.IdTamanoNavigation)
                 .ToList();
 
             foreach (var detalle in detalleVenta)
