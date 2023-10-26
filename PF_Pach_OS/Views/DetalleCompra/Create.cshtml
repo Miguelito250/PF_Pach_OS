@@ -46,7 +46,7 @@
     var totalString = new string(currencyArray.ToArray());
 }
 
-<div class="grid row g-4 column-2 py-2 cuadroblanco">
+<div class="grid row g-4 column-2 py-2 cuadroblanco" >
     @*------------------------------------------------------------------------FORMULARIO DE COMPRAS----------------------------------------------------------------------*@
     <div class="col-md-4 p-2 bg-white rounded border px-4 py-4 Compras">
         @*-----INICIO DEL FORMULARIO-----*@
@@ -116,6 +116,7 @@
         @*-----INICIO DEL FORMULARIO-----*@
         <form id="formAgregar" class="row g-2 needs-validation" asp-action="Create" method="post" novalidate>
             @*-----SELECCIONAR EL INSUMO-----*@
+
             <div class="col-4 DC">
                 <label>Insumo</label>
                 <select id="Item1_IdInsumo" asp-for="Item1.IdInsumo" class="form-select" data-placeholder="Escoja un insumo" title="Aqui puede seleccionar el insumo que va a comprar" required>
@@ -305,4 +306,7 @@
             InsumoFeedback.textContent = 'Por favor, Escoja una opcion.';
         }
     }); 
+
+    
 </script>   
+
