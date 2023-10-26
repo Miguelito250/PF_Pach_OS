@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="pruebaproduccion-001-site1" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\obj\\Release\\net6\.0\\PubTmp\\Out\\$" />
+  </parameter>
+  <parameter name="PF_Pach_OS.Models.Pach_OSContext" description="" value="Data Source=SQL8006.site4now.net;Initial Catalog=db_aa09b9_pruebaproduccion;User Id=db_aa09b9_pruebaproduccion_admin;Password=Pach_OS123" tags="dbfullsql">
+    <parameterEntry kind="ProviderPath" scope="dbfullsql" match="^C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\obj\\Release\\net6\.0\\PubTmp\\EFSQLScripts\\PF_Pach_OS\.Models\.Pach_OSContext\.sql$" />
+  </parameter>
+</parameters>

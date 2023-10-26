@@ -1,0 +1,14 @@
+﻿.lista-productos{
+    max-height:max-content;
+    overflow: auto;
+}
+
+.registrar-productos {
+    width: 27vw;
+    height: 100%;
+}
+
+a{
+    color: #FFF;
+}
+

@@ -8677,8 +8677,12 @@
       "PackagePath": "staticwebassets\\adminLTE\\plugins\\uplot\\uPlot.min.css"
     },
     {
-      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Compras.css",
-      "PackagePath": "staticwebassets\\css\\Compras.css"
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Compras\\Compras.css",
+      "PackagePath": "staticwebassets\\css\\Compras\\Compras.css"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Compras\\DetalleCompra.css",
+      "PackagePath": "staticwebassets\\css\\Compras\\DetalleCompra.css"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\DetalleVenta.css",
@@ -8687,6 +8691,10 @@
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Estilos-generales.css",
       "PackagePath": "staticwebassets\\css\\Estilos-generales.css"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Insumos\\Insumos.css",
+      "PackagePath": "staticwebassets\\css\\Insumos\\Insumos.css"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Login-roles-permisos\\Login.css",
