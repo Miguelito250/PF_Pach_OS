@@ -27,7 +27,7 @@ namespace PF_Pach_OS.Models
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public int? State { get; set; }
-        public int? IdRol { get; set; }
+        public int? Id_Rol { get; set; }
 
         public virtual Role? IdRolNavigation { get; set; }
     }

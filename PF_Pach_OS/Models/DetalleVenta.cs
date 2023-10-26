@@ -14,6 +14,8 @@ namespace PF_Pach_OS.Models
         public int? Precio { get; set; }
         public int? IdVenta { get; set; }
         public int? IdProducto { get; set; }
+        public String? Estado { get; set; }
+
 
         public virtual Producto? IdProductoNavigation { get; set; }
         public virtual Venta? IdVentaNavigation { get; set; }
