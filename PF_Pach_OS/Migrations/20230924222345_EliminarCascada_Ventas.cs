@@ -68,10 +68,6 @@ namespace PF_Pach_OS.Migrations
                 name: "FK__recetas__id_prod__7D439ABD",
                 table: "recetas");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK__ventas__id_emple__02084FDA",
-                table: "ventas");
-
             migrationBuilder.DropPrimaryKey(
                 name: "PK__ventas__459533BF1E99A8D0",
                 table: "ventas");
@@ -332,13 +328,6 @@ namespace PF_Pach_OS.Migrations
                 column: "id_producto",
                 principalTable: "productos",
                 principalColumn: "id_producto");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK__ventas__id_emple__5535A963",
-                table: "ventas",
-                column: "id_empleado",
-                principalTable: "empleados",
-                principalColumn: "id_empleado");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -378,10 +367,6 @@ namespace PF_Pach_OS.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK__recetas__id_prod__5441852A",
                 table: "recetas");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK__ventas__id_emple__5535A963",
-                table: "ventas");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK__ventas__459533BF24E19040",
@@ -685,12 +670,6 @@ namespace PF_Pach_OS.Migrations
                 principalTable: "productos",
                 principalColumn: "id_producto");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK__ventas__id_emple__02084FDA",
-                table: "ventas",
-                column: "id_empleado",
-                principalTable: "empleados",
-                principalColumn: "id_empleado");
         }
     }
 }
