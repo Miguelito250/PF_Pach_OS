@@ -113,8 +113,7 @@ namespace PF_Pach_OS.Controllers
         {
             bool insumosSuficientes = true;
             var producto = _context.Productos
-                .Where(r => r.IdProducto == idProducto)
-                .FirstOrDefault();
+                .FirstOrDefault(r => r.IdProducto == idProducto);
 
             if (producto == null)
             {
@@ -147,6 +146,57 @@ namespace PF_Pach_OS.Controllers
             return insumosSuficientes;
         }
 
+        public bool InsumosSuficientesPizzas(List<int> sabores, DetalleVenta detalleVenta)
+        {
+            foreach (var sabor in sabores)
+            {
+                var producto = _context.Productos
+                    .FirstOrDefault(p => p.IdProducto == sabor);
+
+                if (producto.IdProducto == null)
+                {
+                    return false;
+                }
+                var tamanos = _context.Tamanos
+                                .Select(t => t.Tamano1)
+                                .ToList();
+                 
+
+                float tamanoMasPequeno = (float)tamanos.Min();
+                float tamanoMasGrande = (float)tamanos.Max();
+
+
+                int? porcentajeInsumo = 0;
+                var recetaPizza = _context.Recetas
+                    .Where(r => r.IdProducto == sabor)
+                    .Include(r => r.IdProductoNavigation.IdTamanoNavigation)
+                    .ToList();
+
+                foreach (var receta in recetaPizza)
+                {
+                    int cantidadDisminuir = 0;
+                    int tamano = (int)detalleVenta.IdProducto - 1;
+                    float tamanoActual = (float)tamanos[tamano];
+
+
+                    float porcentajeGastar = (tamanoActual - tamanoMasPequeno) / (tamanoMasGrande - tamanoMasPequeno) * 100;
+                    var consultaInsumos = _context.Insumos
+                       .SingleOrDefault(i => i.IdInsumo == receta.IdInsumo);
+
+                    int cantidadGastar = (int)(receta.CantInsumo * porcentajeGastar) / 100;
+                    cantidadDisminuir = (int)((receta.CantInsumo + cantidadGastar) * detalleVenta.CantVendida);
+
+
+                    if (cantidadDisminuir > consultaInsumos.CantInsumo)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+
+            return true;
+        }
         //Miguel 22/10/2023: Función para organizar los detalles en caso de que la venta sea cuenta abierta y se agregue el mismo producto
         public void OrganizarDetalles(int? idVenta, int? idProducto)
         {
@@ -218,7 +268,7 @@ namespace PF_Pach_OS.Controllers
                 NotFound();
             }
 
-            foreach(var detalle in detalleVentas)
+            foreach (var detalle in detalleVentas)
             {
                 _context.Remove(detalle);
                 await _context.SaveChangesAsync();

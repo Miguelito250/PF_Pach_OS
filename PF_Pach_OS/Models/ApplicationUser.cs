@@ -13,5 +13,8 @@ namespace PF_Pach_OS.Models
         public string EmailConfirmationToken { get; set; }
         public string PasswordResetToken { get; set; }
 
+        public int Id_Rol { get; set; }
+
+
     }
 }

@@ -28,24 +28,24 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly Pach_OSContext _contex;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            Pach_OSContext contex)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _roleManager = roleManager;
+            _contex = contex;
         }
 
         [BindProperty]
@@ -109,11 +109,10 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
 
             Input = new InputModel()
             {
-                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
-                {
-                    Text = i,
-                    Value = i
-                })
+                RoleList = _contex.Roles.Select(role => new SelectListItem{
+                    Text = role.NomRol,
+                    Value = role.IdRol.ToString()
+                }).ToList()
             };
         }
 
@@ -123,6 +122,14 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (!ModelState.IsValid)
             {
+                int IdRol = 0; 
+                if (!string.IsNullOrEmpty(Input.Role))
+                {
+                    if (int.TryParse(Input.Role, out int parsedId))
+                    {
+                        IdRol = parsedId;
+                    }
+                }
                 var user = new ApplicationUser
                 {
                     DocumentType = Input.DocumentType,
@@ -131,8 +138,8 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                     LastName = Input.LastName,
                     UserName = Input.Email,
                     Email = Input.Email,
-                    State = 1
-
+                    State = 1,
+                    Id_Rol = IdRol
                 };
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 user.EmailConfirmationToken = code;
@@ -142,7 +149,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await _userManager.AddToRoleAsync(user, Input.Role);
+                   
 
                     var callbackUrl = Url.Action("ConfirmarCorreo", "Acceso", new {idUsuario = user.Id, codigo = code}, Request.Scheme);
 

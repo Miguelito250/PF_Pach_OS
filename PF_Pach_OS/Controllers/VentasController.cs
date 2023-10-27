@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -18,12 +19,16 @@ namespace PF_Pach_OS.Controllers
     {
         private readonly Pach_OSContext _context;
         private readonly DetalleVentasController _detalleVentasController;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public VentasController(Pach_OSContext context)
+        public VentasController(Pach_OSContext context, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _detalleVentasController = new DetalleVentasController(_context);
-        }
+            _signInManager = signInManager;
+            _userManager = userManager;
+        }   
 
         //Miguel 22/10/2023: Función para retornar a la vista de index de ventas
         public async Task<IActionResult> Index()
@@ -45,6 +50,9 @@ namespace PF_Pach_OS.Controllers
         //Miguel 22/10/2023: Función para redirigir con los datos necesarios a la vista de registrar los detalles de venta
         public IActionResult Crear(int IdVenta)
         {
+            var nombreUsuario = _userManager.GetUserAsync(User).Result.FirstName;
+            ViewBag.NombreUsuario = nombreUsuario;
+
             float? total = 0;
             var ventaNula = _context.Ventas
                 .FirstOrDefault(v => v.IdVenta == IdVenta);
@@ -137,7 +145,7 @@ namespace PF_Pach_OS.Controllers
                         await _context.SaveChangesAsync();
                     }
 
-                    DescontarInsumos(venta);
+                    await DescontarInsumos(venta);
                 }
                 return RedirectToAction("Index", "Ventas");
             }
@@ -170,6 +178,7 @@ namespace PF_Pach_OS.Controllers
 
             var detalleVenta = _context.DetalleVentas
                 .Where(d => d.IdVenta == venta.IdVenta && d.Estado != "Descontado")
+                .Include(d => d.IdProductoNavigation.IdTamanoNavigation)
                 .ToList();
 
             foreach (var detalle in detalleVenta)
@@ -258,6 +267,7 @@ namespace PF_Pach_OS.Controllers
                         else
                         {
                             ViewBag.MensajeAlerta = "No hay suficientes insumos";
+                            return RedirectToAction("Crear", "Ventas", new { detalle.IdVenta });
                         }
                     }
                 }
@@ -303,19 +313,24 @@ namespace PF_Pach_OS.Controllers
 
         //Miguel 22/10/2023: Función para confirmar los sabores de las pizzas escogidos y agregarlos al detalle
         [HttpPost]
-        public async Task<IActionResult> ConfirmarSabores(List<int> sabores, DetalleVenta detalleVenta)
+        public async Task<bool> ConfirmarSabores(List<int> sabores, DetalleVenta detalleVenta)
         {
             var producto = await _context.Productos
                 .FirstOrDefaultAsync(d => d.IdProducto == detalleVenta.IdProducto);
 
             if (producto == null)
             {
-
-                return NotFound();
+                NotFound();
             }
 
             detalleVenta.Precio = producto.PrecioVenta;
 
+            bool resultado = _detalleVentasController.InsumosSuficientesPizzas(sabores, detalleVenta);
+            if (!resultado)
+            {
+                return false;
+            }
+            bool insumosSufucientes = true;
             await _context.DetalleVentas.AddAsync(detalleVenta);
             await _context.SaveChangesAsync();
 
@@ -335,7 +350,7 @@ namespace PF_Pach_OS.Controllers
                 await _context.SaboresSeleccionados.AddAsync(saborSeleccionado);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction("Crear", "Ventas", new { IdVenta = detalleVenta.IdVenta });
+            return insumosSufucientes;
         }
 
     }
