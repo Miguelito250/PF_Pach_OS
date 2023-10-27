@@ -44,5 +44,9 @@ namespace PF_Pach_OS.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+        public IActionResult AccesoDenegado()
+        {
+            return View();
+        }
     }
 }

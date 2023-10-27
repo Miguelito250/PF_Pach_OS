@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,17 +15,26 @@ using PF_Pach_OS.Models;
 using PF_Pach_OS.Services;
 
 namespace PF_Pach_OS.Controllers
-{
-    
+{ 
+
+
+   
     public class ProductosController : Controller
     {
         private readonly Pach_OSContext _context;
+        private readonly UserManager<ApplicationUser> _UserManager;
+        private readonly SignInManager<ApplicationUser> _SignInManager;
+        public readonly PermisosController _permisosController;
 
 
 
-        public ProductosController(Pach_OSContext context)
+
+        public ProductosController(Pach_OSContext context, UserManager<ApplicationUser> UserManager, SignInManager<ApplicationUser> SignInManager)
         {
             _context = context;
+            _SignInManager = SignInManager;
+            _UserManager = UserManager;
+            _permisosController = new PermisosController(_context,_UserManager, _SignInManager) ;
         }
 
         
@@ -48,9 +58,22 @@ namespace PF_Pach_OS.Controllers
         }
 
         // Elimina los regritros que poseean algun campo nulo para que no sea listado, envia una lista ordenada del mas reciente al mas antiguo
-        [ControlDeAccesos(idpermiso:1)]
+       
         public async Task<IActionResult> Index()
         {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(3, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             var pach_OSContext = await _context.Productos.ToListAsync();
             
             foreach (var pach in pach_OSContext)
