@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -18,12 +19,16 @@ namespace PF_Pach_OS.Controllers
     {
         private readonly Pach_OSContext _context;
         private readonly DetalleVentasController _detalleVentasController;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public VentasController(Pach_OSContext context)
+        public VentasController(Pach_OSContext context, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _detalleVentasController = new DetalleVentasController(_context);
-        }
+            _signInManager = signInManager;
+            _userManager = userManager;
+        }   
 
         //Miguel 22/10/2023: Función para retornar a la vista de index de ventas
         public async Task<IActionResult> Index()
@@ -45,6 +50,9 @@ namespace PF_Pach_OS.Controllers
         //Miguel 22/10/2023: Función para redirigir con los datos necesarios a la vista de registrar los detalles de venta
         public IActionResult Crear(int IdVenta)
         {
+            var nombreUsuario = _userManager.GetUserAsync(User).Result.FirstName;
+            ViewBag.NombreUsuario = nombreUsuario;
+
             float? total = 0;
             var ventaNula = _context.Ventas
                 .FirstOrDefault(v => v.IdVenta == IdVenta);
