@@ -166,7 +166,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function ValidarCantidad() {
         let valorCantidad = cantidad.value
         valorCantidad = parseInt(valorCantidad)
-        
 
         cantidad.classList.remove('is-invalid', 'is-valid');
         cantidadMensaje.textContent = '';
@@ -179,6 +178,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (valorCantidad > 999999999) {
             cantidad.classList.add('is-invalid');
             cantidadMensaje.textContent = 'El campo no puede tener mas de 10 caracteres';
+        }
+
+        if (!/^\d+$/.test(valorCantidad)) {
+            cantidad.classList.add('is-invalid');
+            cantidadMensaje.textContent = 'El campo no admite caracteres especiales';
         }
 
         if (isNaN(valorCantidad)) {
