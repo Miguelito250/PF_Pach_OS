@@ -10,9 +10,9 @@ namespace PF_Pach_OS.Controllers
 {
     public class AccesoController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly Pach_OSContext _context;
-        public AccesoController(UserManager<IdentityUser> userManager, Pach_OSContext context)
+        public AccesoController(UserManager<ApplicationUser> userManager, Pach_OSContext context)
         {
             _userManager = userManager;
             _context = context;
@@ -42,6 +42,10 @@ namespace PF_Pach_OS.Controllers
                 _context.SaveChanges();
             }
 
+            return RedirectToAction("Index", "Home");
+        }
+        public IActionResult AccesoDenegado()
+        {
             return View();
         }
     }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,15 +15,34 @@ namespace PF_Pach_OS.Controllers
     public class RolPermisosController : Controller
     {
         private readonly Pach_OSContext _context;
+        private readonly UserManager<ApplicationUser> _UserManager;
+        private readonly SignInManager<ApplicationUser> _SignInManager;
+        public readonly PermisosController _permisosController;
 
-        public RolPermisosController(Pach_OSContext context)
+
+
+
+        public RolPermisosController(Pach_OSContext context, UserManager<ApplicationUser> UserManager, SignInManager<ApplicationUser> SignInManager)
         {
             _context = context;
+            _SignInManager = SignInManager;
+            _UserManager = UserManager;
+            _permisosController = new PermisosController(_context, _UserManager, _SignInManager);
         }
+
+
+       
 
         // GET: RolPermisos
         public async Task<IActionResult> Index()
         {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(7, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             var roles = _context.Roles.ToList();
             return View(roles);
         }
@@ -30,6 +50,13 @@ namespace PF_Pach_OS.Controllers
         // GET: RolPermisos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(7, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (id == null || _context.RolPermisos == null)
             {
                 return NotFound();
@@ -50,6 +77,13 @@ namespace PF_Pach_OS.Controllers
         // GET: RolPermisos/Create
         public IActionResult Crear()
         {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(7, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             var permisos = _context.Permisos.ToList();
 
 
@@ -70,9 +104,11 @@ namespace PF_Pach_OS.Controllers
 
 
         [HttpPost]
-        public async void Crear(List<int> permisos, String nomRol)
+        private async void Crear(List<int> permisos, String nomRol)
         {
-            
+            var user = User;
+
+           
 
             int id_Rol = 0;
             if (nomRol != null)
@@ -106,7 +142,7 @@ namespace PF_Pach_OS.Controllers
             
         }
         //Se crea el rol y se le asignan los permisos
-        public async void Crear_rol(List<int> permisos, Role rol)
+        private async void Crear_rol(List<int> permisos, Role rol)
         {
             if (rol != null)
             {
@@ -118,6 +154,13 @@ namespace PF_Pach_OS.Controllers
         // GET: RolPermisos/Edit/5
         public IActionResult Editar(int? id)
         {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(7, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (id == null || _context.RolPermisos == null)
             {
                 return NotFound();
@@ -146,7 +189,7 @@ namespace PF_Pach_OS.Controllers
 
         
         [HttpPost]
-        public async void Editar(int id, List<int> permisos, String nomRol)
+        private async void Editar(int id, List<int> permisos, String nomRol)
         {
             Console.WriteLine("=============================");
             Console.WriteLine("Entrada 1");
@@ -190,6 +233,13 @@ namespace PF_Pach_OS.Controllers
         // GET: RolPermisos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(7, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (id == null || _context.RolPermisos == null)
             {
                 return NotFound();
@@ -212,6 +262,13 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(7, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (_context.RolPermisos == null)
             {
                 return Problem("Entity set 'Pach_OSContext.RolPermisos'  is null.");
