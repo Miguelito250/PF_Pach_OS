@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PF_Pach_OS.Models;
 
@@ -7,9 +8,13 @@ namespace PF_Pach_OS.Controllers
     public class DetalleCompraController : Controller
     {
         private Pach_OSContext context = new Pach_OSContext();
-        public DetalleCompraController(Pach_OSContext context)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public DetalleCompraController(Pach_OSContext context, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             this.context = context;
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -19,8 +24,7 @@ namespace PF_Pach_OS.Controllers
 
         public async Task<IActionResult> Create(int id)
         {
-            
-           
+
             string? _urlData = HttpContext.Request.Path.Value;
             string[] splitData = _urlData.Split('/');
             var IdCompra = int.Parse(splitData[splitData.Length - 1]);
@@ -45,7 +49,8 @@ namespace PF_Pach_OS.Controllers
                     })
                 .ToList();
 
-            
+            var nombreUsuario = _userManager.GetUserAsync(User).Result.FirstName;
+            ViewBag.NombreUsuario = nombreUsuario;
             ViewBag.Detalles = detallescompras;
             ViewBag.Insumos = await context.Insumos.Select(x => new { x.IdInsumo, x.NomInsumo,x.Estado,x.Medida }).ToListAsync();
             ViewBag.Proveedores = await context.Proveedores.Select(x => new { x.IdProveedor, x.NomLocal }).ToListAsync();
@@ -57,7 +62,7 @@ namespace PF_Pach_OS.Controllers
         [HttpPost]
         public IActionResult Create([Bind(Prefix = "Item1")] DetallesCompra detallecompra, [Bind(Prefix = "Item2")] Compra compra, Insumo insumo)
         {
-            
+
             if (detallecompra.IdInsumo != null && detallecompra.Cantidad != null)
             {
 
@@ -246,7 +251,6 @@ namespace PF_Pach_OS.Controllers
                     return Redirect($"/DetalleCompra/Create/{compra.IdCompra}");
                 }
                 Compra.IdProveedor = compra.IdProveedor;
-                Compra.IdEmpleado = compra.IdEmpleado;
                 Compra.Total = compra.Total;
                 Compra.NumeroFactura = OrtografiaFactura(compra.NumeroFactura);
                 context.Update(Compra);

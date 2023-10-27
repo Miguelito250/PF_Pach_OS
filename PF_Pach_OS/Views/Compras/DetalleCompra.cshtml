@@ -29,7 +29,7 @@
                 <tr>
                     <td>@Html.DisplayFor(model => model.IdCompraNavigation.IdProveedorNavigation.NomLocal)</td>
                     <td>@(Model.IdCompraNavigation.FechaCompra.HasValue ? Model.IdCompraNavigation.FechaCompra.Value.ToString("d/M/yyyy") : "Sin Fecha")</td>
-                    <td>@ViewBag.Empleado.Nombre</td>
+                    <td>@ViewBag.IdEmpleado</td>
                 </tr>
             </tbody>
         </table>
