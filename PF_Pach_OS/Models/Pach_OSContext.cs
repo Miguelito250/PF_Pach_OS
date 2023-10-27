@@ -613,7 +613,6 @@ namespace PF_Pach_OS.Models
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.IdEmpleado).HasColumnName("id_empleado");
-
                 entity.Property(e => e.Pago).HasColumnName("pago");
 
                 entity.Property(e => e.PagoDomicilio).HasColumnName("pago_domicilio");
@@ -629,11 +628,6 @@ namespace PF_Pach_OS.Models
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("mesa");
-
-                entity.HasOne(d => d.IdEmpleadoNavigation)
-                    .WithMany(p => p.Venta)
-                    .HasForeignKey(d => d.IdEmpleado)
-                    .HasConstraintName("FK_ventasid_emple_5535A963");
             });
 
             OnModelCreatingPartial(modelBuilder);

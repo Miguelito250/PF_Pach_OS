@@ -211,16 +211,11 @@ namespace PF_Pach_OS.Migrations
                     pago = table.Column<int>(type: "int", nullable: true),
                     pago_domicilio = table.Column<int>(type: "int", nullable: true),
                     estado = table.Column<string>(type: "varchar(30)", unicode: false, maxLength: 30, nullable: true),
-                    id_empleado = table.Column<int>(type: "int", nullable: true)
+                    id_empleado = table.Column<int>(type: "varchar(25)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK__ventas__459533BF1E99A8D0", x => x.id_venta);
-                    table.ForeignKey(
-                        name: "FK__ventas__id_emple__02084FDA",
-                        column: x => x.id_empleado,
-                        principalTable: "empleados",
-                        principalColumn: "id_empleado");
                 });
 
             migrationBuilder.CreateTable(
@@ -231,7 +226,7 @@ namespace PF_Pach_OS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     fecha_compra = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
                     total = table.Column<int>(type: "int", nullable: true),
-                    id_empleado = table.Column<int>(type: "int", nullable: true),
+                    id_empleado = table.Column<int>(type: "varchar(25)", nullable: true),
                     id_proveedor = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
