@@ -17,18 +17,99 @@ namespace PF_Pach_OS.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.21")
+                .HasAnnotation("ProductVersion", "6.0.23")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("PF_Pach_OS.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DocumentNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DocumentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailConfirmationToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("EntryDay")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordResetToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ApplicationUser");
+                });
+
+            modelBuilder.Entity("PF_Pach_OS.Models.AspNetRole", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -41,15 +122,14 @@ namespace PF_Pach_OS.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalizedName")
+                    b.HasIndex(new[] { "NormalizedName" }, "RoleNameIndex")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasFilter("([NormalizedName] IS NOT NULL)");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("PF_Pach_OS.Models.AspNetRoleClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,12 +149,12 @@ namespace PF_Pach_OS.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex(new[] { "RoleId" }, "IX_AspNetRoleClaims_RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+            modelBuilder.Entity("PF_Pach_OS.Models.AspNetUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -83,11 +163,18 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValueSql("(N'')");
+
+                    b.Property<string>("DocumentNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DocumentType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -96,6 +183,19 @@ namespace PF_Pach_OS.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime?>("EntryDay")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("IdRol")
+                        .HasColumnType("int")
+                        .HasColumnName("Id_rol");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -123,6 +223,9 @@ namespace PF_Pach_OS.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("State")
+                        .HasColumnType("int");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -132,20 +235,18 @@ namespace PF_Pach_OS.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
+                    b.HasIndex("IdRol");
 
-                    b.HasIndex("NormalizedUserName")
+                    b.HasIndex(new[] { "NormalizedEmail" }, "EmailIndex");
+
+                    b.HasIndex(new[] { "NormalizedUserName" }, "UserNameIndex")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
+                    b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("PF_Pach_OS.Models.AspNetUserClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -165,12 +266,12 @@ namespace PF_Pach_OS.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex(new[] { "UserId" }, "IX_AspNetUserClaims_UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("PF_Pach_OS.Models.AspNetUserLogin", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -189,12 +290,12 @@ namespace PF_Pach_OS.Migrations
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex(new[] { "UserId" }, "IX_AspNetUserLogins_UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("PF_Pach_OS.Models.AspNetUserRole", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -204,12 +305,12 @@ namespace PF_Pach_OS.Migrations
 
                     b.HasKey("UserId", "RoleId");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("PF_Pach_OS.Models.AspNetUserToken", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -227,7 +328,7 @@ namespace PF_Pach_OS.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("AspNetUserTokens");
                 });
 
             modelBuilder.Entity("PF_Pach_OS.Models.Categoria", b =>
@@ -275,6 +376,9 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id_proveedor");
 
+                    b.Property<string>("NumeroFactura")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("Total")
                         .HasColumnType("int")
                         .HasColumnName("total");
@@ -282,7 +386,7 @@ namespace PF_Pach_OS.Migrations
                     b.HasKey("IdCompra")
                         .HasName("PK__compras__C4BAA604A7DD9276");
 
-                    b.HasIndex("IdProveedor");
+                    b.HasIndex(new[] { "IdProveedor" }, "IX_compras_id_proveedor");
 
                     b.ToTable("compras", (string)null);
                 });
@@ -311,7 +415,9 @@ namespace PF_Pach_OS.Migrations
 
                     b.Property<string>("Medida")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValueSql("(N'')");
 
                     b.Property<int?>("PrecioInsumo")
                         .IsRequired()
@@ -321,9 +427,9 @@ namespace PF_Pach_OS.Migrations
                     b.HasKey("IdDetallesCompra")
                         .HasName("PK__detalles__905DB0ED175A41C9");
 
-                    b.HasIndex("IdCompra");
+                    b.HasIndex(new[] { "IdCompra" }, "IX_detalles_Compras_id_compra");
 
-                    b.HasIndex("IdInsumo");
+                    b.HasIndex(new[] { "IdInsumo" }, "IX_detalles_Compras_id_insumo");
 
                     b.ToTable("detalles_Compras", (string)null);
                 });
@@ -356,9 +462,9 @@ namespace PF_Pach_OS.Migrations
                     b.HasKey("IdDetalleVenta")
                         .HasName("PK__detalleV__3C2E445CAC618977");
 
-                    b.HasIndex("IdProducto");
+                    b.HasIndex(new[] { "IdProducto" }, "IX_detalleVentas_id_producto");
 
-                    b.HasIndex("IdVenta");
+                    b.HasIndex(new[] { "IdVenta" }, "IX_detalleVentas_id_venta");
 
                     b.ToTable("detalleVentas", (string)null);
                 });
@@ -439,6 +545,9 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnType("int")
                         .HasColumnName("cant_insumo");
 
+                    b.Property<byte?>("Estado")
+                        .HasColumnType("tinyint");
+
                     b.Property<string>("Medida")
                         .HasMaxLength(50)
                         .IsUnicode(false)
@@ -455,6 +564,27 @@ namespace PF_Pach_OS.Migrations
                         .HasName("PK__insumos__D4F202B1AE226FBC");
 
                     b.ToTable("insumos", (string)null);
+                });
+
+            modelBuilder.Entity("PF_Pach_OS.Models.Permiso", b =>
+                {
+                    b.Property<int>("IdPermiso")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id_permiso");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPermiso"), 1L, 1);
+
+                    b.Property<string>("NomPermiso")
+                        .HasMaxLength(30)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(30)")
+                        .HasColumnName("nom_permiso");
+
+                    b.HasKey("IdPermiso")
+                        .HasName("PK__permisos__A5D405E8B6F5126A");
+
+                    b.ToTable("permisos", (string)null);
                 });
 
             modelBuilder.Entity("PF_Pach_OS.Models.Producto", b =>
@@ -490,9 +620,9 @@ namespace PF_Pach_OS.Migrations
                     b.HasKey("IdProducto")
                         .HasName("PK__producto__FF341C0DAD2F40EB");
 
-                    b.HasIndex("IdCategoria");
+                    b.HasIndex(new[] { "IdCategoria" }, "IX_productos_id_categoria");
 
-                    b.HasIndex("IdTamano");
+                    b.HasIndex(new[] { "IdTamano" }, "IX_productos_id_tamano");
 
                     b.ToTable("productos", (string)null);
                 });
@@ -530,6 +660,9 @@ namespace PF_Pach_OS.Migrations
                     b.Property<string>("Telefono")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TipoDocumento")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("IdProveedor")
                         .HasName("PK__proveedo__8D3DFE288859DED1");
 
@@ -560,14 +693,62 @@ namespace PF_Pach_OS.Migrations
                     b.HasKey("IdReceta")
                         .HasName("PK__recetas__11DB53ABAE38FAD1");
 
-                    b.HasIndex("IdInsumo");
+                    b.HasIndex(new[] { "IdInsumo" }, "IX_recetas_id_insumo");
 
-                    b.HasIndex("IdProducto");
+                    b.HasIndex(new[] { "IdProducto" }, "IX_recetas_id_producto");
 
                     b.ToTable("recetas", (string)null);
                 });
 
-            modelBuilder.Entity("PF_Pach_OS.Models.SaboresSeleccionados", b =>
+            modelBuilder.Entity("PF_Pach_OS.Models.Role", b =>
+                {
+                    b.Property<int>("IdRol")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id_rol");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRol"), 1L, 1);
+
+                    b.Property<string>("NomRol")
+                        .HasMaxLength(30)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(30)")
+                        .HasColumnName("nom_rol");
+
+                    b.HasKey("IdRol")
+                        .HasName("PK__roles__2D95A8946F1A4A66");
+
+                    b.ToTable("roles", (string)null);
+                });
+
+            modelBuilder.Entity("PF_Pach_OS.Models.RolPermiso", b =>
+                {
+                    b.Property<int>("IdRolPermisos")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id_rol_permisos");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRolPermisos"), 1L, 1);
+
+                    b.Property<int?>("IdPermiso")
+                        .HasColumnType("int")
+                        .HasColumnName("Id_permiso");
+
+                    b.Property<int?>("IdRol")
+                        .HasColumnType("int")
+                        .HasColumnName("Id_rol");
+
+                    b.HasKey("IdRolPermisos")
+                        .HasName("PK__Rol_perm__C48C7EB25F860379");
+
+                    b.HasIndex("IdPermiso");
+
+                    b.HasIndex("IdRol");
+
+                    b.ToTable("Rol_permisos", (string)null);
+                });
+
+            modelBuilder.Entity("PF_Pach_OS.Models.SaborSeleccionado", b =>
                 {
                     b.Property<int?>("IdSaborSeleccionado")
                         .ValueGeneratedOnAdd()
@@ -575,25 +756,19 @@ namespace PF_Pach_OS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("IdSaborSeleccionado"), 1L, 1);
 
-                    b.Property<int?>("DetalleVentaNavigationIdDetalleVenta")
-                        .HasColumnType("int");
-
                     b.Property<int?>("IdDetalleVenta")
                         .HasColumnType("int");
 
                     b.Property<int?>("IdProducto")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductoNavigationIdProducto")
-                        .HasColumnType("int");
-
                     b.HasKey("IdSaborSeleccionado");
 
-                    b.HasIndex("DetalleVentaNavigationIdDetalleVenta");
+                    b.HasIndex("IdDetalleVenta");
 
-                    b.HasIndex("ProductoNavigationIdProducto");
+                    b.HasIndex("IdProducto");
 
-                    b.ToTable("SaboresSeleccionados", (string)null);
+                    b.ToTable("SaboresSeleccionados");
                 });
 
             modelBuilder.Entity("PF_Pach_OS.Models.Tamano", b =>
@@ -650,6 +825,12 @@ namespace PF_Pach_OS.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id_empleado");
 
+                    b.Property<string>("Mesa")
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(20)")
+                        .HasColumnName("mesa");
+
                     b.Property<int?>("Pago")
                         .HasColumnType("int")
                         .HasColumnName("pago");
@@ -671,38 +852,19 @@ namespace PF_Pach_OS.Migrations
                     b.HasKey("IdVenta")
                         .HasName("PK__ventas__459533BF24E19040");
 
-                    b.HasIndex("IdEmpleado");
+                    b.HasIndex(new[] { "IdEmpleado" }, "IX_ventas_id_empleado");
 
                     b.ToTable("ventas", (string)null);
                 });
 
-            modelBuilder.Entity("PF_Pach_OS.Models.ApplicationUser", b =>
+            modelBuilder.Entity("PF_Pach_OS.Models.AspNetUser", b =>
                 {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+                    b.HasOne("PF_Pach_OS.Models.Role", "IdRolNavigation")
+                        .WithMany("AspNetUsers")
+                        .HasForeignKey("IdRol")
+                        .HasConstraintName("FK_rol_usuario");
 
-                    b.Property<string>("DocumentNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DocumentType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("EntryDay")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.HasDiscriminator().HasValue("ApplicationUser");
+                    b.Navigation("IdRolNavigation");
                 });
 
             modelBuilder.Entity("PF_Pach_OS.Models.Compra", b =>
@@ -784,19 +946,39 @@ namespace PF_Pach_OS.Migrations
                     b.Navigation("IdProductoNavigation");
                 });
 
-            modelBuilder.Entity("PF_Pach_OS.Models.SaboresSeleccionados", b =>
+            modelBuilder.Entity("PF_Pach_OS.Models.RolPermiso", b =>
                 {
-                    b.HasOne("PF_Pach_OS.Models.DetalleVenta", "DetalleVentaNavigation")
+                    b.HasOne("PF_Pach_OS.Models.Permiso", "IdPermisoNavigation")
+                        .WithMany("RolPermisos")
+                        .HasForeignKey("IdPermiso")
+                        .HasConstraintName("FK__Rol_permi__Id_pe__40F9A68C");
+
+                    b.HasOne("PF_Pach_OS.Models.Role", "IdRolNavigation")
+                        .WithMany("RolPermisos")
+                        .HasForeignKey("IdRol")
+                        .HasConstraintName("FK__Rol_permi__Id_ro__40058253");
+
+                    b.Navigation("IdPermisoNavigation");
+
+                    b.Navigation("IdRolNavigation");
+                });
+
+            modelBuilder.Entity("PF_Pach_OS.Models.SaborSeleccionado", b =>
+                {
+                    b.HasOne("PF_Pach_OS.Models.DetalleVenta", "IdDetalleVentaNavigation")
                         .WithMany("SaboresSeleccionados")
-                        .HasForeignKey("DetalleVentaNavigationIdDetalleVenta");
+                        .HasForeignKey("IdDetalleVenta")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("FK_SaboresSeleccionados_detalleVentas");
 
-                    b.HasOne("PF_Pach_OS.Models.Producto", "ProductoNavigation")
+                    b.HasOne("PF_Pach_OS.Models.Producto", "IdProductoNavigation")
                         .WithMany("SaboresSeleccionados")
-                        .HasForeignKey("ProductoNavigationIdProducto");
+                        .HasForeignKey("IdProducto")
+                        .HasConstraintName("FK_SaboresSeleccionados_productos");
 
-                    b.Navigation("DetalleVentaNavigation");
+                    b.Navigation("IdDetalleVentaNavigation");
 
-                    b.Navigation("ProductoNavigation");
+                    b.Navigation("IdProductoNavigation");
                 });
 
             modelBuilder.Entity("PF_Pach_OS.Models.Venta", b =>
@@ -836,6 +1018,11 @@ namespace PF_Pach_OS.Migrations
                     b.Navigation("Receta");
                 });
 
+            modelBuilder.Entity("PF_Pach_OS.Models.Permiso", b =>
+                {
+                    b.Navigation("RolPermisos");
+                });
+
             modelBuilder.Entity("PF_Pach_OS.Models.Producto", b =>
                 {
                     b.Navigation("DetalleVenta");
@@ -848,6 +1035,13 @@ namespace PF_Pach_OS.Migrations
             modelBuilder.Entity("PF_Pach_OS.Models.Proveedore", b =>
                 {
                     b.Navigation("Compras");
+                });
+
+            modelBuilder.Entity("PF_Pach_OS.Models.Role", b =>
+                {
+                    b.Navigation("AspNetUsers");
+
+                    b.Navigation("RolPermisos");
                 });
 
             modelBuilder.Entity("PF_Pach_OS.Models.Tamano", b =>
