@@ -11,10 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PF_Pach_OS.Models;
+using PF_Pach_OS.Services;
 
 namespace PF_Pach_OS.Controllers
 {
-    [Authorize(Roles = "Admin, gerente")]
+    
     public class ProductosController : Controller
     {
         private readonly Pach_OSContext _context;
@@ -45,11 +46,13 @@ namespace PF_Pach_OS.Controllers
             }
 
         }
+
         // Elimina los regritros que poseean algun campo nulo para que no sea listado, envia una lista ordenada del mas reciente al mas antiguo
+        [ControlDeAccesos(idpermiso:1)]
         public async Task<IActionResult> Index()
         {
             var pach_OSContext = await _context.Productos.ToListAsync();
-
+            
             foreach (var pach in pach_OSContext)
             {
 
