@@ -29,3 +29,204 @@
 .sombra {
     box-shadow: inset 0 0 10px #FACE75;
 }
+
+/*Responsivo con maximo de ancho de 280px*/
+@media only screen and (max-width: 280px) {
+    input.buscador {
+        top: -13vh !important;
+        left: 3vw;
+        width: 90%;
+    }
+    .estilo-btn-naranja {
+        top: -8vh !important;
+        left: 3vw !important;
+        width: 90%;
+    }
+
+    .filtroEstado{
+        top: -7vh;
+        left: 20vw;
+    }
+    /* Ajustar la tabla */
+    .table {
+        font-size: 12px;
+    }
+
+    /* Ajustar tamaño de cuadro grande blanco */
+    .modulos {
+        position: relative;
+        top: 50px;
+        left: -4vh;
+        height: 80vh !important;
+    }
+
+    /* Ajustar tabla*/
+    .table td, .table th {
+        padding: 2px; /* Reducir el espaciado entre celdas */
+    }
+
+    /* Ocultar las columnas de Metodo pago, pago y pagoDomicilio */
+    td:nth-child(3), /* Columna de Metodo pago */
+    th:nth-child(3),
+    td:nth-child(5), /* Columna de pago */
+    th:nth-child(5),
+    td:nth-child(6), /* Columna de pagoDomicilio */
+    th:nth-child(6) {
+        display: none;
+    }
+
+    svg{
+        width: 1em
+    }
+}
+
+
+/*Responsivo con maximo de ancho de 414px*/
+@media only screen and (max-width: 414px) {
+    input.buscador {
+        top: -11vh !important;
+        left: 3vw;
+        width: 90%;
+    }
+
+    .estilo-btn-naranja {
+        top: -7vh !important;
+        left: 3vw !important;
+        width: 90%;
+    }
+
+    .filtroEstado {
+        top: -6vh;
+        left: 25vw;
+    }
+    /* Ajustar la tabla */
+    .table {
+        font-size: 16px;
+    }
+
+    /* Ajustar tamaño de cuadro grande blanco */
+    .modulos {
+        position: relative;
+        top: 50px;
+        left: -4vh;
+        height: 80vh !important;
+    }
+
+    /* Ajustar tabla*/
+    .table td, .table th {
+        padding: 4px; /* Reducir el espaciado entre celdas */
+    }
+
+    /* Ocultar las columnas de Metodo pago, pago y pagoDomicilio */
+    td:nth-child(3), /* Columna de Metodo pago */
+    th:nth-child(3),
+    td:nth-child(5), /* Columna de pago */
+    th:nth-child(5),
+    td:nth-child(6), /* Columna de pagoDomicilio */
+    th:nth-child(6) {
+        display: none;
+    }
+
+    svg {
+        width: 1em
+    }
+}
+
+/*Responsivo con maximo de ancho de 540px*/
+@media only screen and (max-width: 540px) {
+    input.buscador {
+        top: -13vh !important;
+        left: 3vw;
+        width: 90%;
+    }
+
+    .estilo-btn-naranja {
+        top: -5vh !important;
+        left: 4vw !important;
+    }
+
+    .filtroEstado {
+        top: -8vh;
+        left: 65vw;
+    }
+    /* Ajustar la tabla */
+    .table {
+        font-size: 16px;
+    }
+
+    /* Ajustar tamaño de cuadro grande blanco */
+    .modulos {
+        position: relative;
+        top: 50px;
+        left: -4vh;
+        height: 80vh !important;
+    }
+
+    /* Ajustar tabla*/
+    .table td, .table th {
+        padding: 4px; /* Reducir el espaciado entre celdas */
+    }
+
+    /* Ocultar las columnas de Metodo pago, pago y pagoDomicilio */
+    td:nth-child(3), /* Columna de Metodo pago */
+    th:nth-child(3),
+    td:nth-child(5), /* Columna de pago */
+    th:nth-child(5),
+    td:nth-child(6), /* Columna de pagoDomicilio */
+    th:nth-child(6) {
+        display: none;
+    }
+
+    svg {
+        width: 1.5em
+    }
+}
+
+/*Responsivo con maximo de ancho de 820px*/
+@media only screen and (max-width: 820px) {
+    input.buscador {
+        top: -3vh !important;
+        left: 70vw;
+    }
+
+    .estilo-btn-naranja {
+        top: -3vh !important;
+        
+    }
+
+    .filtroEstado {
+        top: -4.5vh;
+        left: 39vw;
+    }
+    /* Ajustar la tabla */
+    .table {
+        font-size: 16px;
+    }
+
+    /* Ajustar tamaño de cuadro grande blanco */
+    .modulos {
+        position: relative;
+        left: -4vh;
+        height: 80vh !important;
+    }
+
+    /* Ajustar tabla*/
+    .table td, .table th {
+        padding: 4px; /* Reducir el espaciado entre celdas */
+    }
+
+    
+    td:nth-child(6), /* Columna de pagoDomicilio */
+    th:nth-child(6) {
+        display: none;
+    }
+
+    svg {
+        width: 1.5em
+    }
+
+    .fas .fa-bars    {
+        position: relative;
+        left: 10vw;
+    }
+}

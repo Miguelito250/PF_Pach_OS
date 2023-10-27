@@ -57,8 +57,11 @@ namespace PF_Pach_OS.Controllers
         [HttpPost]
         public IActionResult Create([Bind(Prefix = "Item1")] DetallesCompra detallecompra, [Bind(Prefix = "Item2")] Compra compra, Insumo insumo)
         {
+            
             if (detallecompra.IdInsumo != null && detallecompra.Cantidad != null)
             {
+
+               
                 // Obtiene todos los detalles de compra para la misma compra
                 var detallesCompra = context.DetallesCompras
                     .Where(d => d.IdCompra == detallecompra.IdCompra)
