@@ -55,7 +55,10 @@
             <div>
                 <div class="w-100 d-flex flex-column mb-3 align-items-center ">
                     <p class="w-100 h4 mb-3 text-center"><strong>PACH_OS</strong></p>
+                    <p id="reloj" style="padding:0px"></p>
+                    <span id="Empleado"><strong>Empleado: </strong>@ViewBag.NombreUsuario</span>
                 </div>
+                <hr />
                 @*-----Ingresar numero de Factura-----*@
                 <div class="">
                     <p class="mb-0"><strong>Numero de factura</strong></p>
@@ -65,22 +68,8 @@
                     </div>
                     <div class="valid-feedback">
                     </div>
-
                 </div>
-                <hr style="margin-top: 0.6rem; margin-bottom:0.6rem" />
-                @*-----SELECCIONAR EMPLEADO-----*@
-                <div class="">
-                    <p class="mb-0"><strong>Empleado</strong></p>
-                    <select id="Empleado" class="form-select" asp-for="Item2.IdEmpleado" asp-items="@(new SelectList(ViewBag.Empleados, "IdEmpleado", "Nombre"))" title="Aqui puede seleccionar el empleado que esta registrado la compra" required>
-                        <option value="" selected>Elige una opción</option>
-                    </select>
-                    <div id="EmpleadoFeedback" class="invalid-feedback">
-                        Por favor, elige una opción.
-                    </div>
-                    <div class="valid-feedback">
-                    </div>
-                </div>
-                <hr style="margin-top: 0.6rem; margin-bottom:0.6rem" />
+                <hr/>
                 @*-----SELECCIONAR PROVEEDOR-----*@
                 <div class="">
                     <p class="mb-0"><strong>Proveedor</strong></p>
@@ -93,7 +82,7 @@
                     <div class="valid-feedback">
                     </div>
                 </div>
-                <hr style="margin-top: 0.6rem; margin-bottom:0.6rem" />
+                <hr />
                 @*-----TOTAL GRANDE DE LA FACRUTA-----*@
                 <input type="hidden" asp-for="Item2.Total" value="@total" />
             </div>
@@ -306,7 +295,5 @@
             InsumoFeedback.textContent = 'Por favor, Escoja una opcion.';
         }
     }); 
-
-    
 </script>   
 
