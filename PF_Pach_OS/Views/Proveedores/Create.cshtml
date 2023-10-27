@@ -18,7 +18,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <label asp-for="Nit" class="control-label"></label>
+                <label asp-for="Nit" class="control-label">
+                </label>
                 <input asp-for="Nit" class="form-control" maxlength="10" required />
                 <span id="nitResult" class="text-danger"></span>
                 <span asp-validation-for="Nit" class="text-danger"></span>
@@ -31,7 +32,7 @@
                 <label asp-for="NomLocal" class="control-label">Nombre Local</label>
                 <input asp-for="NomLocal" class="form-control" maxlength="30" required />
                 <div class="invalid-feedback" id="nomlocal-feedback">
-                    Por favor rellene el campo.
+                    Por favor ingrese el nombre.
                 </div>
                 <div class="valid-feedback">
                 </div>
@@ -41,7 +42,7 @@
                 <label asp-for="Direccion" class="control-label"></label>
                 <input asp-for="Direccion" class="form-control" maxlength="30" required />
                 <div class="invalid-feedback">
-                    Por favor ingrese la direccion correcta.
+                    Por favor ingrese la direccion.
                 </div>
                 <div class="valid-feedback">
                 </div>
@@ -51,7 +52,7 @@
                 <label asp-for="Telefono" class="control-label"></label>
                 <input asp-for="Telefono" class="form-control" maxlength="10" required />
                 <div class="invalid-feedback">
-                    Por favor ingrese el telefono
+                    Por favor ingrese el telefono.
                 </div>
                 <div class="valid-feedback">
                 </div>
@@ -61,7 +62,7 @@
                 <label asp-for="Correo" class="control-label"></label>
                 <input asp-for="Correo" class="form-control" maxlength="30" required />
                 <div class="invalid-feedback">
-                    Por favor ingrese el correo
+                    Por favor ingrese el correo.
                 </div>
                 <div class="valid-feedback">
                 </div>
@@ -73,7 +74,19 @@
         </form>
     </div>
 </div>
+<script>
+    document.getElementById('TipoDocumento').addEventListener('change', function () {
+        var tipoDocumento = this.value;
+        var labelForNit = document.querySelector('label[for="Nit"]');
 
+        // Modificar el contenido del label según el tipo de documento seleccionado
+        if (tipoDocumento === 'Cédula') {
+            labelForNit.textContent = 'Cédula';
+        } else if (tipoDocumento === 'NIT') {
+            labelForNit.textContent = 'NIT';
+        }
+    });
+</script>
 <script>
 
     (function () {
@@ -118,12 +131,111 @@
         }
     });
     </script>
+<script>
+    $('#btnRegistrar').on('click', function (e) {
+        e.preventDefault();
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1700,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
 
+        // Se validan todos los campos para que no se puedan enviar vacíos
+        if ($('#Nit').val() === '' || $('#NomLocal').val() === '' || $('#Direccion').val() === '' || $('#Telefono').val() === '' || $('#Correo').val() === '') {
+            // Resalta los campos vacíos en rojo utilizando Bootstrap
+            $('#Nit, #NomLocal, #Direccion, #Telefono, #Correo').addClass('is-invalid');
+
+            Toast.fire({
+                icon: 'error',
+                title: 'Formulario inválido'
+            });
+            return;
+        }
+
+        // Realiza la validación AJAX para verificar la existencia del NIT
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("IsNitAvailable", "Proveedores")',
+            data: { Nit: $('#Nit').val() },
+            success: function (isNitAvailable) {
+                if (isNitAvailable) {
+                    
+                    $('#nitResult').text('');
+                    $('#Nit').removeClass('is-invalid').addClass('is-valid');
+
+                    
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("Create", "Proveedores")',
+                        data: $('#formulario').serialize(),
+                        success: function (data) {
+                            console.log(data)
+                            if (data === "success") {
+                                var mensajeAlerta = "Proveedor registrado";
+                                Swal.fire({
+                                    title: '¡Éxito!',
+                                    text: mensajeAlerta,
+                                    timer: 2400,
+                                    icon: 'success',
+                                    showConfirmButton: false,
+                                }).then(function () {
+                                    location.reload(true);
+                                });
+                                $('#myModal').modal('hide');
+                            } else {
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: 'Formulario inválido'
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'No se pudo crear el proveedor'
+                            });
+                        }
+                    });
+                } else {
+                    
+                    $('#nitResult').text('Documento registrado.');
+                    $('#Nit').removeClass('is-valid').addClass('is-invalid');
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'El NIT ya existe'
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error de validación del NIT'
+                });
+            }
+        });
+    });
+
+
+
+</script>
+    
 
 
 @*<div>
     <a asp-action="Index">Back to List</a>
 </div>*@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="~/js/proveedores/proveedormensaje.js"></script>
 <script src="~/js/Proveedores/Validaciones.js"></script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

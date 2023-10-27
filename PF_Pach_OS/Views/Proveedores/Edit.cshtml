@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="NomLocal" class="control-label"></label>
-                <input asp-for="NomLocal" class="form-control" />
+                <input asp-for="NomLocal" class="form-control" maxlength="30" />
                 <div class="invalid-feedback" id="nomlocal-feedback">
                     Por favor rellene el campo.
                 </div>
@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" />
+                <input asp-for="Direccion" class="form-control" maxlength="30" />
                 <div class="invalid-feedback" id="nomlocal-feedback">
                     Por favor rellene el campo.
                 </div>
@@ -46,7 +46,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" />
+                <input asp-for="Telefono" class="form-control" maxlength="10" />
                 <div class="invalid-feedback" id="nomlocal-feedback">
                     Por favor rellene el campo.
                 </div>
@@ -56,9 +56,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="Correo" class="control-label"></label>
-                <input asp-for="Correo" class="form-control" />
+                <input asp-for="Correo" class="form-control" maxlength="30" />
                 <div class="invalid-feedback" id="nomlocal-feedback">
-                    Por favor rellene el campo.
+                    Por favor ingrese un correo valido.
                 </div>
                 <div class="valid-feedback">
                 </div>
