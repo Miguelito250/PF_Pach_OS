@@ -123,6 +123,9 @@
         if (numFactura.trim() === '') {
             NumeroFactura.classList.add('is-invalid');
             NumeroFeedback.textContent = 'Por favor ingrese el código de la factura.';
+        } else if (/^\s/.test(numFactura)) {
+            NumeroFactura.classList.add('is-invalid');
+            NumeroFeedback.textContent = 'No se puede comenzar con un espacio en blanco.';
         }
         // Validar longitud del nombre
         else if (numFactura.length < 3 || numFactura.length > 20) {
@@ -347,7 +350,12 @@ document.addEventListener('DOMContentLoaded', function () {
             PrecioCompra.classList.add('is-invalid');
             PrecioFeedback.textContent = 'Por favor, ingrese la precio del insumo';
             cambiarClaseBotonAgregar();
-        } else if (!esNumerico) {
+        } else if (/^\s/.test(Precio)) {
+            PrecioCompra.classList.add('is-invalid');
+            PrecioFeedback.textContent = 'No puede tener espacio en blanco.';
+            cambiarClaseBotonAgregar();
+        }
+        else if (!esNumerico) {
             PrecioCompra.classList.add('is-invalid');
             PrecioFeedback.textContent = 'No se pueden ingresar letras';
             cambiarClaseBotonAgregar();

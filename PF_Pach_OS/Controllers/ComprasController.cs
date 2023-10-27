@@ -66,13 +66,12 @@ namespace PF_Pach_OS.Controllers
             {
                 Console.WriteLine("Aqui esta el error");
                 var proveedor = await context.Proveedores.ToListAsync();
-                var empleado = await context.Empleados.ToListAsync();
                 if (proveedor.Count() > 0)
                 {
                     Console.WriteLine("Aqui esta el error 2");
                     compra.IdProveedor = proveedor[0].IdProveedor;
                     compra.FechaCompra = DateTime.Parse(DateTime.Today.ToString("D"));
-                    compra.IdEmpleado = empleado[0].IdEmpleado;
+                    compra.IdEmpleado = 0;
                     compra.Total = 0;
                     compra.NumeroFactura = compra.NumeroFactura;
                     context.Add(compra);

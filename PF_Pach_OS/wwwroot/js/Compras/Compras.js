@@ -32,11 +32,15 @@
                 var purchaseDate = $(this).find('td:eq(1)').text().trim().toLowerCase();
                 var provider = $(this).find('td:eq(0)').text().trim().toLowerCase();
                 var employee = $(this).find('td:eq(2)').text().trim().toLowerCase();
+                var totalCompra = $(this).find('td:eq(3)').text().trim().toLowerCase(); // Agregado
+                var empleado = $(this).find('td:eq(4)').text().trim().toLowerCase(); // Agregado
 
                 if (
                     purchaseDate.includes(searchText) ||
                     provider.includes(searchText) ||
-                    employee.includes(searchText)
+                    employee.includes(searchText) ||
+                    totalCompra.includes(searchText) ||  // Agregado
+                    empleado.includes(searchText)  // Agregado
                 ) {
                     $(this).show();
                 } else {
