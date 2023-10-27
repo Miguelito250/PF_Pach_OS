@@ -13,8 +13,8 @@ namespace PF_Pach_OS.Controllers
     public class AspNetUsersController : Controller
     {
         private readonly Pach_OSContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
-        public AspNetUsersController(Pach_OSContext context, UserManager<IdentityUser> userManager)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public AspNetUsersController(Pach_OSContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
