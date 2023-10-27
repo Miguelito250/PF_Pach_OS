@@ -4,7 +4,8 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "API_SEND_GRID": "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"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7229;http://localhost:5170"

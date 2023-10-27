@@ -42,7 +42,7 @@ namespace PF_Pach_OS.Controllers
                 _context.SaveChanges();
             }
 
-            return View();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

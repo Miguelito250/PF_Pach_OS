@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Models
 {
@@ -639,5 +640,7 @@ namespace PF_Pach_OS.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<PF_Pach_OS.Models.AspNetUser>? AspNetUser { get; set; }
     }
 }

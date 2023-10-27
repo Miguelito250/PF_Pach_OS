@@ -76,7 +76,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
 
             [Required]
             [Display(Name = "Dia de Entrada")]
-            public string EntryDay { get; set; }
+            public DateTime EntryDay { get; set; }
 
             [Required]
             [EmailAddress(ErrorMessage = "Por favor, ingrese una dirección de correo electrónico válida.")]
@@ -93,6 +93,8 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             [Display(Name = "Confirmar contraseña")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+           
 
             [Required]
             public string? Role { get; set; }
@@ -130,6 +132,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                         IdRol = parsedId;
                     }
                 }
+               
                 var user = new ApplicationUser
                 {
                     DocumentType = Input.DocumentType,
@@ -137,14 +140,17 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
                     UserName = Input.Email,
-                    Email = Input.Email,
+                    Email = Input.Email,                
                     State = 1,
+                    EntryDay = Input.EntryDay,
                     Id_Rol = IdRol
+                   
                 };
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 user.EmailConfirmationToken = code;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -158,7 +164,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToAction ("index" , "AspNetUsers");
                     }
                     else
                     {
@@ -172,7 +178,6 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
     }

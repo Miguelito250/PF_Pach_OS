@@ -2,9 +2,11 @@
 //Fecha se reación: 10 de agosto del 2023
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,7 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
+    [Authorize(Roles = "Admin, gerente")]
     public class ProductosController : Controller
     {
         private readonly Pach_OSContext _context;
@@ -23,7 +26,7 @@ namespace PF_Pach_OS.Controllers
             _context = context;
         }
 
-        // Esta Función Permite eliminar los insumos asosiados a un producto 
+        
         public void Eliminar_Receta(int id_Productos)
         {
             var reseta = _context.Recetas;
