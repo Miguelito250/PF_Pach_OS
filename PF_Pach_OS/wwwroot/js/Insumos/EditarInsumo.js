@@ -46,6 +46,9 @@ function validarNomInsumo() {
     if (nomInsumo.trim() === '') {
         nomInsumoInput.classList.add('is-invalid');
         nomInsumoFeedback.textContent = 'Por favor ingrese el nombre del insumo.';
+    } else if (/^\s/.test(nomInsumo)) {
+        nomInsumoInput.classList.add('is-invalid');
+        nomInsumoFeedback.textContent = 'No se puede comenzar con un espacio en blanco.';
     }
     // Validar si el campo contiene números
     else if (/\d/.test(nomInsumo)) {
