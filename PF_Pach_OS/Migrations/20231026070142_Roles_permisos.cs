@@ -113,6 +113,44 @@ namespace PF_Pach_OS.Migrations
                 table: "permisos",
                 columns: new[] { "nom_permiso" },
                 values: new object[] { "Usuarios" });
+
+            migrationBuilder.InsertData(
+                table: "roles",
+                columns: new[] { "nom_rol" },
+                values: new object[] { "Administrador" });
+
+            migrationBuilder.InsertData(
+                table: "Rol_permisos",
+                columns: new[] { "Id_rol", "Id_permiso" },
+                values: new object[] { 1, 1 });
+            migrationBuilder.InsertData(
+                table: "Rol_permisos",
+                columns: new[] { "Id_rol", "Id_permiso" },
+                values: new object[] { 1, 2 });
+            migrationBuilder.InsertData(
+                table: "Rol_permisos",
+                columns: new[] { "Id_rol", "Id_permiso" },
+                values: new object[] { 1, 3 });
+            migrationBuilder.InsertData(
+                table: "Rol_permisos",
+                columns: new[] { "Id_rol", "Id_permiso" },
+                values: new object[] { 1, 4 });
+            migrationBuilder.InsertData(
+                table: "Rol_permisos",
+                columns: new[] { "Id_rol", "Id_permiso" },
+                values: new object[] { 1, 5 });
+            migrationBuilder.InsertData(
+                table: "Rol_permisos",
+                columns: new[] { "Id_rol", "Id_permiso" },
+                values: new object[] { 1, 6 });
+            migrationBuilder.InsertData(
+                table: "Rol_permisos",
+                columns: new[] { "Id_rol", "Id_permiso" },
+                values: new object[] { 1, 7 });
+            migrationBuilder.InsertData(
+                table: "Rol_permisos",
+                columns: new[] { "Id_rol", "Id_permiso" },
+                values: new object[] { 1, 8 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
