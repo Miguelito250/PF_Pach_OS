@@ -26,10 +26,10 @@ namespace PF_Pach_OS.Controllers
         // GET: Insumos
         public async Task<IActionResult> Index()
         {
-            return _context.Insumos != null ?
-                        View(await _context.Insumos.ToListAsync()) :
-                        Problem("Entity set 'Pach_OSContext.Insumos'  is null.");
-
+              return _context.Insumos != null ? 
+                          View(await _context.Insumos.ToListAsync()) :
+                          Problem("Entity set 'Pach_OSContext.Insumos'  is null.");
+            
         }
 
 
@@ -127,7 +127,7 @@ namespace PF_Pach_OS.Controllers
 
 
 
-
+        
         public IActionResult HabilitarDeshabilitar(int? id)
         {
             if (id == null || _context.Insumos == null)
@@ -158,9 +158,7 @@ namespace PF_Pach_OS.Controllers
             if (insumo.Estado == 1)
             {
                 insumo.Estado = 0;
-            }
-            else
-            {
+            }else{
                 insumo.Estado = 1;
             }
 
@@ -244,7 +242,7 @@ namespace PF_Pach_OS.Controllers
 
         private bool InsumoExists(int id)
         {
-            return (_context.Insumos?.Any(e => e.IdInsumo == id)).GetValueOrDefault();
+          return (_context.Insumos?.Any(e => e.IdInsumo == id)).GetValueOrDefault();
         }
     }
 }

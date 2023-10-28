@@ -5,10 +5,6 @@ namespace PF_Pach_OS.Models
 {
     public partial class Empleado
     {
-        public Empleado()
-        {
-            Venta = new HashSet<Venta>();
-        }
 
         public int IdEmpleado { get; set; }
         public string? TipoDocumento { get; set; }
@@ -19,7 +15,5 @@ namespace PF_Pach_OS.Models
         public string? Celular { get; set; }
         public string? Correo { get; set; }
         public string? Estado { get; set; }
-
-        public virtual ICollection<Venta> Venta { get; set; }
     }
 }

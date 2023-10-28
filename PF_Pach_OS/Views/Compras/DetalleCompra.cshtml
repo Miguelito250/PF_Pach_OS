@@ -6,7 +6,7 @@
     List<DetallesCompra> listaDetalles = ViewBag.listaDetalles;
     Layout = null;
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" ></script>
     <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
 }
 
@@ -29,7 +29,7 @@
                 <tr>
                     <td>@Html.DisplayFor(model => model.IdCompraNavigation.IdProveedorNavigation.NomLocal)</td>
                     <td>@(Model.IdCompraNavigation.FechaCompra.HasValue ? Model.IdCompraNavigation.FechaCompra.Value.ToString("d/M/yyyy") : "Sin Fecha")</td>
-                    <td>@ViewBag.Empleado.Nombre</td>
+                    <td>@ViewBag.IdEmpleado</td>
                 </tr>
             </tbody>
         </table>
@@ -50,12 +50,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var compra in listaDetalles)
+                @foreach(var compra in listaDetalles)
                 {
                     <tr>
                         <td>@compra.IdInsumoNavigation.NomInsumo</td>
                         <td>
-                            @(compra.PrecioInsumo.HasValue ? (compra.PrecioInsumo % 1 == 0 ? ((decimal)compra.PrecioInsumo).ToString("C0").Replace(",", ".") : ((decimal)compra.PrecioInsumo).ToString("C2").Replace(",", ".")) : "Sin Precio")
+                            @(compra.PrecioInsumo.HasValue ?(compra.PrecioInsumo % 1 == 0 ? ((decimal)compra.PrecioInsumo).ToString("C0").Replace(",", ".") : ((decimal)compra.PrecioInsumo).ToString("C2").Replace(",", ".")) :"Sin Precio")
                         </td>
                         <td>@compra.Cantidad</td>
                         <td>@compra.Medida</td>

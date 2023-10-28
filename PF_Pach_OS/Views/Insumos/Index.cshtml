@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<PF_Pach_OS.Models.Insumo>
 
-@*-----GUIA-----*@
+  @*-----GUIA-----*@
 @*Linea 17 - Librerias*@
 @*Linea 28 - Boton Crear*@
 @*Linea 32 - Buscador*@
@@ -19,44 +19,42 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <link href="~/css/compras.css" rel="stylesheet" />
+    <link href="~/css/insumos/insumos.css" rel="stylesheet" />
     <script src="~/js/insumos/insumos.js"></script>
 }
 
 
 
 @*----------------------------------------------------------------------BOTON DE REGISTRO DE COMPRA----------------------------------------------------------------------*@
-@*Se encuentra situado en la esquina superior izquierda de la pantalla despues del sidebar*@
+                                    @*Se encuentra situado en la esquina superior izquierda de la pantalla despues del sidebar*@
 <button type="button" class="btn-crear-posicion estilo-btn-naranja" data-toggle="modal" data-target="#createModal" title="Resitrar insumo">Registrar insumo</button>
 
 @*----------------------------------------------------------------------BUSCADOR DE INSUMOS----------------------------------------------------------------------*@
-@*Se encuentra situado en la esquina superior derecha de la pantalla*@
+                                            @*Se encuentra situado en la esquina superior derecha de la pantalla*@
 <input title="busca el insumo que necesites" type="text" class="buscador" id="searchInput" placeholder="Buscar" aria-label="Buscar" aria-describedby="search-addon">
 
 @*----------------------------------------------------------------------DIV DE CUADRO BLANCO DE FONDO----------------------------------------------------------------------*@
 <div class="mt-4 border rounded bg-white h-100 overflow-scroll">
 
     @*----------------------------------------------------------------------TABLA DE INSUMOS----------------------------------------------------------------------*@
-    @*En esta se muestra la infomacion de los insumos registrados y
-    tiene 5 colunmas, en las primeras 4 estan los datos del insumo,
-    y la ultima(5ta) es la columna de acciones en la que se puede dehabilitar
-    o habilidar un insumo, y tambien se puede editar el insumo*@
+    @*En esta se muestra la infomacion de los insumos registrados y 
+      tiene 5 colunmas, en las primeras 4 estan los datos del insumo,
+      y la ultima(5ta) es la columna de acciones en la que se puede dehabilitar
+      o habilidar un insumo, y tambien se puede editar el insumo*@
 
     <table id="miTabla" class="table mb-0 table-bordered table-striped">
         @*-----TABLA - ETIQUETA THEAD-----*@
         <thead>
             <tr class="table-warning">
-                <td>Nombre de insumo</td>
-                <td>Cantidad del insumo</td>
-                <td>Medida</td>
-                <td>Acciones</td>
+                <th>Nombre de insumo</th>
+                <th>Cantidad del insumo</th>
+                <th>Medida</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         @*-----TABLA - ETIQUETA TBODY-----*@
         <tbody id="Datos">
-            @foreach (var item in Model)
-            {
+            @foreach (var item in Model){
                 <tr>
                     <td>@item.NomInsumo</td>
                     <td>@item.CantInsumo</td>
@@ -80,7 +78,7 @@
                         }
 
                         @if (item.Estado == 1)
-                        {
+                            {
                             <button class="btn btn-link" data-toggle="modal" data-target="#editarInsumoModal" data-idinsumo="@item.IdInsumo" title="Editar insumo">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="orange" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -183,8 +181,8 @@ que se utiliza para la edicion de los insumos existentes*@
 
             <div class="modal-body" id="editarInsumoModalBody">
                 @*El contenido de esta ventana modal es el formulario
-                que se utilza para editar los insumos,
-                este contenido se encuentra en la ruta\View\Insumos\_EditarInsumo*@
+                  que se utilza para editar los insumos,
+                  este contenido se encuentra en la ruta\View\Insumos\_EditarInsumo*@
             </div>
         </div>
     </div>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PF_Pach_OS.Models;
 
@@ -7,9 +8,13 @@ namespace PF_Pach_OS.Controllers
     public class DetalleCompraController : Controller
     {
         private Pach_OSContext context = new Pach_OSContext();
-        public DetalleCompraController(Pach_OSContext context)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public DetalleCompraController(Pach_OSContext context, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             this.context = context;
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -19,7 +24,6 @@ namespace PF_Pach_OS.Controllers
 
         public async Task<IActionResult> Create(int id)
         {
-
 
             string? _urlData = HttpContext.Request.Path.Value;
             string[] splitData = _urlData.Split('/');
@@ -41,13 +45,14 @@ namespace PF_Pach_OS.Controllers
                         Detalle.Medida,
                         Detalle.IdDetallesCompra,
                         Detalle.IdCompra,
-                        Total = Detalle.PrecioInsumo
+                        Total =Detalle.PrecioInsumo
                     })
                 .ToList();
 
-
+            var nombreUsuario = _userManager.GetUserAsync(User).Result.FirstName;
+            ViewBag.NombreUsuario = nombreUsuario;
             ViewBag.Detalles = detallescompras;
-            ViewBag.Insumos = await context.Insumos.Select(x => new { x.IdInsumo, x.NomInsumo, x.Estado, x.Medida }).ToListAsync();
+            ViewBag.Insumos = await context.Insumos.Select(x => new { x.IdInsumo, x.NomInsumo,x.Estado,x.Medida }).ToListAsync();
             ViewBag.Proveedores = await context.Proveedores.Select(x => new { x.IdProveedor, x.NomLocal }).ToListAsync();
             ViewBag.Empleados = await context.Empleados.Select(x => new { x.IdEmpleado, x.Nombre }).ToListAsync();
             Tuple<DetallesCompra, Compra, Insumo> models = new Tuple<DetallesCompra, Compra, Insumo>(new DetallesCompra(), new Compra(), new Insumo());
@@ -57,8 +62,11 @@ namespace PF_Pach_OS.Controllers
         [HttpPost]
         public IActionResult Create([Bind(Prefix = "Item1")] DetallesCompra detallecompra, [Bind(Prefix = "Item2")] Compra compra, Insumo insumo)
         {
+
             if (detallecompra.IdInsumo != null && detallecompra.Cantidad != null)
             {
+
+               
                 // Obtiene todos los detalles de compra para la misma compra
                 var detallesCompra = context.DetallesCompras
                     .Where(d => d.IdCompra == detallecompra.IdCompra)
@@ -192,7 +200,7 @@ namespace PF_Pach_OS.Controllers
             await context.SaveChangesAsync();
 
             return Redirect($"/DetalleCompra/Create/{detallecompra.IdCompra}");
-
+            
 
         }
 
@@ -243,7 +251,6 @@ namespace PF_Pach_OS.Controllers
                     return Redirect($"/DetalleCompra/Create/{compra.IdCompra}");
                 }
                 Compra.IdProveedor = compra.IdProveedor;
-                Compra.IdEmpleado = compra.IdEmpleado;
                 Compra.Total = compra.Total;
                 Compra.NumeroFactura = OrtografiaFactura(compra.NumeroFactura);
                 context.Update(Compra);
@@ -274,11 +281,11 @@ namespace PF_Pach_OS.Controllers
                         orden.Cantidad,
                         orden.PrecioInsumo,
                         orden.Medida,
-                        Total = orden.PrecioInsumo,
+                        Total =orden.PrecioInsumo,
                         orden.IdDetallesCompra,
                         orden.IdCompra
                     }).ToList();
-            var compra = context.Compras.Where(o => o.IdCompra == IdCompra).Select(x => new { x.IdCompra, x.IdProveedor, x.IdEmpleado, x.FechaCompra, x.Total }).ToList();
+            var compra = context.Compras.Where(o => o.IdCompra == IdCompra).Select(x => new { x.IdCompra, x.IdProveedor,x.IdEmpleado, x.FechaCompra, x.Total }).ToList();
             ViewBag.Detalles = Ordenes;
             ViewBag.IdCompra = IdCompra;
             foreach (var item in compra)
@@ -287,7 +294,7 @@ namespace PF_Pach_OS.Controllers
             }
 
             return View();
-
+            
         }
 
         public async Task<IActionResult> Delete(String id, int otroId, int cantidad, int idinsumo, string medida)
@@ -312,13 +319,11 @@ namespace PF_Pach_OS.Controllers
                     {
                         var convercion = cantidad * 1000;
                         insumo.CantInsumo -= convercion;
-                    }
-                    else if (medida == "Libras")
+                    }else if (medida == "Libras")
                     {
                         var convercion = cantidad * 454;
                         insumo.CantInsumo -= convercion;
-                    }
-                    else if (medida == "Litros")
+                    }else if (medida == "Litros")
                     {
                         var convercion = cantidad * 1000;
                         insumo.CantInsumo -= convercion;
