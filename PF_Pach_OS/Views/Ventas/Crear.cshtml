@@ -60,14 +60,14 @@
                             <td>@detalles.CantVendida</td>
                             <td>
                                 @(detalles.Precio.HasValue ? (detalles.Precio % 1 == 0
-                                    ? ((decimal)detalles.Precio).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
-                                    : ((decimal)detalles.Precio).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                                    ? ((decimal)detalles.Precio).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                                    : ((decimal)detalles.Precio).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
                                     : "Sin Precio")
                             </td>
                             <td>
                                 @(totalDetalle.HasValue ? (totalDetalle % 1 == 0
-                                    ? ((decimal)totalDetalle).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
-                                    : ((decimal)totalDetalle).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                                    ? ((decimal)totalDetalle).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                                    : ((decimal)totalDetalle).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
                                     : "Sin Precio")
                             </td>
                             @if (detalles.Estado != "Descontado")
