@@ -22,8 +22,8 @@ namespace Pach_OS.Controllers
     
         public async Task<IActionResult> Index()
         {
-              return _context.Proveedores != null ? 
-                          View(await _context.Proveedores.ToListAsync()) :
+              return _context.Proveedores != null ?
+                          View(await _context.Proveedores.OrderByDescending(p => p.IdProveedor).ToListAsync()) :
                           Problem("Entity set 'Pach_OSContext.Proveedores'  is null.");
         }
 
@@ -59,17 +59,47 @@ namespace Pach_OS.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdProveedor,Nit,NomLocal,Direccion,Telefono,Correo")] Proveedore proveedore)
+        public async Task<IActionResult> Create([Bind("IdProveedor,Nit,NomLocal,Direccion,Telefono,Correo,TipoDocumento")] Proveedore proveedore)
         {
             if (ModelState.IsValid)
             {
-                proveedore.Estado = 1; 
-                _context.Add(proveedore);
+                if (proveedore.TipoDocumento == "NIT")
+                {
+                    // Lógica para crear un proveedor con NIT
+                    var proveedorConNit = new Proveedore
+                    {
+                        Nit = proveedore.Nit,
+                        NomLocal = proveedore.NomLocal,
+                        Direccion = proveedore.Direccion,
+                        Telefono = proveedore.Telefono,
+                        Correo = proveedore.Correo,
+                        TipoDocumento = proveedore.TipoDocumento,
+                        Estado = 1
+                    };
+                    _context.Add(proveedorConNit);
+                }
+                else if (proveedore.TipoDocumento == "Cédula")
+                {
+                    // Lógica para crear un proveedor con Cédula
+                    var proveedorConCedula = new Proveedore
+                    {
+                        Nit = proveedore.Nit, // Otra propiedad para Cédula
+                        NomLocal = proveedore.NomLocal,
+                        Direccion = proveedore.Direccion,
+                        Telefono = proveedore.Telefono,
+                        Correo = proveedore.Correo,
+                        TipoDocumento = proveedore.TipoDocumento,
+                        Estado = 1
+                    };
+                    _context.Add(proveedorConCedula);
+                }
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(proveedore);
         }
+
         [HttpPost]
         public IActionResult IsNitAvailable(string Nit)
         {

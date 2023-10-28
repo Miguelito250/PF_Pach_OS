@@ -30,24 +30,25 @@
         <form id="account" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div>
-                <label class="form-label">Correo</label>
+                <label asp-for="Input.Email" class="form-label">Correo: *</label>
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <span id="validacion-correo" class="text-danger"></span>
             </div>
             <div>
-                <label class="form-label">Contraseña</label>
+                <label asp-for="Input.Password" class="form-label">Contraseña : *</label>
                 <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                <span class="text-danger"></span>
             </div>
 
-            <a id="forgot-password" asp-page="./ForgotPassword">Recuperar contraseña</a>
-
-            <button id="login-submit" type="submit" class="w-100 btn botones-agregar text-light">Ingresar</button>
+            <div class="w-100" id="botonDeshabilitado" title="Complete los campos para enviar la información">
+                <button id="login-submit" type="submit" class="w-100 btn botones-agregar text-light mt-4" title="Click para iniciar sesión">Ingresar</button>
+            </div>
         </form>
+        <a id="forgot-password" asp-page="./ForgotPassword">Recuperar contraseña</a>
     </div>
 </div>
 
-<script src="/_framework/aspnetcore-browser-refresh.js"></script>
+<script src="~/js/login-recuperarcontraseña/login.js"></script>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

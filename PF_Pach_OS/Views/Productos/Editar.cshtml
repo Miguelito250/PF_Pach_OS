@@ -1,0 +1,183 @@
+﻿@model PF_Pach_OS.Models.CreateViewModel
+
+@{
+    ViewData["Title"] = "Actualizar";
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+}
+<link href="~/css/productos.css" rel="stylesheet" />
+
+<div class="row pl-2 pt-2">
+
+    <div class="col-4 ml-3 p-2 bg-white rounded border px-4 py-4">
+        <form method="post" asp-action="Actualizar_Producto" asp-controller="Productos" class="needs-validation" novalidate id="formulario1">
+            <h2>Producto</h2>
+            <hr>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.IdProducto" />
+            <div class="form-group">
+                <label class="form-label">Producto</label>
+                @if (ViewBag.ProductoActivo == null)
+                {
+                    <input asp-for="Producto.NomProducto" class="form-control" title=" " required />
+                }
+                else
+                {
+                    <input asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" class="form-control" title=" " required />
+                }
+                <div class="invalid-feedback"></div>
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Producto.PrecioVenta" class="form-label">Precio</label>
+
+                @if (ViewBag.ProductoActivo == null)
+                {
+                    <input asp-for="Producto.PrecioVenta" class="form-control" title=" " required />
+
+                }
+                else
+                {
+                    <input asp-for="Producto.PrecioVenta" value="@ViewBag.ProductoActivo.PrecioVenta" class="form-control" required />
+
+                }
+                <div class="invalid-feedback"></div>
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Producto.IdCategoria" class="form-label">Categoria</label>
+                <select class="form-select" id="Producto_IdCategoria" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria" required>
+                    @if (ViewBag.SelectCategoriaID == null)
+                    {
+                        <option disabled selected>Seleccione una categoria</option>
+
+                    }
+                    else
+                    {
+                        <option value="@ViewBag.SelectCategoriaID">@ViewBag.SelectCategoria</option>
+
+                    }
+                </select>
+
+                <div class="invalid-feedback"></div>
+                <div class="valid-feedback">¡Todo bien!</div>
+            </div>
+
+            <div id="Tamano_Oculto" class="d-none form-group">
+                <label asp-for="Producto.IdTamano" class="form-label">Tamaño</label>
+                <select class="form-select" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
+                    @if (ViewBag.SelectTamanoID == null)
+                    {
+                        <option disabled selected>Seleccione un Tamaño</option>
+
+                    }
+                    else
+                    {
+                        <option value="@ViewBag.SelectTamanoID">@ViewBag.SelectTamano</option>
+
+                    }
+                </select>
+
+                <div class="invalid-feedback">Selecione un tamaño por favor.</div>
+
+            </div>
+            <div class="col">
+                <input type="submit" class="col-6 botones-agregar btn btn-success w-auto"  />
+                <a asp-action="Index" asp-controller="Productos" class="col-6 btn btn-outline-danger">Cancelar</a>
+            </div>
+        </form>
+
+
+    </div>
+    <div class="col-6 mr-2 ml-5 mt-4">
+        <div>
+            <h2>Receta</h2>
+
+            <form id="miFormulario" class="row" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Receta.IdProducto" value="@ViewBag.Idproducto">
+                <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.Idproducto" />
+                <input type="hidden" id="nom_Pro" asp-for="Producto.NomProducto" value="" />
+                <input type="hidden" id="pre_Pro" asp-for="Producto.PrecioVenta" value="" />
+                <input type="hidden" id="cat_Pro" asp-for="Producto.IdCategoria" value="" />
+                <input type="hidden" id="tam_Pro" asp-for="Producto.IdTamano" value="" />
+
+
+                <div class="col-6">
+                    <select class="form-control" asp-for="Receta.IdInsumo" required>
+                        <option disabled selected>Seleccione un insumo</option>
+                        @foreach (var insu in ViewBag.Insumo)
+                        {
+                            <option value="@insu.IdInsumo"> @insu.NomInsumo / @insu.Medida </option>
+                        }
+                    </select>
+                    <div class="invalid-feedback"></div>
+
+                </div>
+
+                <div class="col-3">
+                    <input class="input-campo form-control" asp-for="Receta.CantInsumo" type="number" placeholder="Cantidad" required>
+                    <div class="invalid-feedback"></div>
+
+                </div>
+
+                <div class="col-3">
+                    <button type="submit" class="form-control btn btn-primary botones-agregar"> Agregar </button>
+                </div>
+            </form>
+        </div>
+        <div class="mt-4 border rounded bg-white">
+
+
+
+            @if (ViewBag.RecetasConInsumos == null)
+            {
+                <h4>No hay insumos de receta</h4>
+            }
+            else
+            {
+                <table id="miTabla" class="table table-borderless mb-0">
+                    <thead>
+                        <tr class="text-gray bg-gray-300">
+                            <th>Insumo</th>
+                            <th>Cantidad</th>
+                            <th>Medida</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tbody id="Tabla1">
+                            @foreach (var recetaConInsumo in ViewBag.RecetasConInsumos)
+                            {
+                            <tr>
+
+                                <td class="d-none">@recetaConInsumo.IdInsumo </td>
+                                <td>@recetaConInsumo.NomInsumo</td>
+                                <td id="CantInsumo">@recetaConInsumo.CantInsumo</td>
+                                <td>@recetaConInsumo.Medida</td>
+                                <td>
+                                    <button class="btn btn-outline-danger" onclick="ocultarFila(this)">Remover</button>
+                                    
+                                </td>
+                                <td class="d-none">@recetaConInsumo.IdReceta </td>
+                            </tr>
+
+
+                            }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Productos/Editar.js"></script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

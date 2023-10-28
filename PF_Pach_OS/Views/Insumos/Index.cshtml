@@ -1,102 +1,160 @@
 ﻿@model IEnumerable<PF_Pach_OS.Models.Insumo>
-<link href="~/css/compras.css" rel="stylesheet" />
+
+  @*-----GUIA-----*@
+@*Linea 17 - Librerias*@
+@*Linea 28 - Boton Crear*@
+@*Linea 32 - Buscador*@
+@*Linea 43 - Tabla*@
+@*Linea 87 - Modal de creacion de insumo*@
+@*Linea 142 - Modal de edicion de insumo*@
+@*Linea 172 - Scripts*@
+
+@*----------------------------------------------------------------------MANEJO DE LIBRERIAS----------------------------------------------------------------------*@
+@*Aqui se gestionan todas las librerias necesarias para que el codigo funcione,
+  al igual, tambien se llaman los archivos js y css que se necesiten para trabajar*@
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="~/css/insumos/insumos.css" rel="stylesheet" />
+    <script src="~/js/insumos/insumos.js"></script>
 }
 
-<input type="text" class="buscador" id="searchInput" placeholder="Buscar" aria-label="Buscar" aria-describedby="search-addon">
 
-<button type="button" class="btn-crear-posicion estilo-btn-naranja" data-toggle="modal" data-target="#createModal">Registrar insumo</button>
 
-<div class="mt-4 border rounded bg-white" style="max-height: 677px; overflow-y: auto;">
-    <table class="table mb-0 table-bordered table-striped">
+@*----------------------------------------------------------------------BOTON DE REGISTRO DE COMPRA----------------------------------------------------------------------*@
+                                    @*Se encuentra situado en la esquina superior izquierda de la pantalla despues del sidebar*@
+<button type="button" class="btn-crear-posicion estilo-btn-naranja" data-toggle="modal" data-target="#createModal" title="Resitrar insumo">Registrar insumo</button>
+
+@*----------------------------------------------------------------------BUSCADOR DE INSUMOS----------------------------------------------------------------------*@
+                                            @*Se encuentra situado en la esquina superior derecha de la pantalla*@
+<input title="busca el insumo que necesites" type="text" class="buscador" id="searchInput" placeholder="Buscar" aria-label="Buscar" aria-describedby="search-addon">
+
+@*----------------------------------------------------------------------DIV DE CUADRO BLANCO DE FONDO----------------------------------------------------------------------*@
+<div class="mt-4 border rounded bg-white h-100 overflow-scroll">
+
+    @*----------------------------------------------------------------------TABLA DE INSUMOS----------------------------------------------------------------------*@
+    @*En esta se muestra la infomacion de los insumos registrados y 
+      tiene 5 colunmas, en las primeras 4 estan los datos del insumo,
+      y la ultima(5ta) es la columna de acciones en la que se puede dehabilitar
+      o habilidar un insumo, y tambien se puede editar el insumo*@
+
+    <table id="miTabla" class="table mb-0 table-bordered table-striped">
+        @*-----TABLA - ETIQUETA THEAD-----*@
         <thead>
             <tr class="table-warning">
-                <td>Nombre de insumo</td>
-                <td>Cantidad del insumo</td>
-                <td>Medida</td>
+                <th>Nombre de insumo</th>
+                <th>Cantidad del insumo</th>
+                <th>Medida</th>
+                <th>Acciones</th>
             </tr>
         </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NomInsumo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CantInsumo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Medida)
-                </td>
-            </tr>
+        @*-----TABLA - ETIQUETA TBODY-----*@
+        <tbody id="Datos">
+            @foreach (var item in Model){
+                <tr>
+                    <td>@item.NomInsumo</td>
+                    <td>@item.CantInsumo</td>
+                    <td>@item.Medida</td>
+                    <td class="d-flex justify-content-center" style="width: auto;">
+                        @if (item.Estado == 1)
+                        {
+                            <a title="Deshabilita el insumo" asp-action="HabilitarDeshabilitar" asp-route-id="@item.IdInsumo" class="habilitado">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="green" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                    <circle cx="8" cy="8" r="8" />
+                                </svg>
+                            </a>
+                        }
+                        else
+                        {
+                            <a title="Habilita el insumo" asp-action="HabilitarDeshabilitar" asp-route-id="@item.IdInsumo" class="deshabilitado">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="red" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                    <circle cx="8" cy="8" r="8" />
+                                </svg>
+                            </a>
+                        }
+
+                        @if (item.Estado == 1)
+                            {
+                            <button class="btn btn-link" data-toggle="modal" data-target="#editarInsumoModal" data-idinsumo="@item.IdInsumo" title="Editar insumo">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="orange" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                </svg>
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-link" disabled data-toggle="modal" data-target="#editarInsumoModal" data-idinsumo="@item.IdInsumo" title="No se puede editar el insumo">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="orange" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                </svg>
+                            </button>
+                        }
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
 </div>
 
+
+@*----------------------------------------------------------------------VENTANA MODAL PARA CREAR INSUMO----------------------------------------------------------------------*@
+@*En esta ventana modal se encuentra el formulario
+que se utiliza para la creacion de nuevos insumos*@
+
 <div id="createModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+            @*-----MODAL - HEADER-----*@
+            @*Donde se encuentra el titulo de la ventana
+            modal y la equis para cerrar la ventana*@
             <div class="modal-header">
-                <h5 class="modal-title">Crear nuevo insumo</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title"><strong>Crear nuevo insumo</strong></h5>
+                <button title="Cerrar" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body">
-                <form asp-action="Create" class="needs-validation" novalidate>
+                @*-----MODAL - FORMULARIO-----*@
+                <form asp-action="Create" id="myForm" class="needs-validation" novalidate>
                     <div class="form-group">
-                        <label for="NomInsumo">Nombre del Insumo</label>
-                        <input type="text" class="form-control NomInsumo" id="NomInsumo" name="NomInsumo" required>
+                        <label for="NomInsumo">Nombre del Insumo *</label>
+                        <input type="text" class="form-control" id="NomInsumo" name="NomInsumo" required title="Aqui puedes ingresar el nombre del insumo que quieres crear">
                         <div id="nombreFeedback" class="invalid-feedback">
-                            Por favor llene el campo.
+                            Por favor, ingresa el nombre del insumo que quieres crear.
                         </div>
                         <div class="valid-feedback">
-                            ¡Todo bien!
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <label>Cantidad</label>
-                        <input type="number" class="form-control CantInsumo" id="CantInsumo" name="CantInsumo" required>
-                        <div class="invalid-feedback">
-                            Por favor llene el campo.
-                        </div>
-                        <div class="valid-feedback">
-                            ¡Todo bien!
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="Medida">Medida</label>
-                        <select class="form-control" id="Medida" name="Medida" required>
+                        <label for="Medida">Medida *</label>
+                        <select class="form-control" id="Medida" name="Medida" required title="Aqui puedes seleccionar la unidad de medida del insumo">
                             <option value="" selected>Elige una opción</option>
                             <option value="Gramo">Gramo</option>
+                            <option value="Kilogramo">Kilogramo</option>
                             <option value="Mililitro">Mililitro</option>
                             <option value="Onza">Onza</option>
+                            <option value="Litro">Litro</option>
                             <option value="Unidad">Unidad</option>
                         </select>
-                        <div class="invalid-feedback">
-                            Seleccione una unidad de medida.
+                        <div id="medidaFeedback" class="invalid-feedback">
+                            Por favor, elige una opción.
                         </div>
                         <div class="valid-feedback">
-                            ¡Todo bien!
                         </div>
                     </div>
-                    <div class="invalid-feedback">
-                        Por favor seleccione un insumo.
-                    </div>
-                    <div class="valid-feedback">
-                        ¡Todo bien!
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary botones-agregar">Create</button>
+                    <hr />
+                    <!-- MODAL - BOTONES -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary botones-agregar" title="Confirmar creación de insumo">Crear</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" title="Cancelar creación de insumo">Cancelar</button>
                     </div>
                 </form>
             </div>
@@ -104,106 +162,36 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        // Manejar el evento de cambio en el campo de NomInsumo
-        $('#NomInsumo').on('input', function () {
-            validateNomInsumo();
-        });
+@*----------------------------------------------------------------------VENTANA MODAL PARA EDITAR INSUMO----------------------------------------------------------------------*@
+@*En esta ventana modal se encuentra el formulario
+que se utiliza para la edicion de los insumos existentes*@
 
-        // Manejar el evento de cambio en el campo de Cantidad del insumo a crear
-        $('#CantInsumo').on('input', function () {
-            validateCantidadInsumo();
-        });
+<div class="modal fade" id="editarInsumoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            @*-----MODAL - HEADER-----*@
+            @*Donde se encuentra el titulo de la ventana
+            modal y la equis para cerrar la ventana*@
+            <div class="modal-header">
+                <span class="w-80 h4 mb-3 text-center align-items-center"><strong>Editar Insumo</strong></span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" title="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-        function validateNomInsumo() {
-            var NomInsumo = $('#NomInsumo').val();
-            var nombreFeedback = $('#nombreFeedback');
+            <div class="modal-body" id="editarInsumoModalBody">
+                @*El contenido de esta ventana modal es el formulario
+                  que se utilza para editar los insumos,
+                  este contenido se encuentra en la ruta\View\Insumos\_EditarInsumo*@
+            </div>
+        </div>
+    </div>
+</div>
 
-            if (NomInsumo === '') {
-                $('#NomInsumo').removeClass('is-valid');
-                $('#NomInsumo').addClass('is-invalid');
-                nombreFeedback.text('Por favor ingrese el nombre del insumo.');
-            } else if (!isNaN(NomInsumo)) {
-                $('#NomInsumo').removeClass('is-valid');
-                $('#NomInsumo').addClass('is-invalid');
-                nombreFeedback.text('No se pueden ingresar números.');
-            } else {
-                $('#NomInsumo').removeClass('is-invalid');
-                $('#NomInsumo').addClass('is-valid');
-                nombreFeedback.text(''); // Vaciar el mensaje de error
-            }
-        }
-
-
-        function validateCantidadInsumo() {
-            var cantidad = $('#CantInsumo').val();
-            if (cantidad === '' || isNaN(cantidad)) {
-                $('#CantInsumo').removeClass('is-valid');
-                $('#CantInsumo').addClass('is-invalid');
-            } else {
-                $('#CantInsumo').removeClass('is-invalid');
-                $('#CantInsumo').addClass('is-valid');
-            }
-        }
-
-        // Manejar el evento de submit del formulario
-        $('#createModal form').on('submit', function (event) {
-            validateNomInsumo();
-            validateCantidadInsumo();
-
-            if ($('#NomInsumo').hasClass('is-invalid') || $('#CantInsumo').hasClass('is-invalid')) {
-                event.preventDefault(); // Evitar el envío del formulario si hay errores
-                event.stopPropagation(); // Detener la propagación del evento
-                $('#NomInsumo').removeClass('is-valid');
-
-            }
-
-            $(this).addClass('was-validated'); // Agregar la clase para mostrar los estilos de validación
-        });
-
-    });
-</script>
+@*----------------------------------------------------------------------SCRIPTS - JS----------------------------------------------------------------------*@
 
 <script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function () {
-        'use strict';
-        window.addEventListener('load', function () {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
+    var indexUrl = '@Url.Action("Index")';
 </script>
 
-<script>
-    $(document).ready(function () {
-        // Manejar el evento de cambio en el campo de búsqueda mientras se escribe
-        $('#searchInput').on('input', function () {
-            var searchTerm = $(this).val().trim().toLowerCase();
 
-            // Filtrar las filas de la tabla que coincidan con el término de búsqueda
-            $('tbody tr').each(function () {
-                var productName = $(this).find('td:first').text().toLowerCase();
-
-                if (productName.includes(searchTerm)) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-        });
-    });
-</script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js%22%3E</script>

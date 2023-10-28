@@ -1,0 +1,50 @@
+﻿@model PF_Pach_OS.Models.Asignar_Permisos
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = null;
+}
+<h5 id="titulo-modal">Editar Rol</h5>
+<div class="row">
+    <div class="col-md-4">
+        <form id="formulario1">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" id="idrol" asp-for="rol.IdRol" value="@ViewBag.rol.IdRol" />
+            <div class="form-group">
+                <label asp-for="rol.NomRol" class="control-label"></label>
+                <input type="text" asp-for="rol.NomRol" value="@ViewBag.rol.NomRol" />
+            </div>
+            <div class="form-group row">
+                @if (ViewBag.Permisos != null)
+                {
+                    @foreach (var valor in (List<dynamic>)ViewBag.Permisos)
+                    {
+                        var isChecked = ((List<dynamic>)ViewBag.PermisosUsados).Any(item => item.IdPermiso == valor.id_permiso);
+                        <label class="col-2">@valor.nom_permiso</label>
+                        <input class="col-10" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" @(isChecked ? "checked" : "") />
+                    }
+
+                }
+                else
+                {
+                    <p>La lista de permisos es nula.</p>
+                }
+            </div>
+
+            <button type="submit" id="btnEnviar" class="btn btn-primary">Crear Rol</button>
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/RolPermisos/Editar.js"> </script>

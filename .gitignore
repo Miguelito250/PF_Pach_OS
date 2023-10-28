@@ -41,3 +41,24 @@ PF_Pach_OS/.vs/PF_Pach_OS/DesignTimeBuild/.dtbcache.v2
 /PF_Pach_OS/appsettings.json
 
 *.vsidx
+PF_Pach_OS/.vs/PF_Pach_OS/v17/.suo
+*.dll
+PF_Pach_OS/bin/Debug/net6.0/PF_Pach_OS.exe
+*.pdb
+*.json
+PF_Pach_OS/obj/Debug/net6.0/apphost.exe
+*.cache
+*.cache
+*.dll
+*.editorconfig
+*.cache
+*.pdb
+*.json
+*.json
+*.json
+*.json
+*.props
+*.json
+*.cache
+*.dll
+PF_Pach_OS/.vs/PF_Pach_OS/v17/.suo

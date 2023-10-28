@@ -1,0 +1,108 @@
+﻿@model PF_Pach_OS.Models.DetalleVenta
+@using System.Globalization;
+
+<link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/css/estilos-generales.css">
+@{
+    int contadorDetalles = 0;
+    List<DetalleVenta> listaDetalles = ViewBag.listaDetalles;
+    Layout = null;
+}
+
+<div>
+    <div class="w-100 d-flex flex-column mb-3 align-items-center">
+        <span class="w-80 h4 mb-3 text-center"><strong>Venta</strong></span>
+        <div class="d-flex flex-column align-items-center">
+            <span><strong>N° Venta: </strong>@Html.DisplayFor(model => model.IdVenta)</span>
+            <span><strong>Hecha por: </strong>@Html.DisplayFor(model => model.IdVentaNavigation.IdEmpleado)</span>
+            <span><strong>En la fecha: </strong>@Html.DisplayFor(model => model.IdVentaNavigation.FechaVenta)</span>
+        </div>
+
+    </div>
+
+    <div>
+        <table class="table  table-borderless mb-0 text-center table-bordered ">
+            <thead class="sombra">
+                <tr class="text-gray bg-gray-300">
+                    <th>Metodo Pago</th>
+                    <th>Pago Domicilio</th>
+                    <th>Recibido</th>
+                    <th>Cambio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+
+                    <td>@Html.DisplayFor(model => model.IdVentaNavigation.TipoPago)</td>
+                    <td>
+                        @(Model.IdVentaNavigation.PagoDomicilio.HasValue
+                            ? Model.IdVentaNavigation.PagoDomicilio.Value.ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                            : "Sin Precio")
+                    </td>
+                     <td>
+                        @(Model.IdVentaNavigation.Pago.HasValue
+                            ? Model.IdVentaNavigation.Pago.Value.ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                            : "Sin Precio")
+                    </td>
+                    <td>
+                        @(ViewBag.Cambio != null && ViewBag.Cambio != 0
+                            ? ((decimal)ViewBag.Cambio).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                            : "0")
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class="w-100 d-flex flex-column mb-3 align-items-center">
+        <span class="w-80 h4 mb-3 text-center"><strong>DETALLE DE VENTA</strong></span>
+    </div>
+
+    <div>
+        <table id="TablaDetalles" class="table mb-0 text-center">
+            <thead class="sombra">
+                <tr class="text-gray bg-gray-300">
+                    <th>#</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detalle in listaDetalles)
+                {
+                    var total = detalle.Precio * detalle.CantVendida;
+                    contadorDetalles += 1;
+                    <tr>
+                        <td>@contadorDetalles</td>
+                        <td>@detalle.IdProductoNavigation.NomProducto</td>
+                        <td>@detalle.CantVendida</td>
+                        <td>
+                            @(total.HasValue ? (total % 1 == 0
+                                ? ((decimal)total).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                                : ((decimal)total).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                                : "Sin Precio")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class=" d-flex flex-column align-items-center">
+    <input type="hidden" id="totalVenta" value="@Html.DisplayFor(model => model.IdVentaNavigation.TotalVenta)">
+    <span class="w-80 h2 text-center" style="margin-top:1rem">
+        <strong>
+            Total: @(Model.IdVentaNavigation.TotalVenta.HasValue
+            ? Model.IdVentaNavigation.TotalVenta.Value.ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+            : "Sin Precio")
+        </strong>
+    </span>
+</div>
+
+<script src="~/js/ventas/detallesventa.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>

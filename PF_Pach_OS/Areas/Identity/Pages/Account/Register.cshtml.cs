@@ -16,30 +16,36 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using PF_Pach_OS.Models;
+using PF_Pach_OS.Services;
+using Microsoft.AspNetCore.Server;
+using Microsoft.AspNetCore.Hosting.Server.Features;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using NuGet.Packaging.Signing;
 
 namespace PF_Pach_OS.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly Pach_OSContext _contex;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            Pach_OSContext contex)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _roleManager = roleManager;
+            _contex = contex;
         }
 
         [BindProperty]
@@ -70,10 +76,10 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
 
             [Required]
             [Display(Name = "Dia de Entrada")]
-            public string EntryDay { get; set; }
+            public DateTime EntryDay { get; set; }
 
             [Required]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "Por favor, ingrese una dirección de correo electrónico válida.")]
             [Display(Name = "Correo")]
             public string Email { get; set; }
 
@@ -87,6 +93,8 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             [Display(Name = "Confirmar contraseña")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+           
 
             [Required]
             public string? Role { get; set; }
@@ -103,11 +111,10 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
 
             Input = new InputModel()
             {
-                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
-                {
-                    Text = i,
-                    Value = i
-                })
+                RoleList = _contex.Roles.Select(role => new SelectListItem{
+                    Text = role.NomRol,
+                    Value = role.IdRol.ToString()
+                }).ToList()
             };
         }
 
@@ -117,6 +124,15 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (!ModelState.IsValid)
             {
+                int IdRol = 0; 
+                if (!string.IsNullOrEmpty(Input.Role))
+                {
+                    if (int.TryParse(Input.Role, out int parsedId))
+                    {
+                        IdRol = parsedId;
+                    }
+                }
+               
                 var user = new ApplicationUser
                 {
                     DocumentType = Input.DocumentType,
@@ -124,31 +140,31 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
                     UserName = Input.Email,
-                    Email = Input.Email,
-                    State = 1
-
+                    Email = Input.Email,                
+                    State = 1,
+                    EntryDay = Input.EntryDay,
+                    Id_Rol = IdRol
+                   
                 };
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                user.EmailConfirmationToken = code;
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await _userManager.AddToRoleAsync(user, Input.Role); 
+                   
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
+                    var callbackUrl = Url.Action("ConfirmarCorreo", "Acceso", new {idUsuario = user.Id, codigo = code}, Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirma tu email",
                         $"Por favor confirma tu cuenta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clickeando aqui</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToAction ("index" , "AspNetUsers");
                     }
                     else
                     {
@@ -162,7 +178,6 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
     }

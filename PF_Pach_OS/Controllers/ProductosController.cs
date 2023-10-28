@@ -1,30 +1,50 @@
-﻿using System;
+﻿//Autor: Juan Andres Navarro Herrera
+//Fecha se reación: 10 de agosto del 2023
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PF_Pach_OS.Models;
+using PF_Pach_OS.Services;
 
 namespace PF_Pach_OS.Controllers
-{
+{ 
+
+
+   
     public class ProductosController : Controller
     {
         private readonly Pach_OSContext _context;
+        private readonly UserManager<ApplicationUser> _UserManager;
+        private readonly SignInManager<ApplicationUser> _SignInManager;
+        public readonly PermisosController _permisosController;
 
-        public ProductosController(Pach_OSContext context)
+
+
+
+        public ProductosController(Pach_OSContext context, UserManager<ApplicationUser> UserManager, SignInManager<ApplicationUser> SignInManager)
         {
             _context = context;
+            _SignInManager = SignInManager;
+            _UserManager = UserManager;
+            _permisosController = new PermisosController(_context,_UserManager, _SignInManager) ;
         }
+
+        
         public void Eliminar_Receta(int id_Productos)
         {
-            var resta = _context.Recetas;
+            var reseta = _context.Recetas;
 
-            if (resta != null)
+            if (reseta != null)
             {
-                foreach (var rec in resta)
+                foreach (var rec in reseta)
                 {
                     if (rec.IdProducto == id_Productos)
                     {
@@ -36,11 +56,21 @@ namespace PF_Pach_OS.Controllers
             }
 
         }
-        // GET: Productos
+
+        // Elimina los regritros que poseean algun campo nulo para que no sea listado, envia una lista ordenada del mas reciente al mas antiguo
+       
         public async Task<IActionResult> Index()
         {
-            var pach_OSContext = await _context.Productos.ToListAsync();
+            var user = User;
 
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
+            var pach_OSContext = await _context.Productos.ToListAsync();
+            
             foreach (var pach in pach_OSContext)
             {
 
@@ -73,9 +103,10 @@ namespace PF_Pach_OS.Controllers
 
 
 
-        // GET: Productos/Create
-        public void ProductoActivo(int id)
+        //Envia la informacion del producto que se esta creando o actualizando es ese momento
+        private void ProductoActivo(int id)
         {
+
             var productoActivo = _context.Productos.FirstOrDefault(p => p.IdProducto == id);
 
             if (productoActivo != null)
@@ -88,13 +119,13 @@ namespace PF_Pach_OS.Controllers
                 {
 
 
-                    ViewBag.SelectC = categoriaActiva.NomCategoria;
-                    ViewBag.SelectCID = categoriaActiva.IdCategoria;
+                    ViewBag.SelectCategoria = categoriaActiva.NomCategoria;
+                    ViewBag.SelectCategoriaID = categoriaActiva.IdCategoria;
                 }
                 if (tamanoActivo != null)
                 {
-                    ViewBag.SelectT = tamanoActivo.NombreTamano;
-                    ViewBag.SelectTID = tamanoActivo.IdTamano;
+                    ViewBag.SelectTamano = tamanoActivo.NombreTamano;
+                    ViewBag.SelectTamanoID = tamanoActivo.IdTamano;
                 }
 
             }
@@ -104,9 +135,18 @@ namespace PF_Pach_OS.Controllers
             }
 
         }
-        public IActionResult Details(int IdProducto)
-        {
 
+        // Crea la informacion nesesaria para trabajar un Producto, las resetas ya relacionadas a este, se asosia los id's de resetas con los de insumos
+        //  Tambien se enivia la informacion de las categorias y tamaños en dos selects list 
+        public IActionResult CrearInformacionFormulario(int IdProducto)
+        {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             ProductoActivo(IdProducto);
             var recetas = _context.Recetas.ToList();
             var insumos = _context.Insumos.ToList();
@@ -126,23 +166,30 @@ namespace PF_Pach_OS.Controllers
             ViewBag.NombreTamano = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
             ViewBag.Insumo = _context.Insumos;
             ViewBag.IdProducto = IdProducto;
-            return View("Create");
+            return View("Crear");
         }
 
 
-
+        // Crear un producto "vasio" solo con su Id para posteriormente actualizar lo con la informacion nueva 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdProducto")] Producto producto)
+        public async Task<IActionResult> Crear([Bind("IdProducto")] Producto producto)
         {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(producto);
                 await _context.SaveChangesAsync();
 
-                // Redirige a la acción "Crear" con el IdProducto como parámetro en la URL
+                // Redirige a la acción "Actualizar" con el IdProducto como parámetro en la URL
                 ViewBag.IdProducto = producto.IdProducto;
-                return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+                return RedirectToAction("CrearInformacionFormulario", "Productos", new { producto.IdProducto });
             }
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
             ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
@@ -153,14 +200,19 @@ namespace PF_Pach_OS.Controllers
             return NotFound();
         }
 
-        // POST: Productos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 
+        // Acutualiza la informacion del Producto asi como la de su reseta
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Crear([Bind("IdProducto, NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
+        public async Task<IActionResult> Actualizar([Bind("IdProducto, NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
         {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             int idPizza = 1;
             var insumo = _context.Recetas;
             bool existe = true;
@@ -194,102 +246,267 @@ namespace PF_Pach_OS.Controllers
 
                 if (existe)
                 {
-                    return RedirectToAction("Details", "Productos", new { producto.IdProducto });
+                    return RedirectToAction("CrearInformacionFormulario", "Productos", new { producto.IdProducto });
 
                 }
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction("Details", "Productos", new { producto.IdProducto, accion = "Create" });
+            return RedirectToAction("CrearInformacionFormulario", "Productos", new { producto.IdProducto, accion = "Crear" });
         }
 
-        // GET: Productos/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        //Elimina un producto en caso que que este no se este utilizando en ninguna venta 
+        public async Task<IActionResult> Eliminar(int id)
         {
-            if (id == null || _context.Productos == null)
-            {
-                return NotFound();
-            }
+            var user = User;
 
-            var producto = await _context.Productos.FindAsync(id);
-            if (producto == null)
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
             {
-                return NotFound();
+                return RedirectToAction("AccesoDenegado", "Acceso");
             }
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", producto.IdCategoria);
-            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "IdTamano", producto.IdTamano);
-            return View(producto);
-        }
-
-        // POST: Productos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProducto,NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
-        {
-            if (id != producto.IdProducto)
+            bool exsite = ExisteEnVentas(id);
+            if (exsite)
             {
-                return NotFound();
+                Deshabilitar(id);
             }
-
-            if (ModelState.IsValid)
+            else
             {
-                try
+                var producto = await _context.Productos.FindAsync(id);
+                if (producto != null)
                 {
-                    _context.Update(producto);
-                    await _context.SaveChangesAsync();
+                    Eliminar_Receta(id);
+                    _context.Productos.Remove(producto);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductoExists(producto.IdProducto))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", producto.IdCategoria);
-            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "IdTamano", producto.IdTamano);
-            return View(producto);
-        }
 
 
-        [HttpPost]
-        public IActionResult Disable(int id)
-        {
-            var producto = _context.Productos.Find(id);
-            if (producto != null)
-            {
-                producto.Estado = 1; // Deshabilitado
-                _context.SaveChanges();
             }
             return RedirectToAction("Index");
         }
-
-        [HttpPost]
-        public IActionResult Enable(int id)
+        //Habilita un producto que este deshabilitado 
+        public IActionResult Habilitar(int id)
         {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             var producto = _context.Productos.Find(id);
             if (producto != null)
             {
-                producto.Estado = 0; // Habilitado
+                producto.Estado = 1;
                 _context.SaveChanges();
             }
             return RedirectToAction("Index");
         }
 
 
+        //Deshabilita un producto que este habilitado 
+        public IActionResult Deshabilitar(int id)
+        {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+            var producto = _context.Productos.Find(id);
+            if (producto != null)
+            {
+                producto.Estado = 0;
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        //Se llama la vista para Editar 
+        public IActionResult Informacin_Editar(int IdProducto)
+        {
+
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+            var producto_Original = _context.Productos.FirstOrDefault(p => p.IdProducto == IdProducto);
+
+            if (producto_Original != null)
+            {
+
+                ViewBag.IdProducto = producto_Original.IdProducto;
+                ViewBag.ProductoActivo = producto_Original;
+                var categoriaActiva = _context.Categorias.FirstOrDefault(p => p.IdCategoria == producto_Original.IdCategoria);
+                var tamanoActivo = _context.Tamanos.FirstOrDefault(p => p.IdTamano == producto_Original.IdTamano);
+                if (categoriaActiva != null)
+                {
+                    ViewBag.SelectCategoria = categoriaActiva.NomCategoria;
+                    ViewBag.SelectCategoriaID = categoriaActiva.IdCategoria;
+                }
+                if (tamanoActivo != null)
+                {
+                    ViewBag.SelectTamano = tamanoActivo.NombreTamano;
+                    ViewBag.SelectTamanoID = tamanoActivo.IdTamano;
+                }
+            }
+            var recetas = _context.Recetas.Where(p => p.IdProducto == IdProducto).ToList();
 
 
-        private bool ProductoExists(int id)
+            var insumos = _context.Insumos.ToList();
+
+            var recetasConInsumos = recetas.Select(receta => new
+            {
+                IdReceta = receta.IdReceta,
+                CantInsumo = receta.CantInsumo,
+                IdInsumo = receta.IdInsumo,
+                NomInsumo = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.NomInsumo,
+                IdProducto = receta.IdProducto,
+                Medida = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.Medida,
+            }).ToList();
+            Console.WriteLine("=================================================");
+            foreach (var receta in recetasConInsumos)
+            {
+                Console.WriteLine($"IdReceta: {receta.IdReceta}, CantInsumo: {receta.CantInsumo}, IdProducto: {receta.IdProducto}, IdInsumo: {receta.IdInsumo}");
+            }
+            Console.WriteLine("=================================================");
+            ViewBag.RecetasConInsumos = recetasConInsumos;
+            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
+            ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
+            ViewBag.NombreTamano = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
+            ViewBag.Insumo = _context.Insumos;
+            ViewBag.IdProducto = IdProducto;
+            var producto_editar = _context.Productos.FirstOrDefault(p => p.IdProducto == IdProducto);
+
+            return View("Editar");
+        }
+        public JsonResult ConsultarNomInsumo(int Idinsumo)
+        {
+            var insumo = _context.Insumos.Where(p => p.IdInsumo == Idinsumo).ToList();
+
+            return Json(insumo);
+        }
+
+        //Verifica si el producto que se nesecita existe
+        private bool ExisteElProducto(int id)
         {
             return (_context.Productos?.Any(e => e.IdProducto == id)).GetValueOrDefault();
+        }
+
+        //Verifica si el producto que se quiere consultar se ha usado en una venta(Detalleventa)
+        private bool ExisteEnVentas(int id)
+        {
+            bool existe = false;
+            var detallesVentas = _context.DetalleVentas;
+            foreach (var detalleVenta in detallesVentas)
+            {
+                if (detalleVenta.IdProducto == id)
+                {
+                    existe = true;
+                    break;
+                }
+            }
+            return existe;
+        }
+
+        [HttpPost]
+        public IActionResult Interfaz(List<int> Actualizar_Id, List<int> Actualizar_Cantidad, List<int> Crear_id, List<int> Crear_Cantidad, int id_producto , List<int> Eliminar)
+        {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+            if (Actualizar_Id != null && Actualizar_Cantidad != null)
+            {
+                Actualizar_recetas(Actualizar_Id, Actualizar_Cantidad);
+            }
+
+            if (Crear_id != null && Crear_Cantidad != null)
+            {
+                
+                Crear_recetas(Crear_id, Crear_Cantidad, id_producto);
+            }
+            if (Eliminar != null)
+            {
+                Eliminar_recetas(Eliminar);
+            }
+            var datos = new { Nombre = "Ejemplo", Edad = 30 };
+            return Json(datos);
+        }
+
+        private void Actualizar_recetas(List<int> Actualizar_Id, List<int> Actualizar_Cantidad)
+        {
+
+            for (int i = 0; i < Actualizar_Id.Count; i++)
+            {
+                int idReceta = Actualizar_Id[i];
+                int cantidad = Actualizar_Cantidad[i];
+
+                Receta receta = _context.Recetas.FirstOrDefault(p => p.IdReceta == idReceta);
+                if (receta != null)
+                {
+
+                    receta.CantInsumo = cantidad;
+                    _context.Update(receta);
+                    _context.SaveChanges();
+                }
+
+
+            }
+        }
+        private void Crear_recetas(List<int> Crear_id, List<int> Crear_Cantidad, int id_producto)
+        {
+            
+
+            for (int i = 0; i < Crear_id.Count; i++)
+            {
+                
+                Receta receta = new Receta();
+                receta.IdProducto = id_producto;
+                receta.IdInsumo = Crear_id[i];
+                receta.CantInsumo = Crear_Cantidad[i];
+                _context.Add(receta);
+                _context.SaveChanges();
+
+            }
+        }
+        private void Eliminar_recetas(List<int> Eliminar)
+        {
+            foreach(int i in Eliminar) 
+            { 
+                Receta receta = _context.Recetas.Where(p=> p.IdReceta==i).FirstOrDefault();
+                _context.Remove(receta);
+                _context.SaveChanges();
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Actualizar_Producto([Bind("IdProducto, NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
+        {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+            producto.Estado = 1;
+            if (producto != null)
+            {
+                _context.Update(producto);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
     }
 }
