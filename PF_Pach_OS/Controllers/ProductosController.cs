@@ -15,10 +15,10 @@ using PF_Pach_OS.Models;
 using PF_Pach_OS.Services;
 
 namespace PF_Pach_OS.Controllers
-{ 
+{
 
 
-   
+    [Authorize]
     public class ProductosController : Controller
     {
         private readonly Pach_OSContext _context;

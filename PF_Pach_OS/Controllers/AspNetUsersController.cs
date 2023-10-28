@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,6 +11,7 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
+    [Authorize]
     public class AspNetUsersController : Controller
     {
         private readonly Pach_OSContext _context;
@@ -28,29 +30,33 @@ namespace PF_Pach_OS.Controllers
             {
                 var usuarios = await _context.ApplicationUser.ToListAsync();
                 var roles = _context.Roles.ToList();
-               ViewBag.roles = roles;
+                ViewBag.roles = roles;
 
-            return View(usuarios.ToList());
+                return View(usuarios.ToList());
             }
             return View();
 
         }
 
         // GET: AspNetUsers/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Detalles(string id)
         {
-            if (id == null || _context.AspNetUser == null)
+            if (id == null || _context.ApplicationUser == null)
             {
                 return NotFound();
             }
 
-            var aspNetUser = await _context.AspNetUser
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var aspNetUser = await _context.ApplicationUser.FindAsync(id);
             if (aspNetUser == null)
             {
                 return NotFound();
             }
+            var permiso = await _context.Roles.ToListAsync();
+            var permisoActivo = await _context.Roles.FindAsync(aspNetUser.Id_Rol);
 
+            ViewBag.NombrePermisoActivo = permisoActivo.NomRol;
+
+            ViewBag.Permisos = permiso;
             return View(aspNetUser);
         }
 
@@ -94,7 +100,7 @@ namespace PF_Pach_OS.Controllers
 
             try
             {
-              
+
                 var user = await _userManager.FindByIdAsync(applicationUser.Id);
 
 
@@ -122,46 +128,46 @@ namespace PF_Pach_OS.Controllers
             return RedirectToAction("Index", "AspNetUsers");
         }
 
-        // GET: AspNetUsers/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public IActionResult Deshabilitar (string id)
         {
-            if (id == null || _context.AspNetUser == null)
+            if (id == null || _context.ApplicationUser == null)
             {
                 return NotFound();
             }
 
-            var aspNetUser = await _context.AspNetUser
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var aspNetUser = _context.ApplicationUser.Find(id);
             if (aspNetUser == null)
             {
                 return NotFound();
             }
-
-            return View(aspNetUser);
+            aspNetUser.State = 0;
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
 
-        // POST: AspNetUsers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+
+        //Deshabilita un producto que este habilitado 
+        public IActionResult Habilitar(string id)
         {
-            if (_context.AspNetUser == null)
+            if (id == null || _context.ApplicationUser == null)
             {
-                return Problem("Entity set 'Pach_OSContext.AspNetUser'  is null.");
-            }
-            var aspNetUser = await _context.AspNetUser.FindAsync(id);
-            if (aspNetUser != null)
-            {
-                _context.AspNetUser.Remove(aspNetUser);
+                return NotFound();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var aspNetUser = _context.ApplicationUser.Find(id);
+            if (aspNetUser == null)
+            {
+                return NotFound();
+            }
+            aspNetUser.State = 1;
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+
         }
-
         private bool AspNetUserExists(string id)
         {
             return (_context.AspNetUser?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
+
