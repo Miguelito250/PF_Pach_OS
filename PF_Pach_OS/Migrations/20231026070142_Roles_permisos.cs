@@ -27,7 +27,9 @@ namespace PF_Pach_OS.Migrations
                 {
                     Id_rol = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    nom_rol = table.Column<string>(maxLength: 30, nullable: true)
+                    nom_rol = table.Column<string>(maxLength: 30, nullable: true),
+                    
+
                 },
                 constraints: table =>
                 {
@@ -116,7 +118,7 @@ namespace PF_Pach_OS.Migrations
 
             migrationBuilder.InsertData(
                 table: "roles",
-                columns: new[] { "nom_rol" },
+                columns: new[] { "nom_rol"},
                 values: new object[] { "Administrador" });
 
             migrationBuilder.InsertData(

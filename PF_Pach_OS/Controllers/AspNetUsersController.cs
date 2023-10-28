@@ -27,8 +27,10 @@ namespace PF_Pach_OS.Controllers
             if (_context.ApplicationUser != null)
             {
                 var usuarios = await _context.ApplicationUser.ToListAsync();
+                var roles = _context.Roles.ToList();
+               ViewBag.roles = roles;
 
-                return View(usuarios.ToList());
+            return View(usuarios.ToList());
             }
             return View();
 
@@ -68,6 +70,12 @@ namespace PF_Pach_OS.Controllers
             {
                 return NotFound();
             }
+            var permiso = await _context.Roles.ToListAsync();
+            var permisoActivo = await _context.Roles.FindAsync(aspNetUser.Id_Rol);
+            ViewBag.IdPermisoActivo = permisoActivo.IdRol;
+            ViewBag.NombrePermisoActivo = permisoActivo.NomRol;
+
+            ViewBag.Permisos = permiso;
             return View(aspNetUser);
         }
 
@@ -86,19 +94,19 @@ namespace PF_Pach_OS.Controllers
 
             try
             {
-                // Obtiene el usuario por su ID
-                //var user = await _userManager.FindByIdAsync(applicationUser.Id);
+              
+                var user = await _userManager.FindByIdAsync(applicationUser.Id);
 
-               
-                //user.Email = applicationUser.Email;
-                //user.DocumentNumber = applicationUser.DocumentNumber;
-                //user.DocumentType = applicationUser.DocumentType;
-                //user.FirstName = applicationUser.FirstName;
-                //user.LastName = applicationUser.LastName;
-                //user.Id_Rol = applicationUser.Id_Rol;
 
-                //// Actualiza el usuario en la base de datos
-                //var result = await _userManager.UpdateAsync(user);
+                user.Email = applicationUser.Email;
+                user.DocumentNumber = applicationUser.DocumentNumber;
+                user.DocumentType = applicationUser.DocumentType;
+                user.FirstName = applicationUser.FirstName;
+                user.LastName = applicationUser.LastName;
+                user.Id_Rol = applicationUser.Id_Rol;
+
+                // Actualiza el usuario en la base de datos
+                var result = await _userManager.UpdateAsync(user);
             }
             catch (DbUpdateConcurrencyException)
             {

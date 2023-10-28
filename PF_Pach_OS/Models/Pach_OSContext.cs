@@ -522,7 +522,7 @@ namespace PF_Pach_OS.Models
                 entity.ToTable("roles");
 
                 entity.Property(e => e.IdRol).HasColumnName("Id_rol");
-
+                
                 entity.Property(e => e.NomRol)
                     .HasMaxLength(30)
                     .IsUnicode(false)
