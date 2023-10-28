@@ -1,10 +1,11 @@
 ﻿.logoEmpresa{
-    width: 4rem;
+    justify-content: end;
+    width: 6rem;
     border-radius: 4rem;
 }
 
 .fecha{
-    font-size: 0.9rem
+    font-size: 0.9rem;
 }
 
 .factura {

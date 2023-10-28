@@ -90,18 +90,23 @@
         <form asp-action="ConfirmarVenta" method="post" class="detail-container h-100" id="formVentas" novalidate>
             <input asp-for="Item2.IdVenta" type="number" value="@ViewBag.IdVenta" name="IdVenta" hidden>
             <div>
-                <div class="d-flex fecha">
+                <div class="d-flex fecha mb-3">
                     <span class="text-gray position-absolute text-end" id="fecha-hora"></span>
                     <input asp-for="Item2.FechaVenta" type="text" id="fecha-input" name="FechaVenta" hidden>
                 </div>
 
-                <div class="w-100 d-flex flex-column mb-3 align-items-center mt-3">
-                    <strong>Pachito-Ché Pizza y Bar</strong>
-                    <img class="logoEmpresa" src="~/img/Logo_Empresa.jpg">
+                <div class="row">
+                    <div class="col-6">
+                        <span>
+                            <strong>NIT: <br></strong>9203272<br>
+                            
+                            <strong>Cajero: <br></strong>@ViewBag.NombreUsuario
+                        </span>
+                    </div>
+                    <div class="col-6 justify-content-center align-self-center">
+                        <img class="logoEmpresa" src="~/img/Logo_Empresa.jpg">
+                    </div>
 
-                    <span class="mt-1"><strong>NIT: </strong>9203272</span>
-                    <span><strong>Telefono: </strong>+57 324-523-5382</span>
-                    <span><strong>Cajero: </strong>@ViewBag.NombreUsuario</span>
 
                     <input type="text" asp-for="Item2.IdEmpleado" name="IdEmpleado" value="@ViewBag.NombreUsuario" hidden readonly>
                 </div>
