@@ -14,9 +14,9 @@
             <form id="formAgregar" class="row g-2 needs-validation formulario-detalles" asp-controller="DetalleVentas" asp-action="AgregarDetalle" method="post" novalidate>
                 <input type="number" value="@ViewBag.IdVenta" name="IdVenta" asp-for="Item2.IdVenta" hidden>
                 <div class="col-4">
-                    <label>Producto</label>
+                    <label>Producto *</label>
                     <select class="form-control form-select" aria-label="Default select example" asp-for="Item1.IdProducto" asp-items="ViewBag.IdProducto" name="IdProducto" required>
-                        <option value="NA"></option>
+                        <option value="NA">Producto</option>
                         <option value="0">Pizzas (Sabores)</option>
 
                     </select>
@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="col-3">
-                    <label>Cantidad</label>
+                    <label>Cantidad *</label>
                     <input type="number" class="form-control" asp-for="Item1.CantVendida" name="CantVendida" min="0" required />
                     <span id="cantidadMensaje" class="invalid-feedback"></span>
                     <span class="valid-feedback"></span>
