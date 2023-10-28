@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "QRMZaD/EY5MBTVbAMUcng3Uo7IXzx7Enty16+OmpGGs=",
+  "Hash": "tZ62QASlNo9cYXJjaaBeAzYjnxQ1fHICLCPPxOcijw4=",
   "Source": "PF_Pach_OS",
   "BasePath": "_content/PF_Pach_OS",
   "Mode": "Default",
@@ -38333,6 +38333,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\RolPermisos\\Index.js"
+    },
+    {
+      "Identity": "C:\\Users\\user\\OneDrive\\Pictures\\Documents\\GitHub\\PF_Pach_OS_1\\PF_Pach_OS\\wwwroot\\js\\Usuarios\\Index.js",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\user\\OneDrive\\Pictures\\Documents\\GitHub\\PF_Pach_OS_1\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "js/Usuarios/Index.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Usuarios\\Index.js"
     },
     {
       "Identity": "C:\\Users\\user\\OneDrive\\Pictures\\Documents\\GitHub\\PF_Pach_OS_1\\PF_Pach_OS\\wwwroot\\js\\Ventas\\DetallesVenta.js",

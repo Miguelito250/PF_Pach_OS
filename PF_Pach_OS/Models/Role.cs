@@ -15,7 +15,7 @@ namespace PF_Pach_OS.Models
         public int IdRol { get; set; }
         public string? NomRol { get; set; }
         
-        
+        public byte? Estado { get; set; }
         
         public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
         public virtual ICollection<RolPermiso> RolPermisos { get; set; }

@@ -28,7 +28,9 @@ namespace PF_Pach_OS.Migrations
                     Id_rol = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     nom_rol = table.Column<string>(maxLength: 30, nullable: true),
-                    
+                    estado = table.Column<byte>( nullable: true),
+
+
 
                 },
                 constraints: table =>
