@@ -13,6 +13,15 @@ namespace PF_Pach_OS.Migrations
             migrationBuilder.Sql("ALTER TABLE Insumos ALTER COLUMN Estado tinyint NOT NULL;");
             migrationBuilder.Sql("ALTER TABLE detalles_Compras ADD CONSTRAINT CK_Mayor100 CHECK (precio_insumo >= 100);");
             migrationBuilder.Sql("ALTER TABLE detalles_Compras ADD CONSTRAINT CK_Mayor0 CHECK (cantidad > 0);");
+
+            //Constraints de Ventas
+
+            migrationBuilder.Sql("ALTER TABLE detalleVentas ALTER COLUMN cant_vendida int NOT NULL;");
+            migrationBuilder.Sql("ALTER TABLE detalleVentas ALTER COLUMN precio int NOT NULL;");
+
+            migrationBuilder.Sql("ALTER TABLE detalleVentas ADD CONSTRAINT CK_Mayor0 CHECK (cant_vendida > 0);");
+            migrationBuilder.Sql("ALTER TABLE ventas ADD CONSTRAINT CK_Mayor0 CHECK (total_venta > 0);");
+            migrationBuilder.Sql("ALTER TABLE ventas ADD CONSTRAINT CK_Mayor100 CHECK (pago > 100);");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -24,6 +33,13 @@ namespace PF_Pach_OS.Migrations
             migrationBuilder.Sql("ALTER TABLE Insumos ALTER COLUMN Estado DROP NOT NULL;");
             migrationBuilder.Sql("ALTER TABLE detalles_Compras DROP CONSTRAINT CK_Mayor100;");
             migrationBuilder.Sql("ALTER TABLE detalles_Compras DROP CONSTRAINT CK_Mayor0;");
+
+            migrationBuilder.Sql("ALTER TABLE detalleVentas ALTER COLUMN cant_vendida DROP NOT NULL;");
+            migrationBuilder.Sql("ALTER TABLE detalleVentas ALTER COLUMN precio DROP NOT NULL;");
+
+            migrationBuilder.Sql("ALTER TABLE detalleVentas DROP CONSTRAINT CK_Mayor0;");
+            migrationBuilder.Sql("ALTER TABLE ventas DROP CONSTRAINT CK_Mayor0;");
+            migrationBuilder.Sql("ALTER TABLE ventas DROP CONSTRAINT CK_Mayor100;");
         }
     }
 }
