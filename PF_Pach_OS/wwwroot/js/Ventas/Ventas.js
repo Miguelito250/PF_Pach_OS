@@ -50,6 +50,7 @@ function SumarDomicilio(subtotalProducto) {
 function InsertarTotal(totalVenta) {
     var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
     var totalVentaFormateado = formatoColombiano.format(totalVenta);
+    totalVentaFormateado = totalVentaFormateado.slice(0, -3);
 
     document.getElementById("totalVenta").innerHTML = totalVentaFormateado;
     document.getElementById("totalVenta-input").value = totalVenta;
@@ -66,6 +67,7 @@ function CalcularCambio() {
     // Formatear el valor de cambio a pesos colombianos
     var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
     var cambioFormateado = formatoColombiano.format(cambio);
+    cambioFormateado = cambioFormateado.slice(0, -3);
 
     InsertarCambio(cambioFormateado);
 }

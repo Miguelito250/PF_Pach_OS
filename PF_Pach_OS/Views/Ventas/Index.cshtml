@@ -57,20 +57,20 @@
                     <td>@item.TipoPago</td>
                     <td>
                         @(item.TotalVenta.HasValue ? (item.TotalVenta % 1 == 0
-                            ? ((decimal)item.TotalVenta).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
-                            : ((decimal)item.TotalVenta).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                            ? ((decimal)item.TotalVenta).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                            : ((decimal)item.TotalVenta).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
                             : "Sin Precio")
                     </td>
                     <td>
                         @(item.Pago.HasValue ? (item.Pago % 1 == 0
-                           ? ((decimal)item.Pago).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
-                           : ((decimal)item.Pago).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                            ? ((decimal)item.Pago).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                            : ((decimal)item.Pago).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
                             : "Sin Precio")
                     </td>
                     <td>
                         @(item.PagoDomicilio.HasValue ? (item.PagoDomicilio % 1 == 0
-                            ? ((decimal)item.PagoDomicilio).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
-                            : ((decimal)item.PagoDomicilio).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                            ? ((decimal)item.PagoDomicilio).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                            : ((decimal)item.PagoDomicilio).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
                             : "Sin Precio")
                     </td>
                     <td class="d-flex">
