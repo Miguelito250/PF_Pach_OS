@@ -107,8 +107,13 @@ namespace PF_Pach_OS.Controllers
         private async void Crear(List<int> permisos, String nomRol)
         {
             var user = User;
+            Console.WriteLine(" ================== ");
+            Console.WriteLine(nomRol);
+            Console.WriteLine(permisos);
+            Console.WriteLine(" ================== ");
 
-           
+
+
 
             int id_Rol = 0;
             if (nomRol != null)
@@ -141,16 +146,7 @@ namespace PF_Pach_OS.Controllers
             var datos = new { Nombre = "Ejemplo", Edad = 30 };
             
         }
-        //Se crea el rol y se le asignan los permisos
-        private async void Crear_rol(List<int> permisos, Role rol)
-        {
-            if (rol != null)
-            {
-                _context.Roles.Add(rol);
-            }
-
-            await _context.SaveChangesAsync();
-        }
+       
         // GET: RolPermisos/Edit/5
         public IActionResult Editar(int? id)
         {
@@ -191,35 +187,27 @@ namespace PF_Pach_OS.Controllers
         [HttpPost]
         private async void Editar(int id, List<int> permisos, String nomRol)
         {
-            Console.WriteLine("=============================");
-            Console.WriteLine("Entrada 1");
-            Console.WriteLine("=============================");
+            
 
             var rol = _context.Roles.Where(p=> p.IdRol== id).ToList();
             if (rol != null) {
                 rol[0].NomRol = nomRol;
                 _context.Roles.Update(rol[0]);
                 _context.SaveChanges();
-                Console.WriteLine("=============================");
-                Console.WriteLine("Entrada 2");
-                Console.WriteLine("=============================");
+                
 
             }
             var permisos_Desactualizados = _context.RolPermisos.Where(p=> p.IdRol== id).ToList();
             foreach(var permiso_desactualizado in permisos_Desactualizados)
             {
-                Console.WriteLine("=============================");
-                Console.WriteLine("Entrada 3: " + permiso_desactualizado);
-                Console.WriteLine("=============================");
+                
                 _context.RolPermisos.Remove(permiso_desactualizado);
                 _context.SaveChanges();
 
             }
             foreach (var permiso in permisos)
             {
-                Console.WriteLine("=============================");
-                Console.WriteLine("Entrada 4: " + permiso);
-                Console.WriteLine("=============================");
+                
                 RolPermiso rolPermiso = new RolPermiso();
                 rolPermiso.IdRol = id;
                 rolPermiso.IdPermiso = permiso;

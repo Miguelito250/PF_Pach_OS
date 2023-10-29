@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Actualizar";
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   
 
 }
 <link href="~/css/productos.css" rel="stylesheet" />
@@ -20,13 +20,13 @@
                 <label class="form-label">Producto</label>
                 @if (ViewBag.ProductoActivo == null)
                 {
-                    <input asp-for="Producto.NomProducto" class="form-control" title=" " required />
+                    <input asp-for="Producto.NomProducto" id="Nombre" class="form-control" title=" " required />
                 }
                 else
                 {
-                    <input asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" class="form-control" title=" " required />
+                    <input asp-for="Producto.NomProducto" id="Nombre" value="@ViewBag.ProductoActivo.NomProducto" class="form-control" title=" " required />
                 }
-                <div class="invalid-feedback"></div>
+                <div id="mensaje_nombre" class="invalid-feedback"></div>
 
             </div>
 
@@ -35,15 +35,15 @@
 
                 @if (ViewBag.ProductoActivo == null)
                 {
-                    <input asp-for="Producto.PrecioVenta" class="form-control" title=" " required />
+                    <input asp-for="Producto.PrecioVenta" id="precio" class="form-control" title=" " required />
 
                 }
                 else
                 {
-                    <input asp-for="Producto.PrecioVenta" value="@ViewBag.ProductoActivo.PrecioVenta" class="form-control" required />
+                    <input asp-for="Producto.PrecioVenta" id="precio" value="@ViewBag.ProductoActivo.PrecioVenta" class="form-control" required />
 
                 }
-                <div class="invalid-feedback"></div>
+                <div id="mensaje_precio" class="invalid-feedback"></div>
 
             </div>
 
@@ -52,8 +52,8 @@
                 <select class="form-select" id="Producto_IdCategoria" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria" required>
                     @if (ViewBag.SelectCategoriaID == null)
                     {
-                        <option disabled selected>Seleccione una categoria</option>
-
+                        <option value="" disabled selected>Seleccione una categoria</option>
+                         
                     }
                     else
                     {
@@ -61,17 +61,15 @@
 
                     }
                 </select>
-
-                <div class="invalid-feedback"></div>
-                <div class="valid-feedback">¡Todo bien!</div>
+                <div id="mensaje_categoria" class="invalid-feedback"></div>
             </div>
 
             <div id="Tamano_Oculto" class="d-none form-group">
-                <label asp-for="Producto.IdTamano" class="form-label">Tamaño</label>
+                <label asp-for="Producto.IdTamano" id="tamano" class="form-label">Tamaño</label>
                 <select class="form-select" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
                     @if (ViewBag.SelectTamanoID == null)
                     {
-                        <option disabled selected>Seleccione un Tamaño</option>
+                        <option value="" disabled selected>Seleccione un Tamaño</option>
 
                     }
                     else
@@ -81,12 +79,12 @@
                     }
                 </select>
 
-                <div class="invalid-feedback">Selecione un tamaño por favor.</div>
+                <div id="mensaje_tamano" class="invalid-feedback"></div>
 
             </div>
             <div class="col">
                 <input type="submit" class="col-6 botones-agregar btn btn-success w-auto" />
-                <a asp-action="Index" asp-controller="Productos" class="col-6 btn btn-outline-danger">Cancelar</a>
+                <a asp-action="Index" asp-controller="Productos" class="col-6 btn btn-outline-danger cancelarBtn">Cancelar</a>
             </div>
         </form>
 
@@ -107,29 +105,29 @@
 
 
                 <div class="col-6">
-                    <select class="form-control" asp-for="Receta.IdInsumo" required>
-                        <option disabled selected>Seleccione un insumo</option>
+                    <select class="form-control" id="insumo" asp-for="Receta.IdInsumo" required>
+                        <option value="" disabled selected>Seleccione un insumo</option>
                         @foreach (var insu in ViewBag.Insumo)
                         {
                             <option value="@insu.IdInsumo"> @insu.NomInsumo / @insu.Medida </option>
                         }
                     </select>
-                    <div class="invalid-feedback"></div>
+                    <div id="mensaje_Insumo" class="invalid-feedback"></div>
 
                 </div>
 
-                <div class="col-3">
-                    <input class="input-campo form-control" asp-for="Receta.CantInsumo" type="number" placeholder="Cantidad" required>
+                <div class="col-2">
+                    <input class="input-campo form-control" id="CantidadInsumo" asp-for="Receta.CantInsumo" type="number" placeholder="Cantidad" required>
                     <div class="invalid-feedback"></div>
-
+                    <div id="mensaje_Cantinsumo" class="invalid-feedback"></div>
                 </div>
 
-                <div class="col-3">
+                <div class="col-2">
                     <button type="submit" class="form-control btn btn-primary botones-agregar"> Agregar </button>
                 </div>
-                <div class="col-3">
-                    <button type="button" class="form-control btn btn-primary" data-toggle="modal" data-target="#myModal">
-                        Importar Receta
+                <div class="col-2">
+                    <button type="button" class="form-control btn y botones-agregar" data-toggle="modal" data-target="#myModal">
+                        Importar
                     </button>
                 </div>
             </form>
@@ -200,7 +198,7 @@
                     </select>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="submit" class="btn btn-primary">Importar</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 
                 </div>
@@ -211,6 +209,9 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="~/js/Productos/Editar.js"></script>
 
 @section Scripts {

@@ -89,7 +89,7 @@ namespace PF_Pach_OS.Controllers
                 // Obtiene el usuario por su ID
                 //var user = await _userManager.FindByIdAsync(applicationUser.Id);
 
-               
+
                 //user.Email = applicationUser.Email;
                 //user.DocumentNumber = applicationUser.DocumentNumber;
                 //user.DocumentType = applicationUser.DocumentType;

@@ -1,218 +1,292 @@
-﻿$(document).ready(function () {
-
-    var categoria = $('#Producto_IdCategoria').val();
+﻿document.addEventListener('DOMContentLoaded', function () {
+    //Informacion Producto
+    var formulario_producto = document.getElementById("formulario1");
     var idPizza = 1;
-    if (categoria == idPizza) {
-        Mostrar_Campo_Oculto();
 
-    } else if (categoria != idPizza) {
-        Ocultar_Campo_Oculto();
-    }
+    var nombre = document.getElementById("Nombre");
+    var mensaje_nombre = document.getElementById("mensaje_nombre")
 
-    $('#Producto_NomProducto').on('input', function () {
-        validateNomProducto();
-        var id = $('#Producto_IdProducto').val();
-        console.log(id)
-    });
+    var precio = document.getElementById("precio");
+    var mensaje_precio = document.getElementById("mensaje_precio");
 
-    // Manejar el evento de cambio en el campo de PrecioVenta
-    $('#Producto_PrecioVenta').on('input', function () {
-        validatePrecioVenta();
-    });
+    var categoria = document.getElementById("Categorio");
+    var mensaje_categoria = document.getElementById("mensaje_categoria");
 
-    // Manejar el evento de cambio en el campo de IdTamano
-    $('#Producto_IdTamano').on('input', function () {
-        validateTamano();
-    });
+    var tamano = document.getElementById("tamano");
+    var mensaje_tamano = document.getElementById("mensaje_tamano");
+    //Informacion Receta
+    var formulario_receta = document.getElementById("miFormulario");
 
-    // Manejar el evento de cambio en el campo de IdCategoria
-    $('#Producto_IdCategoria').on('change', function () {
-        validateCategoria();
-    });
+    var nombre_producto = document.getElementById("nom_Pro");
+    var precio_producto = document.getElementById("pre_Pro");
+    var categoria_producto = document.getElementById("cat_Pro");
+    var tamano_producto = document.getElementById("tam_Pro");
 
-    // Manejar el evento de cambio en el campo de CantInsumo
-    $('#Receta_CantInsumo').on('input', function () {
-        validateCantInsumo();
-    });
+    var insumo = document.getElementById('insumo');
+    var mensaje_insumo = document.getElementById('mensaje_Insumo');
 
-    // Manejar el evento de cambio en el campo de IdInsumo
-    $('#Receta_IdInsumo').on('change', function () {
-        validateIdInsumo();
-    });
-    $('#miFormulario').submit(function (event) {
-        // Tu código para llenar el campo aquí
-        var NomProducto = $('#Producto_NomProducto').val();
-        var llenar_Nombre = document.getElementById("nom_Pro")
-        llenar_Nombre.value = NomProducto;
-
-        var precio = $('#Producto_PrecioVenta').val();
-        var llenar_Precio = document.getElementById("pre_Pro")
-        llenar_Precio.value = precio;
-
-        var categoria = $('#Producto_IdCategoria').val();
-        var llenar_Categoria = document.getElementById("cat_Pro")
-        llenar_Categoria.value = categoria;
-
-        var tamano = $('#Producto_IdTamano').val();
-        var llenar_tamano = document.getElementById("tam_Pro")
-        llenar_tamano.value = tamano;
+    var cantidadInsumo = document.getElementById('CantidadInsumo');
+    var mensaje_CantInsumo = document.getElementById('mensaje_Cantinsumo');
 
 
-        return true;
-    });
-    $('#Formurario_Modal').submit(function (event) {
-        // Tu código para llenar el campo aquí
-        var NomProducto = $('#Producto_NomProducto').val();
-        var llenar_Nombre = document.getElementById("nom_Pro_Modal")
-        llenar_Nombre.value = NomProducto;
-
-        var precio = $('#Producto_PrecioVenta').val();
-        var llenar_Precio = document.getElementById("pre_Pro_Modal")
-        llenar_Precio.value = precio;
-
-        var categoria = $('#Producto_IdCategoria').val();
-        var llenar_Categoria = document.getElementById("cat_Pro_Modal")
-        llenar_Categoria.value = categoria;
-
-        var tamano = $('#Producto_IdTamano').val();
-        var llenar_tamano = document.getElementById("tam_Pro_Modal")
-        llenar_tamano.value = tamano;
-
-
-        return true;
-    });
-    function validateNomProducto() {
-        var maxCaracteres = 30;
-        var minCaracteres = 4;
-        var validacion = false;
-
-        var NomProducto = $('#Producto_NomProducto').val();
-        var contarNombre = NomProducto.length;
-
-        console.log(NomProducto)
-        if (contarNombre == 0) {
-            validacion = true;
-            mostrarError('Por favor ingrese un nombre al producto.');
-        } else if (contarNombre < minCaracteres) {
-            validacion = true;
-            mostrarError('El nombre del producto debe tener al menos 4 caracteres.', '#Producto_NomProducto');
-        } else if (contarNombre > maxCaracteres) {
-            validacion = true;
-            mostrarError('El nombre del producto no puede exceder los 30 caracteres.', '#Producto_NomProducto');
+    const enlacesMenu = document.querySelectorAll('.links-modulos');
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1700,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
-        resultado(validacion, '#Producto_NomProducto');
+    });
 
-    }
+    //Escuchadores para productos
+    formulario_producto.addEventListener('submit', EnvioProducto)
+    nombre.addEventListener('input', ValidarNombre)
+    precio.addEventListener('input', ValidarPrecio)
+    categoria.addEventListener('change', ValidarCategoria)
+    tamano.addEventListener('change', ValidarTamano)
 
+    //Escuchadores de receta
+    formulario_receta.addEventListener('submit', EnvioReceta);
+    insumo.addEventListener('change', ValidarInsumo);
+    cantidadInsumo.addEventListener('input', ValidarCantInsumo);
 
+    //validar el campo nombre del producto
+    function ValidarNombre() {
+        var valorNombre = nombre.value;
+        var caracterMinimo = 4;
+        var caracterMAximo = 30;
 
-    function validatePrecioVenta() {
-        var precio = $('#Producto_PrecioVenta').val();
-        var minVenta = 100;
-        var validacion = false;
-
-        if (precio == 0) {
-            validacion = true;
-            mostrarError('Por favor ingrese un Precio', '#Producto_PrecioVenta');
-        }
-        else if (isNaN(precio)) {
-            validacion = true;
-            mostrarError('Por favor ingrese un Precio', '#Producto_PrecioVenta');
-        } else if (precio < minVenta) {
-            validacion = true;
-            mostrarError('El presio minimo del producto debe ser 100 pesos', '#Producto_PrecioVenta');
-        }
-        resultado(validacion, '#Producto_PrecioVenta');
-
-
-
-    }
-
-    function validateCategoria() {
-        var categoria = $('#Producto_IdCategoria').val();
-        var idPizza = 1;
-        var validacion = false;
-
-        if (categoria == 0) {
-            mostrarError('Por favor seleccione una categoria', '#Producto_IdCategoria');
-            Ocultar_Campo_Oculto();
-            validacion = true;
-        } else if (categoria == idPizza) {
-            Mostrar_Campo_Oculto();
-
-        } else if (categoria != idPizza) {
-            Ocultar_Campo_Oculto();
-        }
-
-        resultado(validacion, '#Producto_IdCategoria');
-    }
-    function validateCantInsumo() {
-        var cantInsumo = $('#Receta_CantInsumo').val();
-        var validacion = false;
-        if (cantInsumo == 0) {
-            mostrarError('Por favor ponga una cantidad de insumo', '#Receta_CantInsumo');
-            validacion = true;
-        } else if (isNaN(cantInsumo)) {
-            mostrarError('Por favor ponga una cantidad de insumo', '#Receta_CantInsumo');
-            validacion = true;
-        }
-        resultado(validacion, '#Receta_CantInsumo');
-
-    }
-
-    function validateIdInsumo() {
-        var insumo = $('#Receta_IdInsumo').val();
-        var validacion = false;
-        if (insumo == 0) {
-            mostrarError('Por favor selecione un insumo', '#Receta_IdInsumo');
-            validacion = true;
-        }
-
-        resultado(validacion, '#Receta_IdInsumo');
-
-    }
-
-
-
-    function Mostrar_Campo_Oculto() {
-        $('#Tamano_Oculto').removeClass('d-none');
-    }
-    function Ocultar_Campo_Oculto() {
-        $('#Tamano_Oculto').addClass('d-none');
-    }
-
-    function resultado(validacion, item) {
-        if (validacion) {
-            $(item).addClass('is-invalid'); // Agregar clase de error
-            $(item).removeClass('is-valid'); // Remover clase de válido
+        nombre.classList.remove('is-invalid', 'is-valid');
+        mensaje_nombre.textContent = '';
+        if (valorNombre.trim() === '') {
+            nombre.classList.add('is-invalid');
+            mensaje_nombre.textContent = 'El campo no puede ir vacio';
+        } else if (valorNombre.length < caracterMinimo) {
+            nombre.classList.add('is-invalid');
+            mensaje_nombre.textContent = 'El nombre debe tener más de 4 caracteres';
+        } else if (valorNombre.length > caracterMAximo) {
+            nombre.classList.add('is-invalid');
+            mensaje_nombre.textContent = 'El nombre debe tener menos de 30 caracteres';
         } else {
-            $(item).removeClass('is-invalid'); // Remover clase de error
-            $(item).addClass('is-valid'); // Agregar clase de válido
+            nombre.classList.add('is-valid');
         }
     }
-    function mostrarError(mensaje, item) {
-        var errorFeedback = $(item).siblings('.invalid-feedback');
-        errorFeedback.text(mensaje);
+    //validar el campo precio del producto
+    function ValidarPrecio() {
+        var valorPrecio = precio.value;
+        var precioMinimo = 100;
+        var precioMaximo = 6000000;
+        precio.classList.remove('is-invalid', 'is-valid');
+        mensaje_precio.textContent = '';
+
+        if (valorPrecio.trim() === '') {
+            precio.classList.add('is-invalid');
+            mensaje_precio.textContent = 'El campo no puede ir vacio';
+
+        } else if (valorPrecio < precioMinimo) {
+            precio.classList.add('is-invalid');
+            mensaje_precio.textContent = 'El precio debe ser de minimo 100 pesos';
+        } else if (valorPrecio > precioMaximo) {
+            precio.classList.add('is-invalid');
+            mensaje_precio.textContent = 'El precio debe ser de maximo 6.000.000 pesos';
+        } else {
+            precio.classList.add('is-valid');
+        }
+    }
+    //validar el campo categoria del producto
+    function ValidarCategoria() {
+        var ValorCategoria = categoria.value;
+
+        categoria.classList.remove('is-invalid', 'is-valid');
+        mensaje_categoria.textContent = '';
+        if (ValorCategoria.trim() === '') {
+            categoria.classList.add('is-invalid');
+            mensaje_categoria.textContent = 'El campo no puede estar vacio';
+
+        } else {
+            categoria.classList.add('is-valid');
+
+        }
+        if (ValorCategoria == idPizza) {
+            MostrarCampoOculto();
+        } else {
+            OcultaCampoOculto();
+        }
+    }
+    //validar el campo Tamaño del producto
+
+    function ValidarTamano() {
+        var ValorCategoria = categoria.value;
+        var ValorTamano = tamano.value;
+        tamano.classList.remove('is-invalid', 'is-valid');
+        mensaje_tamano.textContent = '';
+        if (ValorCategoria == idPizza) {
+            if (ValorTamano.trim() === '') {
+                tamano.classList.add('is-invalid');
+                mensaje_tamano.textContent = 'El campo no puede ir vacio si la categoria es Pizza'
+            } else {
+                tamano.classList.add('is-valid');
+
+            }
+        }
     }
 
+    //validar el campo Insumos del recetas
+    function ValidarInsumo() {
+        var ValorInsumo = insumo.value;
+
+        insumo.classList.remove('is-invalid', 'is-valid');
+        mensaje_insumo.textContent = ''
+        if (ValorInsumo.trim() === '') {
+            insumo.classList.add('is-invalid')
+            mensaje_insumo.textContent = 'El campo no puede estar vacio para crear una receta'
+        } else {
+            insumo.classList.add('is-valid')
+        }
+    }
+
+    //validar el campo cantidad del recetas
+    function ValidarCantInsumo() {
+        var ValorCantInsumo = cantidadInsumo.value;
 
 
+        cantidadInsumo.classList.remove('is-invalid', 'is-valid');
+        mensaje_CantInsumo.textContent = ''
+
+        if (ValorCantInsumo.trim() === '') {
+            cantidadInsumo.classList.add('is-invalid');
+            mensaje_CantInsumo.textContent = 'El campo no puede estar vacio para crear una receta'
+        } else if (ValorCantInsumo < 1) {
+            cantidadInsumo.classList.add('is-invalid');
+            mensaje_CantInsumo.textContent = 'la cantidad de insumos deben ser mayores a 1'
+        } else {
+            cantidadInsumo.classList.add('is-valid');
+        }
+    }
+    //muestra el campo Tamaño
+    function MostrarCampoOculto() {
+        var campoOculto = document.getElementById('Tamano_Oculto');
+        campoOculto.classList.remove('d-none')
+    }
+
+    //oculta el campo Tamaño
+    function OcultaCampoOculto() {
+        var campoOculto = document.getElementById('Tamano_Oculto');
+        campoOculto.classList.add('d-none')
+    }
+    function EnvioProducto(event) {
+        event.preventDefault();
+        InterfazProducto();
+        if (formulario_producto.checkValidity()) {
+            const tablaReceta = document.querySelector('#Tabla-recetas');
+            if (tablaReceta.rows.length <= 1) {
+                // Mostrar la SweetAlert de error
+                Swal.fire({
+                    title: 'Ups...',
+                    timer: 2700,
+                    text: 'Debes agregar al menos un insumo antes de confirmar el producto.',
+                    icon: 'error',
+                    showConfirmButton: false,
+                });
+                // Detener la ejecución del código o realizar alguna acción adicional si es necesario
+                return;
+            } else {
+                Swal.fire({
+                    title: '¡Éxito!',
+                    text: 'Producto Registrado Correctamente',
+                    timer: 2400,
+                    icon: 'success',
+                    showConfirmButton: false,
+                }).then((result) => {
+                    console.log('Formulario válido');
+                    formulario_producto.removeEventListener('submit', EnvioProducto);
+                    formulario_producto.submit();
+                });
+            }
+        } else {
+            Toast.fire({
+                icon: 'error',
+                title: 'Formulario inválido'
+            });
+            InterfazProducto();
+        }
+    }
+    function InterfazProducto() {
+        ValidarNombre();
+        ValidarPrecio();
+        ValidarTamano();
+        ValidarCategoria();
+    }
+
+    function EnvioReceta(event) {
+        
+        IntefazRecetas()
+        nombre_producto.value = nombre.value;
+        precio_producto.value = precio.value;
+        categoria_producto.value = categoria.value;
+        tamano_producto.value = tamano.value;
+        
+        
+    }
+
+    function IntefazRecetas() {
+        ValidarInsumo();
+        ValidarCantInsumo();
+    }
+
+    window.addEventListener('load', function () {
+        const cancelarBtn = document.querySelector('.cancelarBtn');
+        if (cancelarBtn != null) {
+            cancelarBtn.addEventListener('click', function (event) {
+                event.preventDefault();
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: 'Desea descartar el producto',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, cancelar',
+                    cancelButtonText: 'No, volver'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Si el usuario confirma, redirigir a la función "Delete" en el controlador de ventas
+                        window.location.href = cancelarBtn.getAttribute('href');
+                    }
+                });
+            });
+        }
+    });
+    enlacesMenu.forEach(enlace => {
+        enlace.addEventListener('click', e => {
+
+            e.preventDefault();
+
+            if (DetallesSinConfirmar()) {
+                Swal.fire({
+                    title: 'Advertencia',
+                    text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, salir',
+                    cancelButtonText: 'Cancelar'
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        EliminarDetalles();
+
+                        window.location.href = e.target.href;
+
+                    }
+                });
+            } else {
+                window.location.href = e.target.href;
+            }
+        });
+    });
 });
 
-(function () {
-    'use strict';
-    window.addEventListener('load', function () {
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByClassName('needs-validation');
-        // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function (form) {
-            form.addEventListener('submit', function (event) {
-                if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            }, false);
-        });
-    }, false);
-})();
+
