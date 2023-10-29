@@ -96,7 +96,7 @@
     //Miguel 19/10/2023
     //Escuchador de Eventos para recargar la pagina al confirmar los sabores de las pizzas
     /*btnRecargarPagina.addEventListener("click", RecargarPagina);*/
-    
+
 
 
     //Miguel 19/10/2023
@@ -161,7 +161,7 @@
                             showConfirmButton: false
                         }).then(function () {
                             RecargarPagina();
-                            
+
                         });;
                     },
                     error: function (xhr, status, error) {
