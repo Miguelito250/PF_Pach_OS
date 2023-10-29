@@ -3,51 +3,49 @@
 @{
     ViewData["Title"] = "Registrar Usuario";
 }
-
+<link href="~/css/usuarios/resgistrousuarios.css" rel="stylesheet" />
 <div class="p-5 row">
-    <h1>@ViewData["Title"]</h1>
-    <hr>
     <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="form-floating col-6">
-            <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select" aria-required="true">
-                <option disabled selected>Seleccione Rol</option>
-            </select>
-            <span asp-validation-for="Input.Role" class="text-danger"></span>
-        </div>
 
-        <div class="d-flex mt-5">
+        <div class="form-floating d-flex">
             <div class="form-floating col-6">
-                <input asp-for="Input.DocumentType" class="form-control" aria-required="true" />
+                <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select" aria-required="true">
+                    <option disabled selected>Seleccione Rol</option>
+                </select>
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-6">
+                <select asp-for="Input.DocumentType" class="form-select" aria-required="true">
+                    <option value="Cedula">Cédula</option>
+                    <option value="Tarjeta Identidad">Tarjeta de Identidad</option>
+                    <option value="Pasaporte">Pasaporte</option>
+                    <option value="Cedula Extranjera">Cédula Extranjera</option>
+                </select>
                 <label asp-for="Input.DocumentType"></label>
                 <span asp-validation-for="Input.DocumentType" class="text-danger"></span>
             </div>
+        </div>
+
+        <div class="d-flex mt-5">
             <div class="form-floating col-6">
                 <input asp-for="Input.DocumentNumber" class="form-control" aria-required="true" />
                 <label asp-for="Input.DocumentNumber"></label>
                 <span asp-validation-for="Input.DocumentNumber" class="text-danger"></span>
             </div>
-        </div>
-
-        <div class="d-flex mt-5">
             <div class="form-floating col-6">
                 <input asp-for="Input.FirstName" class="form-control" aria-required="true" />
                 <label asp-for="Input.FirstName"></label>
                 <span asp-validation-for="Input.FirstName" class="text-danger"></span>
             </div>
-            <div class="form-floating col-6">
-                <input asp-for="Input.LastName" class="form-control" aria-required="true" />
-                <label asp-for="Input.LastName"></label>
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div>
         </div>
 
         <div class="d-flex mt-5">
             <div class="form-floating col-6">
-                <input asp-for="Input.EntryDay" type="date" class="form-control" aria-required="true" />
-                <label asp-for="Input.EntryDay"></label>
-                <span asp-validation-for="Input.EntryDay" class="text-danger"></span>
+                <input asp-for="Input.LastName" class="form-control" aria-required="true" />
+                <label asp-for="Input.LastName"></label>
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
             <div class="form-floating col-6">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
@@ -56,7 +54,15 @@
             </div>
         </div>
 
-        <div class="d-flex mt-5">
+        <div class="d-none">
+            <div class="form-floating col-6">
+                <input asp-for="Input.EntryDay" type="date" class="form-control" aria-required="true" />
+                <label asp-for="Input.EntryDay"></label>
+                <span asp-validation-for="Input.EntryDay" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="d-flex mt-5 ">
             <div class="form-floating col-6">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
                 <label asp-for="Input.Password"></label>
@@ -69,12 +75,9 @@
             </div>
         </div>
 
-        <div class="d-flex">
-            
-            <div class="w-25 mt-5">
-                <button id="registerSubmit" type="submit" class="btn btn-primary botones-agregar">Registrar</button>
-                <button id="registerSubmit" type="submit" class="btn btn-primary botones-agregar">Cancelar</button>
-            </div>
+        <div class="w-100 d-flex flex-column mt-5">
+            <button id="registerSubmit" type="submit" class="btn btn-primary botones-agregar">Registrar</button>
+            <a class="btn btn-outline-danger border mt-2" asp-controller="AspNetUsers" asp-action="Index">Cancelar</a>
         </div>
     </form>
 
