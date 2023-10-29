@@ -12,9 +12,12 @@
 <div>
     <div class="w-100 d-flex flex-column mb-3 align-items-center">
         <span class="w-80 h4 mb-3 text-center"><strong>Venta</strong></span>
-        <div>
-            <span class=""><strong>N-Venta: </strong>@Html.DisplayFor(model => model.IdVenta) Realizada: @Html.DisplayFor(model => model.IdVentaNavigation.FechaVenta)</span>
+        <div class="d-flex flex-column align-items-center">
+            <span><strong>N° Venta: </strong>@Html.DisplayFor(model => model.IdVenta)</span>
+            <span><strong>Hecha por: </strong>@Html.DisplayFor(model => model.IdVentaNavigation.IdEmpleado)</span>
+            <span><strong>En la fecha: </strong>@Html.DisplayFor(model => model.IdVentaNavigation.FechaVenta)</span>
         </div>
+
     </div>
 
     <div>

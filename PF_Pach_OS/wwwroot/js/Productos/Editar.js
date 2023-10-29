@@ -329,19 +329,14 @@ function Agregar_Nuevas_Recetas(cantidadInsumo, id_producto, idInsumo) {
     Nuevas_Recetas_ID.push(idInsumo);
     Nuevas_Recetas_Cant.push(cantidadInsumo);
     Id_Producto = id_producto;
-    console.log("=========");
-    console.log(Nuevas_Recetas_ID);
-    console.log(Nuevas_Recetas_Cant);
-    console.log(Id_Producto);
-    console.log("=========");
+    
 
 
 }
 function Atualizar_Recetas(IdReceta, NuevaCantidad) {
     Recetas_Actualizadas_ID.push(IdReceta);
     Recetas_Actualizadas_Cant.push(NuevaCantidad);
-    console.log(Recetas_Actualizadas_ID);
-    console.log(Recetas_Actualizadas_Cant);
+   
 
 }
 
@@ -360,12 +355,6 @@ document.addEventListener("DOMContentLoaded", function () {
             },
 
             success: function (data) {
-                console.log("-*****************")
-
-                console.log("Si funciona :))")
-
-                console.log("********************")
-
             }
         });
     });

@@ -7,8 +7,6 @@
 <div class="p-5 row">
     <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-
         <div class="form-floating d-flex">
             <div class="form-floating col-6">
                 <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select" aria-required="true">

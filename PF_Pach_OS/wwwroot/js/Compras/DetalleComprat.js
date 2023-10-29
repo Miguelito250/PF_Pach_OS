@@ -3,12 +3,13 @@
     var fomulario = document.getElementById('formCompra');
 
     var NumeroFactura = document.getElementById('NumeroFactura');
-    var Empleado = document.getElementById('Empleado')
     var Proveedor = document.getElementById('Proveedor');
 
-    var EmpleadoFeedback = document.getElementById('EmpleadoFeedback');
     var NumeroFeedback = document.getElementById('NumeroFeedback');
     var ProveedorFeedback = document.getElementById('ProveedorFeedback');
+
+    const enlacesMenu = document.querySelectorAll('.links-modulos');
+
 
     
 
@@ -18,7 +19,7 @@
 
         // Validar si la tabla de detalles de compra está vacía
 
-        if (fomulario.checkValidity() && !NumeroFactura.classList.contains('is-invalid') && !Empleado.classList.contains('is-invalid') && !Proveedor.classList.contains('is-invalid')) {
+        if (fomulario.checkValidity() && !NumeroFactura.classList.contains('is-invalid') && !Proveedor.classList.contains('is-invalid')) {
             const tablaDetallesCompra = document.querySelector('.tablaDetallesCompra');
             if (tablaDetallesCompra.rows.length <= 1) {
                 // Mostrar la SweetAlert de error
@@ -43,6 +44,8 @@
                     console.log('Formulario válido');
                     fomulario.removeEventListener('submit', EnvioCompra);
                     fomulario.submit();
+                    localStorage.removeItem('NumeroFacturaL');
+                    localStorage.removeItem('ProveedorL');
                 });
             }
         } else {
@@ -53,7 +56,6 @@
             console.log('Formulario inválido');
             validarNumeroFactura();
             validarProveedor();
-            validarEmpleado()
         }
     }
 
@@ -62,10 +64,6 @@
 
     NumeroFactura.addEventListener('input', function () {
         validarNumeroFactura();
-    });
-
-    Empleado.addEventListener('change', function () {
-        validarEmpleado();
     });
 
     Proveedor.addEventListener('change', function () {
@@ -90,25 +88,6 @@
         }
     }
 
-    function validarEmpleado() {
-        // Obtener el valor seleccionado del campo select
-        var EmpleadoSeleccion = Empleado.value;
-
-        // Restablecer los estilos y mensajes de validación
-        Empleado.classList.remove('is-invalid', 'is-valid');
-        EmpleadoFeedback.textContent = '';
-
-        // Validar si no se ha seleccionado ninguna opción
-        if (EmpleadoSeleccion === '') {
-            Empleado.classList.add('is-invalid');
-            EmpleadoFeedback.textContent = 'Por favor, elige una opción.';
-        } else {
-            // El campo es válido
-            Empleado.classList.add('is-valid');
-        }
-    }
-
-
     function validarNumeroFactura() {
         var numFactura = NumeroFactura.value;
 
@@ -120,6 +99,9 @@
         if (numFactura.trim() === '') {
             NumeroFactura.classList.add('is-invalid');
             NumeroFeedback.textContent = 'Por favor ingrese el código de la factura.';
+        } else if (/^\s/.test(numFactura)) {
+            NumeroFactura.classList.add('is-invalid');
+            NumeroFeedback.textContent = 'No se puede comenzar con un espacio en blanco.';
         }
         // Validar longitud del nombre
         else if (numFactura.length < 3 || numFactura.length > 20) {
@@ -154,7 +136,63 @@
         }
     }
 
-    
+    function actualizarReloj() {
+        var ahora = new Date();
+        var dia = ahora.getDate();
+        var mes = ahora.getMonth() + 1; // Los meses en JavaScript empiezan en 0
+        var año = ahora.getFullYear();
+        var horas = ahora.getHours();
+        var minutos = ahora.getMinutes();
+
+        if (dia < 10) dia = '0' + dia;
+        if (mes < 10) mes = '0' + mes;
+        if (horas < 10) horas = '0' + horas;
+        if (minutos < 10) minutos = '0' + minutos;
+
+        var fechaHoraFormateada = dia + '/' + mes + '/' + año + ' ' + horas + ':' + minutos;
+
+        document.getElementById('reloj').textContent = fechaHoraFormateada;
+    }
+
+    actualizarReloj();
+    setInterval(actualizarReloj, 1000);
+
+    function EliminarCompra() {
+        IdCompra = document.getElementById("Item2_IdCompra").value
+        $.ajax({
+            url: '/Compras/DetallesSinConfirmar',
+            type: 'POST',
+            data: { IdCompra },
+            success: function (response) {
+                console.log("Todo fue bien")
+            },
+            error: function (xhr, status, error) {
+                Swal.fire('Error', 'Ha ocurrido un error al enviar la solicitud', 'error');
+            }
+        });
+    }
+
+    enlacesMenu.forEach(enlace => {
+        enlace.addEventListener('click', e => {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Advertencia',
+                text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, salir',
+                cancelButtonText: 'Cancelar'
+            }).then(result => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('NumeroFacturaL');
+                    localStorage.removeItem('ProveedorL');
+                    EliminarCompra();
+                    window.location.href = e.target.href;
+
+                }
+            });
+        });
+    }); // Aquí se agrega el paréntesis de cierre
 }); // Aquí se agrega el paréntesis de cierre
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -334,6 +372,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function validarPrecioCompra() {
         // Obtener el valor seleccionado del campo select
         var Precio = PrecioCompra.value;
+        const esNumerico = /^[0-9]*$/.test(Precio);
 
         // Restablecer los estilos y mensajes de validación
         PrecioCompra.classList.remove('is-invalid', 'is-valid');
@@ -342,6 +381,15 @@ document.addEventListener('DOMContentLoaded', function () {
         if (Precio.trim() === '') {
             PrecioCompra.classList.add('is-invalid');
             PrecioFeedback.textContent = 'Por favor, ingrese la precio del insumo';
+            cambiarClaseBotonAgregar();
+        } else if (/^\s/.test(Precio)) {
+            PrecioCompra.classList.add('is-invalid');
+            PrecioFeedback.textContent = 'No puede tener espacio en blanco.';
+            cambiarClaseBotonAgregar();
+        }
+        else if (!esNumerico) {
+            PrecioCompra.classList.add('is-invalid');
+            PrecioFeedback.textContent = 'No se pueden ingresar letras';
             cambiarClaseBotonAgregar();
         }
         // Validar longitud del nombre
@@ -355,7 +403,7 @@ document.addEventListener('DOMContentLoaded', function () {
             cambiarClaseBotonAgregar();
         } else if (Precio.length > 10) {
             PrecioCompra.classList.add('is-invalid');
-            PrecioFeedback.textContent = 'No se pueden ingresar mas e 10 numeros.';
+            PrecioFeedback.textContent = 'No se pueden ingresar mas de 10 numeros.';
             cambiarClaseBotonAgregar();
         }
         else {
@@ -366,8 +414,6 @@ document.addEventListener('DOMContentLoaded', function () {
             PrecioCompra.classList.add('is-valid');
         }
     }
-    
-
     
 }); // Aquí se agrega el paréntesis de cierre
 
@@ -392,6 +438,9 @@ window.addEventListener('load', function () {
             if (result.isConfirmed) {
                 // Si el usuario confirma, redirigir a la función "Delete" en el controlador de compras
                 window.location.href = cancelarCompraBtn.getAttribute('href');
+                localStorage.removeItem('NumeroFacturaL');
+                localStorage.removeItem('EmpleadoL');
+                localStorage.removeItem('ProveedorL');
             }
         });
     });
@@ -489,3 +538,36 @@ function updateMedidaOptions(MedidaSeleccionada) {
         }));
     }
 }
+
+// script.js
+document.addEventListener('DOMContentLoaded', function () {
+
+    $('#formAgregar').submit(function (event) {
+        var NumeroFactura = $('#NumeroFactura').val();
+        localStorage.setItem('NumeroFacturaL', NumeroFactura)
+
+        var Empleado = $('#Empleado').val();
+        localStorage.setItem('EmpleadoL', Empleado)
+
+        var Proveedor = $('#Proveedor').val();
+        localStorage.setItem('ProveedorL', Proveedor)
+
+        console.log(NumeroFacturaLG)
+
+        return true;
+    })
+
+    var NumeroFacturaLG = localStorage.getItem('NumeroFacturaL');
+    var EmpleadoLG = localStorage.getItem('EmpleadoL');
+    var ProveedorLG = localStorage.getItem('ProveedorL');
+
+    if (NumeroFacturaLG !== null) {
+        $('#NumeroFactura').val(NumeroFacturaLG);
+    }
+    if (EmpleadoLG !== null) {
+        $('#Empleado').val(EmpleadoLG);
+    }
+    if (ProveedorLG !== null) {
+        $('#Proveedor').val(ProveedorLG);
+    }
+});

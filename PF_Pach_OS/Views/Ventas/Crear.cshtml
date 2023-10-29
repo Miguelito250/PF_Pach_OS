@@ -31,7 +31,7 @@
                     <span class="valid-feedback"></span>
                 </div>
 
-                <div class="col-4 d-flex align-items-end">
+                <div class="col-4 d-flex align-items-end DivBotonAgregar">
                     <button class="btn btn-primary botones-agregar" type="submit" title="Agregar producto a la venta">
                         Agregar
                     </button>
@@ -101,7 +101,9 @@
 
                     <span class="mt-1"><strong>NIT: </strong>9203272</span>
                     <span><strong>Telefono: </strong>+57 324-523-5382</span>
+                    <span><strong>Cajero: </strong>@ViewBag.NombreUsuario</span>
 
+                    <input type="text" asp-for="Item2.IdEmpleado" name="IdEmpleado" value="@ViewBag.NombreUsuario" hidden readonly>
                 </div>
 
                 <hr>
