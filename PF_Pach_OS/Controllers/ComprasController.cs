@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PF_Pach_OS.Models;
+using SendGrid.Helpers.Mail;
 
 
 namespace PF_Pach_OS.Controllers
@@ -11,11 +12,13 @@ namespace PF_Pach_OS.Controllers
         private Pach_OSContext context = new Pach_OSContext();
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        public readonly PermisosController _permisosController;
         public ComprasController(Pach_OSContext context, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             this.context = context;
             _signInManager = signInManager;
             _userManager = userManager;
+            _permisosController = new PermisosController(context, _userManager, _signInManager);
         }
 
 
@@ -63,6 +66,17 @@ namespace PF_Pach_OS.Controllers
 
         public async Task<IActionResult> Create([Bind("NumeroFactura")] Compra compra)
         {
+
+            bool tine_permiso = _permisosController.tinto(5, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
 
             if (ModelState.IsValid)
             {
@@ -196,6 +210,18 @@ namespace PF_Pach_OS.Controllers
 
         public async Task<IActionResult> Delete(string id)
         {
+
+            bool tine_permiso = _permisosController.tinto(5, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             var compradetalle = await context.Compras
                 .Include(v => v.DetallesCompras)
                 .FirstOrDefaultAsync(v => v.IdCompra == long.Parse(id));

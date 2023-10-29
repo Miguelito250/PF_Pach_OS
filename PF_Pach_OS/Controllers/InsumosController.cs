@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,13 +12,21 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
+    [Authorize]
     public class InsumosController : Controller
     {
         private readonly Pach_OSContext _context;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public readonly PermisosController _permisosController;
 
-        public InsumosController(Pach_OSContext context)
+
+        public InsumosController(Pach_OSContext context, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _permisosController = new PermisosController(context, _userManager, _signInManager);
         }
 
 
@@ -26,7 +36,18 @@ namespace PF_Pach_OS.Controllers
         // GET: Insumos
         public async Task<IActionResult> Index()
         {
-              return _context.Insumos != null ? 
+            bool tine_permiso = _permisosController.tinto(4, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
+            return _context.Insumos != null ? 
                           View(await _context.Insumos.ToListAsync()) :
                           Problem("Entity set 'Pach_OSContext.Insumos'  is null.");
             
@@ -38,6 +59,17 @@ namespace PF_Pach_OS.Controllers
         // GET: Insumos/Create
         public IActionResult Create()
         {
+            bool tine_permiso = _permisosController.tinto(4, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             return View();
         }
 
@@ -52,6 +84,17 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdInsumo,NomInsumo,CantInsumo,Medida,Estado")] Insumo insumo)
         {
+            bool tine_permiso = _permisosController.tinto(4, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             if (ModelState.IsValid)
             {
                 insumo.CantInsumo = 0;
@@ -183,6 +226,17 @@ namespace PF_Pach_OS.Controllers
 
         public IActionResult EditarInsumo(int id)
         {
+            bool tine_permiso = _permisosController.tinto(4, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             var insumo = _context.Insumos.FirstOrDefault(x => x.IdInsumo == id);
             if (insumo == null)
             {
@@ -209,6 +263,16 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> GuardarEdicionInsumo(int id, [Bind("IdInsumo,NomInsumo,CantInsumo,Medida,Estado")] Insumo insumo)
         {
+            bool tine_permiso = _permisosController.tinto(4, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
 
             if (ModelState.IsValid)
             {
