@@ -8709,6 +8709,14 @@
       "PackagePath": "staticwebassets\\css\\Proveedores.css"
     },
     {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Usuarios\\Index.css",
+      "PackagePath": "staticwebassets\\css\\Usuarios\\Index.css"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Usuarios\\ResgistroUsuarios.css",
+      "PackagePath": "staticwebassets\\css\\Usuarios\\ResgistroUsuarios.css"
+    },
+    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\SaboresPizza.css",
       "PackagePath": "staticwebassets\\css\\Ventas\\SaboresPizza.css"
     },
@@ -8771,6 +8779,10 @@
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\RolPermisos\\Index.js",
       "PackagePath": "staticwebassets\\js\\RolPermisos\\Index.js"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Usuarios\\Index.js",
+      "PackagePath": "staticwebassets\\js\\Usuarios\\Index.js"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\DetallesVenta.js",
