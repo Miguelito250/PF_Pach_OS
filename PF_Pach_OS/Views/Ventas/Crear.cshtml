@@ -6,9 +6,9 @@
     var detallesVentas = ViewData["DetallesVentas"] as List<DetalleVenta>;
 }
 
-<link href="~/css/detalleventa.css" rel="stylesheet" />
+<link href="~/css/ventas/detalleventa.css" rel="stylesheet" />
 
-<div class="d-flex p-2">
+<div class="d-flex p-2 contendorVenta">
     <div class="container">
         <div class="col-12">
             <form id="formAgregar" class="row g-2 needs-validation formulario-detalles" asp-controller="DetalleVentas" asp-action="AgregarDetalle" method="post" novalidate>
@@ -38,10 +38,10 @@
                 </div>
             </form>
         </div>
-        <hr>
 
-        <div class="mt-3 border rounded bg-white">
-            <table class="table table-borderless mb-0 tablaDetalles-ventas">
+        <div class="mt-3 bg-white tablaDetallesVentas">
+        <hr>
+            <table class="table border rounded table-borderless mb-0 tablaDetalles-ventas">
                 <thead>
                     <tr class="text-gray bg-gray-300">
                         <th>Producto</th>

@@ -8685,10 +8685,6 @@
       "PackagePath": "staticwebassets\\css\\Compras\\DetalleCompra.css"
     },
     {
-      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\DetalleVenta.css",
-      "PackagePath": "staticwebassets\\css\\DetalleVenta.css"
-    },
-    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Estilos-generales.css",
       "PackagePath": "staticwebassets\\css\\Estilos-generales.css"
     },
@@ -8709,8 +8705,16 @@
       "PackagePath": "staticwebassets\\css\\Proveedores.css"
     },
     {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\DetalleVenta.css",
+      "PackagePath": "staticwebassets\\css\\Ventas\\DetalleVenta.css"
+    },
+    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\SaboresPizza.css",
       "PackagePath": "staticwebassets\\css\\Ventas\\SaboresPizza.css"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\ventas.css",
+      "PackagePath": "staticwebassets\\css\\Ventas\\ventas.css"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\estructuracion.css",
@@ -8719,10 +8723,6 @@
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
-    },
-    {
-      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\ventas.css",
-      "PackagePath": "staticwebassets\\css\\ventas.css"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\img\\Logo_Empresa.jpg",

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "WIXemADavk490czHzdQar14lfUA+P8f4BHS5ly9KOA8=",
+  "Hash": "crm6WgplT2BZWsWDHEpejKOHbebI60Rwa1d6etHFKpg=",
   "Source": "PF_Pach_OS",
   "BasePath": "_content/PF_Pach_OS",
   "Mode": "Default",
@@ -37961,23 +37961,6 @@
       "OriginalItemSpec": "wwwroot\\css\\Compras\\DetalleCompra.css"
     },
     {
-      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\DetalleVenta.css",
-      "SourceId": "PF_Pach_OS",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
-      "BasePath": "_content/PF_Pach_OS",
-      "RelativePath": "css/DetalleVenta.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\DetalleVenta.css"
-    },
-    {
       "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Estilos-generales.css",
       "SourceId": "PF_Pach_OS",
       "SourceType": "Discovered",
@@ -38097,12 +38080,12 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
-      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\ventas.css",
+      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\DetalleVenta.css",
       "SourceId": "PF_Pach_OS",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
       "BasePath": "_content/PF_Pach_OS",
-      "RelativePath": "css/ventas.css",
+      "RelativePath": "css/Ventas/DetalleVenta.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -38111,7 +38094,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\ventas.css"
+      "OriginalItemSpec": "wwwroot\\css\\Ventas\\DetalleVenta.css"
     },
     {
       "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\SaboresPizza.css",
@@ -38129,6 +38112,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\Ventas\\SaboresPizza.css"
+    },
+    {
+      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\ventas.css",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "css/Ventas/ventas.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\Ventas\\ventas.css"
     },
     {
       "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\img\\Logo_Empresa.jpg",

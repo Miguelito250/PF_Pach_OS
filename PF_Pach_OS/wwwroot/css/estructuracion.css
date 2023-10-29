@@ -86,3 +86,10 @@ aside {
     width: auto;
     height:2.4rem;
 }
+
+/*Responsivo con maximo de ancho de 414px*/
+@media only screen and (max-width: 414px) {
+    #manage {
+        font-size: 12px;
+    }
+}
