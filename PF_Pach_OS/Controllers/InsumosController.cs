@@ -36,6 +36,7 @@ namespace PF_Pach_OS.Controllers
         // GET: Insumos
         public async Task<IActionResult> Index()
         {
+
             bool tine_permiso = _permisosController.tinto(4, User);
             Console.WriteLine("======================");
             Console.WriteLine(tine_permiso);
@@ -170,7 +171,7 @@ namespace PF_Pach_OS.Controllers
 
 
 
-        
+
         public IActionResult HabilitarDeshabilitar(int? id)
         {
             if (id == null || _context.Insumos == null)
@@ -201,7 +202,9 @@ namespace PF_Pach_OS.Controllers
             if (insumo.Estado == 1)
             {
                 insumo.Estado = 0;
-            }else{
+            }
+            else
+            {
                 insumo.Estado = 1;
             }
 
@@ -306,7 +309,7 @@ namespace PF_Pach_OS.Controllers
 
         private bool InsumoExists(int id)
         {
-          return (_context.Insumos?.Any(e => e.IdInsumo == id)).GetValueOrDefault();
+            return (_context.Insumos?.Any(e => e.IdInsumo == id)).GetValueOrDefault();
         }
     }
 }

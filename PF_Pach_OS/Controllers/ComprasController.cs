@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PF_Pach_OS.Models;
@@ -7,6 +8,7 @@ using SendGrid.Helpers.Mail;
 
 namespace PF_Pach_OS.Controllers
 {
+    [Authorize]
     public class ComprasController : Controller
     {
         private Pach_OSContext context = new Pach_OSContext();

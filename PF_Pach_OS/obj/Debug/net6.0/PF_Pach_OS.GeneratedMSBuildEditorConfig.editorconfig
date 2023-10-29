@@ -80,8 +80,28 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Acceso/ConfirmarCorreo.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNvXENvbmZpcm1hckNvcnJlby5jc2h0bWw=
+[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Acceso/AccesoDenegado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNvXEFjY2Vzb0RlbmVnYWRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/AspNetUsers/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlcnNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/AspNetUsers/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlcnNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/AspNetUsers/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlcnNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/AspNetUsers/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlcnNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/AspNetUsers/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlcnNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Compras/DetalleCompra.cshtml]

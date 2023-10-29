@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Build.ObjectModelRemoting;
@@ -10,6 +11,7 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
+    [Authorize]
     public class DetalleVentasController : Controller
     {
         private readonly Pach_OSContext _context;

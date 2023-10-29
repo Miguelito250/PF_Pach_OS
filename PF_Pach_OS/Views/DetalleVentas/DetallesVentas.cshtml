@@ -1,8 +1,11 @@
 ﻿@model PF_Pach_OS.Models.DetalleVenta
 @using System.Globalization;
 
-<link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="~/css/estilos-generales.css">
+
+<link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 @{
     int contadorDetalles = 0;
     List<DetalleVenta> listaDetalles = ViewBag.listaDetalles;
@@ -36,17 +39,17 @@
                     <td>@Html.DisplayFor(model => model.IdVentaNavigation.TipoPago)</td>
                     <td>
                         @(Model.IdVentaNavigation.PagoDomicilio.HasValue
-                            ? Model.IdVentaNavigation.PagoDomicilio.Value.ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                            ? Model.IdVentaNavigation.PagoDomicilio.Value.ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
                             : "Sin Precio")
                     </td>
                      <td>
                         @(Model.IdVentaNavigation.Pago.HasValue
-                            ? Model.IdVentaNavigation.Pago.Value.ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                            ? Model.IdVentaNavigation.Pago.Value.ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
                             : "Sin Precio")
                     </td>
                     <td>
                         @(ViewBag.Cambio != null && ViewBag.Cambio != 0
-                            ? ((decimal)ViewBag.Cambio).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+                            ? ((decimal)ViewBag.Cambio).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
                             : "0")
                     </td>
 
@@ -82,8 +85,8 @@
                         <td>@detalle.CantVendida</td>
                         <td>
                             @(total.HasValue ? (total % 1 == 0
-                                ? ((decimal)total).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
-                                : ((decimal)total).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                                ? ((decimal)total).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                                : ((decimal)total).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
                                 : "Sin Precio")
                         </td>
                     </tr>
@@ -97,12 +100,10 @@
     <span class="w-80 h2 text-center" style="margin-top:1rem">
         <strong>
             Total: @(Model.IdVentaNavigation.TotalVenta.HasValue
-            ? Model.IdVentaNavigation.TotalVenta.Value.ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
+            ? Model.IdVentaNavigation.TotalVenta.Value.ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
             : "Sin Precio")
         </strong>
     </span>
 </div>
 
 <script src="~/js/ventas/detallesventa.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
