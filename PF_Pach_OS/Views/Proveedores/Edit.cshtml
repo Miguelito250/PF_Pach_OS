@@ -10,12 +10,23 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdProveedor" />
             <div class="form-group">
-                <label asp-for="Nit" class="control-label">NIT O Cedula</label>
+                <label asp-for="Nit" class="control-label">
+                    @{
+                        if (Model.TipoDocumento == "NIT")
+                        {
+                            <text>NIT</text>
+                        }
+                        else if (Model.TipoDocumento == "Cédula")
+                        {
+                            <text>Cédula</text>
+                        }
+                    }
+                </label>
                 <input asp-for="Nit" class="form-control" readonly />
             </div>
             <div class="form-group">
                 <label asp-for="NomLocal" class="control-label"></label>
-                <input asp-for="NomLocal" class="form-control" />
+                <input asp-for="NomLocal" class="form-control" maxlength="30" />
                 <div class="invalid-feedback" id="nomlocal-feedback">
                     Por favor rellene el campo.
                 </div>
@@ -25,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" />
+                <input asp-for="Direccion" class="form-control" maxlength="30" />
                 <div class="invalid-feedback" id="nomlocal-feedback">
                     Por favor rellene el campo.
                 </div>
@@ -35,7 +46,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" />
+                <input asp-for="Telefono" class="form-control" maxlength="10" />
                 <div class="invalid-feedback" id="nomlocal-feedback">
                     Por favor rellene el campo.
                 </div>
@@ -45,16 +56,16 @@
             </div>
             <div class="form-group">
                 <label asp-for="Correo" class="control-label"></label>
-                <input asp-for="Correo" class="form-control" />
+                <input asp-for="Correo" class="form-control" maxlength="30" />
                 <div class="invalid-feedback" id="nomlocal-feedback">
-                    Por favor rellene el campo.
+                    Por favor ingrese un correo valido.
                 </div>
                 <div class="valid-feedback">
                 </div>
                 <span asp-validation-for="Correo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary botones-agregar">Guardar Cambios</button>
+                <button type="submit" class="btn btn-primary botones-agregar" id="btnEditar">Guardar Cambios</button>
             </div>
         </form>
     </div>
@@ -63,7 +74,7 @@
 @*<div>
     <a asp-action="Index">Back to List</a>
 </div>*@
-<script src="~/js/proveedores/validaciones.js"></script>
+<script src="~/js/proveedores/validacioneseditar.js"></script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

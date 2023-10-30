@@ -1612,3 +1612,5 @@ C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\obj\Debug\net
 C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\obj\Debug\net6.0\PF_Pach_OS.pdb
 C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\obj\Debug\net6.0\PF_Pach_OS.genruntimeconfig.cache
 C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\obj\Debug\net6.0\ref\PF_Pach_OS.dll
+C:\Users\camil\Desktop\Nuevo Clon Pachos\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\SendGrid.dll
+C:\Users\camil\Desktop\Nuevo Clon Pachos\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\StarkbankEcdsa.dll

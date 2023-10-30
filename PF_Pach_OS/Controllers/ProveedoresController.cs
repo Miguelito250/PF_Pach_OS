@@ -61,6 +61,7 @@ namespace Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdProveedor,Nit,NomLocal,Direccion,Telefono,Correo,TipoDocumento")] Proveedore proveedore)
         {
+
             if (ModelState.IsValid)
             {
                 if (proveedore.TipoDocumento == "NIT")
@@ -93,11 +94,11 @@ namespace Pach_OS.Controllers
                     };
                     _context.Add(proveedorConCedula);
                 }
-
+                TempData["SuccessMessage"] = "Proveedor creado exitosamente";
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Content("success");
             }
-            return View(proveedore);
+            return Content("success");
         }
 
         [HttpPost]
