@@ -3,7 +3,7 @@
 }
 
 aside {
-    background-color: #381F12 !important;
+    background-image: url("/img/fondo.jpeg") !important;
     border-radius: 0px 0px 30px 0px;
     color: #FFF
 }
@@ -46,8 +46,14 @@ aside {
     color: #000000 !important;
     border-radius: 10px;
     width: 110% !important;
-    font-size: 18px !important;
-
+    font-size: 1.5rem !important;
+    transition: all 0.3s linear;
+}
+.links-modulos {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    transition: all 0.2s linear;
+    color:#fff;
 }
 
 .activo {
@@ -61,6 +67,11 @@ aside {
 
 .activo:hover{
     color: #000;
+}
+
+.titulo_Pachos {
+    color: #fff;
+
 }
 
 .contenedor-configuracion {
