@@ -8701,6 +8701,10 @@
       "PackagePath": "staticwebassets\\css\\Productos.css"
     },
     {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Productos\\Index.css",
+      "PackagePath": "staticwebassets\\css\\Productos\\Index.css"
+    },
+    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Proveedores.css",
       "PackagePath": "staticwebassets\\css\\Proveedores.css"
     },
@@ -8751,6 +8755,10 @@
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Login-RecuperarContraseña\\Login.js",
       "PackagePath": "staticwebassets\\js\\Login-RecuperarContraseña\\Login.js"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Productos\\Crear.js",
+      "PackagePath": "staticwebassets\\js\\Productos\\Crear.js"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Productos\\Editar.js",
