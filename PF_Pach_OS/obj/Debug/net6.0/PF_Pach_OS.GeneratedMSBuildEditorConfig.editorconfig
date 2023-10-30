@@ -9,241 +9,241 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = PF_Pach_OS
 build_property.RootNamespace = PF_Pach_OS
-build_property.ProjectDir = C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\
+build_property.ProjectDir = C:\Users\camil\Desktop\Nuevo Clon Pachos\PF_Pach_OS\PF_Pach_OS\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS
+build_property.MSBuildProjectDirectory = C:\Users\camil\Desktop\Nuevo Clon Pachos\PF_Pach_OS\PF_Pach_OS
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/AccessDenied.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/AccessDenied.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/ConfirmEmail.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/ConfirmEmail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxDb25maXJtRW1haWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/ForgotPassword.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/ForgotPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/ForgotPasswordConfirmation.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/ForgotPasswordConfirmation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxGb3Jnb3RQYXNzd29yZENvbmZpcm1hdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Login.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Logout.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Logout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Manage/ChangePassword.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Manage/ChangePassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcQ2hhbmdlUGFzc3dvcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX01hbmFnZU5hdi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Register.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/RegisterConfirmation.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/RegisterConfirmation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3RlckNvbmZpcm1hdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/ResetPassword.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/ResetPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/Account/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/_ViewImports.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/_ViewStart.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Acceso/AccesoDenegado.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Acceso/AccesoDenegado.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNvXEFjY2Vzb0RlbmVnYWRvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/AspNetUsers/Create.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/AspNetUsers/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlcnNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/AspNetUsers/Delete.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/AspNetUsers/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlcnNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/AspNetUsers/Details.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/AspNetUsers/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlcnNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/AspNetUsers/Edit.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/AspNetUsers/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlcnNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/AspNetUsers/Index.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/AspNetUsers/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlcnNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Compras/DetalleCompra.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Compras/DetalleCompra.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcHJhc1xEZXRhbGxlQ29tcHJhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Compras/Index.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Compras/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcHJhc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/DetalleCompra/Create.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/DetalleCompra/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV0YWxsZUNvbXByYVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/DetalleCompra/Details.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/DetalleCompra/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV0YWxsZUNvbXByYVxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/DetalleVentas/DetallesVentas.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/DetalleVentas/DetallesVentas.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV0YWxsZVZlbnRhc1xEZXRhbGxlc1ZlbnRhcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Home/Index.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Home/Privacy.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Informes/Index.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Informes/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5mb3JtZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Insumos/Editar.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Insumos/Editar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdW1vc1xFZGl0YXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Insumos/Index.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Insumos/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdW1vc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Insumos/_EditarInsumo.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Insumos/_EditarInsumo.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdW1vc1xfRWRpdGFySW5zdW1vLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Productos/Crear.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Productos/Crear.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXENyZWFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Productos/Details.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Productos/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Productos/Editar.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Productos/Editar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXEVkaXRhci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Productos/Index.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Productos/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Create.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Delete.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yZXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Details.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yZXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Edit.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yZXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Index.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Proveedores/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Create.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sUGVybWlzb3NcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Delete.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sUGVybWlzb3NcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Details.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sUGVybWlzb3NcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Editar.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Editar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sUGVybWlzb3NcRWRpdGFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Index.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sUGVybWlzb3NcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Shared/Error.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Shared/_LoginPartial.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Shared/_Navbar.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Shared/_Navbar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9OYXZiYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Shared/_Sidebar.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Shared/_Sidebar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TaWRlYmFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Ventas/Crear.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Ventas/Crear.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVudGFzXENyZWFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Ventas/Index.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Ventas/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVudGFzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Ventas/SaboresPizza.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Ventas/SaboresPizza.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVudGFzXFNhYm9yZXNQaXp6YS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/_ViewImports.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/_ViewStart.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Shared/_Layout.cshtml]
+[C:/Users/camil/Desktop/Nuevo Clon Pachos/PF_Pach_OS/PF_Pach_OS/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-sklo7qddau

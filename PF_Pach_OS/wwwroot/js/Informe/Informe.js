@@ -14,8 +14,8 @@ var obtenerTotalVentasUrl = '@Url.Action("ObtenerTotalVentas", "EstadisticasCont
                     datasets: [{
                         label: 'Ventas',
                         data: ventasMensuales,
-                        backgroundColor: '#007bff',
-                        borderColor: '#007bff',
+                        backgroundColor: '#FF9200',
+                        borderColor: '#FF9200',
                         borderWidth: 1
                     }]
                 };
@@ -59,7 +59,7 @@ $(document).ready(function () {
         type: 'GET',
         dataType: 'json',
         success: function (data) {
-            console.log('Diferencia de ventas desde el mes anterior:', data.diferencia);
+            console.log('Diferencia desde ventas desde el mes anterior:', data.diferencia);
 
             var diferenciaSpan = $('#diferenciaVentasMesAnterior');
 
@@ -98,26 +98,114 @@ $(document).ready(function () {
         });
     });
 });
-$(document).ready(function () {
-    $.ajax({
-        url: '/Estadisticas/ObtenerProductosMasYMenosVendidos',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            var ctx = document.getElementById('productosMasYMenosVendidos').getContext('2d');
-            var chart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['Más Vendido', 'Menos Vendido'],
-                    datasets: [{
-                        data: [data.MasVendido.TotalVendido, data.MenosVendido.TotalVendido],
-                        backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(255, 99, 132, 0.6)']
-                    }]
+//$(document).ready(function () {
+//    $.ajax({
+//        url: '/Estadisticas/ObtenerProductosMasYMenosVendidos',
+//        type: 'GET',
+//        dataType: 'json',
+//        success: function (data) {
+//            // Llenar la tabla con los datos
+//            var masVendidoRow = '<tr><td>' + data.MasVendido.Producto + '</td><td>' + data.MasVendido.Precio + '</td><td>' + data.MasVendido.CantVendida + '</td><td>Más Vendido</td></tr>';
+//            var menosVendidoRow = '<tr><td>' + data.MenosVendido.Producto + '</td><td>' + data.MenosVendido.Precio + '</td><td>' + data.MenosVendido.CantVendida + '</td><td>Menos Vendido</td></tr>';
+
+//            // Agregar las filas a la tabla
+//            $('#tablaProductos tbody').append(masVendidoRow);
+//            $('#tablaProductos tbody').append(menosVendidoRow);
+//        },
+//        error: function () {
+//            alert('Error al cargar los datos de productos más y menos vendidos.');
+//        }
+//    });
+//});
+document.getElementById('generarInforme').addEventListener('click', function () {
+    var tipoInforme = document.getElementById('tipoInforme').value;
+    console.log('Tipo de Informe: ' + tipoInforme);
+
+    var fechaSeleccionada = "";
+
+    if (tipoInforme === "mensual") {
+        var mesSeleccionado = document.getElementById('mes').value;
+        var anioSeleccionado = document.getElementById('anio').value;
+        fechaSeleccionada = anioSeleccionado + '-' + mesSeleccionado;
+    } else if (tipoInforme === "anual") {
+        var anioSeleccionado = document.getElementById('anio').value;
+        fechaSeleccionada = anioSeleccionado;
+    }
+
+    console.log('Fecha seleccionada: ' + fechaSeleccionada);
+
+    // Realiza una solicitud AJAX para obtener los datos de ventas
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/Estadisticas/ObtenerVentas?fechaSeleccionada=' + fechaSeleccionada + '&tipoInforme=' + tipoInforme, true);
+    xhr.responseType = 'json';
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var ventasDelInforme = xhr.response;
+            console.log('Ventas del informe:');
+            console.log(ventasDelInforme);
+            var xhrPdf = new XMLHttpRequest();
+            xhrPdf.open('GET', '/Estadisticas/ObtenerVentas?fechaSeleccionada=' + fechaSeleccionada + '&tipoInforme=' + tipoInforme, true);
+            xhrPdf.responseType = 'blob';
+
+            xhrPdf.onload = function () {
+                if (xhrPdf.status === 200) {
+                    var blob = new Blob([xhrPdf.response], { type: 'application/pdf' });
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = 'InformeVentas.pdf';
+                    link.click();
+                } else {
+                    alert('Error al generar el informe.');
                 }
-            });
-        },
-        error: function () {
-            alert('Error al cargar los datos de productos más y menos vendidos.');
+            };
+
+            xhrPdf.send();
+        } else if (xhr.status === 400) {
+            alert('No se encontraron ventas en el rango seleccionado');
         }
-    });
+        else {
+            alert('Error al obtener los datos de ventas. Seleccione una fecha valida');
+        }
+    };
+
+    xhr.send();
 });
+
+
+
+
+// Escucha el evento "change" del campo de entrada de fecha
+document.getElementById('fechaSeleccionada').addEventListener('change', function () {
+    // Obten la fecha seleccionada (asegúrate de que tengas la fecha en el formato adecuado)
+    var fechaSeleccionada = document.getElementById('fechaSeleccionada').value;
+
+    // Realiza una solicitud AJAX para obtener los datos
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/Estadisticas/ObtenerVentas?fechaSeleccionada=' + fechaSeleccionada, true);
+    xhr.responseType = 'json'; // Indica que esperas una respuesta JSON
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var data = xhr.response;
+            console.log('Total de Ventas: ' + data.TotalVentas);
+
+            // Imprime las ventas individuales
+            data.VentasIndividuales.forEach(function (venta) {
+                console.log('ID Venta: ' + venta.IdVenta);
+                console.log('Fecha Venta: ' + venta.FechaVenta);
+                console.log('Monto Total: ' + venta.TotalVenta);
+            });
+        } else {
+            console.log('Error al obtener los datos de ventas.');
+        }
+    };
+
+    xhr.send();
+});
+
+
+
+
+
+

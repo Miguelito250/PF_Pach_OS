@@ -2,6 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using PF_Pach_OS.Models;
 using System.Diagnostics.Metrics;
+using System.IO;
+using System.Linq;
+using System.Globalization;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 
 namespace PF_Pach_OS.Controllers { 
 
@@ -102,28 +110,35 @@ namespace PF_Pach_OS.Controllers {
                 return Json(ventasDelDia);
             }
 
-            // Maneja el caso en el que la conversión de la fecha falla
-            return Json(0); // Puedes elegir cómo manejar este caso de acuerdo a tus necesidades
+            return Json(0); 
         }
+        [HttpGet]
         public IActionResult ObtenerProductosMasYMenosVendidos()
         {
-            // Realiza la consulta para obtener los productos más vendidos y menos vendidos
+  
             var productosMasVendidos = _context.DetalleVentas
                 .GroupBy(dv => dv.IdProducto)
                 .OrderByDescending(g => g.Sum(dv => dv.CantVendida))
-                .Select(g => new { ProductoId = g.Key, TotalVendido = g.Sum(dv => dv.CantVendida) })
+                .Select(g => g.First())
                 .FirstOrDefault();
+
 
             var productosMenosVendidos = _context.DetalleVentas
                 .GroupBy(dv => dv.IdProducto)
                 .OrderBy(g => g.Sum(dv => dv.CantVendida))
-                .Select(g => new { ProductoId = g.Key, TotalVendido = g.Sum(dv => dv.CantVendida) })
+                .Select(g => g.First())
                 .FirstOrDefault();
 
-            // Puedes adaptar este código según la estructura de tu base de datos y tus modelos.
+            var model = new ProductosMasMenosVendidosModel
+            {
+                ProductoMasVendido = productosMasVendidos,
+                ProductoMenosVendido = productosMenosVendidos
+            };
 
-            return Json(new { MasVendido = productosMasVendidos, MenosVendido = productosMenosVendidos });
+            return View(model);
         }
+
+
 
 
         private List<Venta> ObtenerDatosVentas()
@@ -144,6 +159,137 @@ namespace PF_Pach_OS.Controllers {
                 .ToList();
 
             return datosVentas;
+        }
+        [HttpGet]
+        public ActionResult ObtenerVentas(string fechaSeleccionada, string tipoInforme)
+        {
+            DateTime fecha=DateTime.Now;
+
+            if (tipoInforme == "mensual")
+            {
+                // Parsea la fecha seleccionada en formato "yyyy-MM" (por ejemplo, "2023-10")
+                if (DateTime.TryParseExact(fechaSeleccionada, "yyyy-MM", CultureInfo.InvariantCulture, DateTimeStyles.None, out fecha))
+                {
+                    // Implementa la lógica para el informe mensual aquí
+                    var fechaInicio = fecha;
+                    var fechaFin = fecha.AddMonths(1).AddDays(-1);
+
+                    // Consulta tus ventas dentro del rango de fechas seleccionado
+                    var ventasEnRango = _context.Ventas
+                        .Where(v => v.FechaVenta >= fechaInicio && v.FechaVenta <= fechaFin)
+                        .ToList();
+                    Console.WriteLine(ventasEnRango);
+                    if (ventasEnRango.Count == 0)
+                    {
+                        // No hay ventas en el mes seleccionado, muestra una notificación SweetAlert
+                        return BadRequest("No se encontraron ventas en el rango seleccionado");
+                    }
+                    foreach (PF_Pach_OS.Models.Venta venta in ventasEnRango)
+                    {
+                        Console.WriteLine($"Propiedad 1: {venta.IdVenta}");
+                        // Sustituye 'Propiedad1', 'Propiedad2', etc., por los nombres de las propiedades de tu modelo 'Venta'
+                    }
+                    // Calcula el total de ventas en el rango
+                    int? totalVentas = ventasEnRango.Sum(v => v.TotalVenta);
+                    if (ventasEnRango.Count == 0)
+                    {
+                        return BadRequest("No se encontraron ventas en el rango seleccionado");
+                    }
+
+                    // Crear el documento PDF
+                    Document doc = new Document();
+                    MemoryStream memoryStream = new MemoryStream();
+                    PdfWriter writer = PdfWriter.GetInstance(doc, memoryStream);
+                    doc.Open();
+
+                    // Agregar contenido al PDF basado en las ventas dentro del rango
+                    doc.Add(new Paragraph("Informe de Ventas"));
+
+                    // Agregar información de ventas
+                    doc.Add(new Paragraph("Fecha de inicio: " + fechaInicio.ToShortDateString()));
+                    doc.Add(new Paragraph("Fecha de fin: " + fechaFin.ToShortDateString()));
+                    doc.Add(new Paragraph("Total de Ventas: $" + totalVentas));
+                    doc.Add(Chunk.NEWLINE);
+
+                    foreach (var venta in ventasEnRango)
+                    {
+                        doc.Add(new Paragraph($"Venta ID: {venta.IdVenta}"));
+                        doc.Add(new Paragraph($"Fecha: {venta.FechaVenta}"));
+                        doc.Add(new Paragraph($"Monto Total: ${venta.TotalVenta}"));
+                        doc.Add(Chunk.NEWLINE);
+                    }
+
+                    doc.Close();
+
+                    byte[] pdfBytes = memoryStream.ToArray();
+                    return File(pdfBytes, "application/pdf", "InformeVentas.pdf");
+                }
+                else
+                {
+                    // Manejar error de fecha no válida
+                }
+            }
+            else if (tipoInforme == "anual")
+            {
+                // Parsea la fecha seleccionada en formato "yyyy" (por ejemplo, "2023")
+                if (DateTime.TryParseExact(fechaSeleccionada, "yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fecha))
+                {
+                    // Implementa la lógica para el informe anual aquí
+                    var fechaInicio = new DateTime(fecha.Year, 1, 1);
+                    var fechaFin = fechaInicio.AddYears(1).AddDays(-1);
+
+                    // Consulta tus ventas dentro del rango de fechas seleccionado
+                    var ventasEnRango = _context.Ventas
+                        .Where(v => v.FechaVenta >= fechaInicio && v.FechaVenta <= fechaFin)
+                        .ToList();
+
+                    // Calcula el total de ventas en el rango
+                    int? totalVentas = ventasEnRango.Sum(v => v.TotalVenta);
+                    if (ventasEnRango.Count == 0)
+                    {
+                        return BadRequest("No se encontraron ventas en el rango seleccionado");
+                    }
+                    // Crear el documento PDF
+                    Document doc = new Document();
+                    MemoryStream memoryStream = new MemoryStream();
+                    PdfWriter writer = PdfWriter.GetInstance(doc, memoryStream);
+                    doc.Open();
+
+                    // Agregar contenido al PDF basado en las ventas dentro del rango
+                    doc.Add(new Paragraph("Informe de Ventas"));
+
+                    // Agregar información de ventas
+                    doc.Add(new Paragraph("Tipo de Informe: " + tipoInforme));
+                    doc.Add(new Paragraph("Fecha seleccionada: " + fechaSeleccionada));
+                    doc.Add(new Paragraph("Ventas del informe:"+ totalVentas));
+                    doc.Add(Chunk.NEWLINE);
+
+                    foreach (var venta in ventasEnRango)
+                    {
+                        doc.Add(new Paragraph($"Venta ID: {venta.IdVenta}"));
+                        doc.Add(new Paragraph($"Fecha: {venta.FechaVenta}"));
+                        doc.Add(new Paragraph($"Monto Total: ${venta.TotalVenta}"));
+                        doc.Add(new Paragraph("------------------------------------------------------------------------"));
+                        doc.Add(Chunk.NEWLINE);
+                    }
+
+                    doc.Close();
+                    byte[] pdfBytes = memoryStream.ToArray();
+                    // Devolver el PDF como un archivo descargable
+                    return File(pdfBytes, "application/pdf", "InformeVentas.pdf");
+                }
+                else
+                {
+                    // Manejar error de fecha no válida
+                }
+            }
+            else
+            {
+                // Manejar error de tipo de informe no válido
+            }
+
+            // Manejar otro tipo de error o redirigir a la página de inicio
+            return RedirectToAction("Index");
         }
 
 
