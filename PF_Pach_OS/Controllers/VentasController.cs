@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -14,20 +15,34 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
+    [Authorize]
     public class VentasController : Controller
     {
         private readonly Pach_OSContext _context;
         private readonly DetalleVentasController _detalleVentasController;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public readonly PermisosController _permisosController;
 
-        public VentasController(Pach_OSContext context)
+        public VentasController(Pach_OSContext context, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
-            _detalleVentasController = new DetalleVentasController(_context);
-        }
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _permisosController = new PermisosController(_context, _userManager, _signInManager);
+            _detalleVentasController = new DetalleVentasController(_context, _userManager, _signInManager);
+        }   
 
         //Miguel 22/10/2023: Función para retornar a la vista de index de ventas
         public async Task<IActionResult> Index()
         {
+            bool tine_permiso = _permisosController.tinto(2, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "NomProducto");
             var ventasNulas = _context.Ventas.FirstOrDefault(v => v.TipoPago == null);
 
@@ -45,6 +60,16 @@ namespace PF_Pach_OS.Controllers
         //Miguel 22/10/2023: Función para redirigir con los datos necesarios a la vista de registrar los detalles de venta
         public IActionResult Crear(int IdVenta)
         {
+            bool tine_permiso = _permisosController.tinto(2, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
+            var nombreUsuario = _userManager.GetUserAsync(User).Result.FirstName;
+            ViewBag.NombreUsuario = nombreUsuario;
+
             float? total = 0;
             var ventaNula = _context.Ventas
                 .FirstOrDefault(v => v.IdVenta == IdVenta);
@@ -106,6 +131,13 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ConfirmarVenta([Bind("IdVenta,FechaVenta,TotalVenta,TipoPago,Pago,PagoDomicilio,IdEmpleado,Estado,Mesa")] Venta venta)
         {
+            bool tine_permiso = _permisosController.tinto(2, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             if (ModelState.IsValid)
             {
                 if (venta.Pago < venta.TotalVenta || venta.Pago == null)
@@ -114,22 +146,30 @@ namespace PF_Pach_OS.Controllers
                 }
                 else
                 {
-                    string estado = venta.Mesa == "General"
+                     venta.Estado = venta.Mesa == "General"
                         ? venta.Estado = "Pagada"
                         : venta.Estado = "Pendiente";
 
-                    DescontarInsumos(venta.IdVenta);
 
-                    // Aquí cargamos la entidad desde el contexto o marcamos como modificado
-                    var ventaExiste = _context.Ventas.Find(venta.IdVenta);
+                    var ventaActualizar = await _context.Ventas
+                        .FirstOrDefaultAsync(v => v.IdVenta == venta.IdVenta);
 
-                    if (ventaExiste != null)
+                    if (ventaActualizar != null)
                     {
-                        _context.Entry(ventaExiste).CurrentValues.SetValues(venta);
-                        ventaExiste.Estado = estado;
+                        ventaActualizar.FechaVenta = venta.FechaVenta;
+                        ventaActualizar.TotalVenta = venta.TotalVenta;
+                        ventaActualizar.TipoPago = venta.TipoPago;
+                        ventaActualizar.Pago = venta.Pago;
+                        ventaActualizar.PagoDomicilio = venta.PagoDomicilio;
+                        ventaActualizar.IdEmpleado = venta.IdEmpleado;
+                        ventaActualizar.Estado = venta.Estado;
+                        ventaActualizar.Mesa= venta.Mesa;
+
+                        _context.Ventas.Update(ventaActualizar); 
+                        _context.SaveChanges();
                     }
 
-                    await _context.SaveChangesAsync();
+                    DescontarInsumos(venta);
                 }
                 return RedirectToAction("Index", "Ventas");
             }
@@ -141,6 +181,13 @@ namespace PF_Pach_OS.Controllers
         //Miguel 22/10/2023: Función para cancelar la venta en caso de que ya no se vaya a registrar o se encuentre una nula en el index
         public IActionResult CancelarVenta(int IdVenta)
         {
+            bool tine_permiso = _permisosController.tinto(2, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             var ventaCancelar = _context.Ventas.SingleOrDefault(v => v.IdVenta == IdVenta);
             if (ventaCancelar != null)
             {
@@ -156,28 +203,19 @@ namespace PF_Pach_OS.Controllers
         }
 
         //Miguel 22/10/2023: Función para descontar insumos de los productos vendidos
-        public IActionResult DescontarInsumos(int? idVenta)
+        public async Task<IActionResult> DescontarInsumos(Venta venta)
         {
             int? cantidadDisminuir = 0;
 
-            var venta = _context.Ventas
-                .FirstOrDefault(v => v.IdVenta == idVenta);
-
-            if (venta == null)
-            {
-                return NotFound();
-            }
-
             var detalleVenta = _context.DetalleVentas
-                .Where(d => d.IdVenta == idVenta && d.Estado != "Descontado")
+                .Where(d => d.IdVenta == venta.IdVenta && d.Estado != "Descontado")
+                .Include(d => d.IdProductoNavigation.IdTamanoNavigation)
                 .ToList();
 
             foreach (var detalle in detalleVenta)
             {
                 var producto = _context.Productos
                     .FirstOrDefault(p => p.IdProducto == detalle.IdProducto);
-
-                _detalleVentasController.OrganizarDetalles(idVenta, detalle.IdProducto);
 
                 if (producto.IdProducto is <= 4 and > 1)
                 {
@@ -221,6 +259,7 @@ namespace PF_Pach_OS.Controllers
                                 consultaInsumos.CantInsumo = insumoDisminuido;
 
                                 _context.Update(consultaInsumos);
+                                _context.SaveChanges();
                             }
                             else
                             {
@@ -252,15 +291,19 @@ namespace PF_Pach_OS.Controllers
                             consultaInsumos.CantInsumo = insumoDisminuido;
 
                             _context.Update(consultaInsumos);
+                            _context.SaveChanges();
                         }
                         else
                         {
                             ViewBag.MensajeAlerta = "No hay suficientes insumos";
+                            return RedirectToAction("Crear", "Ventas", new { detalle.IdVenta });
                         }
                     }
                 }
+                _detalleVentasController.OrganizarDetalles(venta.IdVenta, detalle.IdProducto);
                 detalle.Estado = "Descontado";
                 _context.DetalleVentas.Update(detalle);
+                _context.SaveChanges();
             }
             return RedirectToAction("Index", "Ventas");
         }
@@ -268,6 +311,12 @@ namespace PF_Pach_OS.Controllers
         //Miguel 22/10/2023: Función para cambiar de estado de la venta a pagado o a pendiente
         public async Task<IActionResult> CambiarEstado(int IdVenta)
         {
+            bool tine_permiso = _permisosController.tinto(2, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             var cambioEstado = "";
 
             var estadoVenta = _context.Ventas
@@ -288,6 +337,12 @@ namespace PF_Pach_OS.Controllers
         //Miguel 22/10/2023: Función para escoger los sabores de las pizzas a vender en la venta modal
         public async Task<IActionResult> SaboresPizza()
         {
+            bool tine_permiso = _permisosController.tinto(2, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             var saboresPizza = _context.Productos
                 .Where(p => p.IdTamano == 1 && p.IdCategoria == 1 && p.IdProducto > 4);
 
@@ -300,19 +355,24 @@ namespace PF_Pach_OS.Controllers
 
         //Miguel 22/10/2023: Función para confirmar los sabores de las pizzas escogidos y agregarlos al detalle
         [HttpPost]
-        public async Task<IActionResult> ConfirmarSabores(List<int> sabores, DetalleVenta detalleVenta)
+        public async Task<bool> ConfirmarSabores(List<int> sabores, DetalleVenta detalleVenta)
         {
             var producto = await _context.Productos
                 .FirstOrDefaultAsync(d => d.IdProducto == detalleVenta.IdProducto);
 
             if (producto == null)
             {
-
-                return NotFound();
+                NotFound();
             }
 
             detalleVenta.Precio = producto.PrecioVenta;
 
+            bool resultado = _detalleVentasController.InsumosSuficientesPizzas(sabores, detalleVenta);
+            if (!resultado)
+            {
+                return false;
+            }
+            bool insumosSufucientes = true;
             await _context.DetalleVentas.AddAsync(detalleVenta);
             await _context.SaveChangesAsync();
 
@@ -332,7 +392,7 @@ namespace PF_Pach_OS.Controllers
                 await _context.SaboresSeleccionados.AddAsync(saborSeleccionado);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction("Crear", "Ventas", new { IdVenta = detalleVenta.IdVenta });
+            return insumosSufucientes;
         }
 
     }

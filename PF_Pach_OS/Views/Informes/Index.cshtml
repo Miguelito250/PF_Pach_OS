@@ -1,274 +1,155 @@
-﻿  <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+﻿@model ProductosMasMenosVendidosModel
+<link href="~/css/informes/estilos.css" rel="stylesheet" />
+<link href="~/css/estructuracion.css" rel="stylesheet" />
+<button id="generarInforme" class="btn-crear-posicion estilo-btn-naranja btn-generar-informe">Generar Informe</button>
+<div class="card-header border-0">
+    <div class="d-flex justify-content-between">
+        <h3 class="card-title">Ventas</h3>
+        <div class="input-container">
+            <div>
+                <label for="tipoInforme">Tipo de Informe:</label>
+                <select id="tipoInforme">
+                    <option value="mensual">Mensual</option>
+                    <option value="anual">Anual</option>
+                </select>
+            </div>
+            <div id="divMeses">
+                <label for="mes">Selecciona un mes:</label>
+                <select id="mes">
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+            </div>
+            <div id="divAnios">
+                <label for="anio">Selecciona un año:</label>
+                <select id="anio">
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="d-flex">
+            <p class="d-flex flex-column">
+                <span class="text-bold text-lg" id="totalVentasAnuales">$0.00</span>
+                <span>Ventas a lo largo del tiempo</span>
+            </p>
+            <p class="ml-auto d-flex flex-column text-right">
+                <span class="text-success">
+                    <i class="fas fa-arrow-up"></i>
+                    <span id="diferenciaVentasMesAnterior"></span>
+                </span>
+                <span class="text-muted">Desde el mes pasado</span>
+            </p>
+        </div>
+        <!-- /.d-flex -->
+
+        <div class="position-relative mb-4">
+            <canvas id="sales-chart" height="200"></canvas>
+        </div>
+
+        <div class="d-flex flex-row justify-content-end">
+            <span class="mr-2">
+                <i class="fas fa-square " style="color: #FF9200;"></i> Este Año
+            </span>
+        </div>
+    </div>
+
+</div>
+
+
+
+<!-- /.col-md-6 -->
+@* <div c@* lass="col-lg-6">
+    <div class="card">
+        
+        <div class="card">
+            <div class="card-header border-0">
+                <h3 class="card-title">Products</h3>
+                <div class="card-tools">
+                    <a href="#" class="btn btn-tool btn-sm">
+                        <i class="fas fa-download"></i>
+                    </a>
+                    <a href="#" class="btn btn-tool btn-sm">
+                        <i class="fas fa-bars"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-valign-middle">
+                    <thead>
+                        <tr>
+                            <th>Productos</th>
+                            <th>Precio</th>
+                            <th>Ventas</th>
+                            <th>Mas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            @if (Model != null && Model.ProductoMasVendido != null)
+                            {
+                                <td>@Model?.ProductoMasVendido?.IdProductoNavigation?.NomProducto</td>
+                                <td>$@Model.ProductoMasVendido.Precio</td>
+                                <td>@Model.ProductoMasVendido.CantVendida</td>
+                                <td>Más Vendido</td>
+                            }
+                        </tr>
+                        <tr>
+                            <td>@Model?.ProductoMenosVendido?.IdProductoNavigation?.NomProducto</td>
+                            <td>$@Model?.ProductoMenosVendido.Precio</td>
+                            <td>@Model?.ProductoMenosVendido.CantVendida</td>
+                            <td>Menos Vendido</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- /.card -->
+        <!-- /.card -->
+    </div>
+
+<!-- /.col-md-6 -->
+<!-- Content Wrapper. Contains page content -->
+@* <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Dashboard </h1>
+                    <h1 class="m-0">Dashboard</h1>
+                    <input type="date" id="fechaSeleccionada" name="trip-start" value="2023-01-01" min="2023-01-01" max="2050-12-31" />
+                </div>
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
     <!-- Main content -->
     <div class="content">
-            <div class="container-fluid">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="card">
-                        <div class="card-header border-0">
-                            <div class="d-flex justify-content-between">
-                                <h3 class="card-title">Online Store Visitors</h3>
-                                <a href="javascript:void(0);">Ver Reporte</a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <p class="d-flex flex-column">
-                                    <span class="text-bold text-lg">820</span>
-                                    <span>Visitors Over Time</span>
-                                </p>
-                                <p class="ml-auto d-flex flex-column text-right">
-                                    <span class="text-success">
-                                        <i class="fas fa-arrow-up"></i> 12.5%
-                                    </span>
-                                    <span class="text-muted">Desde la semana pasada</span>
-                                </p>
-                            </div>
-                            <!-- /.d-flex -->
-
-                            <div class="position-relative mb-4">
-                                    <canvas id="visitors-chart" height="200" width="486" style="display: block; width: 486px; height: 200px;" class="chartjs-render-monitor"></canvas>
-                            </div>
-
-                            <div class="d-flex flex-row justify-content-end">
-                                <span class="mr-2">
-                                    <i class="fas fa-square text-primary"></i> Esta Semana
-                                </span>
-
-                                <span>
-                                    <i class="fas fa-square text-gray"></i> Semana Pasada
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.card -->
-
-                    <div class="card">
-                        <div class="card-header border-0">
-                            <h3 class="card-title">Productos</h3>
-                            <div class="card-tools">
-                                <a href="#" class="btn btn-tool btn-sm">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                                <a href="#" class="btn btn-tool btn-sm">
-                                    <i class="fas fa-bars"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-striped table-valign-middle">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Precio</th>
-                                        <th>Ventas</th>
-                                        <th>Mas</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <img src="~/adminLTE/dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                                            Hamburguesa
-                                        </td>
-                                        <td>$13.000 </td>
-                                        <td>
-                                            <small class="text-success mr-1">
-                                                <i class="fas fa-arrow-up"></i>
-                                                12%
-                                            </small>
-                                            120.000 Ventas
-                                        </td>
-                                        <td>
-                                            <a href="#" class="text-muted">
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                                <img src="~/adminLTE/dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                                            Pizza
-                                        </td>
-                                        <td>$29.000</td>
-                                        <td>
-                                            <small class="text-warning mr-1">
-                                                <i class="fas fa-arrow-down"></i>
-                                                0.5%
-                                            </small>
-                                            123.200 Ventas
-                                        </td>
-                                        <td>
-                                            <a href="#" class="text-muted">
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                                <img src="~/adminLTE/dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                                            Costillas
-                                        </td>
-                                        <td>$23.000 </td>
-                                        <td>
-                                            <small class="text-danger mr-1">
-                                                <i class="fas fa-arrow-down"></i>
-                                                3%
-                                            </small>
-                                            198.000 Ventas
-                                        </td>
-                                        <td>
-                                            <a href="#" class="text-muted">
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                                <img src="~/adminLTE/dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                                            Perros
-                                            <span class="badge bg-danger">Nuevo</span>
-                                        </td>
-                                        <td>$19.000 </td>
-                                        <td>
-                                            <small class="text-success mr-1">
-                                                <i class="fas fa-arrow-up"></i>
-                                                63%
-                                            </small>
-                                            87.000 Ventas
-                                        </td>
-                                        <td>
-                                            <a href="#" class="text-muted">
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- /.card -->
-                </div>
-                <!-- /.col-md-6 -->
-                <div class="col-lg-6">
-                    <div class="card">
-                        <div class="card-header border-0">
-                            <div class="d-flex justify-content-between">
-                                <h3 class="card-title">Ventas</h3>
-                                <a href="javascript:void(0);">Ver Reporte</a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <p class="d-flex flex-column">
-                                    <span class="text-bold text-lg">$18.230.000</span>
-                                        <span>Ventas a lo largo del tiempo</span>
-                                </p>
-                                <p class="ml-auto d-flex flex-column text-right">
-                                    <span class="text-success">
-                                        <i class="fas fa-arrow-up"></i> 33.1%
-                                    </span>
-                                        <span class="text-muted">Desde el mes pasado</span>
-                                </p>
-                            </div>
-                            <!-- /.d-flex -->
-
-                            <div class="position-relative mb-4">
-                                    <canvas id="sales-chart" height="200" style="display: block; width: 486px; height: 200px;" width="486" class="chartjs-render-monitor"></canvas>
-                            </div>
-
-                            <div class="d-flex flex-row justify-content-end">
-                                <span class="mr-2">
-                                    <i class="fas fa-square text-primary"></i> Este Mes
-                                </span>
-
-                                <span>
-                                    <i class="fas fa-square text-gray"></i> Mes Pasado
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.card -->
-
-                    <div class="card">
-                        <div class="card-header border-0">
-                            <h3 class="card-title">Online Store Overview</h3>
-                            <div class="card-tools">
-                                <a href="#" class="btn btn-sm btn-tool">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                                <a href="#" class="btn btn-sm btn-tool">
-                                    <i class="fas fa-bars"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
-                                <p class="text-success text-xl">
-                                    <i class="ion ion-ios-refresh-empty"></i>
-                                </p>
-                                <p class="d-flex flex-column text-right">
-                                    <span class="font-weight-bold">
-                                        <i class="ion ion-android-arrow-up text-success"></i> 12%
-                                    </span>
-                                    <span class="text-muted">CONVERSION RATE</span>
-                                </p>
-                            </div>
-                            <!-- /.d-flex -->
-                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
-                                <p class="text-warning text-xl">
-                                    <i class="ion ion-ios-cart-outline"></i>
-                                </p>
-                                <p class="d-flex flex-column text-right">
-                                    <span class="font-weight-bold">
-                                        <i class="ion ion-android-arrow-up text-warning"></i> 0.8%
-                                    </span>
-                                    <span class="text-muted">SALES RATE</span>
-                                </p>
-                            </div>
-                            <!-- /.d-flex -->
-                            <div class="d-flex justify-content-between align-items-center mb-0">
-                                <p class="text-danger text-xl">
-                                    <i class="ion ion-ios-people-outline"></i>
-                                </p>
-                                <p class="d-flex flex-column text-right">
-                                    <span class="font-weight-bold">
-                                        <i class="ion ion-android-arrow-down text-danger"></i> 1%
-                                    </span>
-                                    <span class="text-muted">REGISTRATION RATE</span>
-                                </p>
-                            </div>
-                            <!-- /.d-flex -->
-                        </div>
-                    </div>
-                </div>
-                <!-- /.col-md-6 -->
             </div>
             <!-- /.row -->
         </div>
         <!-- /.container-fluid -->
     </div>
     <!-- /.content -->
-</div>
+</div> *@
+
 <!-- /.content-wrapper -->
-
-    <!-- REQUIRED SCRIPTS -->
-    <!-- jQuery -->
-    <script src="~/adminLTE/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="~/adminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE -->
-    <script src="~/adminLTE/dist/js/adminlte.js"></script>
-
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="~/js/informe/informe2.js"></script>
+<script src="~/js/informe/informe.js"></script>

@@ -24,3 +24,21 @@ a
 {
     color: orange !important;
 }
+
+@media (max-width: 412px) and (max-height: 914px) {
+    .container {
+        width: 100%;
+    }
+
+    .w-60 {
+        width: 100%;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .form-label, .form-control {
+        width: 100%;
+    }
+}
