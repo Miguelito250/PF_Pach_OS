@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "SkI9IYUEzatVnXbWAOfhFZsLlRdV0mkVpJtfbuNI6h4=",
+  "Hash": "UWCblyPU+H2laud77iI0IEP89UEncewVxCsKD8/JySA=",
   "Source": "PF_Pach_OS",
   "BasePath": "_content/PF_Pach_OS",
   "Mode": "Default",
@@ -38080,6 +38080,40 @@
       "OriginalItemSpec": "wwwroot\\css\\Proveedores.css"
     },
     {
+      "Identity": "C:\\Users\\user\\OneDrive\\Pictures\\Documents\\GitHub\\PF_Pach_OS_1\\PF_Pach_OS\\wwwroot\\css\\RolPermisos\\Crea_Editar.css",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\user\\OneDrive\\Pictures\\Documents\\GitHub\\PF_Pach_OS_1\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "css/RolPermisos/Crea_Editar.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\RolPermisos\\Crea_Editar.css"
+    },
+    {
+      "Identity": "C:\\Users\\user\\OneDrive\\Pictures\\Documents\\GitHub\\PF_Pach_OS_1\\PF_Pach_OS\\wwwroot\\css\\RolPermisos\\Index.css",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\user\\OneDrive\\Pictures\\Documents\\GitHub\\PF_Pach_OS_1\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "css/RolPermisos/Index.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\RolPermisos\\Index.css"
+    },
+    {
       "Identity": "C:\\Users\\user\\OneDrive\\Pictures\\Documents\\GitHub\\PF_Pach_OS_1\\PF_Pach_OS\\wwwroot\\css\\site.css",
       "SourceId": "PF_Pach_OS",
       "SourceType": "Discovered",
@@ -38095,6 +38129,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "C:\\Users\\user\\OneDrive\\Pictures\\Documents\\GitHub\\PF_Pach_OS_1\\PF_Pach_OS\\wwwroot\\css\\Usuarios\\CambiarContraseña.css",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\user\\OneDrive\\Pictures\\Documents\\GitHub\\PF_Pach_OS_1\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "css/Usuarios/CambiarContraseña.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\Usuarios\\CambiarContraseña.css"
     },
     {
       "Identity": "C:\\Users\\user\\OneDrive\\Pictures\\Documents\\GitHub\\PF_Pach_OS_1\\PF_Pach_OS\\wwwroot\\css\\ventas.css",

@@ -8709,6 +8709,18 @@
       "PackagePath": "staticwebassets\\css\\Proveedores.css"
     },
     {
+      "Id": "C:\\Users\\user\\OneDrive\\Pictures\\Documents\\GitHub\\PF_Pach_OS_1\\PF_Pach_OS\\wwwroot\\css\\RolPermisos\\Crea_Editar.css",
+      "PackagePath": "staticwebassets\\css\\RolPermisos\\Crea_Editar.css"
+    },
+    {
+      "Id": "C:\\Users\\user\\OneDrive\\Pictures\\Documents\\GitHub\\PF_Pach_OS_1\\PF_Pach_OS\\wwwroot\\css\\RolPermisos\\Index.css",
+      "PackagePath": "staticwebassets\\css\\RolPermisos\\Index.css"
+    },
+    {
+      "Id": "C:\\Users\\user\\OneDrive\\Pictures\\Documents\\GitHub\\PF_Pach_OS_1\\PF_Pach_OS\\wwwroot\\css\\Usuarios\\CambiarContraseña.css",
+      "PackagePath": "staticwebassets\\css\\Usuarios\\CambiarContraseña.css"
+    },
+    {
       "Id": "C:\\Users\\user\\OneDrive\\Pictures\\Documents\\GitHub\\PF_Pach_OS_1\\PF_Pach_OS\\wwwroot\\css\\Ventas\\SaboresPizza.css",
       "PackagePath": "staticwebassets\\css\\Ventas\\SaboresPizza.css"
     },

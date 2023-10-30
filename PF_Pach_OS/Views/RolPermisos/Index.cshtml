@@ -4,22 +4,25 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/css/rolpermisos/index.css" rel="stylesheet" />
 <button class="btn-crear-posicion estilo-btn-naranja" id="Crear-rol" data-toggle="modal" data-target="#Modal">
     Crear Rol
 </button>
-<table class="table">
+<table class="table table mb-0 table-bordered table-striped">
     <thead>
-        <tr>
+        <tr class="table-warning">
             <th>
                 <p>Roles</p>
             </th>
-            <th></th>
+            <th>
+                <p>Acciones</p>
+            </th>
         </tr>
     </thead>
-    <tbody>
+    <tbody >
         @foreach (var item in Model)
         {
-            <tr>
+            <tr >
 
                 <td>
                     @Html.DisplayFor(modelItem => item.NomRol)

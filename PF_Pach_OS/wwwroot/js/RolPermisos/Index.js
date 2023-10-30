@@ -29,61 +29,44 @@
         }
     }
 
-    window.addEventListener('load', function () {
-        const deshabilitar = document.querySelector('.deshabilitar');
-       
+    $(document).ready(function () {
+        $('.deshabilitar, .habilitar').each(function () {
+            $(this).on('click', function (event) {
+                event.preventDefault();
 
+                var title = '';
+                var text = '';
+                var confirmButtonText = '';
 
-
-
-        deshabilitar.addEventListener('click', function (event) {
-            event.preventDefault();
-            console.log('Clic detectado en la etiqueta a');
-
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: 'Si desactivas este rol se desactivaran todos los usuarios asocidos a este rol',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, desactivar',
-                cancelButtonText: 'No, volver'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Si el usuario confirma, redirigir a la función "Delete" en el controlador de ventas
-                    window.location.href = deshabilitar.getAttribute('href');
+                if ($(this).hasClass('deshabilitar')) {
+                    title = '¿Estás seguro de desactivar este rol?';
+                    text = 'Si desactivas este rol, se desactivarán todos los usuarios asociados a este rol.';
+                    confirmButtonText = 'Sí, desactivar';
+                } else if ($(this).hasClass('habilitar')) {
+                    title = '¿Estás seguro de activar este rol?';
+                    text = 'Si activas este rol, se activarán todos los usuarios asociados a este rol.';
+                    confirmButtonText = 'Sí, activar';
                 }
+
+                Swal.fire({
+                    title: title,
+                    text: text,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: confirmButtonText,
+                    cancelButtonText: 'No, volver'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = $(this).attr('href');
+                    }
+                });
             });
         });
-
-        const habilitar = document.querySelector('.habilitar');
-
-
-        habilitar.addEventListener('click', function (event) {
-            event.preventDefault();
-            console.log('Clic detectado en la etiqueta a');
-
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: 'Si activa este rol se ativaran todos los usuarios asocidos a este rol',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, activar',
-                cancelButtonText: 'No'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Si el usuario confirma, redirigir a la función "Delete" en el controlador de ventas
-                    window.location.href = habilitar.getAttribute('href');
-                }
-            });
-        });
-
     });
-    
-    
+
+
 });
 
 

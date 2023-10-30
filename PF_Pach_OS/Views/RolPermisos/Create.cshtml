@@ -23,8 +23,8 @@
                 {
                     @foreach (var valor in (List<dynamic>)ViewBag.Permisos)
                     {
-                        <label class="col-2">@valor.nom_permiso</label>
-                        <input class="col-10" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" />
+                        <input class="col-2" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" />
+                        <label class="col-10">@valor.nom_permiso</label>
                     }
 
                 }
@@ -35,7 +35,7 @@
             </div>
            
 
-            <button type="submit" id="btnEnviar"  class="btn btn-primary">Crear Rol</button>
+            <button type="submit" id="btnEnviar" class="btn estilo-btn-naranja">Crear Rol</button>
 
         </form>
     </div>
