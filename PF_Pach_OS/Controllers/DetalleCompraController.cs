@@ -1,34 +1,63 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
+    [Authorize]
     public class DetalleCompraController : Controller
     {
+
         private Pach_OSContext context = new Pach_OSContext();
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        public readonly PermisosController _permisosController;
+
         public DetalleCompraController(Pach_OSContext context, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             this.context = context;
             _signInManager = signInManager;
             _userManager = userManager;
+            _permisosController = new PermisosController(context, _userManager, _signInManager);
         }
 
         public IActionResult Index()
         {
+            bool tine_permiso = _permisosController.tinto(5, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             return View();
         }
 
         public async Task<IActionResult> Create(int id)
         {
+            bool tine_permiso = _permisosController.tinto(5, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
 
-            string? _urlData = HttpContext.Request.Path.Value;
-            string[] splitData = _urlData.Split('/');
-            var IdCompra = int.Parse(splitData[splitData.Length - 1]);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
+            
+            var IdCompra = id;
+
             ViewBag.IdCompra = IdCompra;
+
+
 
             var detallescompras = context.DetallesCompras
                 .Where(o => o.IdCompra == IdCompra)
@@ -62,6 +91,16 @@ namespace PF_Pach_OS.Controllers
         [HttpPost]
         public IActionResult Create([Bind(Prefix = "Item1")] DetallesCompra detallecompra, [Bind(Prefix = "Item2")] Compra compra, Insumo insumo)
         {
+            bool tine_permiso = _permisosController.tinto(5, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
 
             if (detallecompra.IdInsumo != null && detallecompra.Cantidad != null)
             {
@@ -157,6 +196,17 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearInsumo([Bind("IdInsumo,NomInsumo,CantInsumo,Medida")] Insumo insumo, [Bind(Prefix = "Item1")] DetallesCompra detallecompra, [Bind(Prefix = "Item2")] Compra compra)
         {
+            bool tine_permiso = _permisosController.tinto(5, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             insumo.CantInsumo = 0;
             insumo.Estado = 1;
             insumo.NomInsumo = OrtografiaInsumo(insumo.NomInsumo);
@@ -243,6 +293,17 @@ namespace PF_Pach_OS.Controllers
 
         public IActionResult ComfirmarCompra([Bind(Prefix = "Item2")] Compra compra)
         {
+            bool tine_permiso = _permisosController.tinto(5, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             var Compra = context.Compras.Where(x => x.IdCompra == compra.IdCompra).FirstOrDefault()!;
             if (ModelState.IsValid)
             {
@@ -299,6 +360,17 @@ namespace PF_Pach_OS.Controllers
 
         public async Task<IActionResult> Delete(String id, int otroId, int cantidad, int idinsumo, string medida)
         {
+            bool tine_permiso = _permisosController.tinto(5, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             var orden = await context.DetallesCompras.FindAsync(int.Parse(id));
             if (orden == null)
             {

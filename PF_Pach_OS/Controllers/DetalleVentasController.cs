@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Build.ObjectModelRemoting;
@@ -10,13 +12,19 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
+    [Authorize]
     public class DetalleVentasController : Controller
     {
         private readonly Pach_OSContext _context;
-
-        public DetalleVentasController(Pach_OSContext context)
+        private readonly UserManager<ApplicationUser> _UserManager;
+        private readonly SignInManager<ApplicationUser> _SignInManager;
+        public readonly PermisosController _permisosController;
+        public DetalleVentasController(Pach_OSContext context, UserManager<ApplicationUser> UserManager, SignInManager<ApplicationUser> SignInManager)
         {
             _context = context;
+            _SignInManager = SignInManager;
+            _UserManager = UserManager;
+            _permisosController = new PermisosController(_context, _UserManager, _SignInManager);
         }
 
         //Miguel 22/10/2023: Funcion para ir agregando los detalles de venta a la factura
@@ -228,6 +236,12 @@ namespace PF_Pach_OS.Controllers
         //Miguel 22/10/2023: Función para conultar los detalles de las ventas en el index de ventas
         public async Task<IActionResult> DetallesVentas(int? IdVenta)
         {
+            bool tine_permiso = _permisosController.tinto(2, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (IdVenta == null)
             {
                 return NotFound();

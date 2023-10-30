@@ -1,5 +1,7 @@
 ﻿@model PF_Pach_OS.Models.DetallesCompra
 <link href="~/css/compras.css" rel="stylesheet" />
+@using System.Globalization;
+
 
 @{
     var filas = 0;
@@ -8,6 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" ></script>
     <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+
 }
 
 <div>
@@ -52,10 +55,14 @@
             <tbody>
                 @foreach(var compra in listaDetalles)
                 {
+
                     <tr>
                         <td>@compra.IdInsumoNavigation.NomInsumo</td>
                         <td>
-                            @(compra.PrecioInsumo.HasValue ?(compra.PrecioInsumo % 1 == 0 ? ((decimal)compra.PrecioInsumo).ToString("C0").Replace(",", ".") : ((decimal)compra.PrecioInsumo).ToString("C2").Replace(",", ".")) :"Sin Precio")
+                            @(compra.PrecioInsumo.HasValue ? (compra.PrecioInsumo % 1 == 0
+                                ? ((decimal)compra.PrecioInsumo).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                                : ((decimal)compra.PrecioInsumo).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
+                                : "Sin Precio")
                         </td>
                         <td>@compra.Cantidad</td>
                         <td>@compra.Medida</td>
@@ -66,7 +73,14 @@
     </div>
 </div>
 <div class=" d-flex flex-column align-items-center">
-    <span class="w-80 h2 text-center" style="margin-top:1rem"><strong>Total: @(Model.IdCompraNavigation.Total.HasValue ? (Model.IdCompraNavigation.Total.Value % 1 == 0 ? Model.IdCompraNavigation.Total.Value.ToString("C0").Replace(",", ".") : Model.IdCompraNavigation.Total.Value.ToString("C2").Replace(",", ".")) : "Sin Precio")</strong></span>
+    <span class="w-80 h2 text-center" style="margin-top:1rem">
+        <strong>
+            Total:  @(Model.IdCompraNavigation.Total.HasValue ? (Model.IdCompraNavigation.Total % 1 == 0
+            ? ((decimal)Model.IdCompraNavigation.Total).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+            : ((decimal)Model.IdCompraNavigation.Total).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
+            : "Sin Precio")
+        </strong>
+    </span>
 </div>
 
 <script>
