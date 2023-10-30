@@ -1,0 +1,64 @@
+﻿@model PF_Pach_OS.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = null;
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <h5>Detalles de usuario</h5>
+    <hr />
+    <dl class="row">
+        
+        <dt class = "col-sm-1">
+            Correo
+        </dt>
+        <dd class = "col-sm-12">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        
+        <dt class = "col-sm-1">
+           Documento
+        </dt>
+        <dd class = "col-sm-12">
+            @Html.DisplayFor(model => model.DocumentType)
+        </dd>
+        <dt class = "col-sm-1">
+            N.Documento
+        </dt>
+
+        <dd class = "col-sm-12">
+            @Html.DisplayFor(model => model.DocumentNumber)
+        </dd>
+        <dt class = "col-sm-1">
+            Entrada
+        </dt>
+        <dd class = "col-sm-12">
+            @Html.DisplayFor(model => model.EntryDay)
+        </dd>
+        <dt class = "col-sm-1">
+            Nombre
+        </dt>
+        <dd class = "col-sm-12">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class = "col-sm-1">
+            Apellido
+        </dt>
+        <dd class = "col-sm-12">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        
+        <dt class = "col-sm-1">
+           Rol
+        </dt>
+        <dd class = "col-sm-12">
+            @ViewBag.NombrePermisoActivo
+        </dd>
+    </dl>
+</div>
+<div>
+   
+</div>

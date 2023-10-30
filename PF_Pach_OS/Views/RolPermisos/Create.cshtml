@@ -1,7 +1,7 @@
 ﻿@model PF_Pach_OS.Models.Asignar_Permisos
 
 @{
-    ViewData["Title"] = "Create";
+    
     Layout = null;
 }
 
@@ -14,17 +14,17 @@
         <form id="formulario1">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" >
-                <label asp-for="rol.NomRol" class="control-label"></label>
-                <input id="nombreRol" class="form-control" asp-for="rol.NomRol" />
+                <label asp-for="rol.NomRol"  class="control-label"></label>
+                <input type="text" class="form-control" id="nomrol" asp-for="rol.NomRol" />
+                <span id="mensaje_nombre" class="invalid-feedback"></span>
             </div>
-            <div id="mensaje_nombre" class="invalid-feedback"></div>
             <div class="form-group row">
                 @if (ViewBag.Permisos != null)
                 {
                     @foreach (var valor in (List<dynamic>)ViewBag.Permisos)
                     {
-                        <input class="col-10" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" />
-                        <label class="col-2">@valor.nom_permiso</label>
+                        <input class="col-2" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" />
+                        <label class="col-10">@valor.nom_permiso</label>
                     }
 
                 }
@@ -33,21 +33,18 @@
                     <p>La lista de permisos es nula.</p>
                 }
             </div>
-            <div id="mensaje_permiso" class="invalid-feedback"></div>
-            <button type="submit" id="btnEnviar"  class="btn btn-primary">Crear Rol</button>
+           
+
+            <button type="submit" id="btnEnviar" class="btn estilo-btn-naranja">Crear Rol</button>
 
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="~/js/RolPermisos/Crear.js"> </script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/js/rolpermisos/crear.js"></script>

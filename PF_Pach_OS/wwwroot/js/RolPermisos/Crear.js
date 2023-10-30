@@ -1,44 +1,12 @@
-﻿var Permisos = [];
-var nomRol;
-
+﻿
 
 $(document).ready(function () {
-    var mensaje_permiso = document.getElementById("mensaje_permiso");
 
-    nomRol = $("#nombreRol").val();
-    $('#nombreRol').on('input', function () {
-        nomRol = $('#nombreRol').val();
+    const formularo_Permiso = document.getElementById('formulario1');
 
-    });
+    const nombreRol = document.getElementById('nomrol');
+    const Mensaje_nombre = document.getElementById('mensaje_nombre');
 
-    console.log(nomRol)
-    idrol = $("#idrol").val();
-
-
-    $("#btnEnviar").on("click", function () {
-        $('input[name="ValoresSeleccionados"]:checked').each(function () {
-            Permisos.push($(this).val());
-            mensaje_permiso.textContent = ''
-
-            console.log(Permisos)
-
-        });
-
-    });
-
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-
-    var formulario_rol = document.getElementById("formulario1");
-
-    var nombreRol = document.getElementById("nombreRol");
-
-    var mensaje_nombre = document.getElementById("mensaje_nombre");
-
-    var mensaje_permiso = document.getElementById("mensaje_permiso");
-
-    const enlacesMenu = document.querySelectorAll('.links-modulos');
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -51,74 +19,92 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    //Escuchadores para rol
-    formulario_rol.addEventListener('submit', EnvioRol);
-    nombreRol.addEventListener('input', function () {
-        ValidarNombre
-    });
-
     function ValidarNombre() {
-        var ValorNombre = nombreRol.value;
-        console.log(ValorNombre);
-        var caracterMinimo = 3;
-        var caracterMAximo = 20;
 
+
+
+        let ValorNombre = nombreRol.value;
         nombreRol.classList.remove('is-invalid', 'is-valid');
-        mensaje_nombre.textContent = ''
-
+        Mensaje_nombre.textContent = ''
         if (ValorNombre.trim() === '') {
             nombreRol.classList.add('is-invalid');
-            mensaje_nombre.textContent = 'El campo no puede estar vacio';
-        } else if (ValidarNombre < caracterMinimo) {
-            nombreRol.classList.add('is-invalid');
-            mensaje_nombre.textContent = 'El nombre debe tener más de 3 caracteres';
-        } else if (ValidarNombre > caracterMAximo) {
-            nombreRol.classList.add('is-invalid');
-            mensaje_nombre.textContent = 'El nombre debe tener menos de 30 caracteres';
-        } else {
-            nombreRol.classList.add('is-valid');
-        }
+            Mensaje_nombre.textContent = 'El campo no puede estar vacio'
 
+        } else if (ValorNombre.length < 4) {
+            nombreRol.classList.add('is-invalid');
+            Mensaje_nombre.textContent = 'El nombre debe tener almenos 4 caracteres';
+
+        } else if (ValorNombre.length > 20) {
+            nombreRol.classList.add('is-invalid');
+            Mensaje_nombre.textContent = 'El nombre debe tener menos de 20 caracteres';
+        } else {
+            nombreRol.classList.add('is-valid')
+        }
     }
-    function EnvioRol(event) {
+
+    nombreRol.addEventListener('input', ValidarNombre)
+
+    formularo_Permiso.addEventListener('submit', ValidarFormulario)
+
+    var permisos = [];
+    $('input[name="ValoresSeleccionados"]:checked').each(function () {
+        permisos.push($(this).val());
+    });
+
+    function ValidarFormulario(event) {
         event.preventDefault();
         ValidarNombre();
-        if (Permisos.length < 1) {
-            mensaje_permiso.textContent = 'Debe agregar almenos un permiso'
-        } else {
-            if (formulario_producto.checkValidity()) {
+        var permisos = [];
+        $('input[name="ValoresSeleccionados"]:checked').each(function () {
+            permisos.push($(this).val());
+        });
+        if (formularo_Permiso.checkValidity() && !nombreRol.classList.contains('is-invalid')) {
+            if (permisos.length < 1) {
+                Swal.fire({
+                    title: 'Ups...',
+                    timer: 2700,
+                    text: 'Debes agregar al menos un permiso para crear un rol.',
+                    icon: 'error',
+                    showConfirmButton: false,
+                });
+
+                // Detener la ejecución del código o realizar alguna acción adicional si es necesario
+                return;
+            } else {
                 Swal.fire({
                     title: '¡Éxito!',
-                    text: 'Rol Registrado Correctamente',
+                    text: 'El rol ha sido creado',
                     timer: 2400,
                     icon: 'success',
                     showConfirmButton: false,
                 }).then((result) => {
+                    console.log('Formulario válido');
                     $.ajax({
                         url: '/RolPermisos/Crear',
                         type: 'POST',
                         data: {
-
-                            permisos: Permisos,
-                            nomRol: nomRol
+                            permisos: permisos,
+                            nomRol: nombreRol.value
                         },
-
                         success: function (data) {
-                            console.log(id)
-                            console.log(Permisos)
-                            console.log(nomRol)
-
+                            
                         },
                         error: function (xhr, status, error) {
-                            console.log("Error en la solicitud: " + error);
+                            reject(error);
                         }
                     });
-                    formulario_rol.addEventListener('submit', EnvioRol);
-                    formulario_rol.submit();
+
+                    formularo_Permiso.removeEventListener('submit', ValidarFormulario);
+                    formularo_Permiso.submit();
                 });
             }
-
+        } else {
+            Toast.fire({
+                icon: 'error',
+                title: 'Formulario inválido'
+            });
+            ValidarNombre();
         }
-    }
 
+    }
 });
