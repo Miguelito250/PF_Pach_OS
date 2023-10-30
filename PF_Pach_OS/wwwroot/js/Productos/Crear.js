@@ -183,7 +183,8 @@
         InterfazProducto();
         if (formulario_producto.checkValidity()) {
             const tablaReceta = document.querySelector('#Tabla1');
-            if (tablaReceta.rows.length <= 1) {
+            console.log(tablaReceta.rows.length)
+            if (tablaReceta.rows.length < 1) {
                 // Mostrar la SweetAlert de error
                 Swal.fire({
                     title: 'Ups...',
