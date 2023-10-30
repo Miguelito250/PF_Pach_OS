@@ -5,7 +5,7 @@
 
 }
 <link href="~/css/productos.css" rel="stylesheet" />
-<link href="~/css/productos/crear_editar.css" rel="stylesheet" />
+
 <div class="row pl-2 pt-2">
 
     <div class="col-4 ml-3 p-2 bg-white rounded border px-4 py-4">
@@ -164,18 +164,18 @@
                     <tbody id="Tabla1">
                         @foreach (var recetaConInsumo in (List<dynamic>)ViewBag.RecetasConInsumos)
                         {
-                            <tr>
                                 @if (recetaConInsumo.IdProducto == ViewBag.IdProducto)
                                 {
-                                    <td>@recetaConInsumo.NomInsumo</td>
-                                    <td>@recetaConInsumo.CantInsumo</td>
-                                    <td>@recetaConInsumo.Medida</td>
-                                    <td>
-                                        <a asp-action="Eliminar" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Remover</a>
-                                    </td>
+                                    <tr>
+                                        <td>@recetaConInsumo.NomInsumo</td>
+                                        <td>@recetaConInsumo.CantInsumo</td>
+                                        <td>@recetaConInsumo.Medida</td>
+                                        <td>
+                                            <a asp-action="Eliminar" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Remover</a>
+                                        </td>
+                                    </tr>
                                 }
 
-                            </tr>
                         }
                     </tbody>
                 </table>
