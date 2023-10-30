@@ -5,10 +5,10 @@
 
 }
 <link href="~/css/productos.css" rel="stylesheet" />
-
+<link href="~/css/productos/crear_editar.css" rel="stylesheet" />
 <div class="row pl-2 pt-2">
 
-    <div class="col-4 ml-3 p-2 bg-white rounded border px-4 py-4">
+    <div class="col-4 ml-3 p-2 bg-white rounded border adaptable">
         <form asp-action="Actualizar" asp-controller="Productos" method="post" class="needs-validation" novalidate id="formulario1">
             <h2>Producto</h2>
             <hr>
@@ -135,7 +135,7 @@
                 </div>
             </form>
         </div>
-        <div class="mt-4 bg-white">
+        <div class="mt-4 bg-white overflow-scroll">
             <div>
                 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="orange" class="bi bi-arrow-down-right-square" viewBox="0 0 16 16">
