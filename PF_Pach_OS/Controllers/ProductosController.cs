@@ -15,10 +15,10 @@ using PF_Pach_OS.Models;
 using PF_Pach_OS.Services;
 
 namespace PF_Pach_OS.Controllers
-{ 
+{
 
 
-   
+    [Authorize]
     public class ProductosController : Controller
     {
         private readonly Pach_OSContext _context;
@@ -256,37 +256,7 @@ namespace PF_Pach_OS.Controllers
             return RedirectToAction("CrearInformacionFormulario", "Productos", new { producto.IdProducto, accion = "Crear" });
         }
 
-        //Elimina un producto en caso que que este no se este utilizando en ninguna venta 
-        public async Task<IActionResult> Eliminar(int id)
-        {
-            var user = User;
-
-            bool tine_permiso = _permisosController.tinto(3, User);
-            if (!tine_permiso)
-            {
-                return RedirectToAction("AccesoDenegado", "Acceso");
-            }
-            bool exsite = ExisteEnVentas(id);
-            if (exsite)
-            {
-                Deshabilitar(id);
-            }
-            else
-            {
-                var producto = await _context.Productos.FindAsync(id);
-                if (producto != null)
-                {
-                    Eliminar_Receta(id);
-                    _context.Productos.Remove(producto);
-                    _context.SaveChanges();
-                    return RedirectToAction("Index");
-
-                }
-
-
-            }
-            return RedirectToAction("Index");
-        }
+        
         //Habilita un producto que este deshabilitado 
         public IActionResult Habilitar(int id)
         {
