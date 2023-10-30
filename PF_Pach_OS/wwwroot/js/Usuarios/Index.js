@@ -1,3 +1,4 @@
+
 ﻿$('#searchInput').on('input', function () {
     var searchText = $(this).val().trim().toLowerCase();
 
@@ -28,3 +29,16 @@ searchInput.on('blur', function () {
 searchInput.on('focus', function () {
     $(this).removeClass('empty');
 });
+
+﻿$(document).on("click", "#DetalleUsuario", function () {
+
+    var modalBody = $("#modal-body");
+    var idRol = $(this).data("id");
+    var url = "/AspNetUsers/Detalles?id=" + idRol;
+    modalBody.empty();
+    modalBody.load(url);
+    
+
+
+});
+

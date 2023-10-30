@@ -6,17 +6,17 @@
     var detallesVentas = ViewData["DetallesVentas"] as List<DetalleVenta>;
 }
 
-<link href="~/css/detalleventa.css" rel="stylesheet" />
+<link href="~/css/ventas/detalleventa.css" rel="stylesheet" />
 
-<div class="d-flex p-2">
+<div class="d-flex p-2 contendorVenta">
     <div class="container">
         <div class="col-12">
             <form id="formAgregar" class="row g-2 needs-validation formulario-detalles" asp-controller="DetalleVentas" asp-action="AgregarDetalle" method="post" novalidate>
                 <input type="number" value="@ViewBag.IdVenta" name="IdVenta" asp-for="Item2.IdVenta" hidden>
                 <div class="col-4">
-                    <label>Producto</label>
+                    <label>Producto *</label>
                     <select class="form-control form-select" aria-label="Default select example" asp-for="Item1.IdProducto" asp-items="ViewBag.IdProducto" name="IdProducto" required>
-                        <option value="NA"></option>
+                        <option value="NA">Producto</option>
                         <option value="0">Pizzas (Sabores)</option>
 
                     </select>
@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="col-3">
-                    <label>Cantidad</label>
+                    <label>Cantidad *</label>
                     <input type="number" class="form-control" asp-for="Item1.CantVendida" name="CantVendida" min="0" required />
                     <span id="cantidadMensaje" class="invalid-feedback"></span>
                     <span class="valid-feedback"></span>
@@ -38,10 +38,10 @@
                 </div>
             </form>
         </div>
-        <hr>
 
-        <div class="mt-3 border rounded bg-white">
-            <table class="table table-borderless mb-0 tablaDetalles-ventas">
+        <div class="mt-3 bg-white tablaDetallesVentas">
+            <hr>
+            <table class="table border rounded table-borderless mb-0 tablaDetalles-ventas">
                 <thead>
                     <tr class="text-gray bg-gray-300">
                         <th>Producto</th>
@@ -60,14 +60,14 @@
                             <td>@detalles.CantVendida</td>
                             <td>
                                 @(detalles.Precio.HasValue ? (detalles.Precio % 1 == 0
-                                    ? ((decimal)detalles.Precio).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
-                                    : ((decimal)detalles.Precio).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                                    ? ((decimal)detalles.Precio).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                                    : ((decimal)detalles.Precio).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
                                     : "Sin Precio")
                             </td>
                             <td>
                                 @(totalDetalle.HasValue ? (totalDetalle % 1 == 0
-                                    ? ((decimal)totalDetalle).ToString("C2", new CultureInfo("es-CO")).Replace(",", ".")
-                                    : ((decimal)totalDetalle).ToString("C2", new CultureInfo("es-CO")).Replace(",", "."))
+                                    ? ((decimal)totalDetalle).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                                    : ((decimal)totalDetalle).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
                                     : "Sin Precio")
                             </td>
                             @if (detalles.Estado != "Descontado")
@@ -90,18 +90,23 @@
         <form asp-action="ConfirmarVenta" method="post" class="detail-container h-100" id="formVentas" novalidate>
             <input asp-for="Item2.IdVenta" type="number" value="@ViewBag.IdVenta" name="IdVenta" hidden>
             <div>
-                <div class="d-flex fecha">
+                <div class="d-flex fecha mb-3">
                     <span class="text-gray position-absolute text-end" id="fecha-hora"></span>
                     <input asp-for="Item2.FechaVenta" type="text" id="fecha-input" name="FechaVenta" hidden>
                 </div>
 
-                <div class="w-100 d-flex flex-column mb-3 align-items-center mt-3">
-                    <strong>Pachito-Ché Pizza y Bar</strong>
-                    <img class="logoEmpresa" src="~/img/Logo_Empresa.jpg">
+                <div class="row">
+                    <div class="col-6">
+                        <span>
+                            <strong>NIT: <br></strong>9203272<br>
 
-                    <span class="mt-1"><strong>NIT: </strong>9203272</span>
-                    <span><strong>Telefono: </strong>+57 324-523-5382</span>
-                    <span><strong>Cajero: </strong>@ViewBag.NombreUsuario</span>
+                            <strong>Cajero: <br></strong>@ViewBag.NombreUsuario
+                        </span>
+                    </div>
+                    <div class="col-6 justify-content-center align-self-center">
+                        <img class="logoEmpresa" src="~/img/Logo_Empresa.jpg">
+                    </div>
+
 
                     <input type="text" asp-for="Item2.IdEmpleado" name="IdEmpleado" value="@ViewBag.NombreUsuario" hidden readonly>
                 </div>
@@ -133,7 +138,6 @@
                             <select asp-for="Item2.TipoPago" name="TipoPago" class="col-12 form-select">
                                 <option value="Efectivo">Efectivo</option>
                                 <option value="Transferencia">Transferencia</option>
-                                <option value="Efectivo/Transferencia">Efectivo/Transferencia</option>
                             </select>
 
                         </div>

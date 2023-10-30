@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "KjpoiaDhDzMCb9wBcQAiFzKLHkoDevHDsa0lxumz1J8=",
+  "Hash": "u4aL55TKbnZy/0VwBH+VIYrjE1qh5Tdzmsv77v/WWB0=",
   "Source": "PF_Pach_OS",
   "BasePath": "_content/PF_Pach_OS",
   "Mode": "Default",
@@ -37961,23 +37961,6 @@
       "OriginalItemSpec": "wwwroot\\css\\Compras\\DetalleCompra.css"
     },
     {
-      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\DetalleVenta.css",
-      "SourceId": "PF_Pach_OS",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
-      "BasePath": "_content/PF_Pach_OS",
-      "RelativePath": "css/DetalleVenta.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\DetalleVenta.css"
-    },
-    {
       "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Estilos-generales.css",
       "SourceId": "PF_Pach_OS",
       "SourceType": "Discovered",
@@ -38063,6 +38046,23 @@
       "OriginalItemSpec": "wwwroot\\css\\Productos.css"
     },
     {
+      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Productos\\Index.css",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "css/Productos/Index.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\Productos\\Index.css"
+    },
+    {
       "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Proveedores.css",
       "SourceId": "PF_Pach_OS",
       "SourceType": "Discovered",
@@ -38097,12 +38097,12 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
-      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Usuarios\\Index.css",
+      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\DetalleVenta.css",
       "SourceId": "PF_Pach_OS",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
       "BasePath": "_content/PF_Pach_OS",
-      "RelativePath": "css/Usuarios/Index.css",
+      "RelativePath": "css/Ventas/DetalleVenta.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -38111,41 +38111,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\Usuarios\\Index.css"
-    },
-    {
-      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Usuarios\\ResgistroUsuarios.css",
-      "SourceId": "PF_Pach_OS",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
-      "BasePath": "_content/PF_Pach_OS",
-      "RelativePath": "css/Usuarios/ResgistroUsuarios.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\Usuarios\\ResgistroUsuarios.css"
-    },
-    {
-      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\ventas.css",
-      "SourceId": "PF_Pach_OS",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
-      "BasePath": "_content/PF_Pach_OS",
-      "RelativePath": "css/ventas.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\ventas.css"
+      "OriginalItemSpec": "wwwroot\\css\\Ventas\\DetalleVenta.css"
     },
     {
       "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\SaboresPizza.css",
@@ -38163,6 +38129,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\Ventas\\SaboresPizza.css"
+    },
+    {
+      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\ventas.css",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "css/Ventas/ventas.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\Ventas\\ventas.css"
+    },
+    {
+      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\img\\fondo.jpeg",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "img/fondo.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\fondo.jpeg"
     },
     {
       "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\img\\Logo_Empresa.jpg",
@@ -38267,6 +38267,23 @@
       "OriginalItemSpec": "wwwroot\\js\\Login-RecuperarContraseña\\Login.js"
     },
     {
+      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Productos\\Crear.js",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "js/Productos/Crear.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Productos\\Crear.js"
+    },
+    {
       "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Productos\\Editar.js",
       "SourceId": "PF_Pach_OS",
       "SourceType": "Discovered",
@@ -38367,23 +38384,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\RolPermisos\\Index.js"
-    },
-    {
-      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Usuarios\\Index.js",
-      "SourceId": "PF_Pach_OS",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
-      "BasePath": "_content/PF_Pach_OS",
-      "RelativePath": "js/Usuarios/Index.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\Usuarios\\Index.js"
     },
     {
       "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\DetallesVenta.js",

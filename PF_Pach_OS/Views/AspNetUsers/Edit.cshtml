@@ -47,9 +47,15 @@
             
            
             <div class="form-group">
-                <label asp-for="Id_Rol" class="control-label"></label>
-                <input asp-for="Id_Rol" class="form-control" />
-                <span asp-validation-for="Id_Rol" class="text-danger"></span>
+                <select asp-for="Id_Rol" class="form-control">
+                    <option value="@ViewBag.IdPermisoActivo">@ViewBag.NombrePermisoActivo</option>
+                    @foreach (var item in ViewBag.Permisos)
+                    {
+                        <option value="@item.IdRol">@item.NomRol</option>
+                    }
+                </select>
+                <label  class="control-label"></label>
+                
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
