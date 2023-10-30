@@ -4,7 +4,7 @@ namespace PF_Pach_OS.Controllers
 {
     public class InformesController : Controller
     {
-        public async Task <IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }
