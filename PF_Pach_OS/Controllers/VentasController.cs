@@ -259,7 +259,7 @@ namespace PF_Pach_OS.Controllers
                                 consultaInsumos.CantInsumo = insumoDisminuido;
 
                                 _context.Update(consultaInsumos);
-                                await _context.SaveChangesAsync();
+                                _context.SaveChanges();
                             }
                             else
                             {
