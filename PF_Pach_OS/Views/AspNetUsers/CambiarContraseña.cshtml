@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "CambiarContraseña";
+
+}
+
+<form id="CambioContraseña" asp-action="ConfirmarCambiarContraseña" asp-controller="AspNetUsers">
+    @if (ViewBag.Error != null)
+    {
+        <span class="is-invalid" >@ViewBag.Error</span>
+    }
+    <div>
+        <label>Antigua Contraeña</label>
+        <input  id="AntiguaContraseña" type="password" />
+        <span id="mensaje_AntiguaContraseña" class="invalid-feedback"></span>
+    </div>
+
+    <div>
+        <label>Nueva Contraeña</label>
+        <input id="NuevaContraseña" type="password" />
+        <span id="mensaje_NuevaContraseña" class="invalid-feedback"></span>
+
+    </div>
+
+    <div>
+        <label>Confirma Nueva Contraeña</label>
+        <input id="ConfirmarContraseña" type="password" />
+        <span id="mensaje_ConfirmarContraseña" class="invalid-feedback"></span>
+
+    </div>
+
+    <button type="submit">Confirmar</button>
+
+
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/js/usuarios/cambiarcontraseña.js"></script>
+

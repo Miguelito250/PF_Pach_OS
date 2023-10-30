@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PF_Pach_OS.Models;
+using static Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal.ExternalLoginModel;
 
 namespace PF_Pach_OS.Controllers
 {
@@ -16,11 +18,15 @@ namespace PF_Pach_OS.Controllers
     {
         private readonly Pach_OSContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        public AspNetUsersController(Pach_OSContext context, UserManager<ApplicationUser> userManager)
+        private readonly SignInManager<ApplicationUser> _SignInManager;
+        public AspNetUsersController(Pach_OSContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _userManager = userManager;
+            _SignInManager = signInManager;
         }
+        [BindProperty]
+        public InputModel Input { get; set; }
 
         // GET: AspNetUsers
         public async Task<IActionResult> Index()
@@ -128,7 +134,7 @@ namespace PF_Pach_OS.Controllers
             return RedirectToAction("Index", "AspNetUsers");
         }
 
-        public IActionResult Deshabilitar (string id)
+        public IActionResult Deshabilitar(string id)
         {
             if (id == null || _context.ApplicationUser == null)
             {
@@ -167,6 +173,38 @@ namespace PF_Pach_OS.Controllers
         private bool AspNetUserExists(string id)
         {
             return (_context.AspNetUser?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        public IActionResult VistaCambiarContraseña()
+        {
+
+
+            return View("CambiarContraseña");
+
+        }
+
+        [HttpPost]
+        public async Task<bool> CambiarContraseña(string AntiguaContraseña, string NuevaContraseña)
+        {
+
+            var user = await _userManager.GetUserAsync(User);
+            var changePasswordResult = await _userManager.ChangePasswordAsync(user, AntiguaContraseña, NuevaContraseña);
+            if (!changePasswordResult.Succeeded)
+            {
+
+                return false;
+            }
+            await _SignInManager.RefreshSignInAsync(user);
+
+
+            return true;
+
+        }
+       
+        public IActionResult ConfirmarCambiarContraseña()
+        {
+
+            return View("ConfirmarCambiarContraseña");
         }
     }
 }
