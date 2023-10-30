@@ -52,10 +52,12 @@ namespace PF_Pach_OS.Controllers
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
 
-            string? _urlData = HttpContext.Request.Path.Value;
-            string[] splitData = _urlData.Split('/');
-            var IdCompra = int.Parse(splitData[splitData.Length - 1]);
+            
+            var IdCompra = id;
+
             ViewBag.IdCompra = IdCompra;
+
+
 
             var detallescompras = context.DetallesCompras
                 .Where(o => o.IdCompra == IdCompra)

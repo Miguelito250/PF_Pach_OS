@@ -8729,6 +8729,10 @@
       "PackagePath": "staticwebassets\\img\\Logo_Empresa.jpg"
     },
     {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\img\\fondo.jpeg",
+      "PackagePath": "staticwebassets\\img\\fondo.jpeg"
+    },
+    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Compras\\Compras.js",
       "PackagePath": "staticwebassets\\js\\Compras\\Compras.js"
     },
