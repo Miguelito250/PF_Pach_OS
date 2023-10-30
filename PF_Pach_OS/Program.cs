@@ -44,7 +44,13 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "generarInforme",
+        pattern: "Estadisticas/GenerarInformeVentas",
+        defaults: new { controller = "Estadisticas", action = "GenerarInformeVentas" });
+});
 
 
 app.MapControllerRoute(

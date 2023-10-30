@@ -93,11 +93,6 @@
 
     InsertarTextos("Escoger Sabores", "titulo-modal", "texto")
 
-    //Miguel 19/10/2023
-    //Escuchador de Eventos para recargar la pagina al confirmar los sabores de las pizzas
-    /*btnRecargarPagina.addEventListener("click", RecargarPagina);*/
-
-
 
     //Miguel 19/10/2023
     //Escuchador de eventos para ir cambiando el valor de los sabores maximos
@@ -115,10 +110,6 @@
     //Escuchador de eventos para validar la cantidad
     cantidad.addEventListener('input', ValidarCantidad)
     LimitarSabores()
-
-
-
-
     $("#btnEnviar").on("click", function () {
         const producto = document.getElementById("ProductoEscoger").value;
         const cantidadVender = document.getElementById("CantVendida").value;
@@ -152,17 +143,29 @@
                     type: "POST",
                     data: { sabores: saboresSeleccionados, detalleVenta: detalleVenta },
                     success: function (data) {
-                        // Aquí puedes mostrar una alerta SweetAlert de éxito
-                        Swal.fire({
-                            title: '¡Éxito!',
-                            text: 'Pizza agregada',
-                            icon: 'success',
-                            timer: 2400,
-                            showConfirmButton: false
-                        }).then(function () {
-                            RecargarPagina();
+                        if (data) {
+                            // Aquí puedes mostrar una alerta SweetAlert de éxito
+                            Swal.fire({
+                                title: '¡Éxito!',
+                                text: 'Pizza agregada',
+                                icon: 'success',
+                                timer: 2400,
+                                showConfirmButton: false
+                            }).then(function () {
+                                RecargarPagina();
 
-                        });;
+                            });;
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'Ups...',
+                                text: 'No hay suficientes insumos para este producto.',
+                                icon: 'error',
+                                timer: 2700,
+                                showConfirmButton: false
+                            });
+                        }
+
                     },
                     error: function (xhr, status, error) {
                         // Esta función se ejecutará si hay un error en la solicitud.

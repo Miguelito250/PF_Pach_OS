@@ -69,6 +69,9 @@
         if (nomInsumo.trim() === '') {
             nomInsumoInput.classList.add('is-invalid');
             nomInsumoFeedback.textContent = 'Por favor ingrese el nombre del insumo.';
+        } else if (/^\s/.test(nomInsumo)) {
+            nomInsumoInput.classList.add('is-invalid');
+            nomInsumoFeedback.textContent = 'No se puede comenzar con un espacio en blanco.';
         }
         // Validar si el campo contiene números
         else if (/\d/.test(nomInsumo)) {
@@ -149,13 +152,19 @@
 $(document).ready(function () {
     // Manejar el evento de cambio en el campo de búsqueda mientras se escribe
     $('#searchInput').on('input', function () {
-        var searchTerm = $(this).val().trim().toLowerCase();
+        var searchText = $(this).val().trim().toLowerCase();
 
         // Filtrar las filas de la tabla que coincidan con el término de búsqueda
         $('tbody tr').each(function () {
-            var productName = $(this).find('td:first').text().toLowerCase();
+            var productName = $(this).find('td:eq(0)').text().toLowerCase();
+            var Cantiad = $(this).find('td:eq(1)').text().toLowerCase();
+            var Medida = $(this).find('td:eq(2)').text().toLowerCase();
 
-            if (productName.includes(searchTerm)) {
+
+            if (productName.includes(searchText) ||
+                Cantiad.includes(searchText)||
+                Medida.includes(searchText)
+            ) {
                 $(this).show();
             } else {
                 $(this).hide();

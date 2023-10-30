@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Build.ObjectModelRemoting;
@@ -10,13 +12,19 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
+    [Authorize]
     public class DetalleVentasController : Controller
     {
         private readonly Pach_OSContext _context;
-
-        public DetalleVentasController(Pach_OSContext context)
+        private readonly UserManager<ApplicationUser> _UserManager;
+        private readonly SignInManager<ApplicationUser> _SignInManager;
+        public readonly PermisosController _permisosController;
+        public DetalleVentasController(Pach_OSContext context, UserManager<ApplicationUser> UserManager, SignInManager<ApplicationUser> SignInManager)
         {
             _context = context;
+            _SignInManager = SignInManager;
+            _UserManager = UserManager;
+            _permisosController = new PermisosController(_context, _UserManager, _SignInManager);
         }
 
         //Miguel 22/10/2023: Funcion para ir agregando los detalles de venta a la factura
@@ -113,8 +121,7 @@ namespace PF_Pach_OS.Controllers
         {
             bool insumosSuficientes = true;
             var producto = _context.Productos
-                .Where(r => r.IdProducto == idProducto)
-                .FirstOrDefault();
+                .FirstOrDefault(r => r.IdProducto == idProducto);
 
             if (producto == null)
             {
@@ -147,6 +154,57 @@ namespace PF_Pach_OS.Controllers
             return insumosSuficientes;
         }
 
+        public bool InsumosSuficientesPizzas(List<int> sabores, DetalleVenta detalleVenta)
+        {
+            foreach (var sabor in sabores)
+            {
+                var producto = _context.Productos
+                    .FirstOrDefault(p => p.IdProducto == sabor);
+
+                if (producto.IdProducto == null)
+                {
+                    return false;
+                }
+                var tamanos = _context.Tamanos
+                                .Select(t => t.Tamano1)
+                                .ToList();
+                 
+
+                float tamanoMasPequeno = (float)tamanos.Min();
+                float tamanoMasGrande = (float)tamanos.Max();
+
+
+                int? porcentajeInsumo = 0;
+                var recetaPizza = _context.Recetas
+                    .Where(r => r.IdProducto == sabor)
+                    .Include(r => r.IdProductoNavigation.IdTamanoNavigation)
+                    .ToList();
+
+                foreach (var receta in recetaPizza)
+                {
+                    int cantidadDisminuir = 0;
+                    int tamano = (int)detalleVenta.IdProducto - 1;
+                    float tamanoActual = (float)tamanos[tamano];
+
+
+                    float porcentajeGastar = (tamanoActual - tamanoMasPequeno) / (tamanoMasGrande - tamanoMasPequeno) * 100;
+                    var consultaInsumos = _context.Insumos
+                       .SingleOrDefault(i => i.IdInsumo == receta.IdInsumo);
+
+                    int cantidadGastar = (int)(receta.CantInsumo * porcentajeGastar) / 100;
+                    cantidadDisminuir = (int)((receta.CantInsumo + cantidadGastar) * detalleVenta.CantVendida);
+
+
+                    if (cantidadDisminuir > consultaInsumos.CantInsumo)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+
+            return true;
+        }
         //Miguel 22/10/2023: Función para organizar los detalles en caso de que la venta sea cuenta abierta y se agregue el mismo producto
         public void OrganizarDetalles(int? idVenta, int? idProducto)
         {
@@ -178,6 +236,12 @@ namespace PF_Pach_OS.Controllers
         //Miguel 22/10/2023: Función para conultar los detalles de las ventas en el index de ventas
         public async Task<IActionResult> DetallesVentas(int? IdVenta)
         {
+            bool tine_permiso = _permisosController.tinto(2, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (IdVenta == null)
             {
                 return NotFound();
@@ -218,7 +282,7 @@ namespace PF_Pach_OS.Controllers
                 NotFound();
             }
 
-            foreach(var detalle in detalleVentas)
+            foreach (var detalle in detalleVentas)
             {
                 _context.Remove(detalle);
                 await _context.SaveChangesAsync();

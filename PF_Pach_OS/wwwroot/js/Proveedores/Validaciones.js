@@ -64,3 +64,33 @@ $('#formulario').submit(function (event) {
         event.preventDefault();
     }
 });
+function checkIfFieldsAreEmpty() {
+    var campos = document.querySelectorAll('.form-control'); 
+    var botonCrearProveedor = document.getElementById('btnRegistrar'); 
+
+    // Verifica si todos los campos están vacíos
+    var todosVacios = true;
+    campos.forEach(function (campo) {
+        if (campo.value.trim() !== '') {
+            todosVacios = false;
+            return;
+        }
+    });
+
+    // Habilita o deshabilita el botón según si todos los campos están vacíos
+    if (todosVacios) {
+        botonCrearProveedor.disabled = true;
+    } else {
+        botonCrearProveedor.disabled = false;
+    }
+}
+checkIfFieldsAreEmpty();
+
+function validateNit() {
+    var nit = $('#Nit').val();
+    if (nit.trim() === '') {
+        $('#btnRegistrar').prop('disabled', true);
+        return;
+    }
+}
+
