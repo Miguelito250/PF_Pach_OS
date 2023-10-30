@@ -19,11 +19,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<Pach_OSContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<Pach_OSContext>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+
 
 
 var app = builder.Build();
@@ -42,7 +44,13 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "generarInforme",
+        pattern: "Estadisticas/GenerarInformeVentas",
+        defaults: new { controller = "Estadisticas", action = "GenerarInformeVentas" });
+});
 
 
 app.MapControllerRoute(

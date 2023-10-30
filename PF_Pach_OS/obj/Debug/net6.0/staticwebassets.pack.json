@@ -8685,10 +8685,6 @@
       "PackagePath": "staticwebassets\\css\\Compras\\DetalleCompra.css"
     },
     {
-      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\DetalleVenta.css",
-      "PackagePath": "staticwebassets\\css\\DetalleVenta.css"
-    },
-    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Estilos-generales.css",
       "PackagePath": "staticwebassets\\css\\Estilos-generales.css"
     },
@@ -8705,12 +8701,24 @@
       "PackagePath": "staticwebassets\\css\\Productos.css"
     },
     {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Productos\\Index.css",
+      "PackagePath": "staticwebassets\\css\\Productos\\Index.css"
+    },
+    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Proveedores.css",
       "PackagePath": "staticwebassets\\css\\Proveedores.css"
     },
     {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\DetalleVenta.css",
+      "PackagePath": "staticwebassets\\css\\Ventas\\DetalleVenta.css"
+    },
+    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\SaboresPizza.css",
       "PackagePath": "staticwebassets\\css\\Ventas\\SaboresPizza.css"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\ventas.css",
+      "PackagePath": "staticwebassets\\css\\Ventas\\ventas.css"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\estructuracion.css",
@@ -8721,12 +8729,12 @@
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
-      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\ventas.css",
-      "PackagePath": "staticwebassets\\css\\ventas.css"
-    },
-    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\img\\Logo_Empresa.jpg",
       "PackagePath": "staticwebassets\\img\\Logo_Empresa.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\img\\fondo.jpeg",
+      "PackagePath": "staticwebassets\\img\\fondo.jpeg"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Compras\\Compras.js",
@@ -8749,6 +8757,10 @@
       "PackagePath": "staticwebassets\\js\\Login-RecuperarContraseña\\Login.js"
     },
     {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Productos\\Crear.js",
+      "PackagePath": "staticwebassets\\js\\Productos\\Crear.js"
+    },
+    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Productos\\Editar.js",
       "PackagePath": "staticwebassets\\js\\Productos\\Editar.js"
     },
@@ -8759,6 +8771,18 @@
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Proveedores\\Validaciones.js",
       "PackagePath": "staticwebassets\\js\\Proveedores\\Validaciones.js"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\RolPermisos\\Crear.js",
+      "PackagePath": "staticwebassets\\js\\RolPermisos\\Crear.js"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\RolPermisos\\Editar.js",
+      "PackagePath": "staticwebassets\\js\\RolPermisos\\Editar.js"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\RolPermisos\\Index.js",
+      "PackagePath": "staticwebassets\\js\\RolPermisos\\Index.js"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\DetallesVenta.js",

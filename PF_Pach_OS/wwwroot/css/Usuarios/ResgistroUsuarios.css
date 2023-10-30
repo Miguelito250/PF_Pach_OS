@@ -1,0 +1,14 @@
+﻿@media only screen and (max-width: 600px) {
+    .modulos{
+        padding: 0;
+        margin: 2em 0 0 10px;
+    }
+
+    label, select, option{
+        font-size: 12px !important;
+    }
+    
+    .w-25 mt-5{
+        width: 100%;
+    }
+}

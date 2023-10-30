@@ -12,6 +12,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/insumos/insumos.js"></script>
     <script src="~/js/compras/detallecomprat.js"></script>
+    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("es-CO");
+
 }
 
 
@@ -55,35 +57,24 @@
             <div>
                 <div class="w-100 d-flex flex-column mb-3 align-items-center ">
                     <p class="w-100 h4 mb-3 text-center"><strong>PACH_OS</strong></p>
+                    <p id="reloj" style="padding:0px"></p>
+                    <span id="Empleado"><strong>Empleado: </strong>@ViewBag.NombreUsuario</span>
                 </div>
+                <hr />
                 @*-----Ingresar numero de Factura-----*@
                 <div class="">
-                    <p class="mb-0"><strong>Numero de factura</strong></p>
+                    <p class="mb-0"><strong>Numero de factura*</strong></p>
                     <input type="text" asp-for="Item2.NumeroFactura" id="NumeroFactura" name="Item2.NumeroFactura" placeholder="Numero de factura" class="form-control" min="1" title="Aqui puede ingresar el numero de la factura" required/>
                     <div id="NumeroFeedback" class="invalid-feedback">
                         Por favor, ingresa factura.
                     </div>
                     <div class="valid-feedback">
                     </div>
-
                 </div>
-                <hr style="margin-top: 0.6rem; margin-bottom:0.6rem" />
-                @*-----SELECCIONAR EMPLEADO-----*@
-                <div class="">
-                    <p class="mb-0"><strong>Empleado</strong></p>
-                    <select id="Empleado" class="form-select" asp-for="Item2.IdEmpleado" asp-items="@(new SelectList(ViewBag.Empleados, "IdEmpleado", "Nombre"))" title="Aqui puede seleccionar el empleado que esta registrado la compra" required>
-                        <option value="" selected>Elige una opción</option>
-                    </select>
-                    <div id="EmpleadoFeedback" class="invalid-feedback">
-                        Por favor, elige una opción.
-                    </div>
-                    <div class="valid-feedback">
-                    </div>
-                </div>
-                <hr style="margin-top: 0.6rem; margin-bottom:0.6rem" />
+                <hr/>
                 @*-----SELECCIONAR PROVEEDOR-----*@
                 <div class="">
-                    <p class="mb-0"><strong>Proveedor</strong></p>
+                    <p class="mb-0"><strong>Proveedor*</strong></p>
                     <select id="Proveedor" class="form-select" form-select" asp-for="Item2.IdProveedor" asp-items="@(new SelectList(ViewBag.Proveedores, "IdProveedor", "NomLocal"))" title="Aqui puede seleccionar el proveedor al que le hizo la compra" required>
                         <option value="" selected>Elige una opción</option>
                     </select>
@@ -93,7 +84,7 @@
                     <div class="valid-feedback">
                     </div>
                 </div>
-                <hr style="margin-top: 0.6rem; margin-bottom:0.6rem" />
+                <hr />
                 @*-----TOTAL GRANDE DE LA FACRUTA-----*@
                 <input type="hidden" asp-for="Item2.Total" value="@total" />
             </div>
@@ -118,7 +109,7 @@
             @*-----SELECCIONAR EL INSUMO-----*@
 
             <div class="col-4 DC">
-                <label>Insumo</label>
+                <label>Insumo*</label>
                 <select id="Item1_IdInsumo" asp-for="Item1.IdInsumo" class="form-select" data-placeholder="Escoja un insumo" title="Aqui puede seleccionar el insumo que va a comprar" required>
                     <option></option>
                     @foreach (var insumo in ViewBag.Insumos)
@@ -137,7 +128,7 @@
             </div>
             @*-----INGRESAR CANTIDAD-----*@
             <div class="col-4 DC">
-                <label>Cantidad</label>
+                <label>Cantidad*</label>
                 <input id="CantidadCompra" type="number" asp-for="Item1.Cantidad" placeholder="Cantidad de insumo" class="form-control" min="1" title="Aqui puede ingresar la cantidad del insumo que va a comprar" required />
                 <div id="CantidadFeedback" class="invalid-feedback">
                     Por favor, ingresa factura.
@@ -151,7 +142,7 @@
             </div>
             @*-----SELECCIONAR UNIDAD DE MEDIDA-----*@
             <div class="col-4 DC">
-                <label>Medida</label>
+                <label>Medida*</label>
                 <select id="MedidaCompra" type="text" asp-for="Item1.Medida" placeholder="Medida de la cantidad" class="form-select" title="Aqui puede seleccionar la unidad de medida en la que esta comprando" required>
                     <option value="" selected>Elige una opción</option>
                     <option value="Unidad">Unidad</option>
@@ -170,7 +161,7 @@
             </div>
             @*-----INGRESAR PRECIO-----*@
             <div class="col-4 DC">
-                <label>Precio</label>
+                <label>Precio*</label>
                 <input id="PrecioCompra" type="text" asp-for="Item1.PrecioInsumo" placeholder="Precio de insumo" class="form-control" title="Aqui puede ingresar el valor del insumo" required/>
                 <div id="PrecioFeedback" class="invalid-feedback">
                     Por favor, ingrese precio del insumo.
@@ -208,7 +199,7 @@
                             <td>@detalle.NomInsumo</td>
                             <td>@detalle.Cantidad</td>
                             <td>@detalle.Medida</td>
-                            <td>@(detalle.PrecioInsumo % 1 == 0 ? detalle.PrecioInsumo.ToString("C0").Replace(",", ".") : detalle.PrecioInsumo.ToString("C2").Replace(",", "."))</td>
+                            <td>@(detalle.PrecioInsumo.ToString("C0", ci))</td>
                             <td class="d-flex align-items-center">
                                 <a href="@Url.Action("Delete", "DetalleCompra", new { id = detalle.IdDetallesCompra, otroId = detalle.IdCompra, cantidad = detalle.Cantidad, idinsumo = detalle.IdInsumo, medida = detalle.Medida})" class="btn btn-outline-danger py-1 px-2" title="Con este boton puedes eliminar el insumo de la compra">
                                     Eliminar
@@ -242,7 +233,7 @@
                 <form asp-action="CrearInsumo" asp-controller="DetalleCompra" id="myForm" class="needs-validation" novalidate>
                     <input type="hidden" asp-for="Item1.IdCompra" value="@ViewBag.IdCompra" />
                     <div class="form-group">
-                        <label for="NomInsumo">Nombre del Insumo *</label>
+                        <label for="NomInsumo">Nombre del Insumo*</label>
                         <input type="text" class="form-control" id="NomInsumo" name="NomInsumo" required title="Aqui puedes ingresar el nombre del insumo que quieres crear">
                         <div id="nombreFeedback" class="invalid-feedback">
                             Por favor, ingresa el nombre del insumo que quieres crear.
@@ -252,7 +243,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="Medida">Medida *</label>
+                        <label for="Medida">Medida*</label>
                         <select class="form-control" id="Medida" name="Medida" required title="Aqui puedes seleccionar la unidad de medida del insumo">
                             <option value="" selected>Elige una opción</option>
                             <option value="Gramo">Gramo</option>
@@ -306,7 +297,5 @@
             InsumoFeedback.textContent = 'Por favor, Escoja una opcion.';
         }
     }); 
-
-    
 </script>   
 

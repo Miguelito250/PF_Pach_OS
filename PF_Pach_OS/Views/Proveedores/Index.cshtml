@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<PF_Pach_OS.Models.Proveedore>
 <link href="~/css/proveedores.css" rel="stylesheet" />
+<link href="~/css/estilos-generales.css" rel="stylesheet" />
+
+
 
 @{
     ViewData["Title"] = "Index";
@@ -11,11 +14,13 @@
 </p>
 *@
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
+<div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="console.log('Modal cerrada')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div id="create-result"></div>
@@ -29,14 +34,8 @@
 
 
 <button id="btnNuevo" class="estilo-btn-naranja btn-crear-posicion" data-toggle="modal" data-target="#myModal">Crear Proveedor</button>
-<script>
-    //document.getElementById("btnNuevo").addEventListener("click", function () {
-    //    $('#myModal').modal('show');
-    //    $('#myModal').on('hidden.bs.modal', function () {
-    //        location.reload(); // Hacer un refresh al cerrar el modal
-    //    });
-    //});
-</script>
+<input type="text" class="buscador" id="searchInput" placeholder="Buscar" aria-label="Buscar" aria-describedby="search-addon">
+
 
 <div class="lista-proveedores rounded border">
     <table class="table mb-0 table-bordered table-striped">
@@ -99,6 +98,30 @@
             var idProveedor = $(this).data("id");
             $("#modal-content").load("/Proveedores/Edit/" + idProveedor);
             $('#myModal').modal('show');
+        });
+    });
+</script>
+<script>
+    var searchInput = $('#searchInput');
+
+    $('#searchInput').on('input', function () {
+        var searchText = $(this).val().trim().toLowerCase();
+
+
+        $('tbody tr').each(function () {
+            var fecha = $(this).find('td:eq(0)').text().trim().toLowerCase();
+            var metodoPago = $(this).find('td:eq(1)').text().trim().toLowerCase();
+            var total = $(this).find('td:eq(2)').text().trim().toLowerCase();
+
+            if (
+                fecha.includes(searchText) ||
+                metodoPago.includes(searchText) ||
+                total.includes(searchText)
+            ) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
         });
     });
 </script>
