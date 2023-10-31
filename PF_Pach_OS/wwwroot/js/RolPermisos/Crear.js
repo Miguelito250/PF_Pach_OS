@@ -38,8 +38,27 @@ $(document).ready(function () {
             nombreRol.classList.add('is-invalid');
             Mensaje_nombre.textContent = 'El nombre debe tener menos de 20 caracteres';
         } else {
-            nombreRol.classList.add('is-valid')
+            nombreRol.classList.add('is-valid');
+
         }
+        //$.ajax({
+        //    type: 'GET',
+        //    url: '/RolPermisos/NombreDuplicado',
+        //    data: { Nombre: nombreRol },
+        //    success: function (result) {
+        //        if (result === true) {
+        //            nombreRol.classList.add('is-invalid');
+        //            Mensaje_nombre.textContent = 'No se puede repetir el nombre.';
+        //        } else {
+        //            nombreRol.classList.add('is-valid');
+        //        }
+        //    },
+        //    error: function () {
+        //        // Manejo de errores si la solicitud falla
+        //        console.log('Error en la solicitud AJAX');
+        //    }
+        //});
+
     }
 
     nombreRol.addEventListener('input', ValidarNombre)
@@ -87,7 +106,7 @@ $(document).ready(function () {
                             nomRol: nombreRol.value
                         },
                         success: function (data) {
-                            
+
                         },
                         error: function (xhr, status, error) {
                             reject(error);

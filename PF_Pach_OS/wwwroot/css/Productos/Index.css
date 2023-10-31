@@ -1,4 +1,7 @@
-﻿
+﻿a.disabled {
+    pointer-events: none;
+    color: #ccc;
+}
 /*Responsivo con maximo de ancho de 540px*/
 @media only screen and (max-width: 540px) {
     input.buscador {

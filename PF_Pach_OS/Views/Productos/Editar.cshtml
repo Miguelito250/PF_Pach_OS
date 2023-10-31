@@ -65,8 +65,8 @@
             </div>
 
             <div id="Tamano_Oculto" class="d-none form-group">
-                <label asp-for="Producto.IdTamano" id="tamano" class="form-label">Tamaño</label>
-                <select class="form-select" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
+                <label asp-for="Producto.IdTamano"  class="form-label">Tamaño</label>
+                <select class="form-select" id="tamano" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
                     @if (ViewBag.SelectTamanoID == null)
                     {
                         <option value="" disabled selected>Seleccione un Tamaño</option>

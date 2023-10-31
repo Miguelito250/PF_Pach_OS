@@ -1,7 +1,16 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
+﻿var idPizza = 1;
+
+$(document).ready(function () {
+    var tamano = $('#Producto_IdCategoria').val();
+    if (tamano.value == idPizza) {
+
+        MostrarCampoOculto();
+    }
+})
+
+document.addEventListener('DOMContentLoaded', function () {
     //Informacion Producto
     var formulario_producto = document.getElementById("formulario1");
-    var idPizza = 1;
 
     var nombre = document.getElementById("Nombre");
     var mensaje_nombre = document.getElementById("mensaje_nombre")
@@ -14,6 +23,9 @@
 
     var tamano = document.getElementById("tamano");
     var mensaje_tamano = document.getElementById("mensaje_tamano");
+
+
+
     //Informacion Receta
 
 
@@ -39,7 +51,7 @@
 
     //Escuchadores para productos
     formulario_producto.addEventListener('submit', EnvioProducto)
-    nombre.addEventListener('input', ValidarNombre)
+    var nombre = nombre.addEventListener('input', ValidarNombre)
     precio.addEventListener('input', ValidarPrecio)
     categoria.addEventListener('change', ValidarCategoria)
     tamano.addEventListener('change', ValidarTamano)
@@ -68,6 +80,23 @@
         } else {
             nombre.classList.add('is-valid');
         }
+        $.ajax({
+            type: 'GET',
+            url: '/Productos/NombreDuplicado',
+            data: { Nombre: valorNombre },
+            success: function (result) {
+                if (result === true) {
+                    nombre.classList.add('is-invalid');
+                    mensaje_nombre.textContent = 'No se puede repetir el nombre.';
+                } else {
+                    nombre.classList.add('is-valid');
+                }
+            },
+            error: function () {
+                // Manejo de errores si la solicitud falla
+                console.log('Error en la solicitud AJAX');
+            }
+        });
     }
     //validar el campo precio del producto
     function ValidarPrecio() {
@@ -119,7 +148,7 @@
         tamano.classList.remove('is-invalid', 'is-valid');
         mensaje_tamano.textContent = '';
         if (ValorCategoria == idPizza) {
-            if (ValorTamano.trim() === '') {
+            if (ValorTamano.trim() === "") {
                 tamano.classList.add('is-invalid');
                 mensaje_tamano.textContent = 'El campo no puede ir vacio si la categoria es Pizza'
             } else {
@@ -130,17 +159,7 @@
     }
 
 
-    //muestra el campo Tamaño
-    function MostrarCampoOculto() {
-        var campoOculto = document.getElementById('Tamano_Oculto');
-        campoOculto.classList.remove('d-none')
-    }
 
-    //oculta el campo Tamaño
-    function OcultaCampoOculto() {
-        var campoOculto = document.getElementById('Tamano_Oculto');
-        campoOculto.classList.add('d-none')
-    }
     function EnvioProducto(event) {
         event.preventDefault();
         InterfazProducto();
@@ -237,6 +256,18 @@
         });
     });
 });
+//muestra el campo Tamaño
+function MostrarCampoOculto() {
+    var campoOculto = document.getElementById('Tamano_Oculto');
+    campoOculto.classList.remove('d-none')
+}
+
+//oculta el campo Tamaño
+function OcultaCampoOculto() {
+    var campoOculto = document.getElementById('Tamano_Oculto');
+    campoOculto.classList.add('d-none')
+}
+
 //validar el campo Insumos del recetas
 function ValidarInsumo() {
     var insumo = document.getElementById('insumo');
@@ -394,7 +425,7 @@ document.getElementById("Formurario_Modal").addEventListener("submit", function 
 
 document.getElementById("miFormulario").addEventListener("submit", function (event) {
     event.preventDefault();
-    
+
     EnvioReceta();
 
 

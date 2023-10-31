@@ -28,6 +28,15 @@
     var cantidadInsumo = document.getElementById('CantidadInsumo');
     var mensaje_CantInsumo = document.getElementById('mensaje_Cantinsumo');
 
+    //Informacion Imprtar Receta
+    var formulario_Importar = document.getElementById("Formurario_Modal");
+
+    var Importar_nombre = document.getElementById("nom_Pro_Modal");
+    var Importar_precio = document.getElementById("pre_Pro_Modal");
+    var Importar_categoria = document.getElementById("cat_Pro_Modal");
+    var Importar_tamano = document.getElementById("tam_Pro_Modal");
+
+    
 
     const enlacesMenu = document.querySelectorAll('.links-modulos');
     const Toast = Swal.mixin({
@@ -54,6 +63,9 @@
     insumo.addEventListener('change', ValidarInsumo);
     cantidadInsumo.addEventListener('input', ValidarCantInsumo);
 
+    //Escuchadores Importar Receta
+    formulario_Importar.addEventListener('submit', EnvioExportar)
+
     //validar el campo nombre del producto
     function ValidarNombre() {
         var valorNombre = nombre.value;
@@ -72,8 +84,26 @@
             nombre.classList.add('is-invalid');
             mensaje_nombre.textContent = 'El nombre debe tener menos de 30 caracteres';
         } else {
+
             nombre.classList.add('is-valid');
         }
+        $.ajax({
+            type: 'GET',
+            url: '/Productos/NombreDuplicado',
+            data: { Nombre: valorNombre },
+            success: function (result) {
+                if (result === true) {
+                    nombre.classList.add('is-invalid');
+                    mensaje_nombre.textContent = 'No se puede repetir el nombre.';
+                } else {
+                    nombre.classList.add('is-valid');
+                }
+            },
+            error: function () {
+                // Manejo de errores si la solicitud falla
+                console.log('Error en la solicitud AJAX');
+            }
+        });
     }
     //validar el campo precio del producto
     function ValidarPrecio() {
@@ -237,6 +267,12 @@
     function IntefazRecetas() {
         ValidarInsumo();
         ValidarCantInsumo();
+    }
+    function EnvioExportar(event) {
+        Importar_nombre.value = nombre.value;
+        Importar_precio.value = precio.value;
+        Importar_categoria.value = categoria.value;
+        Importar_tamano.value = tamano.value;
     }
 
     window.addEventListener('load', function () {

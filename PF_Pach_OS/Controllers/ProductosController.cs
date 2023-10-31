@@ -70,17 +70,18 @@ namespace PF_Pach_OS.Controllers
             }
 
             var pach_OSContext = await _context.Productos.ToListAsync();
+
+
             
             foreach (var pach in pach_OSContext)
             {
-
-                if (pach.NomProducto == null || pach.PrecioVenta == null || pach.IdCategoria == null || pach.Estado == null)
+                if(pach.Estado  == null)
                 {
                     Eliminar_Receta(pach.IdProducto);
                     _context.Productos.Remove(pach);
                     _context.SaveChanges();
-
                 }
+
                 if (pach.IdCategoria == 1)
                 {
                     if (pach.IdTamano == null)
@@ -526,6 +527,11 @@ namespace PF_Pach_OS.Controllers
                 Medida = insumos.FirstOrDefault(i => i.IdInsumo == receta.IdInsumo)?.Medida,
             }).ToList();
             return Json(Recetas_Insumos);
+        }
+        public IActionResult NombreDuplicado(string Nombre)
+        {
+            var EsDuplicado = _context.Productos.Any(x => x.NomProducto == Nombre);
+            return Json(EsDuplicado);
         }
 
     }

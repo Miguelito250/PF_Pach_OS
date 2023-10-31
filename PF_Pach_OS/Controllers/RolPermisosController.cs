@@ -280,5 +280,10 @@ namespace PF_Pach_OS.Controllers
         {
             return (_context.RolPermisos?.Any(e => e.IdRolPermisos == id)).GetValueOrDefault();
         }
+        public IActionResult NombreDuplicado(string Nombre)
+        {
+            var EsDuplicado = _context.Roles.Any(x => x.NomRol == Nombre);
+            return Json(EsDuplicado);
+        }
     }
 }
