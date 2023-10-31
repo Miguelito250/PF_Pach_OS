@@ -14,16 +14,12 @@
         <div class="row">
             <input type="hidden" readonly value="@ViewBag.IdVenta">
 
-            <div class="col-7">
-                <label>Tamaño</label>
-                <select class="form-select" asp-items="ViewBag.IdProducto" id="ProductoEscoger">
-                </select>
+            <div class="d-flex justify-content-between">
+                <span>Tamaño a vender: <strong>@ViewBag.TamanoVender</strong> </span>
+                <span>Maximo de sabores: <strong>@ViewBag.MaximoSabores</strong></span>
             </div>
+
             <div class="col-5">
-                <label class="form-label">Maximo de sabores</label>
-                <input type="number" class="form-control" value="2" id="maximoSabores" disabled>
-            </div>
-            <div class="col-7">
                 <label class="form-label">Cantidad</label>
                 <input type="number" class="form-control" value="0" id="CantVendida">
                 <span id="cantidadMensaje" class="invalid-feedback"></span>

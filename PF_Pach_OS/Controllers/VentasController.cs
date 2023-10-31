@@ -31,7 +31,7 @@ namespace PF_Pach_OS.Controllers
             _userManager = userManager;
             _permisosController = new PermisosController(_context, _userManager, _signInManager);
             _detalleVentasController = new DetalleVentasController(_context, _userManager, _signInManager);
-        }   
+        }
 
         //Miguel 22/10/2023: Función para retornar a la vista de index de ventas
         public async Task<IActionResult> Index()
@@ -146,9 +146,9 @@ namespace PF_Pach_OS.Controllers
                 }
                 else
                 {
-                     venta.Estado = venta.Mesa == "General"
-                        ? venta.Estado = "Pagada"
-                        : venta.Estado = "Pendiente";
+                    venta.Estado = venta.Mesa == "General"
+                       ? venta.Estado = "Pagada"
+                       : venta.Estado = "Pendiente";
 
 
                     var ventaActualizar = await _context.Ventas
@@ -163,13 +163,18 @@ namespace PF_Pach_OS.Controllers
                         ventaActualizar.PagoDomicilio = venta.PagoDomicilio;
                         ventaActualizar.IdEmpleado = venta.IdEmpleado;
                         ventaActualizar.Estado = venta.Estado;
-                        ventaActualizar.Mesa= venta.Mesa;
+                        ventaActualizar.Mesa = venta.Mesa;
 
-                        _context.Ventas.Update(ventaActualizar); 
+                        _context.Ventas.Update(ventaActualizar);
                         _context.SaveChanges();
                     }
 
-                    DescontarInsumos(venta);
+                    var detalleVenta = _context.DetalleVentas
+                    .Where(d => d.IdVenta == venta.IdVenta && d.Estado != "Descontado")
+                    .Include(d => d.IdProductoNavigation.IdTamanoNavigation)
+                    .ToList();
+
+                    await DescontarInsumos(detalleVenta);
                 }
                 return RedirectToAction("Index", "Ventas");
             }
@@ -203,23 +208,17 @@ namespace PF_Pach_OS.Controllers
         }
 
         //Miguel 22/10/2023: Función para descontar insumos de los productos vendidos
-        public async Task<IActionResult> DescontarInsumos(Venta venta)
+        public async Task<IActionResult> DescontarInsumos(List<DetalleVenta> detalles)
         {
             int? cantidadDisminuir = 0;
 
-            var detalleVenta = _context.DetalleVentas
-                .Where(d => d.IdVenta == venta.IdVenta && d.Estado != "Descontado")
-                .Include(d => d.IdProductoNavigation.IdTamanoNavigation)
-                .ToList();
-
-            foreach (var detalle in detalleVenta)
+            foreach (var detalle in detalles)
             {
                 var producto = _context.Productos
                     .FirstOrDefault(p => p.IdProducto == detalle.IdProducto);
 
                 if (producto.IdProducto is <= 4 and > 1)
                 {
-
                     var tamanos = _context.Tamanos
                                 .Select(t => t.Tamano1)
                                 .ToList();
@@ -300,7 +299,7 @@ namespace PF_Pach_OS.Controllers
                         }
                     }
                 }
-                _detalleVentasController.OrganizarDetalles(venta.IdVenta, detalle.IdProducto);
+                _detalleVentasController.OrganizarDetalles(detalle.IdVenta, detalle.IdProducto);
                 detalle.Estado = "Descontado";
                 _context.DetalleVentas.Update(detalle);
                 _context.SaveChanges();
@@ -335,7 +334,7 @@ namespace PF_Pach_OS.Controllers
         }
 
         //Miguel 22/10/2023: Función para escoger los sabores de las pizzas a vender en la venta modal
-        public async Task<IActionResult> SaboresPizza()
+        public async Task<IActionResult> SaboresPizza(int? tamanoPizza)
         {
             bool tine_permiso = _permisosController.tinto(2, User);
 
@@ -343,12 +342,20 @@ namespace PF_Pach_OS.Controllers
             {
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
-            var saboresPizza = _context.Productos
-                .Where(p => p.IdTamano == 1 && p.IdCategoria == 1 && p.IdProducto > 4);
 
-            ViewData["IdProducto"] = new SelectList(_context.Tamanos
-                .Where(t => t.IdTamano != 1),
-                "IdTamano", "NombreTamano");
+            var tamanoVender = await _context.Tamanos
+                .FirstOrDefaultAsync(t => t.IdTamano == tamanoPizza);
+
+            if (tamanoVender == null)
+            {
+                return NotFound();
+            }
+
+            var saboresPizza = _context.Productos
+                .Where(p => p.IdTamano == tamanoVender.IdTamano);
+
+            ViewBag.TamanoVender = tamanoVender.NombreTamano;
+            ViewBag.MaximoSabores = tamanoVender.MaximoSabores;
 
             return View(await saboresPizza.ToListAsync());
         }

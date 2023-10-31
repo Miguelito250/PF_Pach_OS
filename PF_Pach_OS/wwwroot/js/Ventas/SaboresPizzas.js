@@ -8,82 +8,9 @@
         }
     };
 
-    //Funcion para insertar textos en etiquetas de esta misma pagina ya sean a inputs o a textos
-    function InsertarTextos(valorInsertar, lugarCargar, etiqueta) {
-        let valor = valorInsertar
-        let idEtiqueta = document.getElementById(lugarCargar)
-        if (etiqueta === "texto") {
-            idEtiqueta.innerHTML = valor;
-        } else if (etiqueta == "numerico") {
-            idEtiqueta.value = valor
-        } else {
-            console.log("No se especifico una etiqueta valida")
-        }
-    }
-
-    //Funcion para consultar el tamaño a vender en la personalizacion de las pizzas
-    const ConsultarTamano = async (productoTamano) => {
-        var productoSeleccionado = $(productoTamano).val();
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: '/DetalleVentas/ConsultarMaximoSabores',
-                type: 'GET',
-                data: { IdProducto: productoSeleccionado },
-                success: function (respuesta) {
-                    resolve(respuesta);
-                },
-                error: function (xhr, status, error) {
-                    reject(error);
-                }
-            });
-        });
-    }
-
-    //Funcion para limitar la cantidad de sabores que puede vender segun el tamaño de la pizza
-    function LimitarSabores() {
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener("change", function () {
-                const checkboxesSeleccionados = Array.from(checkboxes).filter(cb => cb.checked);
-
-                if (checkboxesSeleccionados.length >= maximoSaboresPermitidos.value) {
-                    checkboxes.forEach(cb => {
-                        if (!cb.checked) {
-                            cb.disabled = true;
-                        }
-                    });
-                } else {
-                    checkboxes.forEach(cb => {
-                        cb.disabled = false;
-                    });
-                }
-            });
-        });
-    }
-
-    function ValidarCantidad() {
-        let valorCantidad = cantidad.value
-        cantidad.classList.remove('is-invalid', 'is-valid');
-        cantidadMensaje.textContent = '';
-
-        if (valorCantidad <= 0) {
-            cantidad.classList.add('is-invalid');
-            cantidadMensaje.textContent = 'El campo no puede ser menor a 1';
-        } else {
-            cantidad.classList.add('is-valid')
-        }
-
-    }
-
-    //Miguel 19/10/2023
-    //Funcion para recargar la pagina al darle click al confirmar los sabores de las pizzas
-    function RecargarPagina() {
-        location.reload(true);
-    }
-
     const maximoSaboresPermitidos = document.getElementById("maximoSabores");
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     const productoTamano = document.getElementById("ProductoEscoger");
-    //const btnRecargarPagina = document.getElementById("recargarPagina")
     const cantidad = document.getElementById("CantVendida");
     const cantidadMensaje = document.getElementById("cantidadMensaje");
 
@@ -93,25 +20,9 @@
 
     InsertarTextos("Escoger Sabores", "titulo-modal", "texto")
 
-
-    //Miguel 19/10/2023
-    //Escuchador de eventos para ir cambiando el valor de los sabores maximos
-    productoTamano.addEventListener("change", async function () {
-        var maximoSaboresConsulta = await ConsultarTamano(productoTamano);
-        let maximoSaboresPermitidos = maximoSaboresConsulta.maximoSabores;
-        InsertarTextos(maximoSaboresPermitidos, "maximoSabores", "numerico");
-
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = false;
-            checkbox.disabled = false;
-        });
-    })
-
-    //Escuchador de eventos para validar la cantidad
     cantidad.addEventListener('input', ValidarCantidad)
     LimitarSabores()
     $("#btnEnviar").on("click", function () {
-        const producto = document.getElementById("ProductoEscoger").value;
         const cantidadVender = document.getElementById("CantVendida").value;
         const Toast = Swal.mixin({
             toast: true,
@@ -191,5 +102,78 @@
             ValidarCantidad()
         }
     });
+
+    //Funcion para consultar el tamaño a vender en la personalizacion de las pizzas
+    const ConsultarTamano = async (productoTamano) => {
+        var productoSeleccionado = $(productoTamano).val();
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: '/DetalleVentas/ConsultarMaximoSabores',
+                type: 'GET',
+                data: { IdProducto: productoSeleccionado },
+                success: function (respuesta) {
+                    resolve(respuesta);
+                },
+                error: function (xhr, status, error) {
+                    reject(error);
+                }
+            });
+        });
+    }
+
+    //Funcion para insertar textos en etiquetas de esta misma pagina ya sean a inputs o a textos
+    function InsertarTextos(valorInsertar, lugarCargar, etiqueta) {
+        let valor = valorInsertar
+        let idEtiqueta = document.getElementById(lugarCargar)
+        if (etiqueta === "texto") {
+            idEtiqueta.innerHTML = valor;
+        } else if (etiqueta == "numerico") {
+            idEtiqueta.value = valor
+        } else {
+            console.log("No se especifico una etiqueta valida")
+        }
+    }
+
+
+    //Funcion para limitar la cantidad de sabores que puede vender segun el tamaño de la pizza
+    function LimitarSabores() {
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", function () {
+                const checkboxesSeleccionados = Array.from(checkboxes).filter(cb => cb.checked);
+
+                if (checkboxesSeleccionados.length >= maximoSaboresPermitidos.value) {
+                    checkboxes.forEach(cb => {
+                        if (!cb.checked) {
+                            cb.disabled = true;
+                        }
+                    });
+                } else {
+                    checkboxes.forEach(cb => {
+                        cb.disabled = false;
+                    });
+                }
+            });
+        });
+    }
+
+    function ValidarCantidad() {
+        let valorCantidad = cantidad.value
+        cantidad.classList.remove('is-invalid', 'is-valid');
+        cantidadMensaje.textContent = '';
+
+        if (valorCantidad <= 0) {
+            cantidad.classList.add('is-invalid');
+            cantidadMensaje.textContent = 'El campo no puede ser menor a 1';
+        } else {
+            cantidad.classList.add('is-valid')
+        }
+
+    }
+
+    //Miguel 19/10/2023
+    //Funcion para recargar la pagina al darle click al confirmar los sabores de las pizzas
+    function RecargarPagina() {
+        location.reload(true);
+    }
 
 });

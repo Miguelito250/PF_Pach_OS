@@ -11,15 +11,16 @@ InsertarTotal(subtotal);
 OcultarDomicilio();
 
 producto.addEventListener("change", function () {
-
-    if (producto.value == 0) {
+    if (producto.value <= 4) {
+        let tamanoPizza = producto.value
+        console.log(tamanoPizza)
         var miModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
             backdrop: 'static',
             keyboard: false
         });
         $('#exampleModal').on('shown.bs.modal', function () {
             var modalBody = $("#modal-body");
-            var url = "/Ventas/SaboresPizza";
+            var url = "/Ventas/SaboresPizza?tamanoPizza="+tamanoPizza;
             modalBody.empty();
             modalBody.load(url);
         });
@@ -38,10 +39,10 @@ function SumarDomicilio(subtotalProducto) {
     var pagoDomicilio = document.getElementById('domicilio').value;
     if (isNaN(pagoDomicilio) || pagoDomicilio === "" || pagoDomicilio < 0) {
         boton_domicilio.value = 0;
-        totalVenta = parseFloat(subtotalProducto); // Convertir subtotalProducto a número
+        totalVenta = parseFloat(subtotalProducto); 
     } else {
-        pagoDomicilio = parseFloat(pagoDomicilio); // Convertir pagoDomicilio a número
-        totalVenta = parseFloat(subtotalProducto) + pagoDomicilio; // Realizar la suma
+        pagoDomicilio = parseFloat(pagoDomicilio); 
+        totalVenta = parseFloat(subtotalProducto) + pagoDomicilio; 
     }
     InsertarTotal(totalVenta);
 }
