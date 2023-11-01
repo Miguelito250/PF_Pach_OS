@@ -214,8 +214,12 @@ namespace PF_Pach_OS.Controllers
 
             foreach (var detalle in detalles)
             {
-                var producto = _context.Productos
-                    .FirstOrDefault(p => p.IdProducto == detalle.IdProducto);
+                var producto = detalle.IdProductoNavigation;
+
+                if (producto.IdCategoria == 1 && producto.IdTamano > 1)
+                {
+
+                }
 
                 if (producto.IdProducto is <= 4 and > 1)
                 {
