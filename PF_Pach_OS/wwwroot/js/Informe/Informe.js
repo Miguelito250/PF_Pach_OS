@@ -43,9 +43,8 @@ $(document).ready(function () {
         dataType: 'json',
         success: function (totalVentasAnuales) {
             console.log('Total de ventas anuales:', totalVentasAnuales);
-
-
-            $('#totalVentasAnuales').text('$' + totalVentasAnuales.toFixed(2)); 
+            $('#totalVentasAnuales').text('$' + totalVentasAnuales.toFixed(2));
+            $('#celdainsumos').text('$' + totalVentasAnuales.toFixed(2));
         },
         error: function () {
             alert('Error al cargar el total de ventas anuales.');
