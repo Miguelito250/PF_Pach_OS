@@ -10,7 +10,6 @@
 
     const maximoSaboresPermitidos = document.getElementById("maximoSabores");
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    const productoTamano = document.getElementById("ProductoEscoger");
     const cantidad = document.getElementById("CantVendida");
     const cantidadMensaje = document.getElementById("cantidadMensaje");
 
@@ -49,6 +48,7 @@
             });
 
             if (saboresSeleccionados.length > 0) {
+                console.log("Toy dentro ")
                 $.ajax({
                     url: "/Ventas/ConfirmarSabores",
                     type: "POST",
@@ -102,25 +102,6 @@
             ValidarCantidad()
         }
     });
-
-    //Funcion para consultar el tamaño a vender en la personalizacion de las pizzas
-    const ConsultarTamano = async (productoTamano) => {
-        var productoSeleccionado = $(productoTamano).val();
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: '/DetalleVentas/ConsultarMaximoSabores',
-                type: 'GET',
-                data: { IdProducto: productoSeleccionado },
-                success: function (respuesta) {
-                    resolve(respuesta);
-                },
-                error: function (xhr, status, error) {
-                    reject(error);
-                }
-            });
-        });
-    }
-
     //Funcion para insertar textos en etiquetas de esta misma pagina ya sean a inputs o a textos
     function InsertarTextos(valorInsertar, lugarCargar, etiqueta) {
         let valor = valorInsertar

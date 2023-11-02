@@ -218,71 +218,50 @@ namespace PF_Pach_OS.Controllers
 
                 if (producto.IdCategoria == 1 && producto.IdTamano > 1)
                 {
-
-                }
-
-                if (producto.IdProducto is <= 4 and > 1)
-                {
-                    var tamanos = _context.Tamanos
-                                .Select(t => t.Tamano1)
-                                .ToList();
-
-                    float tamanoMasPequeno = (float)tamanos.Min();
-                    float tamanoMasGrande = (float)tamanos.Max();
-
-                    var saboresEscogidos = _context.SaboresSeleccionados
+                    var saboresPizza = await _context.SaboresSeleccionados
                         .Where(s => s.IdDetalleVenta == detalle.IdDetalleVenta)
-                        .ToList();
+                        .ToListAsync();
 
-                    foreach (var sabor in saboresEscogidos)
+                    foreach (var recetaPizza in saboresPizza)
                     {
-                        int? porcentajeInsumo = 0;
-                        var recetaPizza = _context.Recetas
-                            .Where(r => r.IdProducto == sabor.IdProducto)
-                            .Include(r => r.IdProductoNavigation.IdTamanoNavigation)
-                            .ToList();
+                        var saborPizza = recetaPizza.IdProductoNavigation;
+                        var recetaSabores = await _context.Recetas
+                            .Where(r => r.IdProducto == saborPizza.IdProducto)
+                            .ToListAsync();
 
-                        foreach (var receta in recetaPizza)
+                        foreach (var ingredientesPizza in recetaSabores)
                         {
-                            float tamanoActual = (float)detalle.IdProductoNavigation.IdTamanoNavigation.Tamano1;
+                            var insumoGastar = ingredientesPizza.IdInsumoNavigation;
+                            var cantidadGastar = ingredientesPizza.CantInsumo * detalle.CantVendida;
+                            cantidadDisminuir = (int)cantidadGastar / saboresPizza.Count();
 
-
-                            float porcentajeGastar = (tamanoActual - tamanoMasPequeno) / (tamanoMasGrande - tamanoMasPequeno) * 100;
-                            var consultaInsumos = _context.Insumos
-                               .SingleOrDefault(i => i.IdInsumo == receta.IdInsumo);
-
-                            int cantidadGastar = (int)(receta.CantInsumo * porcentajeGastar) / 100;
-                            cantidadDisminuir = (receta.CantInsumo + cantidadGastar) * detalle.CantVendida;
-
-
-                            if (cantidadDisminuir < consultaInsumos.CantInsumo)
+                            if(cantidadDisminuir < insumoGastar.CantInsumo)
                             {
-                                int? insumoDisminuido = consultaInsumos.CantInsumo - cantidadDisminuir;
-
-                                consultaInsumos.CantInsumo = insumoDisminuido;
-
-                                _context.Update(consultaInsumos);
-                                _context.SaveChanges();
+                                insumoGastar.CantInsumo = insumoGastar.CantInsumo - cantidadDisminuir;
+                                Console.WriteLine($"Del producto {producto.NomProducto} se gastó {cantidadDisminuir} del insumo {insumoGastar}");
+                                _context.Insumos.Update(insumoGastar);
+                                await _context.SaveChangesAsync();
                             }
                             else
                             {
-                                ViewBag.MensajeAlerta = "No hay suficientes insumos";
+                                Console.WriteLine($"No hay insumos suficientes para el producto: {producto.NomProducto}");
                                 return RedirectToAction("Crear", "Ventas", new { detalle.IdVenta });
-
                             }
+                            
+
                         }
+                        
                     }
                 }
-
                 else
                 {
                     var recetaProducto = _context.Recetas
                                        .Where(r => r.IdProducto == detalle.IdProducto)
+                                       .Include(r => r.IdInsumoNavigation)
                                        .ToList();
                     foreach (var detalleReceta in recetaProducto)
                     {
-                        var consultaInsumos = _context.Insumos
-                            .SingleOrDefault(i => i.IdInsumo == detalleReceta.IdInsumo);
+                        var consultaInsumos = detalleReceta.IdInsumoNavigation;
 
                         int? cantidadInsumo = consultaInsumos.CantInsumo;
                         cantidadDisminuir = detalle.CantVendida * detalleReceta.CantInsumo;
@@ -294,7 +273,7 @@ namespace PF_Pach_OS.Controllers
                             consultaInsumos.CantInsumo = insumoDisminuido;
 
                             _context.Update(consultaInsumos);
-                            _context.SaveChanges();
+                            await _context.SaveChangesAsync();
                         }
                         else
                         {
@@ -303,6 +282,60 @@ namespace PF_Pach_OS.Controllers
                         }
                     }
                 }
+
+                //if (producto.IdProducto is <= 4 and > 1)
+                //{
+                //    var tamanos = _context.Tamanos
+                //                .Select(t => t.Tamano1)
+                //                .ToList();
+
+                //    float tamanoMasPequeno = (float)tamanos.Min();
+                //    float tamanoMasGrande = (float)tamanos.Max();
+
+                //    var saboresEscogidos = _context.SaboresSeleccionados
+                //        .Where(s => s.IdDetalleVenta == detalle.IdDetalleVenta)
+                //        .ToList();
+
+                //    foreach (var sabor in saboresEscogidos)
+                //    {
+                //        int? porcentajeInsumo = 0;
+                //        var recetaPizza = _context.Recetas
+                //            .Where(r => r.IdProducto == sabor.IdProducto)
+                //            .Include(r => r.IdProductoNavigation.IdTamanoNavigation)
+                //            .ToList();
+
+                //        foreach (var receta in recetaPizza)
+                //        {
+                //            float tamanoActual = (float)detalle.IdProductoNavigation.IdTamanoNavigation.Tamano1;
+
+
+                //            float porcentajeGastar = (tamanoActual - tamanoMasPequeno) / (tamanoMasGrande - tamanoMasPequeno) * 100;
+                //            var consultaInsumos = _context.Insumos
+                //               .SingleOrDefault(i => i.IdInsumo == receta.IdInsumo);
+
+                //            int cantidadGastar = (int)(receta.CantInsumo * porcentajeGastar) / 100;
+                //            cantidadDisminuir = (receta.CantInsumo + cantidadGastar) * detalle.CantVendida;
+
+
+                //            if (cantidadDisminuir < consultaInsumos.CantInsumo)
+                //            {
+                //                int? insumoDisminuido = consultaInsumos.CantInsumo - cantidadDisminuir;
+
+                //                consultaInsumos.CantInsumo = insumoDisminuido;
+
+                //                _context.Update(consultaInsumos);
+                //                _context.SaveChanges();
+                //            }
+                //            else
+                //            {
+                //                ViewBag.MensajeAlerta = "No hay suficientes insumos";
+                //                return RedirectToAction("Crear", "Ventas", new { detalle.IdVenta });
+
+                //            }
+                //        }
+                //    }
+                //}
+
                 _detalleVentasController.OrganizarDetalles(detalle.IdVenta, detalle.IdProducto);
                 detalle.Estado = "Descontado";
                 _context.DetalleVentas.Update(detalle);
@@ -400,7 +433,7 @@ namespace PF_Pach_OS.Controllers
                 saborSeleccionado.IdProducto = sabor;
                 saborSeleccionado.IdDetalleVenta = detalleVenta.IdDetalleVenta;
 
-                await _context.SaboresSeleccionados.AddAsync(saborSeleccionado);
+                _context.SaboresSeleccionados.AddAsync(saborSeleccionado);
                 await _context.SaveChangesAsync();
             }
             return insumosSufucientes;

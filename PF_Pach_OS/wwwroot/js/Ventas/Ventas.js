@@ -13,7 +13,6 @@ OcultarDomicilio();
 producto.addEventListener("change", function () {
     if (producto.value <= 4) {
         let tamanoPizza = producto.value
-        console.log(tamanoPizza)
         var miModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
             backdrop: 'static',
             keyboard: false
