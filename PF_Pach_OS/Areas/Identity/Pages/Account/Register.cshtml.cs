@@ -57,47 +57,46 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [Display(Name = "Tipo de documento")]
+            [Required(ErrorMessage = "El campo es obligatorio")]
+            [Display(Name = "Tipo de documento *")]
             public string DocumentType { get; set; }
 
-            [Required]
-            [Display(Name = "Numero de documento")]
+            [Required(ErrorMessage = "El campo es obligatorio")]
+            [Display(Name = "N° documento *")]
             public string DocumentNumber { get; set; }
 
-            [Required]
-            [Display(Name = "Nombre")]
+            [Required(ErrorMessage = "El campo es obligatorio")]
+            [Display(Name = "Nombre *")]
             public string FirstName { get; set; }
 
-            [Required]
-            [Display(Name = "Apellido")]
+            [Required(ErrorMessage = "El campo es obligatorio")]
+            [Display(Name = "Apellido *")]
             public string LastName { get; set; }
 
 
-            [Required]
+            [Required(ErrorMessage = "El campo es obligatorio")]
             [Display(Name = "Dia de Entrada")]
             public DateTime EntryDay { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "El campo es obligatorio")]
             [EmailAddress(ErrorMessage = "Por favor, ingrese una dirección de correo electrónico válida.")]
-            [Display(Name = "Correo")]
+            [Display(Name = "Correo *")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "El campo es obligatorio")]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Contraseña")]
+            [Display(Name = "Contraseña *")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirmar contraseña")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "Las constraseñas no coinciden")]
             public string ConfirmPassword { get; set; }
 
-           
-
-            [Required]
-            public string? Role { get; set; }
+            [Required(ErrorMessage = "El campo es obligatorio")]
+            [Display(Name = "Rol *")]
+            public string Role { get; set; }
 
             [ValidateNever]
 

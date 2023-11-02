@@ -1,0 +1,38 @@
+﻿
+/*Responsivo con maximo de ancho de 540px*/
+@media only screen and (max-width: 540px) {
+    input.buscador {
+        top: -11vh !important;
+        left: 3vw;
+        width: 80%;
+    }
+
+        input.buscador:focus {
+            width: 92%;
+        }
+
+    .estilo-btn-naranja {
+        top: -4vh !important;
+        left: 4vw !important;
+        width: 80%
+    }
+
+   
+
+    /* Ajustar tamaño de cuadro grande blanco */
+    .modulos {
+        position: relative;
+        top: 50px;
+        left: -1vh !important;
+        height: 80vh !important;
+    }
+
+    /* Ajustar tabla*/
+    .table td, .table th {
+        padding: 4px; /* Reducir el espaciado entre celdas */
+    }
+
+    svg {
+        width: 1.5em
+    }
+}

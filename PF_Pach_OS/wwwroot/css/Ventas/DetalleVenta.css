@@ -1,0 +1,76 @@
+﻿.logoEmpresa{
+    justify-content: end;
+    width: 6rem;
+    border-radius: 4rem;
+}
+
+.fecha{
+    font-size: 0.9rem;
+}
+
+.factura {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
+}
+
+.tablaDetallesVentas {
+    width: auto;
+}
+
+@media only screen and (max-width: 540px) {
+
+    .cuadroblanco {
+        display: flex;
+        flex-direction: column;
+    }
+    .table{
+        font-size: 18px
+    }
+
+    .tablaDetallesVentas {
+        width: min-content;
+    }
+    
+    .contendorVenta {
+        flex-wrap: wrap;
+    }
+
+    td:nth-child(3), th:nth-child(3)/* td:nth-child(4), th:nth-child(4)*/ {
+        display: none;
+    }
+
+    .modulos {
+        position: relative;
+        left: -4vh;
+        height: auto !important;
+        display: grid;
+        grid-column:auto;
+    }
+
+
+    .factura {
+        position: relative;
+        font-size: 16px;
+        width: 70rem;
+        height: 40rem !important;
+        margin-top: 2em
+    }
+
+    #manage{
+        font-size: 12px;
+    }
+
+
+    #formAgregar {
+        width: 48.5rem !important;
+        display: grid !important;
+        grid-template-rows: repeat(3, auto) !important;
+    }
+
+    #formAgregar {
+        display: flex;
+        flex-direction: column;
+    }
+    .mt-3 .bg-white .tablaDetallesVentas {
+        width: min-content; /* Asegúrate de que ocupe el ancho completo */
+    }   
+}
