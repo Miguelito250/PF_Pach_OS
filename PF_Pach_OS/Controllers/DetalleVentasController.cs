@@ -165,37 +165,23 @@ namespace PF_Pach_OS.Controllers
                 {
                     return false;
                 }
-                var tamanos = _context.Tamanos
-                                .Select(t => t.Tamano1)
-                                .ToList();
-                 
-
-                float tamanoMasPequeno = (float)tamanos.Min();
-                float tamanoMasGrande = (float)tamanos.Max();
 
 
                 int? porcentajeInsumo = 0;
                 var recetaPizza = _context.Recetas
                     .Where(r => r.IdProducto == sabor)
-                    .Include(r => r.IdProductoNavigation.IdTamanoNavigation)
+                    .Include(r => r.IdProductoNavigation)
+                    .Include(r => r.IdInsumoNavigation)
                     .ToList();
 
                 foreach (var receta in recetaPizza)
                 {
                     int cantidadDisminuir = 0;
-                    int tamano = (int)detalleVenta.IdProducto - 1;
-                    float tamanoActual = (float)tamanos[tamano];
+                    var insumoGastar = receta.IdInsumoNavigation;
+                    var cantidadGastar = receta.CantInsumo * detalleVenta.CantVendida;
+                    cantidadDisminuir = (int)cantidadGastar / sabores.Count();
 
-
-                    float porcentajeGastar = (tamanoActual - tamanoMasPequeno) / (tamanoMasGrande - tamanoMasPequeno) * 100;
-                    var consultaInsumos = _context.Insumos
-                       .SingleOrDefault(i => i.IdInsumo == receta.IdInsumo);
-
-                    int cantidadGastar = (int)(receta.CantInsumo * porcentajeGastar) / 100;
-                    cantidadDisminuir = (int)((receta.CantInsumo + cantidadGastar) * detalleVenta.CantVendida);
-
-
-                    if (cantidadDisminuir > consultaInsumos.CantInsumo)
+                    if (cantidadDisminuir > insumoGastar.CantInsumo)
                     {
                         return false;
                     }

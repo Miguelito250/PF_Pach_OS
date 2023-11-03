@@ -17,7 +17,9 @@
             <div class="d-flex justify-content-between">
                 <span>Tamaño a vender: <strong>@ViewBag.TamanoVender</strong> </span>
                 <span>Maximo de sabores: <strong>@ViewBag.MaximoSabores</strong></span>
-                <input type="hidden" value="@ViewBag.MaximoSabores readonly" id="maximoSabores">
+                <input type="hidden" value="@ViewBag.MaximoSabores" readonly id="maximoSabores">
+                <input type="hidden" value="@ViewBag.IdProducto" readonly id="tamanoVender">
+
             </div>
 
             <div class="col-5">
@@ -56,22 +58,20 @@
     </form>
 </div>
 <script>
-    $(document).ready(function () {
-        $('#TablaSabores').DataTable({
-            searching: true,
-            lengthChange: false,
-            info: false,
-            pageLength: 6,
-            filters: false,
-            "language": {
-                "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
-            }
-        });
 
-        // Contar las filas de la tabla
-        var ContadorFilas = $('#TablaDetalles tbody tr').length;
-        console.log('Número de filas en la tabla: ' + ContadorFilas);
+    $('#TablaSabores').DataTable({
+        searching: true,
+        lengthChange: false,
+        info: false,
+        pageLength: 6,
+        filters: false,
+        "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+        }
     });
+
+   
+
 
 </script>
 <script src="~/js/ventas/saborespizzas.js"></script>

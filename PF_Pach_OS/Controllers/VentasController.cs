@@ -220,6 +220,7 @@ namespace PF_Pach_OS.Controllers
                 {
                     var saboresPizza = await _context.SaboresSeleccionados
                         .Where(s => s.IdDetalleVenta == detalle.IdDetalleVenta)
+                        .Include(s => s.IdProductoNavigation)
                         .ToListAsync();
 
                     foreach (var recetaPizza in saboresPizza)
@@ -227,6 +228,8 @@ namespace PF_Pach_OS.Controllers
                         var saborPizza = recetaPizza.IdProductoNavigation;
                         var recetaSabores = await _context.Recetas
                             .Where(r => r.IdProducto == saborPizza.IdProducto)
+                            .Include(r => r.IdProductoNavigation)
+                            .Include(r => r.IdInsumoNavigation)
                             .ToListAsync();
 
                         foreach (var ingredientesPizza in recetaSabores)
@@ -382,8 +385,13 @@ namespace PF_Pach_OS.Controllers
 
             var tamanoVender = await _context.Tamanos
                 .FirstOrDefaultAsync(t => t.IdTamano == tamanoPizza);
+            var idProducto = await _context.Productos
+                .FirstOrDefaultAsync(p => p.IdProducto == tamanoPizza);
 
-            if (tamanoVender == null)
+
+
+
+            if (tamanoVender == null || idProducto == null)
             {
                 return NotFound();
             }
@@ -391,6 +399,7 @@ namespace PF_Pach_OS.Controllers
             var saboresPizza = _context.Productos
                 .Where(p => p.IdTamano == tamanoVender.IdTamano);
 
+            ViewBag.IdProducto = idProducto.IdProducto;
             ViewBag.TamanoVender = tamanoVender.NombreTamano;
             ViewBag.MaximoSabores = tamanoVender.MaximoSabores;
 
