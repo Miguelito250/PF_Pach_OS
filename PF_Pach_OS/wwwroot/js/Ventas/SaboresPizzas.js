@@ -47,7 +47,7 @@
             });
 
             if (saboresSeleccionados.length > 0) {
-                    ConfirmarSabores(saboresSeleccionados, detalleVenta)
+                ConfirmarSabores(saboresSeleccionados, detalleVenta)
                     .then(function (resultado) {
                         if (resultado) {
                             Swal.fire({

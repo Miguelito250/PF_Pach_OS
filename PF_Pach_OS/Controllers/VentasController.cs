@@ -51,6 +51,20 @@ namespace PF_Pach_OS.Controllers
                 CancelarVenta(ventasNulas.IdVenta);
             }
 
+            var usuarioActual = await _userManager.GetUserAsync(User);
+            var rolUsuario = usuarioActual.Id_Rol;
+
+            if (rolUsuario != 1)
+            {
+                DateTime fechaActual = DateTime.Now.Date;
+                var listadoVentasCajero = await _context.Ventas
+                    .Where(v => v.FechaVenta == fechaActual)
+                    .OrderByDescending(v => v.FechaVenta)
+                    .ToListAsync();
+
+                return View(listadoVentasCajero);
+            }
+
             var pach_OSContext = _context.Ventas
                 .OrderByDescending(v => v.FechaVenta);
 
@@ -138,49 +152,34 @@ namespace PF_Pach_OS.Controllers
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid || venta.Pago < venta.TotalVenta || venta.Pago == null)
             {
-                if (venta.Pago < venta.TotalVenta || venta.Pago == null)
-                {
-                    return RedirectToAction("Crear", "Ventas", new { venta.IdVenta });
-                }
-                else
-                {
-                    venta.Estado = venta.Mesa == "General"
-                       ? venta.Estado = "Pagada"
-                       : venta.Estado = "Pendiente";
-
-
-                    var ventaActualizar = await _context.Ventas
-                        .FirstOrDefaultAsync(v => v.IdVenta == venta.IdVenta);
-
-                    if (ventaActualizar != null)
-                    {
-                        ventaActualizar.FechaVenta = venta.FechaVenta;
-                        ventaActualizar.TotalVenta = venta.TotalVenta;
-                        ventaActualizar.TipoPago = venta.TipoPago;
-                        ventaActualizar.Pago = venta.Pago;
-                        ventaActualizar.PagoDomicilio = venta.PagoDomicilio;
-                        ventaActualizar.IdEmpleado = venta.IdEmpleado;
-                        ventaActualizar.Estado = venta.Estado;
-                        ventaActualizar.Mesa = venta.Mesa;
-
-                        _context.Ventas.Update(ventaActualizar);
-                        _context.SaveChanges();
-                    }
-
-                    var detalleVenta = _context.DetalleVentas
-                    .Where(d => d.IdVenta == venta.IdVenta && d.Estado != "Descontado")
-                    .Include(d => d.IdProductoNavigation.IdTamanoNavigation)
-                    .ToList();
-
-                    await DescontarInsumos(detalleVenta);
-                }
-                return RedirectToAction("Index", "Ventas");
+                return RedirectToAction("Crear", "Ventas", new { venta.IdVenta });
             }
 
-            ViewData["IdEmpleado"] = new SelectList(_context.Empleados, "IdEmpleado", "IdEmpleado", venta.IdEmpleado);
-            return RedirectToAction("Crear", "Ventas", new { venta.IdVenta });
+            venta.Estado = venta.Mesa == "General"
+               ? venta.Estado = "Pagada"
+               : venta.Estado = "Pendiente";
+
+
+            var ventaActualizar = await _context.Ventas
+                .FirstOrDefaultAsync(v => v.IdVenta == venta.IdVenta);
+
+            if (ventaActualizar != null)
+            {
+                ventaActualizar.FechaVenta = venta.FechaVenta;
+                ventaActualizar.TotalVenta = venta.TotalVenta;
+                ventaActualizar.TipoPago = venta.TipoPago;
+                ventaActualizar.Pago = venta.Pago;
+                ventaActualizar.PagoDomicilio = venta.PagoDomicilio;
+                ventaActualizar.IdEmpleado = venta.IdEmpleado;
+                ventaActualizar.Estado = venta.Estado;
+                ventaActualizar.Mesa = venta.Mesa;
+
+                _context.Ventas.Update(ventaActualizar);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index", "Ventas");
         }
 
         //Miguel 22/10/2023: Función para cancelar la venta en caso de que ya no se vaya a registrar o se encuentre una nula en el index
@@ -207,144 +206,28 @@ namespace PF_Pach_OS.Controllers
             return RedirectToAction("Index", "Ventas");
         }
 
-        //Miguel 22/10/2023: Función para descontar insumos de los productos vendidos
-        public async Task<IActionResult> DescontarInsumos(List<DetalleVenta> detalles)
+        //Miguel 4/11/2023: Función para descontar los insumos de los productos vendidos
+        public async Task<bool> DescontarInsumos(List<Insumo> insumosDisminuir, List<bool> insumosCompletos, int? cantidadVender, int numeroSaboresPizza)
         {
-            int? cantidadDisminuir = 0;
+            bool desocontarInsumos = insumosCompletos.Find(i => i == false);
 
-            foreach (var detalle in detalles)
+            if (desocontarInsumos == null)
             {
-                var producto = detalle.IdProductoNavigation;
-
-                if (producto.IdCategoria == 1 && producto.IdTamano > 1)
-                {
-                    var saboresPizza = await _context.SaboresSeleccionados
-                        .Where(s => s.IdDetalleVenta == detalle.IdDetalleVenta)
-                        .Include(s => s.IdProductoNavigation)
-                        .ToListAsync();
-
-                    foreach (var recetaPizza in saboresPizza)
-                    {
-                        var saborPizza = recetaPizza.IdProductoNavigation;
-                        var recetaSabores = await _context.Recetas
-                            .Where(r => r.IdProducto == saborPizza.IdProducto)
-                            .Include(r => r.IdProductoNavigation)
-                            .Include(r => r.IdInsumoNavigation)
-                            .ToListAsync();
-
-                        foreach (var ingredientesPizza in recetaSabores)
-                        {
-                            var insumoGastar = ingredientesPizza.IdInsumoNavigation;
-                            var cantidadGastar = ingredientesPizza.CantInsumo * detalle.CantVendida;
-                            cantidadDisminuir = (int)cantidadGastar / saboresPizza.Count();
-
-                            if(cantidadDisminuir < insumoGastar.CantInsumo)
-                            {
-                                insumoGastar.CantInsumo = insumoGastar.CantInsumo - cantidadDisminuir;
-                                Console.WriteLine($"Del producto {producto.NomProducto} se gastó {cantidadDisminuir} del insumo {insumoGastar}");
-                                _context.Insumos.Update(insumoGastar);
-                                await _context.SaveChangesAsync();
-                            }
-                            else
-                            {
-                                Console.WriteLine($"No hay insumos suficientes para el producto: {producto.NomProducto}");
-                                return RedirectToAction("Crear", "Ventas", new { detalle.IdVenta });
-                            }
-                            
-
-                        }
-                        
-                    }
-                }
-                else
-                {
-                    var recetaProducto = _context.Recetas
-                                       .Where(r => r.IdProducto == detalle.IdProducto)
-                                       .Include(r => r.IdInsumoNavigation)
-                                       .ToList();
-                    foreach (var detalleReceta in recetaProducto)
-                    {
-                        var consultaInsumos = detalleReceta.IdInsumoNavigation;
-
-                        int? cantidadInsumo = consultaInsumos.CantInsumo;
-                        cantidadDisminuir = detalle.CantVendida * detalleReceta.CantInsumo;
-
-                        if (cantidadDisminuir < cantidadInsumo)
-                        {
-                            int? insumoDisminuido = cantidadInsumo - cantidadDisminuir;
-
-                            consultaInsumos.CantInsumo = insumoDisminuido;
-
-                            _context.Update(consultaInsumos);
-                            await _context.SaveChangesAsync();
-                        }
-                        else
-                        {
-                            ViewBag.MensajeAlerta = "No hay suficientes insumos";
-                            return RedirectToAction("Crear", "Ventas", new { detalle.IdVenta });
-                        }
-                    }
-                }
-
-                //if (producto.IdProducto is <= 4 and > 1)
-                //{
-                //    var tamanos = _context.Tamanos
-                //                .Select(t => t.Tamano1)
-                //                .ToList();
-
-                //    float tamanoMasPequeno = (float)tamanos.Min();
-                //    float tamanoMasGrande = (float)tamanos.Max();
-
-                //    var saboresEscogidos = _context.SaboresSeleccionados
-                //        .Where(s => s.IdDetalleVenta == detalle.IdDetalleVenta)
-                //        .ToList();
-
-                //    foreach (var sabor in saboresEscogidos)
-                //    {
-                //        int? porcentajeInsumo = 0;
-                //        var recetaPizza = _context.Recetas
-                //            .Where(r => r.IdProducto == sabor.IdProducto)
-                //            .Include(r => r.IdProductoNavigation.IdTamanoNavigation)
-                //            .ToList();
-
-                //        foreach (var receta in recetaPizza)
-                //        {
-                //            float tamanoActual = (float)detalle.IdProductoNavigation.IdTamanoNavigation.Tamano1;
-
-
-                //            float porcentajeGastar = (tamanoActual - tamanoMasPequeno) / (tamanoMasGrande - tamanoMasPequeno) * 100;
-                //            var consultaInsumos = _context.Insumos
-                //               .SingleOrDefault(i => i.IdInsumo == receta.IdInsumo);
-
-                //            int cantidadGastar = (int)(receta.CantInsumo * porcentajeGastar) / 100;
-                //            cantidadDisminuir = (receta.CantInsumo + cantidadGastar) * detalle.CantVendida;
-
-
-                //            if (cantidadDisminuir < consultaInsumos.CantInsumo)
-                //            {
-                //                int? insumoDisminuido = consultaInsumos.CantInsumo - cantidadDisminuir;
-
-                //                consultaInsumos.CantInsumo = insumoDisminuido;
-
-                //                _context.Update(consultaInsumos);
-                //                _context.SaveChanges();
-                //            }
-                //            else
-                //            {
-                //                ViewBag.MensajeAlerta = "No hay suficientes insumos";
-                //                return RedirectToAction("Crear", "Ventas", new { detalle.IdVenta });
-
-                //            }
-                //        }
-                //    }
-                //}
-
-                _detalleVentasController.OrganizarDetalles(detalle.IdVenta, detalle.IdProducto);
-                detalle.Estado = "Descontado";
-                _context.DetalleVentas.Update(detalle);
-                _context.SaveChanges();
+                return false;
             }
-            return RedirectToAction("Index", "Ventas");
+
+            foreach (var insumo in insumosDisminuir)
+            {
+                var insumoDescontar = await _context.Insumos
+                    .FirstOrDefaultAsync(i => i.IdInsumo == insumo.IdInsumo);
+
+                var insumoGastar = insumo.CantInsumo * cantidadVender;
+                insumoDescontar.CantInsumo = insumoGastar;
+
+                _context.Update(insumoDescontar);
+                await _context.SaveChangesAsync();
+            }
+            return true;
         }
 
         //Miguel 22/10/2023: Función para cambiar de estado de la venta a pagado o a pendiente
@@ -410,6 +293,9 @@ namespace PF_Pach_OS.Controllers
         [HttpPost]
         public async Task<bool> ConfirmarSabores(List<int> sabores, DetalleVenta detalleVenta)
         {
+            List<int> PreciosProductos = new List<int>();
+            List<Insumo> insumosDisminuir = new List<Insumo>();
+
             var producto = await _context.Productos
                 .FirstOrDefaultAsync(d => d.IdProducto == detalleVenta.IdProducto);
 
@@ -418,13 +304,24 @@ namespace PF_Pach_OS.Controllers
                 NotFound();
             }
 
-            detalleVenta.Precio = producto.PrecioVenta;
+            foreach (var sabor in sabores)
+            {
+                var saborEscogido = await _context.Productos
+                    .FirstOrDefaultAsync(p => p.IdProducto == sabor);
 
-            bool resultado = _detalleVentasController.InsumosSuficientesPizzas(sabores, detalleVenta);
+                int precio = (int)saborEscogido.PrecioVenta;
+                PreciosProductos.Add(precio);
+            }
+
+            detalleVenta.Precio = PreciosProductos.Max();
+
+            bool resultado = await _detalleVentasController.InsumosSuficientesPizzas(sabores, detalleVenta);
+
             if (!resultado)
             {
                 return false;
             }
+
             bool insumosSufucientes = true;
             await _context.DetalleVentas.AddAsync(detalleVenta);
             await _context.SaveChangesAsync();
@@ -433,20 +330,67 @@ namespace PF_Pach_OS.Controllers
             {
                 SaborSeleccionado saborSeleccionado = new SaborSeleccionado();
                 var saborPizza = await _context.Productos
+                    .Include(p => p.Receta)
+                        .ThenInclude(r => r.IdInsumoNavigation)
                     .FirstOrDefaultAsync(p => p.IdProducto == sabor);
-                var recetaSaborPizza = await _context.Recetas
-                    .Where(r => r.IdProducto == sabor)
-                    .ToListAsync();
+
+                var recetaSaborPizza = saborPizza.Receta;
+
+                foreach (var recetaPizza in recetaSaborPizza)
+                {
+                    int cantidadDisminuir = 0;
+                    var insumoGastar = recetaPizza.IdInsumoNavigation;
+                    cantidadDisminuir = (int)recetaPizza.CantInsumo / sabores.Count();
+
+                    Insumo insumo = new Insumo
+                    {
+                        IdInsumo = insumoGastar.IdInsumo,
+                        NomInsumo = insumoGastar.NomInsumo,
+                        CantInsumo = cantidadDisminuir
+                    };
+
+                    var insumoActualizar = insumosDisminuir
+                           .FirstOrDefault(i => i.IdInsumo == insumo.IdInsumo);
+
+                    if (insumoActualizar != null)
+                    {
+                        insumoActualizar.CantInsumo += cantidadDisminuir;
+                    }
+                    else
+                    {
+                        insumosDisminuir.Add(insumo);
+                    }
+
+                }
 
                 saborSeleccionado.IdSaborSeleccionado = null;
                 saborSeleccionado.IdProducto = sabor;
                 saborSeleccionado.IdDetalleVenta = detalleVenta.IdDetalleVenta;
 
-                _context.SaboresSeleccionados.AddAsync(saborSeleccionado);
+                await _context.SaboresSeleccionados.AddAsync(saborSeleccionado);
                 await _context.SaveChangesAsync();
+            }
+            foreach (var disminuirInsumo in insumosDisminuir)
+            {
+                var insumoDescontar = await _context.Insumos
+                   .FirstOrDefaultAsync(i => i.IdInsumo == disminuirInsumo.IdInsumo);
+                int? cantidadGastar = disminuirInsumo.CantInsumo * detalleVenta.CantVendida;
+
+                if (cantidadGastar < insumoDescontar.CantInsumo)
+                {
+                    insumoDescontar.CantInsumo = insumoDescontar.CantInsumo - cantidadGastar;
+                    _context.Update(insumoDescontar);
+                    await _context.SaveChangesAsync();
+
+                }
+                else
+                {
+                    return false;
+                }
+
+
             }
             return insumosSufucientes;
         }
-
     }
 }

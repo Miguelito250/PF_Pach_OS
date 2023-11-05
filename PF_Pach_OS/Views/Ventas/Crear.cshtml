@@ -8,6 +8,11 @@
 
 <link href="~/css/ventas/detalleventa.css" rel="stylesheet" />
 
+@if (ViewBag.MensajeInsumosInsuficientes != "")
+{
+    <div class="text-danger">@ViewBag.MensajeInsumosInsuficientes</div>
+}
+
 <div class="d-flex p-2 contendorVenta">
     <div class="container">
         <div class="col-12">
@@ -17,7 +22,6 @@
                     <label>Producto *</label>
                     <select class="form-control form-select" aria-label="Default select example" asp-for="Item1.IdProducto" asp-items="ViewBag.IdProducto" name="IdProducto" required>
                         <option value="NA">Producto</option>
-                        <option value="1">Pizzas Personales</option>
                         <option value="2">Pizzas Pequeñas</option>
                         <option value="3">Pizzas Grandes</option>
                         <option value="4">Pizzas Familiares</option>

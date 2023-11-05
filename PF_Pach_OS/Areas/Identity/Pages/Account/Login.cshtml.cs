@@ -84,11 +84,18 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var user = await _userManager.FindByNameAsync(Input.Email);
                 
+                if(user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Credenciales Incorrectas");
+                    return Page();
+                }
+
                 if (user.State == 0)
                 {
                     ModelState.AddModelError(string.Empty, "Su cuenta esta deshabilitada");
                     return Page();
                 }
+
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
                 if (result.Succeeded && user.State == 1)
