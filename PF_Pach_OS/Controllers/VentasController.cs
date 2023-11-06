@@ -392,5 +392,15 @@ namespace PF_Pach_OS.Controllers
             }
             return insumosSufucientes;
         }
+
+        public async Task<int> ReporteDiario()
+        {
+            DateTime fechaActual = DateTime.Now.Date;
+            int? ventasDiarias = await _context.Ventas
+                .Where(v => v.FechaVenta == fechaActual)
+                .SumAsync(v => v.TotalVenta);
+
+            return (int)ventasDiarias;
+        }
     }
 }
