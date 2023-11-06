@@ -106,7 +106,6 @@ namespace PF_Pach_OS.Controllers
 
         //Miguel 22/10/2023: Función para eliminar un detalle de venta en especifico
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EliminarDetalle(int? id)
         {
             var detalleVenta = await _context.DetalleVentas

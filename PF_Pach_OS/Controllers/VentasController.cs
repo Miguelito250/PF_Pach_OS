@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using NuGet.Versioning;
 using PF_Pach_OS.Models;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Antiforgery;
 
 namespace PF_Pach_OS.Controllers
 {
@@ -49,7 +50,7 @@ namespace PF_Pach_OS.Controllers
 
             if (ventasNulas != null)
             {
-                CancelarVenta(ventasNulas.IdVenta);
+                await CancelarVenta(ventasNulas.IdVenta);
             }
 
             var usuarioActual = await _userManager.GetUserAsync(User);
@@ -107,9 +108,12 @@ namespace PF_Pach_OS.Controllers
             ViewBag.IdVenta = IdVenta;
             ViewBag.Total = total;
             ViewData["DetallesVentas"] = DetallesVentas;
-            ViewData["IdProducto"] = new SelectList(_context.Productos.
-                Where(p => (p.IdProducto > 4 || p.IdTamano == null) && p.Estado == 1),
-                "IdProducto", "NomProducto");
+
+            ViewData["IdProducto"] = new SelectList(_context.Productos
+    .       Where(p => p.Estado == 1 && (p.IdTamano == null || p.IdTamano == 1) && p.IdProducto != 1)
+            , "IdProducto", "NomProducto");
+
+
 
             if (ventaNula.Estado != null)
             {
@@ -188,7 +192,7 @@ namespace PF_Pach_OS.Controllers
 
             foreach (var detalle in detallesVenta)
             {
-                detalle.Estado = "Confirmado";
+                detalle.Estado = "Descontado";
                 _context.Update(detalle);
             }
 
@@ -197,7 +201,7 @@ namespace PF_Pach_OS.Controllers
         }
 
         //Miguel 22/10/2023: Función para cancelar la venta en caso de que ya no se vaya a registrar o se encuentre una nula en el index
-        public IActionResult CancelarVenta(int IdVenta)
+        public async Task<IActionResult> CancelarVenta(int IdVenta)
         {
             bool tine_permiso = _permisosController.tinto(2, User);
 
@@ -207,6 +211,15 @@ namespace PF_Pach_OS.Controllers
             }
 
             var ventaCancelar = _context.Ventas.SingleOrDefault(v => v.IdVenta == IdVenta);
+            var detallesVenta = await _context.DetalleVentas
+                .Where(d => d.IdVenta == ventaCancelar.IdVenta)
+                .ToListAsync();
+
+            foreach(var detalle in detallesVenta)
+            {
+                await _detalleVentasController.EliminarDetalle(detalle.IdDetalleVenta);
+            }
+
             if (ventaCancelar != null)
             {
                 _context.Ventas.Remove(ventaCancelar);
@@ -294,7 +307,7 @@ namespace PF_Pach_OS.Controllers
             }
 
             var saboresPizza = _context.Productos
-                .Where(p => p.IdTamano == tamanoVender.IdTamano);
+                .Where(p => p.IdTamano == tamanoVender.IdTamano && p.IdProducto > 4);
 
             ViewBag.IdProducto = idProducto.IdProducto;
             ViewBag.TamanoVender = tamanoVender.NombreTamano;

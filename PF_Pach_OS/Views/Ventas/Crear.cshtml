@@ -21,10 +21,10 @@
                 <div class="col-4">
                     <label>Producto *</label>
                     <select class="form-control form-select" aria-label="Default select example" asp-for="Item1.IdProducto" asp-items="ViewBag.IdProducto" name="IdProducto" required>
-                        <option value="NA">Producto</option>
-                        <option value="2">Pizzas Pequeñas</option>
-                        <option value="3">Pizzas Grandes</option>
-                        <option value="4">Pizzas Familiares</option>
+                        <option value="NA">-Seleccione-</option>
+                        <option value="2">Pizzas (Pequeñas)</option>
+                        <option value="3">Pizzas (Grandes)</option>
+                        <option value="4">Pizzas (Familiares)</option>
 
                     </select>
                     <span id="productoMensaje" class="invalid-feedback"></span>
@@ -33,7 +33,7 @@
 
                 <div class="col-3">
                     <label>Cantidad *</label>
-                    <input type="number" class="form-control" asp-for="Item1.CantVendida" name="CantVendida" min="0" required />
+                    <input type="number" class="form-control" asp-for="Item1.CantVendida" name="CantVendida" placeholder="Cantidad" min="0" required />
                     <span id="cantidadMensaje" class="invalid-feedback"></span>
                     <span class="valid-feedback"></span>
                 </div>
