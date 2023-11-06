@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NuGet.Versioning;
 using PF_Pach_OS.Models;
+using System.Linq.Expressions;
 
 namespace PF_Pach_OS.Controllers
 {
@@ -57,8 +58,9 @@ namespace PF_Pach_OS.Controllers
             if (rolUsuario != 1)
             {
                 DateTime fechaActual = DateTime.Now.Date;
+
                 var listadoVentasCajero = await _context.Ventas
-                    .Where(v => v.FechaVenta == fechaActual)
+                    .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == fechaActual)
                     .OrderByDescending(v => v.FechaVenta)
                     .ToListAsync();
 
@@ -152,7 +154,7 @@ namespace PF_Pach_OS.Controllers
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
 
-            if (ModelState.IsValid || venta.Pago < venta.TotalVenta || venta.Pago == null)
+            if (!ModelState.IsValid || venta.Pago < venta.TotalVenta || venta.Pago == null)
             {
                 return RedirectToAction("Crear", "Ventas", new { venta.IdVenta });
             }
@@ -179,6 +181,18 @@ namespace PF_Pach_OS.Controllers
                 _context.Ventas.Update(ventaActualizar);
                 _context.SaveChanges();
             }
+
+            var detallesVenta = await _context.DetalleVentas
+                .Where(d => d.IdVenta == venta.IdVenta)
+                .ToListAsync();
+
+            foreach (var detalle in detallesVenta)
+            {
+                detalle.Estado = "Confirmado";
+                _context.Update(detalle);
+            }
+
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Ventas");
         }
 
@@ -396,11 +410,20 @@ namespace PF_Pach_OS.Controllers
         public async Task<int> ReporteDiario()
         {
             DateTime fechaActual = DateTime.Now.Date;
-            int? ventasDiarias = await _context.Ventas
-                .Where(v => v.FechaVenta == fechaActual)
-                .SumAsync(v => v.TotalVenta);
 
-            return (int)ventasDiarias;
+            var reporteVentas = _context.Ventas
+                .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == fechaActual)
+                .ToList();
+
+            int ventasDiarias = 0;
+            foreach (var venta in reporteVentas)
+            {
+                ventasDiarias += (int)venta.TotalVenta;
+            }
+
+            return ventasDiarias;
         }
+
+
     }
 }

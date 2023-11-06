@@ -7,7 +7,12 @@ function ReporteDiario(event) {
     $.ajax({
         url: "/Ventas/ReporteDiario",
         success: function (data) {
-            let mensaje = "Dinero recaudado hasta el momento: " + data + ".\n¿Desea cerrar sesión ahora mismo?";
+
+            var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+
+            var reporteVenta = formatoColombiano.format(data);
+            reporteVenta = reporteVenta.slice(0, -3);
+            let mensaje = "Dinero recaudado hasta el momento: " + reporteVenta + ".\n¿Desea cerrar sesión ahora mismo?";
             Swal.fire({
                 position: 'top-end',
                 icon: 'info',
