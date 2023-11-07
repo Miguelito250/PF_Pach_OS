@@ -57,7 +57,6 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            Console.WriteLine("Estoy vivo");
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
@@ -73,7 +72,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
 
@@ -83,10 +82,16 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 var user = await _userManager.FindByNameAsync(Input.Email);
                 
-                if (result.Succeeded)
+                if (user.State == 0)
+                {
+                    ModelState.AddModelError(string.Empty, "Su cuenta esta deshabilitada");
+                    return Page();
+                }
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
+                if (result.Succeeded && user.State == 1)
                 {
                     _logger.LogInformation("Usuario logeado exitosamente");
                     return LocalRedirect(returnUrl);

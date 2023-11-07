@@ -82,12 +82,11 @@
         else if (nomInsumo.length < 3 || nomInsumo.length > 20) {
             nomInsumoInput.classList.add('is-invalid');
             nomInsumoFeedback.textContent = 'El nombre debe tener entre 3 y 20 caracteres.';
-        } else if (/[^a-zA-Z0-9\s]/.test(nomInsumo)) {
+        } else if (/[^a-zA-Z0-9\sñÑ]/.test(nomInsumo)) {
             nomInsumoInput.classList.add('is-invalid');
             nomInsumoFeedback.textContent = 'No se pueden ingresar caracteres especiales.';
         }
         else {
-            // El campo es válido
             nomInsumoInput.classList.add('is-valid');
         }
 
@@ -111,22 +110,17 @@
     }
 
 
-
+    // Codigo para organizar los datos de la tabla
     var tabla = document.getElementById("Datos");
 
-    // Get all the table rows
     var filas = Array.from(tabla.getElementsByTagName("tr"));
 
-    // Reverse the array of rows
     filas.reverse();
 
-    // Append the reversed rows back to the table
     filas.forEach(function (row) {
         tabla.appendChild(row);
     });
 
-
-    //Esta variable se usa en la funcion HabilitarDeshabilitar del archivo js 
 
     //Manejar el clic en los botones de Habilitar / Deshabilitar 
     $('.habilitado, .deshabilitado').on('click', function (e) {
@@ -145,7 +139,7 @@
             }
         });
     });
-}); // Aquí se agrega el paréntesis de cierre
+}); 
 
 
 
@@ -175,7 +169,6 @@ $(document).ready(function () {
 
 
 
-// Manejar la respuesta JSON de la acción HabilitarDeshabilitar
 function HabilitarDeshabilitar(data) {
     if (data.success) {
         Toast.fire({

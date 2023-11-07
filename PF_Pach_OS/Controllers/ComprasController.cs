@@ -1,26 +1,41 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PF_Pach_OS.Models;
+using SendGrid.Helpers.Mail;
 
 
 namespace PF_Pach_OS.Controllers
 {
+    [Authorize]
     public class ComprasController : Controller
     {
         private Pach_OSContext context = new Pach_OSContext();
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        public readonly PermisosController _permisosController;
         public ComprasController(Pach_OSContext context, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             this.context = context;
             _signInManager = signInManager;
             _userManager = userManager;
+            _permisosController = new PermisosController(context, _userManager, _signInManager);
         }
 
-
+        //Controlador de index
         public IActionResult Index()
         {
+            bool tine_permiso = _permisosController.tinto(5, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             var compras = context.Compras
             .Join(context.Proveedores,
                 c => c.IdProveedor,
@@ -49,20 +64,30 @@ namespace PF_Pach_OS.Controllers
                 result.Key.IdEmpleado,
                 CantidadDetalles = result.Count()
             })
-            .OrderByDescending(result => result.FechaCompra)
+            .OrderByDescending(result => result.IdCompra)
             .ToList();
 
             Console.WriteLine(compras.Count);
-
-
 
             ViewBag.Compras = compras;
             return View();
         }
 
 
+        //Controlador para crear la compra vacia
         public async Task<IActionResult> Create([Bind("NumeroFactura")] Compra compra)
         {
+
+            bool tine_permiso = _permisosController.tinto(5, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
 
             if (ModelState.IsValid)
             {
@@ -97,6 +122,7 @@ namespace PF_Pach_OS.Controllers
         }
 
 
+        //Comtrolador para mostrar el detalle de la compra
         public async Task<IActionResult> DetalleCompra(int? IdCompra)
         {
             if (IdCompra == null)
@@ -128,6 +154,8 @@ namespace PF_Pach_OS.Controllers
 
         }
 
+
+        //Controlador para buscar si el numero de factura es duplicado
         public IActionResult NumeroFacturaDuplicado(string NumeroFactura)
         {
             var EsDuplicado = context.Compras.Any(x => x.NumeroFactura == NumeroFactura);
@@ -135,6 +163,7 @@ namespace PF_Pach_OS.Controllers
         }
 
 
+        //Controlador para borrar la compra al confirmar el paso de modulo
         public async Task<bool> DetallesSinConfirmar(int IdCompra)
         {
             var compradetalle = await context.Compras
@@ -194,8 +223,21 @@ namespace PF_Pach_OS.Controllers
         }
 
 
+        //Controlador para eliminar la compra
         public async Task<IActionResult> Delete(string id)
         {
+
+            bool tine_permiso = _permisosController.tinto(5, User);
+            Console.WriteLine("======================");
+            Console.WriteLine(tine_permiso);
+            Console.WriteLine("======================");
+
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             var compradetalle = await context.Compras
                 .Include(v => v.DetallesCompras)
                 .FirstOrDefaultAsync(v => v.IdCompra == long.Parse(id));

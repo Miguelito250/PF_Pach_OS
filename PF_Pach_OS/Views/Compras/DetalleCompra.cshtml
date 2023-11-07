@@ -1,5 +1,7 @@
 ﻿@model PF_Pach_OS.Models.DetallesCompra
 <link href="~/css/compras.css" rel="stylesheet" />
+@using System.Globalization;
+
 
 @{
     var filas = 0;
@@ -8,14 +10,18 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" ></script>
     <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+
 }
+
+@*Este es el contenido que aparece en la ventana modal del detalle de compra*@
+
 
 <div>
     <div class="w-100 d-flex flex-column mb-3 align-items-center">
         <span class="w-80 h4 mb-3 text-center"><strong>COMPRA</strong></span>
         <span class=""><strong>N-FACTURA: </strong>@Html.DisplayFor(model => model.IdCompraNavigation.NumeroFactura)</span>
     </div>
-
+    @*Primera tabla, informacion de la compra*@
     <div>
         <table class="table  table-borderless mb-0 text-center table-bordered ">
             <thead class="sombra">
@@ -38,7 +44,7 @@
     <div class="w-100 d-flex flex-column mb-3 align-items-center">
         <span class="w-80 h4 mb-3 text-center"><strong>DETALLE DE COMPRA</strong></span>
     </div>
-
+    @*Segunda tabla, informacion del detalle de la compra*@
     <div>
         <table id="TablaDetalles" class="table mb-0 text-center">
             <thead class="sombra">
@@ -52,10 +58,14 @@
             <tbody>
                 @foreach(var compra in listaDetalles)
                 {
+
                     <tr>
                         <td>@compra.IdInsumoNavigation.NomInsumo</td>
                         <td>
-                            @(compra.PrecioInsumo.HasValue ?(compra.PrecioInsumo % 1 == 0 ? ((decimal)compra.PrecioInsumo).ToString("C0").Replace(",", ".") : ((decimal)compra.PrecioInsumo).ToString("C2").Replace(",", ".")) :"Sin Precio")
+                            @(compra.PrecioInsumo.HasValue ? (compra.PrecioInsumo % 1 == 0
+                                ? ((decimal)compra.PrecioInsumo).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                                : ((decimal)compra.PrecioInsumo).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
+                                : "Sin Precio")
                         </td>
                         <td>@compra.Cantidad</td>
                         <td>@compra.Medida</td>
@@ -65,11 +75,22 @@
         </table>
     </div>
 </div>
+
+@*Precio que aparece al final de la compra*@
 <div class=" d-flex flex-column align-items-center">
-    <span class="w-80 h2 text-center" style="margin-top:1rem"><strong>Total: @(Model.IdCompraNavigation.Total.HasValue ? (Model.IdCompraNavigation.Total.Value % 1 == 0 ? Model.IdCompraNavigation.Total.Value.ToString("C0").Replace(",", ".") : Model.IdCompraNavigation.Total.Value.ToString("C2").Replace(",", ".")) : "Sin Precio")</strong></span>
+    <span class="w-80 h2 text-center" style="margin-top:1rem">
+        <strong>
+            Total:  @(Model.IdCompraNavigation.Total.HasValue ? (Model.IdCompraNavigation.Total % 1 == 0
+            ? ((decimal)Model.IdCompraNavigation.Total).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+            : ((decimal)Model.IdCompraNavigation.Total).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
+            : "Sin Precio")
+        </strong>
+    </span>
 </div>
 
+@*Script*@
 <script>
+    @*Configurar el datatable*@
     $(document).ready(function () {
         $('#TablaDetalles').DataTable({
             searching: false,
