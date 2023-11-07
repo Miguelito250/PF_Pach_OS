@@ -1,6 +1,5 @@
 ﻿var cerrarSesion = document.getElementById("logoutForm")
 cerrarSesion.addEventListener("click", ReporteDiario)
-console.log("Estoy dentro del archivo")
 function ReporteDiario(event) {
     event.preventDefault();
 

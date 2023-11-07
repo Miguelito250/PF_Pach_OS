@@ -10,23 +10,32 @@ InsertarFecha();
 InsertarTotal(subtotal);
 OcultarDomicilio();
 
-producto.addEventListener("change", function () {
-    if (producto.value <= 4) {
-        let tamanoPizza = producto.value
+$(producto).select2({
+    theme: "bootstrap-5",
+    width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+    placeholder: $(this).data('placeholder'),
+});
+$('#Item1_IdProducto').on('change', function () {
+    var Valor = $(this).val();
+    console.log(Valor);
+
+    if (Valor <= 4) {
+        let tamanoPizza = Valor;
         var miModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
             backdrop: 'static',
             keyboard: false
         });
         $('#exampleModal').on('shown.bs.modal', function () {
             var modalBody = $("#modal-body");
-            var url = "/Ventas/SaboresPizza?tamanoPizza="+tamanoPizza;
+            var url = "/Ventas/SaboresPizza?tamanoPizza=" + tamanoPizza;
             modalBody.empty();
             modalBody.load(url);
         });
 
         miModal.show();
     }
-})
+});
+
 boton_domicilio.addEventListener('input', function () {
     SumarDomicilio(subtotal)
 })
@@ -95,5 +104,6 @@ function OcultarDomicilio() {
         divDomicilio.style.display = "";
     } else {
         divDomicilio.style.display = "none";
+        boton_domicilio.value = 0
     }
 }

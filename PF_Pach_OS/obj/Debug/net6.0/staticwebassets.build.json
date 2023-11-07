@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "i8Hx3U3ZpP549RqK1foZ6Rz0+eBTIfmZ6SnDcGUM0w8=",
+  "Hash": "lmIgvUap857CCAJzH0CDM6QUbt0nDad7evw7yU97+wA=",
   "Source": "PF_Pach_OS",
   "BasePath": "_content/PF_Pach_OS",
   "Mode": "Default",
@@ -38367,6 +38367,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Informe\\Informe2.js"
+    },
+    {
+      "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Informe\\ReporteVentasDiarias.js",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "js/Informe/ReporteVentasDiarias.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Informe\\ReporteVentasDiarias.js"
     },
     {
       "Identity": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Insumos\\EditarInsumo.js",

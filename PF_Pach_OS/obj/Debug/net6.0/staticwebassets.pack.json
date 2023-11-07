@@ -8781,6 +8781,10 @@
       "PackagePath": "staticwebassets\\js\\Informe\\Informe2.js"
     },
     {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Informe\\ReporteVentasDiarias.js",
+      "PackagePath": "staticwebassets\\js\\Informe\\ReporteVentasDiarias.js"
+    },
+    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Insumos\\EditarInsumo.js",
       "PackagePath": "staticwebassets\\js\\Insumos\\EditarInsumo.js"
     },

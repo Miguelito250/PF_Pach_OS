@@ -377,7 +377,7 @@ namespace PF_Pach_OS.Controllers
 
             foreach (var detalle in detalleVentas)
             {
-                _context.Remove(detalle);
+                await EliminarDetalle(detalle.IdDetalleVenta);
                 await _context.SaveChangesAsync();
             }
 
