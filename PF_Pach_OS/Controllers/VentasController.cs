@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NuGet.Versioning;
 using PF_Pach_OS.Models;
+using System.Linq.Expressions;
+using Microsoft.AspNetCore.Antiforgery;
 
 namespace PF_Pach_OS.Controllers
 {
@@ -31,7 +33,7 @@ namespace PF_Pach_OS.Controllers
             _userManager = userManager;
             _permisosController = new PermisosController(_context, _userManager, _signInManager);
             _detalleVentasController = new DetalleVentasController(_context, _userManager, _signInManager);
-        }   
+        }
 
         //Miguel 22/10/2023: Función para retornar a la vista de index de ventas
         public async Task<IActionResult> Index()
@@ -48,7 +50,22 @@ namespace PF_Pach_OS.Controllers
 
             if (ventasNulas != null)
             {
-                CancelarVenta(ventasNulas.IdVenta);
+                await CancelarVenta(ventasNulas.IdVenta);
+            }
+
+            var usuarioActual = await _userManager.GetUserAsync(User);
+            var rolUsuario = usuarioActual.Id_Rol;
+
+            if (rolUsuario != 1)
+            {
+                DateTime fechaActual = DateTime.Now.Date;
+
+                var listadoVentasCajero = await _context.Ventas
+                    .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == fechaActual)
+                    .OrderByDescending(v => v.FechaVenta)
+                    .ToListAsync();
+
+                return View(listadoVentasCajero);
             }
 
             var pach_OSContext = _context.Ventas
@@ -91,9 +108,12 @@ namespace PF_Pach_OS.Controllers
             ViewBag.IdVenta = IdVenta;
             ViewBag.Total = total;
             ViewData["DetallesVentas"] = DetallesVentas;
-            ViewData["IdProducto"] = new SelectList(_context.Productos.
-                Where(p => (p.IdProducto > 4 || p.IdTamano == null) && p.Estado == 1),
-                "IdProducto", "NomProducto");
+
+            ViewData["IdProducto"] = new SelectList(_context.Productos
+    .       Where(p => p.Estado == 1 && (p.IdTamano == null || p.IdTamano == 1) && p.IdProducto != 1)
+            , "IdProducto", "NomProducto");
+
+
 
             if (ventaNula.Estado != null)
             {
@@ -138,48 +158,50 @@ namespace PF_Pach_OS.Controllers
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid || venta.Pago < venta.TotalVenta || venta.Pago == null)
             {
-                if (venta.Pago < venta.TotalVenta || venta.Pago == null)
-                {
-                    return RedirectToAction("Crear", "Ventas", new { venta.IdVenta });
-                }
-                else
-                {
-                     venta.Estado = venta.Mesa == "General"
-                        ? venta.Estado = "Pagada"
-                        : venta.Estado = "Pendiente";
-
-
-                    var ventaActualizar = await _context.Ventas
-                        .FirstOrDefaultAsync(v => v.IdVenta == venta.IdVenta);
-
-                    if (ventaActualizar != null)
-                    {
-                        ventaActualizar.FechaVenta = venta.FechaVenta;
-                        ventaActualizar.TotalVenta = venta.TotalVenta;
-                        ventaActualizar.TipoPago = venta.TipoPago;
-                        ventaActualizar.Pago = venta.Pago;
-                        ventaActualizar.PagoDomicilio = venta.PagoDomicilio;
-                        ventaActualizar.IdEmpleado = venta.IdEmpleado;
-                        ventaActualizar.Estado = venta.Estado;
-                        ventaActualizar.Mesa= venta.Mesa;
-
-                        _context.Ventas.Update(ventaActualizar); 
-                        _context.SaveChanges();
-                    }
-
-                    DescontarInsumos(venta);
-                }
-                return RedirectToAction("Index", "Ventas");
+                return RedirectToAction("Crear", "Ventas", new { venta.IdVenta });
             }
 
-            ViewData["IdEmpleado"] = new SelectList(_context.Empleados, "IdEmpleado", "IdEmpleado", venta.IdEmpleado);
-            return RedirectToAction("Crear", "Ventas", new { venta.IdVenta });
+            venta.Estado = venta.Mesa == "General"
+               ? venta.Estado = "Pagada"
+               : venta.Estado = "Pendiente";
+
+
+            var ventaActualizar = await _context.Ventas
+                .FirstOrDefaultAsync(v => v.IdVenta == venta.IdVenta);
+
+            if (ventaActualizar != null)
+            {
+                ventaActualizar.FechaVenta = venta.FechaVenta;
+                ventaActualizar.TotalVenta = venta.TotalVenta;
+                ventaActualizar.TipoPago = venta.TipoPago;
+                ventaActualizar.Pago = venta.Pago;
+                ventaActualizar.PagoDomicilio = venta.PagoDomicilio;
+                ventaActualizar.IdEmpleado = venta.IdEmpleado;
+                ventaActualizar.Estado = venta.Estado;
+                ventaActualizar.Mesa = venta.Mesa;
+
+                _context.Ventas.Update(ventaActualizar);
+                _context.SaveChanges();
+            }
+
+            var detallesVenta = await _context.DetalleVentas
+                .Where(d => d.IdVenta == venta.IdVenta)
+                .ToListAsync();
+
+            foreach (var detalle in detallesVenta)
+            {
+                detalle.Estado = "Descontado";
+                _context.Update(detalle);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Ventas");
         }
 
         //Miguel 22/10/2023: Función para cancelar la venta en caso de que ya no se vaya a registrar o se encuentre una nula en el index
-        public IActionResult CancelarVenta(int IdVenta)
+        public async Task<IActionResult> CancelarVenta(int IdVenta)
         {
             bool tine_permiso = _permisosController.tinto(2, User);
 
@@ -189,6 +211,15 @@ namespace PF_Pach_OS.Controllers
             }
 
             var ventaCancelar = _context.Ventas.SingleOrDefault(v => v.IdVenta == IdVenta);
+            var detallesVenta = await _context.DetalleVentas
+                .Where(d => d.IdVenta == ventaCancelar.IdVenta)
+                .ToListAsync();
+
+            foreach(var detalle in detallesVenta)
+            {
+                await _detalleVentasController.EliminarDetalle(detalle.IdDetalleVenta);
+            }
+
             if (ventaCancelar != null)
             {
                 _context.Ventas.Remove(ventaCancelar);
@@ -202,110 +233,28 @@ namespace PF_Pach_OS.Controllers
             return RedirectToAction("Index", "Ventas");
         }
 
-        //Miguel 22/10/2023: Función para descontar insumos de los productos vendidos
-        public async Task<IActionResult> DescontarInsumos(Venta venta)
+        //Miguel 4/11/2023: Función para descontar los insumos de los productos vendidos
+        public async Task<bool> DescontarInsumos(List<Insumo> insumosDisminuir, List<bool> insumosCompletos, int? cantidadVender, int numeroSaboresPizza)
         {
-            int? cantidadDisminuir = 0;
+            bool desocontarInsumos = insumosCompletos.Find(i => i == false);
 
-            var detalleVenta = _context.DetalleVentas
-                .Where(d => d.IdVenta == venta.IdVenta && d.Estado != "Descontado")
-                .Include(d => d.IdProductoNavigation.IdTamanoNavigation)
-                .ToList();
-
-            foreach (var detalle in detalleVenta)
+            if (desocontarInsumos == null)
             {
-                var producto = _context.Productos
-                    .FirstOrDefault(p => p.IdProducto == detalle.IdProducto);
-
-                if (producto.IdProducto is <= 4 and > 1)
-                {
-
-                    var tamanos = _context.Tamanos
-                                .Select(t => t.Tamano1)
-                                .ToList();
-
-                    float tamanoMasPequeno = (float)tamanos.Min();
-                    float tamanoMasGrande = (float)tamanos.Max();
-
-                    var saboresEscogidos = _context.SaboresSeleccionados
-                        .Where(s => s.IdDetalleVenta == detalle.IdDetalleVenta)
-                        .ToList();
-
-                    foreach (var sabor in saboresEscogidos)
-                    {
-                        int? porcentajeInsumo = 0;
-                        var recetaPizza = _context.Recetas
-                            .Where(r => r.IdProducto == sabor.IdProducto)
-                            .Include(r => r.IdProductoNavigation.IdTamanoNavigation)
-                            .ToList();
-
-                        foreach (var receta in recetaPizza)
-                        {
-                            float tamanoActual = (float)detalle.IdProductoNavigation.IdTamanoNavigation.Tamano1;
-
-
-                            float porcentajeGastar = (tamanoActual - tamanoMasPequeno) / (tamanoMasGrande - tamanoMasPequeno) * 100;
-                            var consultaInsumos = _context.Insumos
-                               .SingleOrDefault(i => i.IdInsumo == receta.IdInsumo);
-
-                            int cantidadGastar = (int)(receta.CantInsumo * porcentajeGastar) / 100;
-                            cantidadDisminuir = (receta.CantInsumo + cantidadGastar) * detalle.CantVendida;
-
-
-                            if (cantidadDisminuir < consultaInsumos.CantInsumo)
-                            {
-                                int? insumoDisminuido = consultaInsumos.CantInsumo - cantidadDisminuir;
-
-                                consultaInsumos.CantInsumo = insumoDisminuido;
-
-                                _context.Update(consultaInsumos);
-                                _context.SaveChanges();
-                            }
-                            else
-                            {
-                                ViewBag.MensajeAlerta = "No hay suficientes insumos";
-                                return RedirectToAction("Crear", "Ventas", new { detalle.IdVenta });
-
-                            }
-                        }
-                    }
-                }
-
-                else
-                {
-                    var recetaProducto = _context.Recetas
-                                       .Where(r => r.IdProducto == detalle.IdProducto)
-                                       .ToList();
-                    foreach (var detalleReceta in recetaProducto)
-                    {
-                        var consultaInsumos = _context.Insumos
-                            .SingleOrDefault(i => i.IdInsumo == detalleReceta.IdInsumo);
-
-                        int? cantidadInsumo = consultaInsumos.CantInsumo;
-                        cantidadDisminuir = detalle.CantVendida * detalleReceta.CantInsumo;
-
-                        if (cantidadDisminuir < cantidadInsumo)
-                        {
-                            int? insumoDisminuido = cantidadInsumo - cantidadDisminuir;
-
-                            consultaInsumos.CantInsumo = insumoDisminuido;
-
-                            _context.Update(consultaInsumos);
-                            _context.SaveChanges();
-                        }
-                        else
-                        {
-                            ViewBag.MensajeAlerta = "No hay suficientes insumos";
-                            return RedirectToAction("Crear", "Ventas", new { detalle.IdVenta });
-                        }
-                    }
-                }
-                _detalleVentasController.OrganizarDetalles(venta.IdVenta, detalle.IdProducto);
-                detalle.Estado = "Descontado";
-                _context.DetalleVentas.Update(detalle);
-                _context.SaveChanges();
+                return false;
             }
-            return RedirectToAction("Index", "Ventas");
+
+            foreach (var insumo in insumosDisminuir)
+            {
+                var insumoDescontar = await _context.Insumos
+                    .FirstOrDefaultAsync(i => i.IdInsumo == insumo.IdInsumo);
+
+                var insumoGastar = insumo.CantInsumo * cantidadVender;
+                insumoDescontar.CantInsumo = insumoGastar;
+
+                _context.Update(insumoDescontar);
+                await _context.SaveChangesAsync();
+            }
+            return true;
         }
 
         //Miguel 22/10/2023: Función para cambiar de estado de la venta a pagado o a pendiente
@@ -335,7 +284,7 @@ namespace PF_Pach_OS.Controllers
         }
 
         //Miguel 22/10/2023: Función para escoger los sabores de las pizzas a vender en la venta modal
-        public async Task<IActionResult> SaboresPizza()
+        public async Task<IActionResult> SaboresPizza(int? tamanoPizza)
         {
             bool tine_permiso = _permisosController.tinto(2, User);
 
@@ -343,12 +292,26 @@ namespace PF_Pach_OS.Controllers
             {
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
-            var saboresPizza = _context.Productos
-                .Where(p => p.IdTamano == 1 && p.IdCategoria == 1 && p.IdProducto > 4);
 
-            ViewData["IdProducto"] = new SelectList(_context.Tamanos
-                .Where(t => t.IdTamano != 1),
-                "IdTamano", "NombreTamano");
+            var tamanoVender = await _context.Tamanos
+                .FirstOrDefaultAsync(t => t.IdTamano == tamanoPizza);
+            var idProducto = await _context.Productos
+                .FirstOrDefaultAsync(p => p.IdProducto == tamanoPizza);
+
+
+
+
+            if (tamanoVender == null || idProducto == null)
+            {
+                return NotFound();
+            }
+
+            var saboresPizza = _context.Productos
+                .Where(p => p.IdTamano == tamanoVender.IdTamano && p.IdProducto > 4);
+
+            ViewBag.IdProducto = idProducto.IdProducto;
+            ViewBag.TamanoVender = tamanoVender.NombreTamano;
+            ViewBag.MaximoSabores = tamanoVender.MaximoSabores;
 
             return View(await saboresPizza.ToListAsync());
         }
@@ -357,6 +320,9 @@ namespace PF_Pach_OS.Controllers
         [HttpPost]
         public async Task<bool> ConfirmarSabores(List<int> sabores, DetalleVenta detalleVenta)
         {
+            List<int> PreciosProductos = new List<int>();
+            List<Insumo> insumosDisminuir = new List<Insumo>();
+
             var producto = await _context.Productos
                 .FirstOrDefaultAsync(d => d.IdProducto == detalleVenta.IdProducto);
 
@@ -365,13 +331,24 @@ namespace PF_Pach_OS.Controllers
                 NotFound();
             }
 
-            detalleVenta.Precio = producto.PrecioVenta;
+            foreach (var sabor in sabores)
+            {
+                var saborEscogido = await _context.Productos
+                    .FirstOrDefaultAsync(p => p.IdProducto == sabor);
 
-            bool resultado = _detalleVentasController.InsumosSuficientesPizzas(sabores, detalleVenta);
+                int precio = (int)saborEscogido.PrecioVenta;
+                PreciosProductos.Add(precio);
+            }
+
+            detalleVenta.Precio = PreciosProductos.Max();
+
+            bool resultado = await _detalleVentasController.InsumosSuficientesPizzas(sabores, detalleVenta);
+
             if (!resultado)
             {
                 return false;
             }
+
             bool insumosSufucientes = true;
             await _context.DetalleVentas.AddAsync(detalleVenta);
             await _context.SaveChangesAsync();
@@ -380,10 +357,38 @@ namespace PF_Pach_OS.Controllers
             {
                 SaborSeleccionado saborSeleccionado = new SaborSeleccionado();
                 var saborPizza = await _context.Productos
+                    .Include(p => p.Receta)
+                        .ThenInclude(r => r.IdInsumoNavigation)
                     .FirstOrDefaultAsync(p => p.IdProducto == sabor);
-                var recetaSaborPizza = await _context.Recetas
-                    .Where(r => r.IdProducto == sabor)
-                    .ToListAsync();
+
+                var recetaSaborPizza = saborPizza.Receta;
+
+                foreach (var recetaPizza in recetaSaborPizza)
+                {
+                    int cantidadDisminuir = 0;
+                    var insumoGastar = recetaPizza.IdInsumoNavigation;
+                    cantidadDisminuir = (int)recetaPizza.CantInsumo / sabores.Count();
+
+                    Insumo insumo = new Insumo
+                    {
+                        IdInsumo = insumoGastar.IdInsumo,
+                        NomInsumo = insumoGastar.NomInsumo,
+                        CantInsumo = cantidadDisminuir
+                    };
+
+                    var insumoActualizar = insumosDisminuir
+                           .FirstOrDefault(i => i.IdInsumo == insumo.IdInsumo);
+
+                    if (insumoActualizar != null)
+                    {
+                        insumoActualizar.CantInsumo += cantidadDisminuir;
+                    }
+                    else
+                    {
+                        insumosDisminuir.Add(insumo);
+                    }
+
+                }
 
                 saborSeleccionado.IdSaborSeleccionado = null;
                 saborSeleccionado.IdProducto = sabor;
@@ -392,8 +397,46 @@ namespace PF_Pach_OS.Controllers
                 await _context.SaboresSeleccionados.AddAsync(saborSeleccionado);
                 await _context.SaveChangesAsync();
             }
+            foreach (var disminuirInsumo in insumosDisminuir)
+            {
+                var insumoDescontar = await _context.Insumos
+                   .FirstOrDefaultAsync(i => i.IdInsumo == disminuirInsumo.IdInsumo);
+                int? cantidadGastar = disminuirInsumo.CantInsumo * detalleVenta.CantVendida;
+
+                if (cantidadGastar < insumoDescontar.CantInsumo)
+                {
+                    insumoDescontar.CantInsumo = insumoDescontar.CantInsumo - cantidadGastar;
+                    _context.Update(insumoDescontar);
+                    await _context.SaveChangesAsync();
+
+                }
+                else
+                {
+                    return false;
+                }
+
+
+            }
             return insumosSufucientes;
         }
+
+        public async Task<int> ReporteDiario()
+        {
+            DateTime fechaActual = DateTime.Now.Date;
+
+            var reporteVentas = _context.Ventas
+                .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == fechaActual)
+                .ToList();
+
+            int ventasDiarias = 0;
+            foreach (var venta in reporteVentas)
+            {
+                ventasDiarias += (int)venta.TotalVenta;
+            }
+
+            return ventasDiarias;
+        }
+
 
     }
 }

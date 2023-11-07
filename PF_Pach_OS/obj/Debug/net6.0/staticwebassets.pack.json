@@ -8689,12 +8689,20 @@
       "PackagePath": "staticwebassets\\css\\Estilos-generales.css"
     },
     {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Informes\\Estilos.css",
+      "PackagePath": "staticwebassets\\css\\Informes\\Estilos.css"
+    },
+    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Insumos\\Insumos.css",
       "PackagePath": "staticwebassets\\css\\Insumos\\Insumos.css"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Login-roles-permisos\\Login.css",
       "PackagePath": "staticwebassets\\css\\Login-roles-permisos\\Login.css"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Modal\\Style.css",
+      "PackagePath": "staticwebassets\\css\\Modal\\Style.css"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Productos.css",
@@ -8707,6 +8715,26 @@
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Proveedores.css",
       "PackagePath": "staticwebassets\\css\\Proveedores.css"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\RolPermisos\\Crea_Editar.css",
+      "PackagePath": "staticwebassets\\css\\RolPermisos\\Crea_Editar.css"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\RolPermisos\\Index.css",
+      "PackagePath": "staticwebassets\\css\\RolPermisos\\Index.css"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Usuarios\\CambiarContraseña.css",
+      "PackagePath": "staticwebassets\\css\\Usuarios\\CambiarContraseña.css"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Usuarios\\Index.css",
+      "PackagePath": "staticwebassets\\css\\Usuarios\\Index.css"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Usuarios\\ResgistroUsuarios.css",
+      "PackagePath": "staticwebassets\\css\\Usuarios\\ResgistroUsuarios.css"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\DetalleVenta.css",
@@ -8745,6 +8773,18 @@
       "PackagePath": "staticwebassets\\js\\Compras\\DetalleComprat.js"
     },
     {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Informe\\Informe.js",
+      "PackagePath": "staticwebassets\\js\\Informe\\Informe.js"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Informe\\Informe2.js",
+      "PackagePath": "staticwebassets\\js\\Informe\\Informe2.js"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Informe\\ReporteVentasDiarias.js",
+      "PackagePath": "staticwebassets\\js\\Informe\\ReporteVentasDiarias.js"
+    },
+    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Insumos\\EditarInsumo.js",
       "PackagePath": "staticwebassets\\js\\Insumos\\EditarInsumo.js"
     },
@@ -8765,12 +8805,20 @@
       "PackagePath": "staticwebassets\\js\\Productos\\Editar.js"
     },
     {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Proveedores\\ProveedorMensaje.js",
+      "PackagePath": "staticwebassets\\js\\Proveedores\\ProveedorMensaje.js"
+    },
+    {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Proveedores\\Proveedore.js",
       "PackagePath": "staticwebassets\\js\\Proveedores\\Proveedore.js"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Proveedores\\Validaciones.js",
       "PackagePath": "staticwebassets\\js\\Proveedores\\Validaciones.js"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Proveedores\\ValidacionesEditar.js",
+      "PackagePath": "staticwebassets\\js\\Proveedores\\ValidacionesEditar.js"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\RolPermisos\\Crear.js",
@@ -8783,6 +8831,14 @@
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\RolPermisos\\Index.js",
       "PackagePath": "staticwebassets\\js\\RolPermisos\\Index.js"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Usuarios\\CambiarContraseña.js",
+      "PackagePath": "staticwebassets\\js\\Usuarios\\CambiarContraseña.js"
+    },
+    {
+      "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Usuarios\\Index.js",
+      "PackagePath": "staticwebassets\\js\\Usuarios\\Index.js"
     },
     {
       "Id": "C:\\Users\\asuus\\Desktop\\Progrmacion\\PROYECTOS\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\DetallesVenta.js",
