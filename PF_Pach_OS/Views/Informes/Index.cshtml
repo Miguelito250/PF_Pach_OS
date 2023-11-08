@@ -1,7 +1,7 @@
 ﻿@model ProductosMasMenosVendidosModel
 <link href="~/css/informes/estilos.css" rel="stylesheet" />
 <link href="~/css/estructuracion.css" rel="stylesheet" />
-<button id="generarInforme" class="btn-crear-posicion estilo-btn-naranja btn-generar-informe">Generar Informe</button>
+<button id="generarInforme" class="btn-crear-posicion estilo-btn-naranja btn-generar-informe" title="Genera el informe">Generar Informe</button>
 <div class="card-header border-0">
     <div class="d-flex justify-content-between">
         <h3 class="card-title">Ventas</h3>
@@ -79,11 +79,11 @@
 
         <tbody>
             <tr>
-                 <td id="celdainsumos">$0,00</td>
-                <td>0,00</td>
+                 <td id="celdainsumos">$0.00</td>
+                 <td id="totalComprasAnuales">$0.00</td>
             </tr>
             <tr>
-                <td colspan="2">Total =</td>
+                 <td colspan="2" id="diferenciaVentasCompras">$0.00</td>
             </tr>
         </tbody>
     </table>
@@ -98,7 +98,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>0,00</td>
+                    <td>$0,00</td>
                     <td>0,00</td>
                 </tr>
                 <tr>
@@ -136,7 +136,6 @@
         </div>
     </div>
 </div>
-
 
 
 <!-- /.col-md-6 -->
@@ -217,7 +216,8 @@
 </div> *@
 
 <!-- /.content-wrapper -->
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="~/js/informe/informe2.js"></script>
 <script src="~/js/informe/informe.js"></script>

@@ -20,6 +20,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
     <PackageReference Include="PdfSharp" Version="1.50.5147" />
     <PackageReference Include="SendGrid" Version="9.28.1" />
+    <PackageReference Include="ServiceStack.Text" Version="6.11.0" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/avro-avsc.json" /></VisualStudio></ProjectExtensions>

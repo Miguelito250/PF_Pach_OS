@@ -10,35 +10,36 @@ using iTextSharp.text.pdf;
 using System.IO;
 using DinkToPdf;
 using DinkToPdf.Contracts;
+using ServiceStack.Text;
+using Microsoft.AspNetCore.Hosting;
+using PdfSharp.Charting;
 
 namespace PF_Pach_OS.Controllers { 
 
     public class EstadisticasController : Controller
 {
-    private readonly Pach_OSContext _context;
-    public EstadisticasController(Pach_OSContext context)
-    {
-        _context = context;
-    }
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly Pach_OSContext _context;
+
+        public EstadisticasController(Pach_OSContext context, IWebHostEnvironment hostingEnvironment)
+        {
+            _context = context;
+            _hostingEnvironment = hostingEnvironment;
+        }
         [HttpGet]
         public IActionResult ObtenerVentasMensuales()
         {
-            // Obtener el mes actual y el año actual
             int mesActual = DateTime.Now.Month;
             int añoActual = DateTime.Now.Year;
 
-            // Crear una lista para almacenar los datos de ventas mensuales
             List<decimal> ventasMensuales = new List<decimal>();
 
             for (int mes = 1; mes <= mesActual; mes++)
             {
-                // Calcular el primer día del mes actual
                 DateTime primerDiaDelMes = new DateTime(añoActual, mes, 1);
 
-                // Calcular el último día del mes actual
                 DateTime ultimoDiaDelMes = new DateTime(añoActual, mes, DateTime.DaysInMonth(añoActual, mes));
 
-                // Calcular el total de ventas para el mes actual
                 decimal totalVentasMes = _context.Ventas
                     .Where(v => v.FechaVenta >= primerDiaDelMes && v.FechaVenta <= ultimoDiaDelMes)
                     .Sum(v => v.TotalVenta.GetValueOrDefault());
@@ -48,50 +49,80 @@ namespace PF_Pach_OS.Controllers {
 
             return Json(ventasMensuales);
         }
+        [HttpGet]
+        public IActionResult ObtenerComprasMensuales()
+        {
+            int mesActual = DateTime.Now.Month;
+            int añoActual = DateTime.Now.Year;
+
+            List<decimal> comprasMensuales = new List<decimal>();
+
+            for (int mes = 1; mes <= mesActual; mes++)
+            {
+                DateTime primerDiaDelMes = new DateTime(añoActual, mes, 1);
+
+                DateTime ultimoDiaDelMes = new DateTime(añoActual, mes, DateTime.DaysInMonth(añoActual, mes));
+
+                decimal totalComprasMes = _context.Compras
+                    .Where(c => c.FechaCompra >= primerDiaDelMes && c.FechaCompra <= ultimoDiaDelMes)
+                    .Sum(c => c.Total.GetValueOrDefault());
+
+                comprasMensuales.Add(totalComprasMes);
+            }
+
+            return Json(comprasMensuales);
+        }
 
         public IActionResult ObtenerTotalVentasAnuales()
         {
-            // Obtener el año actual
             int añoActual = DateTime.Now.Year;
 
-            // Calcular el primer día del año actual
             DateTime primerDiaDelAño = new DateTime(añoActual, 1, 1);
 
-            // Calcular el último día del año actual
             DateTime ultimoDiaDelAño = new DateTime(añoActual, 12, 31);
 
-            // Calcular el total de ventas para todo el año
             decimal totalVentasAnuales = _context.Ventas
                 .Where(v => v.FechaVenta >= primerDiaDelAño && v.FechaVenta <= ultimoDiaDelAño)
                 .Sum(v => v.TotalVenta.GetValueOrDefault());
 
             return Json(totalVentasAnuales);
         }
+        [HttpGet]
+        public IActionResult ObtenerTotalComprasAnuales()
+        {
+            int añoActual = DateTime.Now.Year;
+
+            DateTime primerDiaDelAño = new DateTime(añoActual, 1, 1);
+
+            DateTime ultimoDiaDelAño = new DateTime(añoActual, 12, 31);
+
+            decimal totalComprasAnuales = _context.Compras
+                .Where(v => v.FechaCompra >= primerDiaDelAño && v.FechaCompra <= ultimoDiaDelAño)
+                .Sum(v => v.Total.GetValueOrDefault());
+
+            return Json(totalComprasAnuales);
+        }
         public IActionResult ObtenerDiferenciaVentasMesAnterior()
         {
-            // Obtener el primer día del mes actual
             DateTime primerDiaDelMesActual = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 
-            // Calcular el último día del mes anterior
             DateTime ultimoDiaDelMesAnterior = primerDiaDelMesActual.AddDays(-1);
 
-            // Calcular el primer día del mes anterior
             DateTime primerDiaDelMesAnterior = new DateTime(ultimoDiaDelMesAnterior.Year, ultimoDiaDelMesAnterior.Month, 1);
 
-            // Calcular el total de ventas para el mes actual
             decimal totalVentasMesActual = _context.Ventas
                 .Where(v => v.FechaVenta >= primerDiaDelMesActual && v.FechaVenta <= DateTime.Now)
                 .Sum(v => v.TotalVenta.GetValueOrDefault());
 
-            // Calcular el total de ventas para el mes anterior
+
             decimal totalVentasMesAnterior = _context.Ventas
                 .Where(v => v.FechaVenta >= primerDiaDelMesAnterior && v.FechaVenta <= ultimoDiaDelMesAnterior)
                 .Sum(v => v.TotalVenta.GetValueOrDefault());
 
-            // Calcular la diferencia
+
             decimal diferencia = totalVentasMesActual - totalVentasMesAnterior;
 
-            // Determinar si es un aumento o una disminución
+
             string aumentoODisminucion = diferencia > 0 ? "aumento" : (diferencia < 0 ? "disminución" : "sin cambios");
 
             return Json(new { diferencia, aumentoODisminucion });
@@ -99,10 +130,10 @@ namespace PF_Pach_OS.Controllers {
 
         public IActionResult ObtenerVentasPorDia(string fecha)
         {
-            // Convierte la fecha seleccionada a DateTime si es válido
+
             if (DateTime.TryParse(fecha, out DateTime fechaSeleccionada))
             {
-                // Consulta para obtener las ventas del día seleccionado
+
                 decimal ventasDelDia = _context.Ventas
                     .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == fechaSeleccionada.Date)
                     .Sum(v => v.TotalVenta.GetValueOrDefault());
@@ -167,130 +198,188 @@ namespace PF_Pach_OS.Controllers {
 
             if (tipoInforme == "mensual")
             {
-                // Parsea la fecha seleccionada en formato "yyyy-MM" (por ejemplo, "2023-10")
                 if (DateTime.TryParseExact(fechaSeleccionada, "yyyy-MM", CultureInfo.InvariantCulture, DateTimeStyles.None, out fecha))
                 {
-                    // Implementa la lógica para el informe mensual aquí
                     var fechaInicio = fecha;
                     var fechaFin = fecha.AddMonths(1).AddDays(-1);
 
-                    // Consulta tus ventas dentro del rango de fechas seleccionado
                     var ventasEnRango = _context.Ventas
                         .Where(v => v.FechaVenta >= fechaInicio && v.FechaVenta <= fechaFin)
                         .ToList();
                     Console.WriteLine(ventasEnRango);
                     if (ventasEnRango.Count == 0)
                     {
-                        // No hay ventas en el mes seleccionado, muestra una notificación SweetAlert
                         return BadRequest("No se encontraron ventas en el rango seleccionado");
                     }
-                    foreach (PF_Pach_OS.Models.Venta venta in ventasEnRango)
-                    {
-                        Console.WriteLine($"Propiedad 1: {venta.IdVenta}");
-                        // Sustituye 'Propiedad1', 'Propiedad2', etc., por los nombres de las propiedades de tu modelo 'Venta'
-                    }
-                    // Calcula el total de ventas en el rango
+
                     int? totalVentas = ventasEnRango.Sum(v => v.TotalVenta);
                     if (ventasEnRango.Count == 0)
                     {
                         return BadRequest("No se encontraron ventas en el rango seleccionado");
                     }
-
-                    // Crear el documento PDF
-                    Document doc = new Document();
-                    MemoryStream memoryStream = new MemoryStream();
-                    PdfWriter writer = PdfWriter.GetInstance(doc, memoryStream);
-                    doc.Open();
-
-                    // Agregar contenido al PDF basado en las ventas dentro del rango
-                    doc.Add(new Paragraph("Informe de Ventas"));
-
-                    // Agregar información de ventas
-                    doc.Add(new Paragraph("Fecha de inicio: " + fechaInicio.ToShortDateString()));
-                    doc.Add(new Paragraph("Fecha de fin: " + fechaFin.ToShortDateString()));
-                    doc.Add(new Paragraph("Total de Ventas: $" + totalVentas));
-                    doc.Add(Chunk.NEWLINE);
+                    var ventasPorSemana = new Dictionary<int, List<Venta>>();
 
                     foreach (var venta in ventasEnRango)
                     {
-                        doc.Add(new Paragraph($"Venta ID: {venta.IdVenta}"));
-                        doc.Add(new Paragraph($"Fecha: {venta.FechaVenta}"));
-                        doc.Add(new Paragraph($"Monto Total: ${venta.TotalVenta}"));
-                        doc.Add(Chunk.NEWLINE);
+                        var weekNumber = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear((DateTime)venta.FechaVenta, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Sunday);
+                        if (!ventasPorSemana.ContainsKey(weekNumber))
+                        {
+                            ventasPorSemana[weekNumber] = new List<Venta>();
+                        }
+                        ventasPorSemana[weekNumber].Add(venta);
                     }
 
-                    doc.Close();
 
-                    byte[] pdfBytes = memoryStream.ToArray();
-                    return File(pdfBytes, "application/pdf", "InformeVentas.pdf");
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        string logoPath = Path.Combine(_hostingEnvironment.WebRootPath, "img", "Logo_Empresa.jpg");
+                        if (System.IO.File.Exists(logoPath))
+                        {
+                        Document doc = new Document();
+                        PdfWriter writer = PdfWriter.GetInstance(doc, memoryStream);
+                        doc.Open();
+                        Image logo = Image.GetInstance(logoPath);
+                        logo.Alignment = Element.ALIGN_CENTER;
+                        logo.ScaleToFit(150, 150); 
+                        doc.Add(logo);
+
+                            doc.Add(new Paragraph("Informe de Ventas Mensuales"));
+                            doc.Add(new Paragraph(" "));
+
+                            var fechaActual = fechaInicio;
+                            var ultimoDiaDelMes = fechaFin;
+                            string[] nombresDias = { "lunes", "martes", "miércoles", "jueves", "viernes", "sábado" ,"domingo" };
+                            int diaNumero = 1;
+
+                            while (fechaActual <= ultimoDiaDelMes)
+                            {
+                                PdfPTable diasTable = new PdfPTable(7);
+                                PdfPTable ventasTable = new PdfPTable(7);
+
+                                // Configura el ancho de las celdas
+                                diasTable.WidthPercentage = 100;
+                                ventasTable.WidthPercentage = 100;
+
+                                // Llena las tablas con los datos de la semana
+                                int diaSemanaInicio = (int)fechaActual.DayOfWeek;
+                                for (int i = 0; i < 7; i++)
+                                {
+                                    int diaSemana = (diaSemanaInicio + i) % 7;
+                                    PdfPCell cell = new PdfPCell(new Phrase(nombresDias[diaSemana] + " " + diaNumero));
+                                    diasTable.AddCell(cell);
+                                    if (diaNumero <= DateTime.DaysInMonth(fechaActual.Year, fechaActual.Month))
+                                    {
+                                        var totalDiario = ventasEnRango
+                                            .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == fechaActual.Date)
+                                            .Sum(v => v.TotalVenta) ?? 0;
+
+                                        PdfPCell totalCell = new PdfPCell(new Phrase(totalDiario.ToString("C")));
+
+                                        ventasTable.AddCell(totalCell);
+
+                                        fechaActual = fechaActual.AddDays(1);
+                                        diaNumero++;
+                                    }
+                                    else
+                                    {
+                                        // Si se agotan los días del mes, agrega celdas vacías
+                                        diasTable.AddCell(new PdfPCell());
+                                        ventasTable.AddCell(new PdfPCell());
+                                    }
+                                }
+
+                                doc.Add(diasTable);
+                                doc.Add(ventasTable);
+
+                                doc.Add(new Paragraph(" ")); // Agrega un espacio entre las semanas
+                            }
+
+
+                            Paragraph total = new Paragraph($"Total de Ventas: ${totalVentas}");
+                        total.Alignment = Element.ALIGN_RIGHT; 
+                        doc.Add(total);
+                        doc.Close();
+
+                        byte[] pdfBytes = memoryStream.ToArray();
+                        return File(pdfBytes, "application/pdf", "InformeVentas.pdf");
+                    }
+                    }
                 }
                 else
                 {
-                    // Manejar error de fecha no válida
                 }
             }
             else if (tipoInforme == "anual")
             {
-                // Parsea la fecha seleccionada en formato "yyyy" (por ejemplo, "2023")
+
                 if (DateTime.TryParseExact(fechaSeleccionada, "yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fecha))
                 {
-                    // Implementa la lógica para el informe anual aquí
+
                     var fechaInicio = new DateTime(fecha.Year, 1, 1);
                     var fechaFin = fechaInicio.AddYears(1).AddDays(-1);
 
-                    // Consulta tus ventas dentro del rango de fechas seleccionado
+
                     var ventasEnRango = _context.Ventas
                         .Where(v => v.FechaVenta >= fechaInicio && v.FechaVenta <= fechaFin)
                         .ToList();
 
-                    // Calcula el total de ventas en el rango
                     int? totalVentas = ventasEnRango.Sum(v => v.TotalVenta);
                     if (ventasEnRango.Count == 0)
                     {
                         return BadRequest("No se encontraron ventas en el rango seleccionado");
                     }
-                    // Crear el documento PDF
-                    Document doc = new Document();
-                    MemoryStream memoryStream = new MemoryStream();
-                    PdfWriter writer = PdfWriter.GetInstance(doc, memoryStream);
-                    doc.Open();
-
-                    // Agregar contenido al PDF basado en las ventas dentro del rango
-                    doc.Add(new Paragraph("Informe de Ventas"));
-
-                    // Agregar información de ventas
-                    doc.Add(new Paragraph("Tipo de Informe: " + tipoInforme));
-                    doc.Add(new Paragraph("Fecha seleccionada: " + fechaSeleccionada));
-                    doc.Add(new Paragraph("Ventas del informe:"+ totalVentas));
-                    doc.Add(Chunk.NEWLINE);
-
-                    foreach (var venta in ventasEnRango)
+                    using (MemoryStream memoryStream = new MemoryStream())
                     {
-                        doc.Add(new Paragraph($"Venta ID: {venta.IdVenta}"));
-                        doc.Add(new Paragraph($"Fecha: {venta.FechaVenta}"));
-                        doc.Add(new Paragraph($"Monto Total: ${venta.TotalVenta}"));
-                        doc.Add(new Paragraph("------------------------------------------------------------------------"));
-                        doc.Add(Chunk.NEWLINE);
-                    }
+                        string logoPath = Path.Combine(_hostingEnvironment.WebRootPath, "img", "Logo_Empresa.jpg");
+                        if (System.IO.File.Exists(logoPath))
+                        {
+                            Document doc = new Document();
+                            PdfWriter writer = PdfWriter.GetInstance(doc, memoryStream);
+                            doc.Open();
+                            Image logo = Image.GetInstance(logoPath);
+                            logo.Alignment = Element.ALIGN_CENTER;
+                            logo.ScaleToFit(150, 150);
+                            doc.Add(logo);
 
-                    doc.Close();
-                    byte[] pdfBytes = memoryStream.ToArray();
-                    // Devolver el PDF como un archivo descargable
-                    return File(pdfBytes, "application/pdf", "InformeVentas.pdf");
+                            doc.Add(new Paragraph("Informe de Ventas Anuales"));
+                            doc.Add(new Paragraph(" "));
+                            PdfPTable table = new PdfPTable(3);
+                            table.WidthPercentage = 100;
+
+                            table.AddCell("Venta ID");
+                            table.AddCell("Fecha");
+                            table.AddCell("Monto Total");
+
+                            foreach (var venta in ventasEnRango)
+                            {
+                                table.AddCell(venta.IdVenta.ToString());
+                                table.AddCell(venta.FechaVenta.HasValue ? venta.FechaVenta.Value.ToShortDateString() : "Fecha no disponible");
+                                table.AddCell("$" + venta.TotalVenta.ToString());
+                            }
+
+                            doc.Add(table);
+                            Paragraph total = new Paragraph($"Total de Ventas: ${totalVentas}");
+                            total.Alignment = Element.ALIGN_RIGHT; 
+                            doc.Add(total);
+                            doc.Close();
+
+                            byte[] pdfBytes = memoryStream.ToArray();
+                            return File(pdfBytes, "application/pdf", "InformeVentas.pdf");
+                        }
+                    }
                 }
                 else
                 {
-                    // Manejar error de fecha no válida
                 }
             }
             else
             {
-                // Manejar error de tipo de informe no válido
             }
 
-            // Manejar otro tipo de error o redirigir a la página de inicio
             return RedirectToAction("Index");
         }
+
+
 
 
     }

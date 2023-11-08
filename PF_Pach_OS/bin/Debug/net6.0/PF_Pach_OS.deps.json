@@ -17,6 +17,7 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.16",
           "PDFsharp": "1.50.5147",
           "SendGrid": "9.28.1",
+          "ServiceStack.Text": "6.11.0",
           "iTextSharp": "5.5.13.3"
         },
         "runtime": {
@@ -1125,7 +1126,7 @@
           }
         }
       },
-      "Microsoft.CSharp/4.5.0": {},
+      "Microsoft.CSharp/4.7.0": {},
       "Microsoft.Data.SqlClient/2.1.4": {
         "dependencies": {
           "Microsoft.Data.SqlClient.SNI.runtime": "2.1.1",
@@ -1475,7 +1476,7 @@
       },
       "Microsoft.IdentityModel.Tokens/6.8.0": {
         "dependencies": {
-          "Microsoft.CSharp": "4.5.0",
+          "Microsoft.CSharp": "4.7.0",
           "Microsoft.IdentityModel.Logging": "6.8.0",
           "System.Security.Cryptography.Cng": "5.0.0"
         },
@@ -1866,6 +1867,19 @@
           "lib/netstandard2.0/SendGrid.dll": {
             "assemblyVersion": "9.28.1.0",
             "fileVersion": "9.28.1.0"
+          }
+        }
+      },
+      "ServiceStack.Text/6.11.0": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0",
+          "System.Diagnostics.DiagnosticSource": "6.0.1",
+          "System.Memory": "4.5.5"
+        },
+        "runtime": {
+          "lib/net6.0/ServiceStack.Text.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.11.0.0"
           }
         }
       },
@@ -3354,12 +3368,12 @@
       "path": "microsoft.codeanalysis.workspaces.common/4.0.0",
       "hashPath": "microsoft.codeanalysis.workspaces.common.4.0.0.nupkg.sha512"
     },
-    "Microsoft.CSharp/4.5.0": {
+    "Microsoft.CSharp/4.7.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-kaj6Wb4qoMuH3HySFJhxwQfe8R/sJsNJnANrvv8WdFPMoNbKY5htfNscv+LHCu5ipz+49m2e+WQXpLXr9XYemQ==",
-      "path": "microsoft.csharp/4.5.0",
-      "hashPath": "microsoft.csharp.4.5.0.nupkg.sha512"
+      "sha512": "sha512-pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA==",
+      "path": "microsoft.csharp/4.7.0",
+      "hashPath": "microsoft.csharp.4.7.0.nupkg.sha512"
     },
     "Microsoft.Data.SqlClient/2.1.4": {
       "type": "package",
@@ -3899,6 +3913,13 @@
       "sha512": "sha512-LyIkgjd+svXuQxpqe5pvyOccyUdKcDqwnBNDPjyCngkKeVpXAOTAr3U1DBLWqHEbFHvu2UBFki3SJzDwxvJdfA==",
       "path": "sendgrid/9.28.1",
       "hashPath": "sendgrid.9.28.1.nupkg.sha512"
+    },
+    "ServiceStack.Text/6.11.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LGPW32nrQ1uJEgErMlUSEe2R+qnSMDNKXkRnN1RPgVHMbiIejCzOziSDW3MlokN/wFqiKhjgCUWi99q6yGlkkg==",
+      "path": "servicestack.text/6.11.0",
+      "hashPath": "servicestack.text.6.11.0.nupkg.sha512"
     },
     "SQLitePCLRaw.bundle_e_sqlite3/2.1.2": {
       "type": "package",
