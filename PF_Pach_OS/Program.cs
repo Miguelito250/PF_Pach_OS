@@ -13,8 +13,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//CORS 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFlutterApp",
+        builder => builder.WithOrigins("http://localhost:55946"));
+});
 
 builder.Services.AddDbContext<Pach_OSContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -25,12 +31,9 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
-
-
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configurar las peticiones HTTP pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -40,12 +43,34 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+// Usa CORS
+app.UseCors("AllowFlutterApp");
+
 app.UseRouting();
 
-app.UseAuthentication();
-app.UseAuthorization();
+// Ignora la autenticación para la ruta /Compras/GetCompras
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Compras/GetCompras"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
 
+// Ignora la autenticación para la ruta /Compras/GetDetallesCompra
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Compras/GetDetallesCompra"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
 
+// Ignora la autenticación para la ruta /Compras/CompraApi
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Compras/CompraApi"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
 
 app.MapControllerRoute(
     name: "default",
@@ -53,3 +78,4 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 app.Run();
+
