@@ -8,6 +8,14 @@
 
 <link href="~/css/ventas/detalleventa.css" rel="stylesheet" />
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
+
+@if (ViewBag.MensajeInsumosInsuficientes != "")
+{
+    <div class="text-danger">@ViewBag.MensajeInsumosInsuficientes</div>
+}
+
 <div class="d-flex p-2 contendorVenta">
     <div class="container">
         <div class="col-12">
@@ -16,8 +24,10 @@
                 <div class="col-4">
                     <label>Producto *</label>
                     <select class="form-control form-select" aria-label="Default select example" asp-for="Item1.IdProducto" asp-items="ViewBag.IdProducto" name="IdProducto" required>
-                        <option value="NA">Producto</option>
-                        <option value="0">Pizzas (Sabores)</option>
+                        <option value="NA">-Seleccione-</option>
+                        <option value="2">Pizzas (Pequeñas)</option>
+                        <option value="3">Pizzas (Grandes)</option>
+                        <option value="4">Pizzas (Familiares)</option>
 
                     </select>
                     <span id="productoMensaje" class="invalid-feedback"></span>
@@ -26,7 +36,7 @@
 
                 <div class="col-3">
                     <label>Cantidad *</label>
-                    <input type="number" class="form-control" asp-for="Item1.CantVendida" name="CantVendida" min="0" required />
+                    <input type="number" class="form-control" asp-for="Item1.CantVendida" name="CantVendida" placeholder="Cantidad" min="0" required />
                     <span id="cantidadMensaje" class="invalid-feedback"></span>
                     <span class="valid-feedback"></span>
                 </div>
@@ -130,7 +140,9 @@
                     </div>
                     <div class="row mt-2" id="campo-domicilio">
                         <span class="col-8">Domicilio</span>
-                        <input asp-for="Item2.PagoDomicilio" type="number" id="domicilio" name="PagoDomicilio" class="col-4 form-control text-end" value="0" min="0">
+                        <input asp-for="Item2.PagoDomicilio" type="number" id="domicilio" name="PagoDomicilio" class="col-4 form-control text-end" placeholder="0" min="0">
+                        <span id="domicilioMensaje" class="invalid-feedback"></span>
+                        <span class="valid-feedback"></span>
                     </div>
 
                     <div class="row mt-2">
@@ -173,6 +185,10 @@
                     {
                         <a class="btn btn-outline-danger border mt-2 cancelarCompraBtn" asp-controller="Ventas" asp-action="CancelarVenta" asp-route-IdVenta="@ViewBag.IdVenta">Cancelar venta</a>
                     }
+                    else
+                    {
+                        <a asp-action="Index" asp-controller="Ventas" class="btn btn-outline-danger border mt-2" id="links-modulos">Volver</a>
+                    }
                 </div>
             </div>
         </form>
@@ -196,11 +212,9 @@
     </div>
 </div>
 
-<script src="~/js/ventas/ventas.js"></script>
-<script src="~/js/Ventas/Validaciones.js"></script>
-
-
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="~/js/ventas/ventas.js"></script>
+<script src="~/js/Ventas/Validaciones.js"></script>

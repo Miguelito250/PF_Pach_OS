@@ -23,6 +23,8 @@ namespace PF_Pach_OS.Controllers
             _permisosController = new PermisosController(context, _userManager, _signInManager);
         }
 
+
+        //Controlador de index de detalle compra
         public IActionResult Index()
         {
             bool tine_permiso = _permisosController.tinto(5, User);
@@ -39,6 +41,8 @@ namespace PF_Pach_OS.Controllers
             return View();
         }
 
+
+        //Controlador GET para crear el detalle de la compra
         public async Task<IActionResult> Create(int id)
         {
             bool tine_permiso = _permisosController.tinto(5, User);
@@ -52,12 +56,9 @@ namespace PF_Pach_OS.Controllers
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
 
-            
             var IdCompra = id;
 
             ViewBag.IdCompra = IdCompra;
-
-
 
             var detallescompras = context.DetallesCompras
                 .Where(o => o.IdCompra == IdCompra)
@@ -88,6 +89,8 @@ namespace PF_Pach_OS.Controllers
             return View(models);
         }
 
+
+        //Controlador POST para crear el detalle de la compra
         [HttpPost]
         public IActionResult Create([Bind(Prefix = "Item1")] DetallesCompra detallecompra, [Bind(Prefix = "Item2")] Compra compra, Insumo insumo)
         {
@@ -183,15 +186,14 @@ namespace PF_Pach_OS.Controllers
 
 
 
-        // GET: Insumos/Create
+        // Controlador GET para Crear insumo desde compra
         public IActionResult CrearInsumo()
         {
             return View();
         }
 
-        // POST: Insumos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        // Controlador POST para Crear insumo desde compra
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearInsumo([Bind("IdInsumo,NomInsumo,CantInsumo,Medida")] Insumo insumo, [Bind(Prefix = "Item1")] DetallesCompra detallecompra, [Bind(Prefix = "Item2")] Compra compra)
@@ -250,10 +252,10 @@ namespace PF_Pach_OS.Controllers
             await context.SaveChangesAsync();
 
             return Redirect($"/DetalleCompra/Create/{detallecompra.IdCompra}");
-            
-
         }
 
+
+        //Controlador para formatear el nombre del insumo creado desde compras
         private string OrtografiaInsumo(string entrada)
         {
             if (string.IsNullOrWhiteSpace(entrada))
@@ -272,6 +274,8 @@ namespace PF_Pach_OS.Controllers
             return string.Join(" ", palabra);
         }
 
+
+        //Controlador para formatear el Numero de la factura
         private string OrtografiaFactura(string entrada)
         {
             if (string.IsNullOrWhiteSpace(entrada))
@@ -291,6 +295,7 @@ namespace PF_Pach_OS.Controllers
         }
 
 
+        //Controlador para la confirmacion y/o finalizacion de la compra 
         public IActionResult ComfirmarCompra([Bind(Prefix = "Item2")] Compra compra)
         {
             bool tine_permiso = _permisosController.tinto(5, User);
@@ -323,6 +328,8 @@ namespace PF_Pach_OS.Controllers
                 return View();
             }
         }
+
+
 
         public async Task<IActionResult> Details()
         {
@@ -358,6 +365,8 @@ namespace PF_Pach_OS.Controllers
             
         }
 
+
+        //Controlador para borrar el detalle de la compra
         public async Task<IActionResult> Delete(String id, int otroId, int cantidad, int idinsumo, string medida)
         {
             bool tine_permiso = _permisosController.tinto(5, User);

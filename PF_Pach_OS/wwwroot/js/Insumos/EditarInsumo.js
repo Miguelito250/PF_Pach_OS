@@ -59,12 +59,11 @@ function validarNomInsumo() {
     else if (nomInsumo.length < 3 || nomInsumo.length > 20) {
         nomInsumoInput.classList.add('is-invalid');
         nomInsumoFeedback.textContent = 'El nombre debe tener entre 3 y 20 caracteres.';
-    } else if (/[^a-zA-Z0-9\s]/.test(nomInsumo)) {
+    } else if (/[^a-zA-Z0-9\sñÑ]/.test(nomInsumo)) {
         nomInsumoInput.classList.add('is-invalid');
         nomInsumoFeedback.textContent = 'No se pueden ingresar caracteres especiales.';
     }
     else {
-        // El campo es válido
         nomInsumoInput.classList.add('is-valid');
     }
 
