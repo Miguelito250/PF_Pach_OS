@@ -59,8 +59,43 @@ select {
         position: relative;
         top: 50px;
         left: -4vh;
-        height: 35rem
+        min-height: 80rem ;
     }
+    .table {
+        left: 20px;
+        overflow-x: auto;
+        table-layout: fixed;
+    }
+    .text-custom {
+        left: 0px !important;
+        text-align: center;
+        vertical-align: middle;
+        top: 0px !important;
+    }
+    .table th {
+        left: 5000px;
+        text-align: center;
+        vertical-align: middle;
+        top: 50px !important;
+    }
+    .table td {
+        overflow-wrap: break-word;
+    }
+        .table thead th {
+            text-align: center;
+            top: 10px !important;
+        }
+
+
+    .btn-primary {
+        position: relative;
+        margin-top: 10px;
+        background: linear-gradient(180deg, #FF9200 2.08%, #8D5F20 100%);
+        left: -20px !important;
+        border: none !important;
+    }
+    
+
     }
 .tabla-pequena {
     width: 50%; 
@@ -78,6 +113,20 @@ select {
     color: white;
 }
 
+.fixed-button-container {
+    top: 20px; /* Ajusta según sea necesario para la posición vertical */
+    right: 20px;
+}
+.body {
+    padding-top: 20px; /* Ajusta según sea necesario para dejar espacio para el botón */
+}
+.btn-primary {
+    position:relative;
+    margin-top:10px;
+    background: linear-gradient(180deg, #FF9200 2.08%, #8D5F20 100%);
+    right: -200px !important;
+    border: none !important;
+}
 
 
 

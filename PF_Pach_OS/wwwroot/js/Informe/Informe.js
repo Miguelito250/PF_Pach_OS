@@ -20,21 +20,21 @@ $(document).ready(function () {
                         datasets: [{
                             label: 'Ventas',
                             data: ventasMensuales,
-                            backgroundColor: '#FF9200',
-                            borderColor: '#FF9200',
+                            backgroundColor: '#003f5c',
+                            borderColor: '#003f5c',
                             borderWidth: 1
                         }, {
                             label: 'Compras',
                             data: comprasMensuales,
-                            backgroundColor: '#FF0000', 
-                            borderColor: '#FF0000',
+                            backgroundColor: '#ff6361', 
+                            borderColor: '#ff6361',
                             borderWidth: 1
                         }]
                     };
 
                     var ctx = document.getElementById('sales-chart').getContext('2d');
                     var salesChart = new Chart(ctx, {
-                        type: 'line',
+                        type: 'bar',
                         data: datosVentas,
                         options: {
                             responsive: true,
@@ -160,10 +160,8 @@ document.getElementById('generarInforme').addEventListener('click', function () 
 
             xhrPdf.send();
         } else if (xhr.status === 400) {
-            /*alert('No se encontraron ventas en el rango seleccionado');*/
         }
         else {
-            /*alert('Error al obtener los datos de ventas. Seleccione una fecha valida');*/
         }
     };
 
@@ -203,7 +201,6 @@ $(document).ready(function () {
 });
 $(document).ready(function () {
     $('#generarInforme').on('click', function () {
-        // Obtiene el tipo de informe seleccionado
         var tipoInforme = $('#tipoInforme').val();
 
         var fechaSeleccionada;
@@ -216,17 +213,14 @@ $(document).ready(function () {
         }
         console.log('Tipo de informe:', tipoInforme);
         console.log('Fecha seleccionada:', fechaSeleccionada);
-        // Realiza la solicitud Ajax con la fecha seleccionada
         $.ajax({
             url: '/Estadisticas/ObtenerVentas',
             type: 'GET',
             data: { fechaSeleccionada: fechaSeleccionada, tipoInforme: tipoInforme },
             success: function (data) {
                 if (data.error) {
-                    // Hubo un error al generar el informe, muestra un mensaje de error
                     mostrarErrorSweetAlert();
                 } else {
-                    // El informe se generó con éxito, muestra una notificación SweetAlert
                     mostrarSweetAlert();
                 }
             },
@@ -256,6 +250,142 @@ $(document).ready(function () {
         });
     }
 });
+$(document).ready(function () {
+    function obtenerDatosTransferencias() {
+        $.ajax({
+            url: '/Estadisticas/ObtenerDatosTransferencias', 
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log("Datos transferencias: ")
+                console.log(data)
+                $('#celdaPagosTransferencias').text(data.pagosTransferencias);
+                $('#totalTransferencias').text('$' + (data.totalTransferencias || 0).toFixed(2));
+            },
+            error: function (error) {
+                console.error('Error al obtener los datos de transferencias:', error);
+            }
+        });
+    }
+
+    obtenerDatosTransferencias();
+
+    $('#btnEliminarVentas').click(function () {
+        obtenerDatosTransferencias();
+    });
+});
+$(document).ready(function () {
+    $("#btnEliminarVentas").click(function () {
+        console.log("Botón presionado");
+
+        // Mostrar SweetAlert para confirmar
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¡Esto eliminará todas las ventas?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Llamada AJAX para eliminar ventas
+                $.ajax({
+                    type: "POST",
+                    url: "/Estadisticas/EliminarTodasLasVentas",
+                    success: function (response) {
+                        console.log("Éxito en la llamada AJAX");
+                        console.log(response); // Puedes agregar esto para ver la respuesta del servidor
+                        Swal.fire({
+                            title: '¡Eliminadas!',
+                            text: 'Todas las ventas han sido eliminadas.',
+                            icon: 'success',
+                            timer: 2000, // Tiempo en milisegundos (2 segundos en este caso)
+                            showConfirmButton: false
+                        }).then(() => {
+                            // Recargar la página después del temporizador
+                            window.location.href = window.location.href;
+                        });
+                    },
+                    error: function (error) {
+                        console.log("Error en la llamada AJAX");
+                        console.log(error); // Puedes agregar esto para ver detalles del error
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Hubo un problema al eliminar las ventas.',
+                            icon: 'error',
+                            timer: 2000, // Tiempo en milisegundos (2 segundos en este caso)
+                            showConfirmButton: false
+                        }).then(() => {
+                            // Recargar la página después del temporizador
+                            window.location.href = window.location.href;
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
+    $(document).ready(function () {
+        cargarProductosMasVendidos();
+    cargarProductosMenosVendidos();
+    });
+
+    function cargarProductosMasVendidos() {
+        $.ajax({
+            url: '/Estadisticas/ObtenerProductosMasVendidos',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log("Datos mas vendidos: " + data)
+                console.log(data)
+                actualizarFilaProductosMasVendidos(data);
+            },
+            error: function () {
+                console.log('Error al cargar productos más vendidos');
+            }
+        });
+    }
+
+    function cargarProductosMenosVendidos() {
+        $.ajax({
+            url: '/Estadisticas/ObtenerProductosMenosVendidos',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log("Todo bien")
+                console.log(data)
+                actualizarFilaProductosMenosVendidos(data);
+            },
+            error: function () {
+                console.log('Error al cargar productos menos vendidos');
+            }
+        });
+    }
+
+function actualizarFilaProductosMasVendidos(data) {
+    console.log("Tabla mas vendidos")
+    console.log(data)
+    $('#masVendidoProducto1').text(data[0].producto);
+    $('#masVendidoCantidad1').text(data[0].cantidadVendida);
+    $('#masVendidoProducto2').text(data[1].producto);
+    $('#masVendidoCantidad2').text(data[1].cantidadVendida);
+}
+
+
+function actualizarFilaProductosMenosVendidos(data) {
+    console.log("Tabla menos vendidos")
+    console.log(data)
+    $('#menosVendidoProducto1').text(data[0].producto);
+    $('#menosVendidoCantidad1').text(data[0].cantidadVendida);
+    $('#menosVendidoProducto2').text(data[1].producto);
+    $('#menosVendidoCantidad2').text(data[1].cantidadVendida);
+}
+
+
+
 
 
 

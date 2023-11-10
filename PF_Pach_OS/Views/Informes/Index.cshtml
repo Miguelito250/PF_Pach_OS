@@ -1,7 +1,20 @@
-﻿@model ProductosMasMenosVendidosModel
+﻿@model ProductoVendidoModel
 <link href="~/css/informes/estilos.css" rel="stylesheet" />
 <link href="~/css/estructuracion.css" rel="stylesheet" />
 <button id="generarInforme" class="btn-crear-posicion estilo-btn-naranja btn-generar-informe" title="Genera el informe">Generar Informe</button>
+<div class="container mt-6">
+    <div class="fixed-button-container d-flex justify-content-end">
+        <form id="formEliminarVentas">
+            <button type="button" id="btnEliminarVentas" class="btn btn-primary" title="eliminar">
+                <i class="bi bi-trash3-fill"></i> 
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                </svg>
+            </button>
+        </form>
+    </div>
+</div>
+
 <div class="card-header border-0">
     <div class="d-flex justify-content-between">
         <h3 class="card-title">Ventas</h3>
@@ -54,7 +67,6 @@
                 <span class="text-muted">Desde el mes pasado</span>
             </p>
         </div>
-        <!-- /.d-flex -->
 
         <div class="position-relative mb-4">
             <canvas id="sales-chart" height="200"></canvas>
@@ -62,7 +74,6 @@
 
         <div class="d-flex flex-row justify-content-end">
             <span class="mr-2">
-                <i class="fas fa-square " style="color: #FF9200;"></i> Este Año
             </span>
         </div>
     </div>
@@ -88,50 +99,49 @@
         </tbody>
     </table>
     </div>
-        <div class ="col-md-4" >
-        <table class="table table-bordered">
-            <thead>
-                        <tr class="estilo-btn-naranja text-custom custom-table">
-                    <th scope="col">Compra Pizzerias</th>
-                    <th scope="col">Compra Bebidas</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>$0,00</td>
-                    <td>0,00</td>
-                </tr>
-                <tr>
-                    <td colspan="2">Total =</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
         <div class="col-md-4">
-            <table class="table table-bordered">
-                <thead>
+                <table class="table table-bordered">
+                    <thead>
                         <tr class="estilo-btn-naranja text-custom">
-                        <th scope="col"">Productos Más Vendidos</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Productos Menos Vendidos</th>
-                        <th scope="col">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Pizza Hawuaiana</td>
-                        <td>15</td>
-                        <td>Perros</td>
-                        <td>15</td>
-                    </tr>
-                    <tr>
-                        <td>Pizza Hawuaiana</td>
-                        <td>15</td>
-                        <td>Perros</td>
-                        <td>15</td>
-                    </tr>
-                </tbody>
-            </table>
+                            <th scope="col">Productos Más Vendidos</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Productos Menos Vendidos</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="productosMasVendidosRow">
+                            <td id="masVendidoProducto1"></td>
+                            <td id="masVendidoCantidad1"></td>
+                            <td id="menosVendidoProducto1"></td>
+                            <td id="menosVendidoCantidad1"></td>
+                        </tr>
+                        <tr id="productosMenosVendidosRow">
+                            <td id="masVendidoProducto2"></td>
+                            <td id="masVendidoCantidad2"></td>
+                            <td id="menosVendidoProducto2"></td>
+                            <td id="menosVendidoCantidad2"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-md-3">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="estilo-btn-naranja text-custom">
+                            <th scope="col">Pagos Transferencias</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td id="celdaPagosTransferencias">0</td>
+                            <td id="totalTransferencias">$0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
