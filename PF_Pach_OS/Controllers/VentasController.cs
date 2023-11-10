@@ -61,17 +61,23 @@ namespace PF_Pach_OS.Controllers
                 DateTime fechaActual = DateTime.Now.Date;
 
                 var listadoVentasCajero = await _context.Ventas
-                    .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == fechaActual)
-                    .OrderByDescending(v => v.FechaVenta)
-                    .ToListAsync();
+                .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == fechaActual)
+                .OrderByDescending(v => v.FechaVenta.Value.Year)
+                .ThenByDescending(v => v.FechaVenta.Value.Month)
+                .ThenByDescending(v => v.FechaVenta.Value.Day)
+                .ToListAsync();
+
 
                 return View(listadoVentasCajero);
             }
 
-            var pach_OSContext = _context.Ventas
-                .OrderByDescending(v => v.FechaVenta);
+            var pach_OSContext = await _context.Ventas
+                .OrderByDescending(v => v.FechaVenta.Value.Year)
+                .ThenByDescending(v => v.FechaVenta.Value.Month)
+                .ThenByDescending(v => v.FechaVenta.Value.Day)
+                .ToListAsync();
 
-            return View(await pach_OSContext.ToListAsync());
+            return View(pach_OSContext);
         }
 
         //Miguel 22/10/2023: Función para redirigir con los datos necesarios a la vista de registrar los detalles de venta
@@ -110,7 +116,7 @@ namespace PF_Pach_OS.Controllers
             ViewData["DetallesVentas"] = DetallesVentas;
 
             ViewData["IdProducto"] = new SelectList(_context.Productos
-    .       Where(p => p.Estado == 1 && (p.IdTamano == null || p.IdTamano == 1) && p.IdProducto != 1)
+    .Where(p => p.Estado == 1 && (p.IdTamano == null || p.IdTamano == 1) && p.IdProducto != 1)
             , "IdProducto", "NomProducto");
 
 
@@ -173,14 +179,28 @@ namespace PF_Pach_OS.Controllers
 
             if (ventaActualizar != null)
             {
-                ventaActualizar.FechaVenta = venta.FechaVenta;
-                ventaActualizar.TotalVenta = venta.TotalVenta;
+
+                ventaActualizar.FechaVenta = new DateTime(
+                    venta.FechaVenta.Value.Year,
+                    venta.FechaVenta.Value.Month,
+                    venta.FechaVenta.Value.Day,
+                    venta.FechaVenta.Value.Hour,
+                    venta.FechaVenta.Value.Minute,
+                    venta.FechaVenta.Value.Second
+                );
+
+
+
                 ventaActualizar.TipoPago = venta.TipoPago;
                 ventaActualizar.Pago = venta.Pago;
+                venta.PagoDomicilio = venta.PagoDomicilio == null
+                    ? 0
+                    : venta.PagoDomicilio;
                 ventaActualizar.PagoDomicilio = venta.PagoDomicilio;
                 ventaActualizar.IdEmpleado = venta.IdEmpleado;
                 ventaActualizar.Estado = venta.Estado;
                 ventaActualizar.Mesa = venta.Mesa;
+                ventaActualizar.TotalVenta = venta.TotalVenta;
 
                 _context.Ventas.Update(ventaActualizar);
                 _context.SaveChanges();
@@ -215,7 +235,7 @@ namespace PF_Pach_OS.Controllers
                 .Where(d => d.IdVenta == ventaCancelar.IdVenta)
                 .ToListAsync();
 
-            foreach(var detalle in detallesVenta)
+            foreach (var detalle in detallesVenta)
             {
                 await _detalleVentasController.EliminarDetalle(detalle.IdDetalleVenta);
             }
@@ -420,13 +440,14 @@ namespace PF_Pach_OS.Controllers
             return insumosSufucientes;
         }
 
+        //Miguel 06/11/2023: Función para hacer el reporte diario y mostrar la información en el cierre de caja
         public async Task<int> ReporteDiario()
         {
             DateTime fechaActual = DateTime.Now.Date;
 
-            var reporteVentas = _context.Ventas
+            var reporteVentas = await _context.Ventas
                 .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == fechaActual)
-                .ToList();
+                .ToListAsync();
 
             int ventasDiarias = 0;
             foreach (var venta in reporteVentas)
