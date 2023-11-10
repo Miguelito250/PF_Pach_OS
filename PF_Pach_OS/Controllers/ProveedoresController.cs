@@ -66,7 +66,6 @@ namespace Pach_OS.Controllers
             {
                 if (proveedore.TipoDocumento == "NIT")
                 {
-                    // Lógica para crear un proveedor con NIT
                     var proveedorConNit = new Proveedore
                     {
                         Nit = proveedore.Nit,
@@ -81,10 +80,9 @@ namespace Pach_OS.Controllers
                 }
                 else if (proveedore.TipoDocumento == "Cédula")
                 {
-                    // Lógica para crear un proveedor con Cédula
                     var proveedorConCedula = new Proveedore
                     {
-                        Nit = proveedore.Nit, // Otra propiedad para Cédula
+                        Nit = proveedore.Nit, 
                         NomLocal = proveedore.NomLocal,
                         Direccion = proveedore.Direccion,
                         Telefono = proveedore.Telefono,
