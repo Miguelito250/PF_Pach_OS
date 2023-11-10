@@ -36,14 +36,17 @@
             });
         });
         // Restablecer el placeholder cuando se borre el contenido o se pierda el foco
-        searchInput.on('blur', function () {
-            if ($(this).val().trim() === '') {
-                $(this).addClass('empty');
-            }
-        });
+        $(document).ready(function () {
+            // Restablecer el placeholder cuando se borre el contenido o se pierda el foco
+            $('#searchInput').on('blur', function () {
+                if ($(this).val().trim() === '') {
+                    $(this).addClass('empty');
+                }
+            });
 
-        searchInput.on('focus', function () {
-            $(this).removeClass('empty');
+            $('#searchInput').on('focus', function () {
+                $(this).removeClass('empty');
+            });
         });
     });
 });

@@ -30,7 +30,6 @@ function EditarInsumo(event) {
 fomulario.addEventListener('submit', EditarInsumo);
 
 nomInsumoInput.addEventListener('input', function () {
-    console.log("wenps")
     validarNomInsumo();
 });
 
