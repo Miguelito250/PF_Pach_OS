@@ -18,7 +18,7 @@ namespace PF_Pach_OS.Controllers
 {
 
 
-    //[Authorize]
+    [Authorize]
     public class ProductosController : Controller
     {
         private readonly Pach_OSContext _context;
@@ -61,13 +61,13 @@ namespace PF_Pach_OS.Controllers
        
         public async Task<IActionResult> Index()
         {
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(3, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
 
             var pach_OSContext = await _context.Productos.Where(p => p.Estado != null). ToListAsync();
             var Vacios = await _context.Productos.Where(p=> p.Estado == null).ToListAsync();
@@ -146,13 +146,13 @@ namespace PF_Pach_OS.Controllers
 
         public IActionResult Detalles(int IdProducto)
         {
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(3, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             var producto_Original = _context.Productos.FirstOrDefault(p => p.IdProducto == IdProducto);
 
             if (producto_Original != null)
@@ -204,13 +204,13 @@ namespace PF_Pach_OS.Controllers
         //  Tambien se enivia la informacion de las categorias y tamaños en dos selects list 
         public IActionResult CrearInformacionFormulario(int IdProducto)
         {
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(3, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             ProductoActivo(IdProducto);
             var recetas = _context.Recetas.ToList();
             var insumos = _context.Insumos.ToList();
@@ -239,13 +239,13 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Crear([Bind("IdProducto")] Producto producto)
         {
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(3, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(producto);
@@ -270,13 +270,13 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Actualizar([Bind("IdProducto, NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
         {
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(3, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             int idPizza = 1;
             var insumo = _context.Recetas;
             bool existe = true;
@@ -324,13 +324,13 @@ namespace PF_Pach_OS.Controllers
         //Habilita un producto que este deshabilitado 
         public IActionResult Habilitar(int id)
         {
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(3, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             var producto = _context.Productos.Find(id);
             if (producto != null)
             {
@@ -344,13 +344,13 @@ namespace PF_Pach_OS.Controllers
         //Deshabilita un producto que este habilitado 
         public IActionResult Deshabilitar(int id)
         {
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(3, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             var producto = _context.Productos.Find(id);
             if (producto != null)
             {
@@ -364,13 +364,13 @@ namespace PF_Pach_OS.Controllers
         public IActionResult Informacin_Editar(int IdProducto)
         {
 
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(3, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             var producto_Original = _context.Productos.FirstOrDefault(p => p.IdProducto == IdProducto);
 
             if (producto_Original != null)
@@ -449,13 +449,13 @@ namespace PF_Pach_OS.Controllers
         [HttpPost]
         public IActionResult Interfaz(List<int> Actualizar_Id, List<int> Actualizar_Cantidad, List<int> Crear_id, List<int> Crear_Cantidad, int id_producto, List<int> Eliminar)
         {
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(3, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (Actualizar_Id != null && Actualizar_Cantidad != null)
             {
                 Actualizar_recetas(Actualizar_Id, Actualizar_Cantidad);
@@ -523,13 +523,13 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Actualizar_Producto([Bind("IdProducto, NomProducto,PrecioVenta,Estado,IdTamano,IdCategoria")] Producto producto)
         {
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(3, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             producto.Estado = 1;
             if (producto != null)
             {

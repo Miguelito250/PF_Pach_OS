@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +13,7 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
+    [Authorize]
     public class RolPermisosController : Controller
     {
         private readonly Pach_OSContext _context;
@@ -36,13 +38,13 @@ namespace PF_Pach_OS.Controllers
         // GET: RolPermisos
         public async Task<IActionResult> Index()
         {
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(7, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(7, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             var roles = _context.Roles.ToList();
             return View(roles);
         }
@@ -50,13 +52,13 @@ namespace PF_Pach_OS.Controllers
         // GET: RolPermisos/Details/5
         public  IActionResult Detalles(int? id)
         {
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(7, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(7, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (id == null || _context.RolPermisos == null)
             {
                 return NotFound();
@@ -85,13 +87,13 @@ namespace PF_Pach_OS.Controllers
         // GET: RolPermisos/Create
         public IActionResult Crear()
         {
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(7, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(7, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             var permisos = _context.Permisos.ToList();
 
 
@@ -163,13 +165,13 @@ namespace PF_Pach_OS.Controllers
         // GET: RolPermisos/Edit/5
         public IActionResult Editar(int? id)
         {
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(7, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(7, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (id == null || _context.RolPermisos == null)
             {
                 return NotFound();
@@ -235,13 +237,13 @@ namespace PF_Pach_OS.Controllers
         //Habilita un producto que este deshabilitado 
         public IActionResult Habilitar(int id)
         {
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(3, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
 
             var rol = _context.Roles.Find(id);
             var usuarios = _context.ApplicationUser.Where(p=> p.Id_Rol == rol.IdRol).ToList();
@@ -262,13 +264,13 @@ namespace PF_Pach_OS.Controllers
         //Deshabilita un producto que este habilitado 
         public IActionResult Deshabilitar(int id)
         {
-            //var user = User;
+            var user = User;
 
-            //bool tine_permiso = _permisosController.tinto(3, User);
-            //if (!tine_permiso)
-            //{
-            //    return RedirectToAction("AccesoDenegado", "Acceso");
-            //}
+            bool tine_permiso = _permisosController.tinto(3, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             var rol = _context.Roles.Find(id);
             var usuarios = _context.ApplicationUser.Where(p => p.Id_Rol == rol.IdRol).ToList();
             foreach (var ususario in usuarios)
