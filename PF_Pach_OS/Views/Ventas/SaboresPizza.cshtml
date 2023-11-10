@@ -58,24 +58,20 @@
     </form>
 </div>
 <script>
-
-    $('#TablaSabores').DataTable({
-        searching: true,
-        lengthChange: false,
-        info: false,
-        pageLength: 6,
-        filters: false,
-        "language": {
-            "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
-        }
+    $(document).ready(function () {
+        $('#TablaSabores').DataTable({
+            searching: true,
+            lengthChange: false,
+            info: false,
+            pageLength: 6,
+            filters: false,
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+            }
+        });
     });
-
-   
-
-
 </script>
 <script src="~/js/ventas/saborespizzas.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

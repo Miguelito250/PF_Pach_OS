@@ -41,17 +41,17 @@
                     <td>
                         @(Model.IdVentaNavigation.PagoDomicilio.HasValue
                             ? Model.IdVentaNavigation.PagoDomicilio.Value.ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
-                            : "Sin Precio")
+                            : "$ 0")
                     </td>
                     <td>
                         @(Model.IdVentaNavigation.Pago.HasValue
                             ? Model.IdVentaNavigation.Pago.Value.ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
-                            : "Sin Precio")
+                            : "$ 0")
                     </td>
                     <td>
                         @(ViewBag.Cambio != null && ViewBag.Cambio != 0
                             ? ((decimal)ViewBag.Cambio).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
-                            : "0")
+                            : "$ 0")
                     </td>
 
 
@@ -88,7 +88,7 @@
                             @(total.HasValue ? (total % 1 == 0
                                 ? ((decimal)total).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
                                 : ((decimal)total).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
-                                : "Sin Precio")
+                                : "$ 0")
                         </td>
                     </tr>
                 }
@@ -102,7 +102,7 @@
         <strong>
             Total: @(Model.IdVentaNavigation.TotalVenta.HasValue
             ? Model.IdVentaNavigation.TotalVenta.Value.ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
-            : "Sin Precio")
+            : "$ 0")
         </strong>
     </span>
 </div>
@@ -119,10 +119,5 @@
                 "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
             }
         });
-
-        // Contar las filas de la tabla
-        var ContadorFilas = $('#TablaDetalles tbody tr').length;
-        console.log('Número de filas en la tabla: ' + ContadorFilas);
     });
-
 </script>
