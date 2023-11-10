@@ -1,11 +1,21 @@
 ﻿var idPizza = 1;
-
+var Nuevas_Recetas_ID = [];
+var Nuevas_Recetas_Cant = [];
+var Id_Producto;
+var Recetas_Actualizadas_ID = [];
+var Recetas_Actualizadas_Cant = [];
+var Eliminar_Receta = [];
 $(document).ready(function () {
     var tamano = $('#Producto_IdCategoria').val();
-    if (tamano.value == idPizza) {
+    if (tamano == idPizza) {
 
         MostrarCampoOculto();
     }
+    function MostrarCampoOculto() {
+        var campoOculto = document.getElementById('Tamano_Oculto');
+        campoOculto.classList.remove('d-none')
+    }
+
 })
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -51,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //Escuchadores para productos
     formulario_producto.addEventListener('submit', EnvioProducto)
-    var nombre = nombre.addEventListener('input', ValidarNombre)
+    nombre.addEventListener('input', ValidarNombre)
     precio.addEventListener('input', ValidarPrecio)
     categoria.addEventListener('change', ValidarCategoria)
     tamano.addEventListener('change', ValidarTamano)
@@ -163,7 +173,13 @@ document.addEventListener('DOMContentLoaded', function () {
     function EnvioProducto(event) {
         event.preventDefault();
         InterfazProducto();
-        if (formulario_producto.checkValidity()) {
+        if (formulario_producto.checkValidity()
+            && !nombre.classList.contains('is-invalid')
+            && !precio.classList.contains('is-invalid')
+            && !categoria.classList.contains('is-invalid')
+            && !tamano.classList.contains('is-invalid')
+            
+        ) {
             const tablaReceta = document.querySelector('#Tabla1');
             if (tablaReceta.rows.length < 1) {
                 // Mostrar la SweetAlert de error
@@ -222,7 +238,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     cancelButtonText: 'No, volver'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Si el usuario confirma, redirigir a la función "Delete" en el controlador de ventas
+                        Nuevas_Recetas_ID.splice(0, Nuevas_Recetas_ID.length) ;
+                        Nuevas_Recetas_Cant.splice(0, Nuevas_Recetas_Cant.length);
+                        
+                        Recetas_Actualizadas_ID.splice(0, Recetas_Actualizadas_ID.length);
+                        Recetas_Actualizadas_Cant.splice(0, Recetas_Actualizadas_Cant.length);
+
+                        Eliminar_Receta.splice(0, Eliminar_Receta.length);
                         window.location.href = cancelarBtn.getAttribute('href');
                     }
                 });
@@ -231,28 +253,25 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     enlacesMenu.forEach(enlace => {
         enlace.addEventListener('click', e => {
-
+            console.log(enlace)
             e.preventDefault();
 
-            if (DetallesSinConfirmar()) {
-                Swal.fire({
-                    title: 'Advertencia',
-                    text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Sí, salir',
-                    cancelButtonText: 'Cancelar'
-                }).then(result => {
-                    if (result.isConfirmed) {
-                        EliminarDetalles();
+            Swal.fire({
+                title: 'Advertencia',
+                text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, salir',
+                cancelButtonText: 'Cancelar'
+            }).then(result => {
+                if (result.isConfirmed) {
 
-                        window.location.href = e.target.href;
 
-                    }
-                });
-            } else {
-                window.location.href = e.target.href;
-            }
+                    window.location.href = e.target.href;
+
+                }
+            });
+
         });
     });
 });
@@ -309,12 +328,7 @@ function EnvioReceta(event) {
     ValidarInsumo();
     ValidarCantInsumo();
 }
-var Nuevas_Recetas_ID = [];
-var Nuevas_Recetas_Cant = [];
-var Id_Producto;
-var Recetas_Actualizadas_ID = [];
-var Recetas_Actualizadas_Cant = [];
-var Eliminar_Receta = [];
+
 
 document.getElementById("Formurario_Modal").addEventListener("submit", function (event) {
 

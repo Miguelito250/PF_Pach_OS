@@ -1,0 +1,68 @@
+﻿@media only screen and (max-width: 540px) {
+    .modulos {
+        position: relative;
+        left: -4vh;
+        height: auto !important;
+        display: grid;
+        grid-column: auto;
+    }
+
+    .col-4 {
+        width: 200vw !important;
+        margin-left: 3rem !important;
+    }
+
+
+
+    .container {
+        width: 200px;
+    }
+
+    #miFormulario input,
+    #miFormulario select {
+        margin: 5px;
+        margin-right: 0 !important;
+    }
+
+    #miFormulario input {
+        width: auto !important;
+    }
+
+    #miFormulario select {
+        width: 50vw !important;
+    }
+
+    #miFormulario {
+        width: 20vw !important;
+        display: grid !important;
+        grid-template-rows: repeat(3, auto) !important;
+    }
+
+    .DetallesRecetas {
+        width: min-content !important;
+        margin-right: 3rem !important;
+    }
+
+    .tituloRecetas {
+        width: 50vw !important;
+    }
+
+    .col-lg-12 .mt-4 .bg-white .overflow-scroll .DetallesRecetas {
+        width: min-content !important;
+    }
+
+    .col-lg-6 .col-md-4 .mr-2 .ml-5 .mt-4 {
+        width: 200px !important
+    }
+
+    .table td, .table th {
+        padding: 5px;
+    }
+
+        .table td a {
+            margin: 2px; 
+            margin: auto !important;
+
+        }
+
+}

@@ -44,6 +44,23 @@ $(document).ready(function () {
         } else {
             nombreRol.classList.add('is-valid')
         }
+        $.ajax({
+            type: 'GET',
+            url: '/RolPermisos/NombreDuplicado',
+            data: { Nombre: ValorNombre },
+            success: function (result) {
+                if (result === true) {
+                    nombreRol.classList.add('is-invalid');
+                    Mensaje_nombre.textContent = 'No se puede repetir el nombre.';
+                } else {
+                    nombreRol.classList.add('is-valid');
+                }
+            },
+            error: function () {
+                // Manejo de errores si la solicitud falla
+                console.log('Error en la solicitud AJAX');
+            }
+        });
     }
 
     nombreRol.addEventListener('input', ValidarNombre)

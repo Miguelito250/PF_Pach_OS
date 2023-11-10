@@ -11,6 +11,18 @@
 
 
     });
+    $(document).on("click", "#Detalle-rol", function () {
+
+        var modalBody = $("#modal-body");
+        var idRol = $(this).data("id");
+        var url = "/RolPermisos/Detalles?id=" + idRol;
+        modalBody.empty();
+        modalBody.load(url);
+        
+        recargar = false;
+
+
+    });
     $(document).on("click", "#Editar-rol", function () {
 
         var modalBody = $("#modal-body");

@@ -20,7 +20,7 @@
 
             <th>Nombre</th>
             <th>@Html.DisplayNameFor(model => model.Email)</th>
-            <th>@Html.DisplayNameFor(model => model.Id_Rol)</th>
+            <th>Rol</th>
             <th>Acciones</th>
 
         </tr>
@@ -53,17 +53,19 @@
 
                 <td>
                     <a id="DetalleUsuario" data-id="@item.Id" data-toggle="modal" data-target="#Modal">
-                        Detalles
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="orange" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                        </svg>
                     </a>
                     @if (item.State == 1)
                     {
-                        <a asp-action="Edit" asp-route-id="@item.Id">
+                        <a id="Edirar" asp-action="Edit" asp-route-id="@item.Id">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="orange" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                             </svg>
                         </a>
-                        <a asp-action="Deshabilitar" asp-route-id="@item.Id" class="btn btn-link">
+                        <a id="Deshabilitar" asp-action="Deshabilitar" asp-route-id="@item.Id">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-circle-fill" viewBox="0 0 16 16">
                                 <circle cx="8" cy="8" r="8" />
                             </svg>
@@ -71,13 +73,13 @@
                     }
                     else
                     {
-                        <a href="#" class="disabled">
+                        <a href="#" id="Edirar" class="disabled">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="orange" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                             </svg>
                         </a>
-                        <a asp-action="Habilitar" asp-route-id="@item.Id" class="btn btn-link">
+                        <a id="Habilitar" asp-action="Habilitar" asp-route-id="@item.Id">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill" viewBox="0 0 16 16">
                                 <circle cx="8" cy="8" r="8" />
                             </svg>
@@ -94,18 +96,22 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-
+                <h4 id="titulo-modal">
+                    <strong>Detalles Usuario</strong>
+                </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body" id="modal-body">
-                Cargando Venta...
+                Cargando Detalle...
             </div>
         </div>
     </div>
 
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src="~/js/usuarios/index.js"></script>

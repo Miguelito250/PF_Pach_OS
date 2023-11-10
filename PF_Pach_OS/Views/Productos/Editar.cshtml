@@ -6,10 +6,10 @@
 
 }
 <link href="~/css/productos.css" rel="stylesheet" />
+<link href="~/css/productos/crear.css" rel="stylesheet" />
+<div class="row d-flex pl-2 pt-2">
 
-<div class="row pl-2 pt-2">
-
-    <div class="col-4 ml-3 p-2 bg-white rounded border px-4 py-4">
+    <div class="col-4  ml-3 p-2 bg-white rounded border px-4 py-4">
         <form method="post" asp-action="Actualizar_Producto" asp-controller="Productos" class="needs-validation" novalidate id="formulario1">
             <h2>Producto</h2>
             <hr>
@@ -17,7 +17,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.IdProducto" />
             <div class="form-group">
-                <label class="form-label">Producto</label>
+                <label class="form-label">Producto * </label>
                 @if (ViewBag.ProductoActivo == null)
                 {
                     <input asp-for="Producto.NomProducto" id="Nombre" class="form-control" title=" " required />
@@ -31,7 +31,7 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Producto.PrecioVenta" class="form-label">Precio</label>
+                <label asp-for="Producto.PrecioVenta" class="form-label">Precio * </label>
 
                 @if (ViewBag.ProductoActivo == null)
                 {
@@ -48,7 +48,7 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Producto.IdCategoria" class="form-label">Categoria</label>
+                <label asp-for="Producto.IdCategoria" class="form-label">Categoria * </label>
                 <select class="form-select" id="Producto_IdCategoria" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria" required>
                     @if (ViewBag.SelectCategoriaID == null)
                     {
@@ -65,7 +65,7 @@
             </div>
 
             <div id="Tamano_Oculto" class="d-none form-group">
-                <label asp-for="Producto.IdTamano"  class="form-label">Tamaño</label>
+                <label asp-for="Producto.IdTamano" class="form-label">Tamaño * </label>
                 <select class="form-select" id="tamano" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
                     @if (ViewBag.SelectTamanoID == null)
                     {
@@ -90,9 +90,9 @@
 
 
     </div>
-    <div class="col-6 mr-2 ml-5 mt-4">
+    <div class="col-lg-6 col-md-2 mr-2 ml-5 mt-4">
         <div>
-            <h2>Receta</h2>
+            <h2 class="tituloRecetas">Receta</h2>
 
             <form id="miFormulario" class="row" novalidate>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -106,7 +106,7 @@
 
                 <div class="col-6">
                     <select class="form-control" id="insumo" asp-for="Receta.IdInsumo" required>
-                        <option value="" disabled selected>Seleccione un insumo</option>
+                        <option value="" disabled selected>Seleccione un insumo * </option>
                         @foreach (var insu in ViewBag.Insumo)
                         {
                             <option value="@insu.IdInsumo"> @insu.NomInsumo / @insu.Medida </option>
@@ -117,7 +117,7 @@
                 </div>
 
                 <div class="col-3">
-                    <input class="input-campo form-control" id="CantidadInsumo" asp-for="Receta.CantInsumo" type="number" placeholder="Cantidad" required>
+                    <input class="input-campo form-control" id="CantidadInsumo" asp-for="Receta.CantInsumo" type="number" placeholder="Cantidad  * " required>
                     <div class="invalid-feedback"></div>
                     <div id="mensaje_Cantinsumo" class="invalid-feedback"></div>
                 </div>
@@ -128,7 +128,7 @@
                 
             </form>
         </div>
-        <div class="mt-4 bg-white overflow-scroll">
+        <div class="col-lg-12 mt-3 bg-white DetallesRecetas" style="max-height: 26rem; overflow-y: auto;">
             <div>
                 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="orange" class="bi bi-arrow-down-right-square" viewBox="0 0 16 16">
