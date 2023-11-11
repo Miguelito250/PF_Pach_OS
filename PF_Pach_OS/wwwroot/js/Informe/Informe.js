@@ -20,8 +20,8 @@ $(document).ready(function () {
                         datasets: [{
                             label: 'Ventas',
                             data: ventasMensuales,
-                            backgroundColor: '#003f5c',
-                            borderColor: '#003f5c',
+                            backgroundColor: '#FF9200',
+                            borderColor: '#FF9200',
                             borderWidth: 1
                         }, {
                             label: 'Compras',
@@ -59,11 +59,15 @@ $(document).ready(function () {
         type: 'GET',
         dataType: 'json',
         success: function (totalComprasMes) {
-            console.log('Compras mensuales:', totalComprasMes);
+            console.log('Valor total de compras (antes del formateo):', totalComprasMes);
+
             if (!isNaN(totalComprasMes)) {
-                $('#totalCompras').text('$' + totalComprasMes.toFixed(2));
+                var totalVentasFormateado = totalComprasMes.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+                console.log('Valor total de compras (después del formateo):', totalVentasFormateado);
+
+                $('#totalCompras').text(totalComprasFormateado);
             } else {
-                $('#totalCompras').text('$0.00'); 
+                $('#totalCompras').text('COP$0.00');
             }
         },
         error: function () {
@@ -71,6 +75,7 @@ $(document).ready(function () {
         }
     });
 });
+
 //Funcion para obtener las diferencia del mes anterior
 $(document).ready(function () {
     $.ajax({
@@ -81,20 +86,27 @@ $(document).ready(function () {
             console.log('Diferencia desde ventas desde el mes anterior:', data.diferencia);
 
             var diferenciaSpan = $('#diferenciaVentasMesAnterior');
+            var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+
+            var diferenciaFormateada = formatoColombiano.format(data.diferencia);
 
             if (data.aumentoODisminucion === "aumento") {
-                diferenciaSpan.text(data.diferencia.toFixed(2) + ' (↑ Aumento)');
+                diferenciaSpan.addClass('text-success').removeClass('text-danger');
             } else if (data.aumentoODisminucion === "disminución") {
-                diferenciaSpan.text(data.diferencia.toFixed(2) + ' (↓ Disminución)');
+                diferenciaSpan.addClass('text-danger').removeClass('text-success');
             } else {
-                diferenciaSpan.text(data.diferencia.toFixed(2) + ' (Sin cambios)');
+                diferenciaSpan.removeClass('text-success text-danger');
             }
+
+            diferenciaSpan.text(diferenciaFormateada + ' (' + data.aumentoODisminucion.charAt(0).toUpperCase() + data.aumentoODisminucion.slice(1) + ')');
         },
         error: function () {
             alert('Error al cargar la diferencia de ventas desde el mes anterior.');
         }
     });
 });
+
+
 //Funcion para tener las ventas del dia
 $(document).ready(function () {
     $("#fechaSeleccionada").change(function () {
@@ -167,7 +179,7 @@ document.getElementById('generarInforme').addEventListener('click', function () 
 
     xhr.send();
 });
-
+//Obtenemos las ventas anuales
 $(document).ready(function () {
     $.ajax({
         url: '/Estadisticas/ObtenerTotalVentasAnuales',
@@ -175,8 +187,12 @@ $(document).ready(function () {
         dataType: 'json',
         success: function (totalVentasAnuales) {
             console.log('Total de ventas anuales:', totalVentasAnuales);
-            $('#totalVentasAnuales').text('$' + totalVentasAnuales.toFixed(2));
-            $('#celdainsumos').text('$' + totalVentasAnuales.toFixed(2));
+            var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+            var cambioFormateado = formatoColombiano.format(totalVentasAnuales);
+            cambioFormateado = cambioFormateado.slice(0, -3);
+            console.log("Cambio formateado:"+cambioFormateado)
+            $('#totalVentasAnuales').text('' + cambioFormateado);
+            $('#celdainsumos').text('' + cambioFormateado);
 
             $.ajax({
                 url: '/Estadisticas/ObtenerTotalComprasAnuales',
@@ -184,10 +200,15 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (totalComprasAnuales) {
                     console.log('Total de compras anuales:', totalComprasAnuales);
-                    $('#totalComprasAnuales').text('$' + totalComprasAnuales.toFixed(2));
+                    var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+                    var cambioFormateado = formatoColombiano.format(totalComprasAnuales);
+                    cambioFormateado = cambioFormateado.slice(0, -3);
+                    $('#totalComprasAnuales').text('' + cambioFormateado);
                     var diferencia = totalVentasAnuales - totalComprasAnuales;
                     console.log(diferencia)
-                    $('#diferenciaVentasCompras').text('$' + diferencia.toFixed(2));
+                    var diferenciaFormateada = formatoColombiano.format(diferencia);
+                    diferenciaFormateada = diferenciaFormateada.slice(0, -3);
+                    $('#diferenciaVentasCompras').text('' + diferenciaFormateada);
                 },
                 error: function () {
                     alert('Error al cargar el total de compras anuales.');
@@ -199,6 +220,7 @@ $(document).ready(function () {
         }
     });
 });
+//Descargamos los informes
 $(document).ready(function () {
     $('#generarInforme').on('click', function () {
         var tipoInforme = $('#tipoInforme').val();
@@ -259,8 +281,12 @@ $(document).ready(function () {
             success: function (data) {
                 console.log("Datos transferencias: ")
                 console.log(data)
+                var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+                total = data.pagosTransferencias;
+                var cambioFormateado = formatoColombiano.format(data.totalTransferencias);
+                cambioFormateado = cambioFormateado.slice(0, -3);
                 $('#celdaPagosTransferencias').text(data.pagosTransferencias);
-                $('#totalTransferencias').text('$' + (data.totalTransferencias || 0).toFixed(2));
+                $('#totalTransferencias').text('' + cambioFormateado);
             },
             error: function (error) {
                 console.error('Error al obtener los datos de transferencias:', error);
@@ -278,7 +304,6 @@ $(document).ready(function () {
     $("#btnEliminarVentas").click(function () {
         console.log("Botón presionado");
 
-        // Mostrar SweetAlert para confirmar
         Swal.fire({
             title: '¿Estás seguro?',
             text: '¡Esto eliminará todas las ventas?',
@@ -290,35 +315,32 @@ $(document).ready(function () {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Llamada AJAX para eliminar ventas
                 $.ajax({
                     type: "POST",
                     url: "/Estadisticas/EliminarTodasLasVentas",
                     success: function (response) {
                         console.log("Éxito en la llamada AJAX");
-                        console.log(response); // Puedes agregar esto para ver la respuesta del servidor
+                        console.log(response); 
                         Swal.fire({
                             title: '¡Eliminadas!',
                             text: 'Todas las ventas han sido eliminadas.',
                             icon: 'success',
-                            timer: 2000, // Tiempo en milisegundos (2 segundos en este caso)
+                            timer: 2500, 
                             showConfirmButton: false
                         }).then(() => {
-                            // Recargar la página después del temporizador
                             window.location.href = window.location.href;
                         });
                     },
                     error: function (error) {
                         console.log("Error en la llamada AJAX");
-                        console.log(error); // Puedes agregar esto para ver detalles del error
+                        console.log(error); 
                         Swal.fire({
                             title: 'Error',
                             text: 'Hubo un problema al eliminar las ventas.',
                             icon: 'error',
-                            timer: 2000, // Tiempo en milisegundos (2 segundos en este caso)
+                            timer: 2500, 
                             showConfirmButton: false
                         }).then(() => {
-                            // Recargar la página después del temporizador
                             window.location.href = window.location.href;
                         });
                     }

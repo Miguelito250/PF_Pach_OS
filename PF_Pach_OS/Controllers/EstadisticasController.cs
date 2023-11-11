@@ -167,6 +167,7 @@ namespace PF_Pach_OS.Controllers {
 
             return datosVentas;
         }
+        //Descargamos el pdf con los datos de las ventas
         [HttpGet]
         public ActionResult ObtenerVentas(string fechaSeleccionada, string tipoInforme)
         {
@@ -251,7 +252,7 @@ namespace PF_Pach_OS.Controllers {
                                 BaseColor colorGris = new BaseColor(0xFF, 0xFC, 0xC4);
                                 BaseColor colorBlanco = BaseColor.WHITE;
 
-                                // Etiqueta de la semana
+
                                 PdfPCell semanaCell = new PdfPCell(new Phrase("Semana " + semanaActual, titulo_tablas));
                                 semanaCell.Colspan = 7;
                                 semanaCell.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -403,7 +404,7 @@ namespace PF_Pach_OS.Controllers {
         }
 
 
-
+        //obtenemos los productos mas vendidos
         [HttpGet]
         public IActionResult ObtenerProductosMasVendidos()
         {
@@ -419,6 +420,7 @@ namespace PF_Pach_OS.Controllers {
 
             return Json(productosMasVendidos);
         }
+        //obtenemos los productos menos vendidos
 
         [HttpGet]
         public IActionResult ObtenerProductosMenosVendidos()
@@ -435,6 +437,7 @@ namespace PF_Pach_OS.Controllers {
 
             return Json(productosMenosVendidos);
         }
+        //Eliminamos las ventas 
         [HttpPost]
         public IActionResult EliminarTodasLasVentas()
         {
@@ -456,24 +459,20 @@ namespace PF_Pach_OS.Controllers {
             }
             catch (Exception ex)
             {
-                // Log del error o manejo según tus necesidades
                 return StatusCode(500, new { Message = "Error al intentar eliminar las ventas." });
 
             }
         }
+        //obtenemos las transferencias para insertalar en las tablas
         [HttpGet]
         public IActionResult ObtenerDatosTransferencias()
         {
-            // Consulta para obtener la cantidad de pagos con transferencias
             var pagosTransferencias = _context.Ventas
                 .Count(v => v.TipoPago == "Transferencia");
 
-            // Consulta para obtener el total de transferencias
             var totalTransferencias = _context.Ventas
                 .Where(v => v.TipoPago == "Transferencia")
                 .Sum(v => v.TotalVenta);
-
-            // Puedes retornar estos valores como un objeto JSON o de la manera que prefieras
             return Json(new
             {
                 PagosTransferencias = pagosTransferencias,

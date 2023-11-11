@@ -114,19 +114,29 @@ select {
 }
 
 .fixed-button-container {
-    top: 20px; /* Ajusta según sea necesario para la posición vertical */
+    top: 20px; 
     right: 20px;
 }
 .body {
-    padding-top: 20px; /* Ajusta según sea necesario para dejar espacio para el botón */
+    padding-top: 20px; 
 }
 .btn-primary {
-    position:relative;
-    margin-top:10px;
+    top: -55px !important;
+    position: relative;
+    margin-top: 10px;
     background: linear-gradient(180deg, #FF9200 2.08%, #8D5F20 100%);
     right: -200px !important;
     border: none !important;
 }
+.text-custom {
+    text-align: center;
+    background-color: #fff4cc;
+    border: solid;
+}
+.table-con-margin {
+    margin-bottom: 60px; 
+}
+
 
 
 
