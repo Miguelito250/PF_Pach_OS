@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
         enlace.addEventListener('click', e => {
             console.log(enlace)
             e.preventDefault();
-
+            var href = e.currentTarget.href;
             Swal.fire({
                 title: 'Advertencia',
                 text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (result.isConfirmed) {
 
 
-                    window.location.href = e.target.href;
+                    window.location.href = href;
 
                 }
             });
