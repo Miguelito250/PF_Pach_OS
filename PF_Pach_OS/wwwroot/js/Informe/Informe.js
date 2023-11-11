@@ -1,58 +1,82 @@
 ﻿
-var obtenerTotalVentasUrl = '@Url.Action("ObtenerTotalVentas", "EstadisticasController")';
-    $(document).ready(function () {
-        $.ajax({
-            url: '/Estadisticas/ObtenerVentasMensuales',
-            type: 'GET',
-            dataType: 'json',
-            success: function (ventasMensuales) {
-                console.log('Datos de ventas mensuales:', ventasMensuales);
-
-                var labels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                var datosVentas = {
-                    labels: labels.slice(0, ventasMensuales.length),
-                    datasets: [{
-                        label: 'Ventas',
-                        data: ventasMensuales,
-                        backgroundColor: '#FF9200',
-                        borderColor: '#FF9200',
-                        borderWidth: 1
-                    }]
-                };
-
-                var ctx = document.getElementById('sales-chart').getContext('2d');
-                var salesChart = new Chart(ctx, {
-                    type: 'line',
-                    data: datosVentas,
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-            },
-            error: function () {
-                alert('Error al cargar los datos de ventas mensuales.');
-            }
-        });
-    });
-
 $(document).ready(function () {
     $.ajax({
-        url: '/Estadisticas/ObtenerTotalVentasAnuales',
+        url: '/Estadisticas/ObtenerVentasMensuales',
         type: 'GET',
         dataType: 'json',
-        success: function (totalVentasAnuales) {
-            console.log('Total de ventas anuales:', totalVentasAnuales);
+        success: function (ventasMensuales) {
+            console.log('Datos de ventas mensuales:', ventasMensuales);
 
+            $.ajax({
+                url: '/Estadisticas/ObtenerComprasMensuales', 
+                type: 'GET',
+                dataType: 'json',
+                success: function (comprasMensuales) {
+                    console.log('Datos de compras mensuales:', comprasMensuales);
 
-            $('#totalVentasAnuales').text('$' + totalVentasAnuales.toFixed(2)); 
+                    var labels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                    var datosVentas = {
+                        labels: labels.slice(0, ventasMensuales.length),
+                        datasets: [{
+                            label: 'Ventas',
+                            data: ventasMensuales,
+                            backgroundColor: '#FF9200',
+                            borderColor: '#FF9200',
+                            borderWidth: 1
+                        }, {
+                            label: 'Compras',
+                            data: comprasMensuales,
+                            backgroundColor: '#ff6361', 
+                            borderColor: '#ff6361',
+                            borderWidth: 1
+                        }]
+                    };
+
+                    var ctx = document.getElementById('sales-chart').getContext('2d');
+                    var salesChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: datosVentas,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                },
+                error: function () {
+                    alert('Error al cargar los datos de compras mensuales.');
+                }
+            });
         },
         error: function () {
-            alert('Error al cargar el total de ventas anuales.');
+            alert('Error al cargar los datos de ventas mensuales.');
+        }
+    });
+});
+//Obtenemos las compras mensuales 
+$(document).ready(function () {
+    $.ajax({
+        url: '/Estadisticas/ObtenerComprasMensuales',
+        type: 'GET',
+        dataType: 'json',
+        success: function (totalComprasMes) {
+            console.log('Valor total de compras (antes del formateo):', totalComprasMes);
+
+            if (!isNaN(totalComprasMes)) {
+                var totalVentasFormateado = totalComprasMes.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+                console.log('Valor total de compras (después del formateo):', totalVentasFormateado);
+
+                $('#totalCompras').text(totalComprasFormateado);
+            } else {
+                $('#totalCompras').text('COP$0.00');
+            }
+        },
+        error: function () {
+            alert('Error al cargar los datos de compras mensuales.');
         }
     });
 });
 
+//Funcion para obtener las diferencia del mes anterior
 $(document).ready(function () {
     $.ajax({
         url: '/Estadisticas/ObtenerDiferenciaVentasMesAnterior',
@@ -62,26 +86,32 @@ $(document).ready(function () {
             console.log('Diferencia desde ventas desde el mes anterior:', data.diferencia);
 
             var diferenciaSpan = $('#diferenciaVentasMesAnterior');
+            var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+
+            var diferenciaFormateada = formatoColombiano.format(data.diferencia);
 
             if (data.aumentoODisminucion === "aumento") {
-                diferenciaSpan.text(data.diferencia.toFixed(2) + ' (↑ Aumento)');
+                diferenciaSpan.addClass('text-success').removeClass('text-danger');
             } else if (data.aumentoODisminucion === "disminución") {
-                diferenciaSpan.text(data.diferencia.toFixed(2) + ' (↓ Disminución)');
+                diferenciaSpan.addClass('text-danger').removeClass('text-success');
             } else {
-                diferenciaSpan.text(data.diferencia.toFixed(2) + ' (Sin cambios)');
+                diferenciaSpan.removeClass('text-success text-danger');
             }
+
+            diferenciaSpan.text(diferenciaFormateada + ' (' + data.aumentoODisminucion.charAt(0).toUpperCase() + data.aumentoODisminucion.slice(1) + ')');
         },
         error: function () {
             alert('Error al cargar la diferencia de ventas desde el mes anterior.');
         }
     });
 });
+
+
+//Funcion para tener las ventas del dia
 $(document).ready(function () {
-    // Escucha el evento de cambio en el campo de fecha
     $("#fechaSeleccionada").change(function () {
         var fechaSeleccionada = $(this).val();
 
-        // Realiza una solicitud AJAX para cargar las ventas del día seleccionado
         $.ajax({
             url: '/Estadisticas/ObtenerVentasPorDia',
             type: 'GET',
@@ -89,7 +119,6 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (ventasDelDia) {
                 console.log(ventasDelDia)
-                // Muestra las ventas en la vista, por ejemplo, en un div.
                 $('#ventasDelDia').html('Ventas para ' + fechaSeleccionada + ': $' + ventasDelDia.toFixed(2));
             },
             error: function () {
@@ -98,25 +127,8 @@ $(document).ready(function () {
         });
     });
 });
-//$(document).ready(function () {
-//    $.ajax({
-//        url: '/Estadisticas/ObtenerProductosMasYMenosVendidos',
-//        type: 'GET',
-//        dataType: 'json',
-//        success: function (data) {
-//            // Llenar la tabla con los datos
-//            var masVendidoRow = '<tr><td>' + data.MasVendido.Producto + '</td><td>' + data.MasVendido.Precio + '</td><td>' + data.MasVendido.CantVendida + '</td><td>Más Vendido</td></tr>';
-//            var menosVendidoRow = '<tr><td>' + data.MenosVendido.Producto + '</td><td>' + data.MenosVendido.Precio + '</td><td>' + data.MenosVendido.CantVendida + '</td><td>Menos Vendido</td></tr>';
 
-//            // Agregar las filas a la tabla
-//            $('#tablaProductos tbody').append(masVendidoRow);
-//            $('#tablaProductos tbody').append(menosVendidoRow);
-//        },
-//        error: function () {
-//            alert('Error al cargar los datos de productos más y menos vendidos.');
-//        }
-//    });
-//});
+//FUncion para generar el informe
 document.getElementById('generarInforme').addEventListener('click', function () {
     var tipoInforme = document.getElementById('tipoInforme').value;
     console.log('Tipo de Informe: ' + tipoInforme);
@@ -133,8 +145,6 @@ document.getElementById('generarInforme').addEventListener('click', function () 
     }
 
     console.log('Fecha seleccionada: ' + fechaSeleccionada);
-
-    // Realiza una solicitud AJAX para obtener los datos de ventas
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/Estadisticas/ObtenerVentas?fechaSeleccionada=' + fechaSeleccionada + '&tipoInforme=' + tipoInforme, true);
     xhr.responseType = 'json';
@@ -156,53 +166,251 @@ document.getElementById('generarInforme').addEventListener('click', function () 
                     link.download = 'InformeVentas.pdf';
                     link.click();
                 } else {
-                    alert('Error al generar el informe.');
+                    swal('Error', 'Error al generar el informe.', 'error');
                 }
             };
 
             xhrPdf.send();
         } else if (xhr.status === 400) {
-            alert('No se encontraron ventas en el rango seleccionado');
         }
         else {
-            alert('Error al obtener los datos de ventas. Seleccione una fecha valida');
         }
     };
 
     xhr.send();
 });
+//Obtenemos las ventas anuales
+$(document).ready(function () {
+    $.ajax({
+        url: '/Estadisticas/ObtenerTotalVentasAnuales',
+        type: 'GET',
+        dataType: 'json',
+        success: function (totalVentasAnuales) {
+            console.log('Total de ventas anuales:', totalVentasAnuales);
+            var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+            var cambioFormateado = formatoColombiano.format(totalVentasAnuales);
+            cambioFormateado = cambioFormateado.slice(0, -3);
+            console.log("Cambio formateado:"+cambioFormateado)
+            $('#totalVentasAnuales').text('' + cambioFormateado);
+            $('#celdainsumos').text('' + cambioFormateado);
 
-
-
-
-// Escucha el evento "change" del campo de entrada de fecha
-document.getElementById('fechaSeleccionada').addEventListener('change', function () {
-    // Obten la fecha seleccionada (asegúrate de que tengas la fecha en el formato adecuado)
-    var fechaSeleccionada = document.getElementById('fechaSeleccionada').value;
-
-    // Realiza una solicitud AJAX para obtener los datos
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/Estadisticas/ObtenerVentas?fechaSeleccionada=' + fechaSeleccionada, true);
-    xhr.responseType = 'json'; // Indica que esperas una respuesta JSON
-
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            var data = xhr.response;
-            console.log('Total de Ventas: ' + data.TotalVentas);
-
-            // Imprime las ventas individuales
-            data.VentasIndividuales.forEach(function (venta) {
-                console.log('ID Venta: ' + venta.IdVenta);
-                console.log('Fecha Venta: ' + venta.FechaVenta);
-                console.log('Monto Total: ' + venta.TotalVenta);
+            $.ajax({
+                url: '/Estadisticas/ObtenerTotalComprasAnuales',
+                type: 'GET',
+                dataType: 'json',
+                success: function (totalComprasAnuales) {
+                    console.log('Total de compras anuales:', totalComprasAnuales);
+                    var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+                    var cambioFormateado = formatoColombiano.format(totalComprasAnuales);
+                    cambioFormateado = cambioFormateado.slice(0, -3);
+                    $('#totalComprasAnuales').text('' + cambioFormateado);
+                    var diferencia = totalVentasAnuales - totalComprasAnuales;
+                    console.log(diferencia)
+                    var diferenciaFormateada = formatoColombiano.format(diferencia);
+                    diferenciaFormateada = diferenciaFormateada.slice(0, -3);
+                    $('#diferenciaVentasCompras').text('' + diferenciaFormateada);
+                },
+                error: function () {
+                    alert('Error al cargar el total de compras anuales.');
+                }
             });
-        } else {
-            console.log('Error al obtener los datos de ventas.');
+        },
+        error: function () {
+            alert('Error al cargar el total de ventas anuales.');
         }
-    };
-
-    xhr.send();
+    });
 });
+//Descargamos los informes
+$(document).ready(function () {
+    $('#generarInforme').on('click', function () {
+        var tipoInforme = $('#tipoInforme').val();
+
+        var fechaSeleccionada;
+        if (tipoInforme === 'mensual') {
+            var mes = $('#mes').val();
+            var anio = $('#anio').val();
+            fechaSeleccionada = anio + '-' + mes;
+        } else {
+            fechaSeleccionada = $('#anio').val();
+        }
+        console.log('Tipo de informe:', tipoInforme);
+        console.log('Fecha seleccionada:', fechaSeleccionada);
+        $.ajax({
+            url: '/Estadisticas/ObtenerVentas',
+            type: 'GET',
+            data: { fechaSeleccionada: fechaSeleccionada, tipoInforme: tipoInforme },
+            success: function (data) {
+                if (data.error) {
+                    mostrarErrorSweetAlert();
+                } else {
+                    mostrarSweetAlert();
+                }
+            },
+            error: function () {
+                mostrarErrorSweetAlert();
+            }
+        });
+    });
+
+    function mostrarErrorSweetAlert(mensaje) {
+        Swal.fire({
+            title: 'Seleccione Fecha Valida, no existen ventas',
+            text: mensaje,
+            icon: 'error',
+            timer: 2500,
+            showConfirmButton: true
+        });
+    }
+
+    function mostrarSweetAlert() {
+        Swal.fire({
+            title: 'Informe generado',
+            text: 'El informe se ha generado exitosamente.',
+            icon: 'success',
+            timer: 2500,
+            showConfirmButton: true
+        });
+    }
+});
+$(document).ready(function () {
+    function obtenerDatosTransferencias() {
+        $.ajax({
+            url: '/Estadisticas/ObtenerDatosTransferencias', 
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log("Datos transferencias: ")
+                console.log(data)
+                var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+                total = data.pagosTransferencias;
+                var cambioFormateado = formatoColombiano.format(data.totalTransferencias);
+                cambioFormateado = cambioFormateado.slice(0, -3);
+                $('#celdaPagosTransferencias').text(data.pagosTransferencias);
+                $('#totalTransferencias').text('' + cambioFormateado);
+            },
+            error: function (error) {
+                console.error('Error al obtener los datos de transferencias:', error);
+            }
+        });
+    }
+
+    obtenerDatosTransferencias();
+
+    $('#btnEliminarVentas').click(function () {
+        obtenerDatosTransferencias();
+    });
+});
+$(document).ready(function () {
+    $("#btnEliminarVentas").click(function () {
+        console.log("Botón presionado");
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¡Esto eliminará todas las ventas?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Estadisticas/EliminarTodasLasVentas",
+                    success: function (response) {
+                        console.log("Éxito en la llamada AJAX");
+                        console.log(response); 
+                        Swal.fire({
+                            title: '¡Eliminadas!',
+                            text: 'Todas las ventas han sido eliminadas.',
+                            icon: 'success',
+                            timer: 2500, 
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.href = window.location.href;
+                        });
+                    },
+                    error: function (error) {
+                        console.log("Error en la llamada AJAX");
+                        console.log(error); 
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Hubo un problema al eliminar las ventas.',
+                            icon: 'error',
+                            timer: 2500, 
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.href = window.location.href;
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
+    $(document).ready(function () {
+        cargarProductosMasVendidos();
+    cargarProductosMenosVendidos();
+    });
+
+    function cargarProductosMasVendidos() {
+        $.ajax({
+            url: '/Estadisticas/ObtenerProductosMasVendidos',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log("Datos mas vendidos: " + data)
+                console.log(data)
+                actualizarFilaProductosMasVendidos(data);
+            },
+            error: function () {
+                console.log('Error al cargar productos más vendidos');
+            }
+        });
+    }
+
+    function cargarProductosMenosVendidos() {
+        $.ajax({
+            url: '/Estadisticas/ObtenerProductosMenosVendidos',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log("Todo bien")
+                console.log(data)
+                actualizarFilaProductosMenosVendidos(data);
+            },
+            error: function () {
+                console.log('Error al cargar productos menos vendidos');
+            }
+        });
+    }
+
+function actualizarFilaProductosMasVendidos(data) {
+    console.log("Tabla mas vendidos")
+    console.log(data)
+    $('#masVendidoProducto1').text(data[0].producto);
+    $('#masVendidoCantidad1').text(data[0].cantidadVendida);
+    $('#masVendidoProducto2').text(data[1].producto);
+    $('#masVendidoCantidad2').text(data[1].cantidadVendida);
+}
+
+
+function actualizarFilaProductosMenosVendidos(data) {
+    console.log("Tabla menos vendidos")
+    console.log(data)
+    $('#menosVendidoProducto1').text(data[0].producto);
+    $('#menosVendidoCantidad1').text(data[0].cantidadVendida);
+    $('#menosVendidoProducto2').text(data[1].producto);
+    $('#menosVendidoCantidad2').text(data[1].cantidadVendida);
+}
+
+
+
+
+
+
 
 
 

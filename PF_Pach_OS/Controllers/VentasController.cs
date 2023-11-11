@@ -296,7 +296,7 @@ namespace PF_Pach_OS.Controllers
 
             if (estadoVenta.Estado == "Pendiente")
             {
-                cambioEstado = "Entregado";
+                cambioEstado = "Pagada";
                 estadoVenta.Estado = cambioEstado;
                 _context.Update(estadoVenta);
                 await _context.SaveChangesAsync();
