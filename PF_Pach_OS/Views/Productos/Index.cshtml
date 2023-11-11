@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PF_Pach_OS.Models.Producto>
+﻿@using System.Globalization;
+@model IEnumerable<PF_Pach_OS.Models.Producto>
 
 @{
     ViewData["Title"] = "Index";
@@ -30,7 +31,13 @@
                 {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.NomProducto)</td>
-                        <td>@Html.DisplayFor(modelItem => item.PrecioVenta)</td>
+                        <td>
+                            @(item.PrecioVenta.HasValue ? (item.PrecioVenta % 1 == 0
+                                ? ((decimal)item.PrecioVenta).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                                : ((decimal)item.PrecioVenta).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
+                                : "Sin Precio")
+                        </td>
+
 
                         <td>
                             @if (item.Estado != 0)

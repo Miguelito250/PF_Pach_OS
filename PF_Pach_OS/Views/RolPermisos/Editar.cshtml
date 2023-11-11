@@ -4,10 +4,11 @@
     ViewData["Title"] = "Edit";
     Layout = null;
 }
-<h5 id="titulo-modal">Editar Rol</h5>
-<div class="row">
-    <div class="col-md-4">
-        <form id="formulario1">
+<link href="~/css/RolPermisos/CreaEditar.css" rel="stylesheet" />
+
+<div>
+    <div class="col-12">
+        <form id="formulario1" asp-action="Index" asp-controller="RolPermisos">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" id="idrol" asp-for="rol.IdRol" value="@ViewBag.rol.IdRol" />
             <div class="form-group">
@@ -15,25 +16,33 @@
                 <input type="text" class="form-control" asp-for="rol.NomRol" id="nomrol" value="@ViewBag.rol.NomRol" />
                 <span id="mensaje_nombre" class="invalid-feedback"></span>
             </div>
-            <div class="form-group row">
-                <label class="control-label">Permisos * </label>
+
+            <div class="row">
+
+                <label class="control-label">Permisos *</label>
+
                 @if (ViewBag.Permisos != null)
                 {
+
                     @foreach (var valor in (List<dynamic>)ViewBag.Permisos)
                     {
                         var isChecked = ((List<dynamic>)ViewBag.PermisosUsados).Any(item => item.IdPermiso == valor.id_permiso);
-                        <input class="col-2" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" @(isChecked ? "checked" : "") />
-                        <label class="col-10">@valor.nom_permiso</label>
-                    }
 
+                        <div class="form-check form-switch col-6 row pb-2">
+                            <label class="form-check-label col-6" for="flexSwitchCheckDefault">@valor.nom_permiso</label>
+                            <input class="form-check-input col-6" id="flexSwitchCheckDefault" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" @(isChecked ? "checked" : "") />
+                        </div>
+                    }
+                    
                 }
                 else
                 {
                     <p>La lista de permisos es nula.</p>
                 }
+
             </div>
 
-            <button type="submit" id="btnEnviar" class="btn estilo-btn-naranja">Actualizar Rol</button>
+            <button type="submit" id="btnEnviar" class="btn btn-primary botones-agregar mt-3">Actualizar Rol</button>
 
         </form>
     </div>

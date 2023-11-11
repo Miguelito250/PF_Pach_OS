@@ -12,6 +12,7 @@
                 <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select" aria-required="true">
                     <option disabled selected>Seleccione Rol</option>
                 </select>
+                <label asp-for="Input.Role" class=" control-label">Rol</label>
                 <span asp-validation-for="Input.Role" class="text-danger"></span>
             </div>
             <div class="form-floating col-6">

@@ -46,7 +46,7 @@ namespace PF_Pach_OS.Controllers
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
             var roles = _context.Roles.ToList();
-            return View(roles);
+            return View(Enumerable.Reverse(roles).ToList());
         }
 
         // GET: RolPermisos/Details/5
@@ -67,18 +67,18 @@ namespace PF_Pach_OS.Controllers
             var nombre_rol = _context.Roles.Find(id);
             var permisos_rol = _context.RolPermisos.Where(p=> p.IdRol == id).ToList();
             var permisos = _context.Permisos.ToList();
+            var rolPermiso = _context.RolPermisos.Where(p => p.IdRol == id).ToList();
 
-
-            var listarPermisos = permisos_rol.Select(RolPermiso => new
+            var listarPermisos = permisos.Select(permisos => new
             {
-
-                nom_permiso =  permisos.FirstOrDefault(p=> p.IdPermiso == RolPermiso.IdPermiso)?.NomPermiso, 
- 
+                nom_permiso = permisos.NomPermiso,
+                id_permiso = permisos.IdPermiso,
 
             }).ToList();
 
 
             ViewBag.NomRol = nombre_rol.NomRol;
+            ViewBag.PermisosUsados = rolPermiso.Cast<object>().ToList();
             ViewBag.Permisos = listarPermisos.Cast<object>().ToList();
 
             return View("Detalles");
