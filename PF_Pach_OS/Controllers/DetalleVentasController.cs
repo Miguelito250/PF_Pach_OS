@@ -299,32 +299,43 @@ namespace PF_Pach_OS.Controllers
         }
 
         //Miguel 22/10/2023: Función para organizar los detalles en caso de que la venta sea cuenta abierta y se agregue el mismo producto
-        public void OrganizarDetalles(int? idVenta, int? idProducto)
+        public async Task OrganizarDetalles(int? idVenta)
         {
-            var primerDetalle = _context.DetalleVentas
-                .Where(d => d.IdVenta == idVenta && d.IdProducto == idProducto)
-                .OrderBy(d => d.IdDetalleVenta)
-                .FirstOrDefault();
+            var detallesVenta = await _context.DetalleVentas
+                .Where(d => d.IdVenta == idVenta)
+                .ToListAsync();
 
-            if (primerDetalle != null)
+            var detallesAgrupados = detallesVenta
+                .GroupBy(d => new { d.IdVenta, d.IdProducto })
+                .Select(g => new {
+                    IdVenta = g.Key.IdVenta,
+                    IdProducto = g.Key.IdProducto,
+                    CantVendida = g.Sum(d => d.CantVendida)
+                })
+                .ToList();
+
+            foreach (var detalleAgrupado in detallesAgrupados)
             {
-                var detallesRepetidos = _context.DetalleVentas
-                    .Where(d => d.IdVenta == idVenta && d.IdProducto == idProducto && d.IdDetalleVenta != primerDetalle.IdDetalleVenta)
-                    .ToList();
+                var primerDetalle = detallesVenta
+                    .FirstOrDefault(d => d.IdVenta == detalleAgrupado.IdVenta && d.IdProducto == detalleAgrupado.IdProducto);
 
-                foreach (var detalleRepetido in detallesRepetidos)
+                if (primerDetalle != null)
                 {
-                    primerDetalle.CantVendida += detalleRepetido.CantVendida;
-                }
+                    var detallesRepetidos = detallesVenta
+                        .Where(d => d.IdVenta == detalleAgrupado.IdVenta && d.IdProducto == detalleAgrupado.IdProducto && d != primerDetalle)
+                        .ToList();
 
-                foreach (var detalleRepetido in detallesRepetidos)
-                {
-                    _context.DetalleVentas.Remove(detalleRepetido);
+                    foreach (var detalleRepetido in detallesRepetidos)
+                    {
+                        primerDetalle.CantVendida += detalleRepetido.CantVendida;
+                        _context.DetalleVentas.Remove(detalleRepetido);
+                    }
                 }
-
-                _context.SaveChanges();
             }
+
+            await _context.SaveChangesAsync();
         }
+
 
         //Miguel 22/10/2023: Función para conultar los detalles de las ventas en el index de ventas
         public async Task<IActionResult> DetallesVentas(int? IdVenta)

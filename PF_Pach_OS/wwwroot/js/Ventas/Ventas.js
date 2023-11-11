@@ -36,6 +36,27 @@ $('#Item1_IdProducto').on('change', function () {
     }
 });
 
+$(document).ready(function () {
+    $('.dropdown-toggle').click(function () {
+        let detalleVentaId = $(this).attr('data-iddetalleVenta');
+        let dropdownMenu = $(this).next('.dropdown-menu');
+
+        if (dropdownMenu.is(':hidden')) {
+            $.ajax({
+                type: "GET",
+                url: "/Ventas/DetallesSabores",
+                data: { idDetalleVenta: detalleVentaId },
+                success: function (data) {
+                    dropdownMenu.html(data);
+                    dropdownMenu.show();
+                }
+            });
+        } else {
+            dropdownMenu.hide();
+        }
+    });
+});
+
 boton_domicilio.addEventListener('input', function () {
     SumarDomicilio(subtotal)
 })
@@ -47,10 +68,10 @@ function SumarDomicilio(subtotalProducto) {
     var pagoDomicilio = document.getElementById('domicilio').value;
     if (isNaN(pagoDomicilio) || pagoDomicilio === "" || pagoDomicilio < 0) {
         boton_domicilio.value = 0;
-        totalVenta = parseFloat(subtotalProducto); 
+        totalVenta = parseFloat(subtotalProducto);
     } else {
-        pagoDomicilio = parseFloat(pagoDomicilio); 
-        totalVenta = parseFloat(subtotalProducto) + pagoDomicilio; 
+        pagoDomicilio = parseFloat(pagoDomicilio);
+        totalVenta = parseFloat(subtotalProducto) + pagoDomicilio;
     }
     InsertarTotal(totalVenta);
 }

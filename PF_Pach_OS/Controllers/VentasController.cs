@@ -214,8 +214,10 @@ namespace PF_Pach_OS.Controllers
             {
                 detalle.Estado = "Descontado";
                 _context.Update(detalle);
+
             }
 
+            await _detalleVentasController.OrganizarDetalles(venta.IdVenta);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Ventas");
         }
@@ -458,6 +460,24 @@ namespace PF_Pach_OS.Controllers
             return ventasDiarias;
         }
 
+        //Miguel 10/11/2023: Funciónn para mostrar los sabores seleccionados de las pizzas
+        public async Task<IActionResult> DetallesSabores(int? idDetalleVenta)
+        {
+            var detalleVenta = await _context.DetalleVentas
+               .FirstOrDefaultAsync(d => d.IdDetalleVenta == idDetalleVenta);
+
+            if (detalleVenta == null)
+            {
+                return NotFound();
+            }
+
+            var saboresSeleccionados = await _context.SaboresSeleccionados
+                .Where(d => d.IdDetalleVenta == idDetalleVenta)
+                .Include(s => s.IdProductoNavigation)
+                .ToListAsync();
+
+            return View(saboresSeleccionados);
+        }
 
     }
 }
