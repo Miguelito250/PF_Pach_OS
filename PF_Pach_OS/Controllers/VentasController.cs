@@ -448,7 +448,7 @@ namespace PF_Pach_OS.Controllers
             DateTime fechaActual = DateTime.Now.Date;
 
             var reporteVentas = await _context.Ventas
-                .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == fechaActual)
+                .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == fechaActual && v.TotalVenta != null)
                 .ToListAsync();
 
             int ventasDiarias = 0;
