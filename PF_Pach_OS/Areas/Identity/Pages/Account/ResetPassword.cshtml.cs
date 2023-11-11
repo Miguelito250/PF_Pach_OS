@@ -41,7 +41,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
 
             [Required(ErrorMessage = "El campo es obligatorio")]
             [DataType(DataType.Password)]
-            [Display(Name = "Confirmara Contraseña")]
+            [Display(Name = "Confirmar Contraseña")]
             [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
             public string ConfirmPassword { get; set; }
 
