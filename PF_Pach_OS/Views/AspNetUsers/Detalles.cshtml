@@ -5,11 +5,16 @@
     Layout = null;
 }
 
-<h2>Detalles</h2>
+
 
 <div>
-    <h5>Detalles de usuario</h5>
+    <span class="fs-5">
+        @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
+    </span>
+
     <hr />
+
+    
     <dl class="row">
         
         <dt class = "col-sm-1">
@@ -32,24 +37,13 @@
         <dd class = "col-sm-12">
             @Html.DisplayFor(model => model.DocumentNumber)
         </dd>
-        <dt class = "col-sm-1">
+        @*<dt class = "col-sm-1">
             Entrada
         </dt>
         <dd class = "col-sm-12">
             @Html.DisplayFor(model => model.EntryDay)
-        </dd>
-        <dt class = "col-sm-1">
-            Nombre
-        </dt>
-        <dd class = "col-sm-12">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class = "col-sm-1">
-            Apellido
-        </dt>
-        <dd class = "col-sm-12">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+        </dd>*@
+        
         
         <dt class = "col-sm-1">
            Rol

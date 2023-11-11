@@ -1,7 +1,26 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
+﻿var idPizza = 1;
+var Nuevas_Recetas_ID = [];
+var Nuevas_Recetas_Cant = [];
+var Id_Producto;
+var Recetas_Actualizadas_ID = [];
+var Recetas_Actualizadas_Cant = [];
+var Eliminar_Receta = [];
+$(document).ready(function () {
+    var tamano = $('#Producto_IdCategoria').val();
+    if (tamano == idPizza) {
+
+        MostrarCampoOculto();
+    }
+    function MostrarCampoOculto() {
+        var campoOculto = document.getElementById('Tamano_Oculto');
+        campoOculto.classList.remove('d-none')
+    }
+
+})
+
+document.addEventListener('DOMContentLoaded', function () {
     //Informacion Producto
     var formulario_producto = document.getElementById("formulario1");
-    var idPizza = 1;
 
     var nombre = document.getElementById("Nombre");
     var mensaje_nombre = document.getElementById("mensaje_nombre")
@@ -14,6 +33,9 @@
 
     var tamano = document.getElementById("tamano");
     var mensaje_tamano = document.getElementById("mensaje_tamano");
+
+
+
     //Informacion Receta
 
 
@@ -68,6 +90,23 @@
         } else {
             nombre.classList.add('is-valid');
         }
+        $.ajax({
+            type: 'GET',
+            url: '/Productos/NombreDuplicado',
+            data: { Nombre: valorNombre },
+            success: function (result) {
+                if (result === true) {
+                    nombre.classList.add('is-invalid');
+                    mensaje_nombre.textContent = 'No se puede repetir el nombre.';
+                } else {
+                    nombre.classList.add('is-valid');
+                }
+            },
+            error: function () {
+                // Manejo de errores si la solicitud falla
+                console.log('Error en la solicitud AJAX');
+            }
+        });
     }
     //validar el campo precio del producto
     function ValidarPrecio() {
@@ -119,7 +158,7 @@
         tamano.classList.remove('is-invalid', 'is-valid');
         mensaje_tamano.textContent = '';
         if (ValorCategoria == idPizza) {
-            if (ValorTamano.trim() === '') {
+            if (ValorTamano.trim() === "") {
                 tamano.classList.add('is-invalid');
                 mensaje_tamano.textContent = 'El campo no puede ir vacio si la categoria es Pizza'
             } else {
@@ -130,21 +169,17 @@
     }
 
 
-    //muestra el campo Tamaño
-    function MostrarCampoOculto() {
-        var campoOculto = document.getElementById('Tamano_Oculto');
-        campoOculto.classList.remove('d-none')
-    }
 
-    //oculta el campo Tamaño
-    function OcultaCampoOculto() {
-        var campoOculto = document.getElementById('Tamano_Oculto');
-        campoOculto.classList.add('d-none')
-    }
     function EnvioProducto(event) {
         event.preventDefault();
         InterfazProducto();
-        if (formulario_producto.checkValidity()) {
+        if (formulario_producto.checkValidity()
+            && !nombre.classList.contains('is-invalid')
+            && !precio.classList.contains('is-invalid')
+            && !categoria.classList.contains('is-invalid')
+            && !tamano.classList.contains('is-invalid')
+            
+        ) {
             const tablaReceta = document.querySelector('#Tabla1');
             if (tablaReceta.rows.length < 1) {
                 // Mostrar la SweetAlert de error
@@ -203,7 +238,13 @@
                     cancelButtonText: 'No, volver'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Si el usuario confirma, redirigir a la función "Delete" en el controlador de ventas
+                        Nuevas_Recetas_ID.splice(0, Nuevas_Recetas_ID.length) ;
+                        Nuevas_Recetas_Cant.splice(0, Nuevas_Recetas_Cant.length);
+                        
+                        Recetas_Actualizadas_ID.splice(0, Recetas_Actualizadas_ID.length);
+                        Recetas_Actualizadas_Cant.splice(0, Recetas_Actualizadas_Cant.length);
+
+                        Eliminar_Receta.splice(0, Eliminar_Receta.length);
                         window.location.href = cancelarBtn.getAttribute('href');
                     }
                 });
@@ -212,31 +253,40 @@
     });
     enlacesMenu.forEach(enlace => {
         enlace.addEventListener('click', e => {
-
+            console.log(enlace)
             e.preventDefault();
 
-            if (DetallesSinConfirmar()) {
-                Swal.fire({
-                    title: 'Advertencia',
-                    text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Sí, salir',
-                    cancelButtonText: 'Cancelar'
-                }).then(result => {
-                    if (result.isConfirmed) {
-                        EliminarDetalles();
+            Swal.fire({
+                title: 'Advertencia',
+                text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, salir',
+                cancelButtonText: 'Cancelar'
+            }).then(result => {
+                if (result.isConfirmed) {
 
-                        window.location.href = e.target.href;
 
-                    }
-                });
-            } else {
-                window.location.href = e.target.href;
-            }
+                    window.location.href = e.target.href;
+
+                }
+            });
+
         });
     });
 });
+//muestra el campo Tamaño
+function MostrarCampoOculto() {
+    var campoOculto = document.getElementById('Tamano_Oculto');
+    campoOculto.classList.remove('d-none')
+}
+
+//oculta el campo Tamaño
+function OcultaCampoOculto() {
+    var campoOculto = document.getElementById('Tamano_Oculto');
+    campoOculto.classList.add('d-none')
+}
+
 //validar el campo Insumos del recetas
 function ValidarInsumo() {
     var insumo = document.getElementById('insumo');
@@ -278,12 +328,7 @@ function EnvioReceta(event) {
     ValidarInsumo();
     ValidarCantInsumo();
 }
-var Nuevas_Recetas_ID = [];
-var Nuevas_Recetas_Cant = [];
-var Id_Producto;
-var Recetas_Actualizadas_ID = [];
-var Recetas_Actualizadas_Cant = [];
-var Eliminar_Receta = [];
+
 
 document.getElementById("Formurario_Modal").addEventListener("submit", function (event) {
 
@@ -394,7 +439,7 @@ document.getElementById("Formurario_Modal").addEventListener("submit", function 
 
 document.getElementById("miFormulario").addEventListener("submit", function (event) {
     event.preventDefault();
-    
+
     EnvioReceta();
 
 

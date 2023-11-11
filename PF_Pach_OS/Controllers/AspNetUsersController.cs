@@ -19,11 +19,13 @@ namespace PF_Pach_OS.Controllers
         private readonly Pach_OSContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _SignInManager;
+        public readonly PermisosController _permisosController;
         public AspNetUsersController(Pach_OSContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _userManager = userManager;
             _SignInManager = signInManager;
+            _permisosController = new PermisosController(_context, _userManager, _SignInManager);
         }
         [BindProperty]
         public InputModel Input { get; set; }
@@ -31,7 +33,13 @@ namespace PF_Pach_OS.Controllers
         // GET: AspNetUsers
         public async Task<IActionResult> Index()
         {
+            var user = User;
 
+            bool tine_permiso = _permisosController.tinto(8, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (_context.ApplicationUser != null)
             {
                 var usuarios = await _context.ApplicationUser.ToListAsync();
@@ -47,6 +55,13 @@ namespace PF_Pach_OS.Controllers
         // GET: AspNetUsers/Details/5
         public async Task<IActionResult> Detalles(string id)
         {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(8, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (id == null || _context.ApplicationUser == null)
             {
                 return NotFound();
@@ -72,6 +87,13 @@ namespace PF_Pach_OS.Controllers
         // GET: AspNetUsers/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
+            var user = User;
+
+            bool tine_permiso = _permisosController.tinto(8, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (id == null || _context.ApplicationUser == null)
             {
                 return NotFound();
@@ -98,6 +120,13 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Email,DocumentNumber,DocumentType,FirstName,LastName,Id_Rol")] ApplicationUser applicationUser)
         {
+            
+
+            bool tine_permiso = _permisosController.tinto(8, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (id != applicationUser.Id)
             {
                 return NotFound();
@@ -136,6 +165,13 @@ namespace PF_Pach_OS.Controllers
 
         public IActionResult Deshabilitar(string id)
         {
+            
+
+            bool tine_permiso = _permisosController.tinto(8, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (id == null || _context.ApplicationUser == null)
             {
                 return NotFound();
@@ -155,6 +191,11 @@ namespace PF_Pach_OS.Controllers
         //Deshabilita un producto que este habilitado 
         public IActionResult Habilitar(string id)
         {
+            bool tine_permiso = _permisosController.tinto(8, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             if (id == null || _context.ApplicationUser == null)
             {
                 return NotFound();
@@ -177,7 +218,11 @@ namespace PF_Pach_OS.Controllers
 
         public IActionResult VistaCambiarContraseña()
         {
-
+            bool tine_permiso = _permisosController.tinto(8, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
 
             return View("CambiarContraseña");
 
@@ -203,7 +248,11 @@ namespace PF_Pach_OS.Controllers
        
         public IActionResult ConfirmarCambiarContraseña()
         {
-
+            bool tine_permiso = _permisosController.tinto(8, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             return View("ConfirmarCambiarContraseña");
         }
     }

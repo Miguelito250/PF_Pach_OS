@@ -1,14 +1,40 @@
-﻿@media only screen and (max-width: 600px) {
-    .modulos{
-        padding: 0;
-        margin: 2em 0 0 10px;
+﻿@media only screen and (max-width: 540px) {
+    .modulos {
+        position: relative;
+        left: -4vh;
+        height: auto !important;
+        display: grid;
+        grid-column: auto;
+        
     }
 
-    label, select, option{
+    label, select, option {
+
         font-size: 12px !important;
     }
-    
-    .w-25 mt-5{
+
+    .w-25 mt-5 {
         width: 100%;
+    }
+    .d-flex {
+        flex-direction: column;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        
+    }
+    .col-6 {
+        margin-top: 15px !important;
+       
+    }
+    #registerForm input,
+    #registerForm select {
+        width: 75vw !important;
+        margin-left: 0 !important;
+    }
+    #registerSubmit{
+        margin-top: 15px !important;
+    }
+    .p-5{
+        padding: 2rem !important;
     }
 }

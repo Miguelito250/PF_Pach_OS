@@ -1,30 +1,25 @@
 ﻿@model PF_Pach_OS.Models.Asignar_Permisos
 
 @{
-    
+    ViewData["Title"] = "Detalles";
     Layout = null;
 }
-
-<h2>Crear Rol</h2>
-
-
-<hr />
+<h5 id="titulo-modal">Detalles Rol</h5>
 <div class="row">
     <div class="col-md-4">
-        <form id="formulario1">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group" >
-                <label asp-for="rol.NomRol" class="control-label">Nombre del rol * </label>
-                <input type="text" class="form-control" id="nomrol" asp-for="rol.NomRol" />
-                <span id="mensaje_nombre" class="invalid-feedback"></span>
+      
+            
+            <div class="form-group">
+            <label class="control-label">@ViewBag.NomRol </label>
+               
+                
             </div>
             <div class="form-group row">
-                <label class="control-label">Permisos * </label>
+                <label class="control-label">Permisos</label>
                 @if (ViewBag.Permisos != null)
                 {
                     @foreach (var valor in (List<dynamic>)ViewBag.Permisos)
                     {
-                        <input class="col-2" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" />
                         <label class="col-10">@valor.nom_permiso</label>
                     }
 
@@ -34,18 +29,11 @@
                     <p>La lista de permisos es nula.</p>
                 }
             </div>
-           
-
-            <button type="submit" id="btnEnviar" class="btn estilo-btn-naranja">Crear Rol</button>
-
-        </form>
+        
     </div>
 </div>
-
-
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="~/js/rolpermisos/crear.js"></script>

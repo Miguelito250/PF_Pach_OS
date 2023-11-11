@@ -1,4 +1,20 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
+﻿
+var idPizza = 1;
+
+$(document).ready(function () {
+    var tamano = $('#Categorio').val();
+    if (tamano == idPizza) {
+        console.log("1")
+        MostrarCampoOculto();
+    }
+    function MostrarCampoOculto() {
+        var campoOculto = document.getElementById('Tamano_Oculto');
+        campoOculto.classList.remove('d-none')
+    }
+})
+
+
+document.addEventListener('DOMContentLoaded', function () {
     //Informacion Producto
     var formulario_producto = document.getElementById("formulario1");
     var idPizza = 1;
@@ -28,8 +44,18 @@
     var cantidadInsumo = document.getElementById('CantidadInsumo');
     var mensaje_CantInsumo = document.getElementById('mensaje_Cantinsumo');
 
+    //Informacion Imprtar Receta
+    var formulario_Importar = document.getElementById("Formurario_Modal");
+
+    var Importar_nombre = document.getElementById("nom_Pro_Modal");
+    var Importar_precio = document.getElementById("pre_Pro_Modal");
+    var Importar_categoria = document.getElementById("cat_Pro_Modal");
+    var Importar_tamano = document.getElementById("tam_Pro_Modal");
+
+
 
     const enlacesMenu = document.querySelectorAll('.links-modulos');
+
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -54,6 +80,9 @@
     insumo.addEventListener('change', ValidarInsumo);
     cantidadInsumo.addEventListener('input', ValidarCantInsumo);
 
+    //Escuchadores Importar Receta
+    formulario_Importar.addEventListener('submit', EnvioExportar)
+
     //validar el campo nombre del producto
     function ValidarNombre() {
         var valorNombre = nombre.value;
@@ -72,8 +101,26 @@
             nombre.classList.add('is-invalid');
             mensaje_nombre.textContent = 'El nombre debe tener menos de 30 caracteres';
         } else {
+
             nombre.classList.add('is-valid');
         }
+        $.ajax({
+            type: 'GET',
+            url: '/Productos/NombreDuplicado',
+            data: { Nombre: valorNombre },
+            success: function (result) {
+                if (result === true) {
+                    nombre.classList.add('is-invalid');
+                    mensaje_nombre.textContent = 'No se puede repetir el nombre.';
+                } else {
+                    nombre.classList.add('is-valid');
+                }
+            },
+            error: function () {
+                // Manejo de errores si la solicitud falla
+                console.log('Error en la solicitud AJAX');
+            }
+        });
     }
     //validar el campo precio del producto
     function ValidarPrecio() {
@@ -224,22 +271,30 @@
     }
 
     function EnvioReceta(event) {
-        
+
         IntefazRecetas()
         nombre_producto.value = nombre.value;
         precio_producto.value = precio.value;
         categoria_producto.value = categoria.value;
         tamano_producto.value = tamano.value;
-        
-        
+
+
     }
 
     function IntefazRecetas() {
         ValidarInsumo();
         ValidarCantInsumo();
     }
+    function EnvioExportar(event) {
+        Importar_nombre.value = nombre.value;
+        Importar_precio.value = precio.value;
+        Importar_categoria.value = categoria.value;
+        Importar_tamano.value = tamano.value;
+    }
 
     window.addEventListener('load', function () {
+        var id = document.getElementById("Id_producto");
+       
         const cancelarBtn = document.querySelector('.cancelarBtn');
         if (cancelarBtn != null) {
             cancelarBtn.addEventListener('click', function (event) {
@@ -255,8 +310,23 @@
                     cancelButtonText: 'No, volver'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Si el usuario confirma, redirigir a la función "Delete" en el controlador de ventas
-                        window.location.href = cancelarBtn.getAttribute('href');
+                        // Si el usuario confirma, redirigir a la función "Canselar" en el controlador de Productos
+                        $.ajax({
+                            type: 'Post',
+                            url: '/Productos/Canselar',
+                            data: { id: id.value },
+                            success: function (result) {
+
+
+                                window.location.href = cancelarBtn.getAttribute('href');
+                            },
+                            error: function () {
+                                // Manejo de errores si la solicitud falla
+                                console.log('Error en la solicitud AJAX');
+                            }
+                        });
+
+                       
                     }
                 });
             });
@@ -264,28 +334,25 @@
     });
     enlacesMenu.forEach(enlace => {
         enlace.addEventListener('click', e => {
-
+            console.log(enlace)
             e.preventDefault();
 
-            if (DetallesSinConfirmar()) {
-                Swal.fire({
-                    title: 'Advertencia',
-                    text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Sí, salir',
-                    cancelButtonText: 'Cancelar'
-                }).then(result => {
-                    if (result.isConfirmed) {
-                        EliminarDetalles();
+            Swal.fire({
+                title: 'Advertencia',
+                text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, salir',
+                cancelButtonText: 'Cancelar'
+            }).then(result => {
+                if (result.isConfirmed) {
+                    
 
-                        window.location.href = e.target.href;
+                    window.location.href = e.target.href;
 
-                    }
-                });
-            } else {
-                window.location.href = e.target.href;
-            }
+                }
+            });
+            
         });
     });
 });

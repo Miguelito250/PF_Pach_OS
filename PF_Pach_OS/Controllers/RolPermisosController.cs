@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +13,7 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
+    [Authorize]
     public class RolPermisosController : Controller
     {
         private readonly Pach_OSContext _context;
@@ -48,7 +50,7 @@ namespace PF_Pach_OS.Controllers
         }
 
         // GET: RolPermisos/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public  IActionResult Detalles(int? id)
         {
             var user = User;
 
@@ -62,16 +64,24 @@ namespace PF_Pach_OS.Controllers
                 return NotFound();
             }
 
-            var rolPermiso = await _context.RolPermisos
-                .Include(r => r.IdPermisoNavigation)
-                .Include(r => r.IdRolNavigation)
-                .FirstOrDefaultAsync(m => m.IdRolPermisos == id);
-            if (rolPermiso == null)
-            {
-                return NotFound();
-            }
+            var nombre_rol = _context.Roles.Find(id);
+            var permisos_rol = _context.RolPermisos.Where(p=> p.IdRol == id).ToList();
+            var permisos = _context.Permisos.ToList();
 
-            return View(rolPermiso);
+
+            var listarPermisos = permisos_rol.Select(RolPermiso => new
+            {
+
+                nom_permiso =  permisos.FirstOrDefault(p=> p.IdPermiso == RolPermiso.IdPermiso)?.NomPermiso, 
+ 
+
+            }).ToList();
+
+
+            ViewBag.NomRol = nombre_rol.NomRol;
+            ViewBag.Permisos = listarPermisos.Cast<object>().ToList();
+
+            return View("Detalles");
         }
 
         // GET: RolPermisos/Create
@@ -279,6 +289,11 @@ namespace PF_Pach_OS.Controllers
         private bool RolPermisoExists(int id)
         {
             return (_context.RolPermisos?.Any(e => e.IdRolPermisos == id)).GetValueOrDefault();
+        }
+        public IActionResult NombreDuplicado(string Nombre)
+        {
+            var EsDuplicado = _context.Roles.Any(x => x.NomRol == Nombre);
+            return Json(EsDuplicado);
         }
     }
 }

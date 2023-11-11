@@ -25,6 +25,10 @@
         box-shadow: 20px 0 20px rgba(0, 0, 0, 0.2); /* Sombra ligera */
     }
 
+a.disabled {
+    pointer-events: none;
+    color: #ccc;
+}
 
 .sombra {
     box-shadow: inset 0 0 10px #FACE75;
@@ -33,11 +37,36 @@
 @media only screen and (max-width: 600px) {
 
     .buscador {
-        
         left: 13rem;
     }
 
-    table{
+    table {
         font-size: 12px
+    }
+
+    .table td, .table th {
+        padding: 5px;
+    }
+
+        .table td a {
+            margin: 5px;
+            
+        }
+    #DetalleUsuario svg,
+    #Edirar svg,
+    a[asp-action="Deshabilitar"] svg,
+    a[asp-action="Habilitar"] svg {
+        width: 18px;
+        height: 18px;
+        
+    }
+    a[asp-action="Deshabilitar"] svg,
+    a[asp-action="Habilitar"] svg{
+        margin-left: 0 !important;
+    }
+   
+    td:nth-child(2), 
+    th:nth-child(2) {
+        display: none;
     }
 }
