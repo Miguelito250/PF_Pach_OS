@@ -34,7 +34,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required(ErrorMessage = "El campo es obligatorio")]
-            [StringLength(100, ErrorMessage = "La contraseña tiene que ser de minimo 6 y maximo 100 caracteres.", MinimumLength = 6)]
+            [StringLength(50, ErrorMessage = "La contraseña tiene que ser de minimo 6 y maximo 100 caracteres.", MinimumLength = 6)]
             [Display(Name = "Contraseña")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
