@@ -27,8 +27,21 @@ select {
             margin-right: 10px;
 }
 
+.btn-primary {
+    top: -55px !important;
+    position: relative;
+    margin-top: 10px;
+    background: linear-gradient(180deg, #FF9200 2.08%, #8D5F20 100%);
+    right: -200px !important;
+    border: none !important;
+}
 @media (max-width: 767px) {
 
+    .btn-primary {
+        position: relative !important;
+        top: -90px !important;
+        left: 0vh !important;
+    }
     .estilo-btn-naranja {
         position: relative !important;
         top: -50px !important;
@@ -50,7 +63,6 @@ select {
     }
 
     .card-body {
-
         display: flex;
         flex-direction: column;
     }
@@ -81,19 +93,12 @@ select {
     .table td {
         overflow-wrap: break-word;
     }
-        .table thead th {
+    .table thead th {
             text-align: center;
             top: 10px !important;
-        }
-
-
-    .btn-primary {
-        position: relative;
-        margin-top: 10px;
-        background: linear-gradient(180deg, #FF9200 2.08%, #8D5F20 100%);
-        left: -20px !important;
-        border: none !important;
     }
+
+    
     
 
     }
@@ -119,14 +124,6 @@ select {
 }
 .body {
     padding-top: 20px; 
-}
-.btn-primary {
-    top: -55px !important;
-    position: relative;
-    margin-top: 10px;
-    background: linear-gradient(180deg, #FF9200 2.08%, #8D5F20 100%);
-    right: -200px !important;
-    border: none !important;
 }
 .text-custom {
     text-align: center;
