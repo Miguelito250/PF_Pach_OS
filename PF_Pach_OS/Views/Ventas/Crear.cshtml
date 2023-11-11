@@ -68,7 +68,19 @@
                     {
                         float? totalDetalle = detalles.Precio * detalles.CantVendida;
                         <tr>
-                            <td>@detalles.IdProductoNavigation.NomProducto</td>
+                            <td class="d-flex">
+                                @detalles.IdProductoNavigation.NomProducto
+                                @if (detalles.IdProducto > 1 && detalles.IdProducto <= 4)
+                                {
+                                    <div class="dropdown ml-2">
+                                        <span class="dropdown-toggle" id="dropdown-detallesSabores-@detalles.IdDetalleVenta" data-iddetalleventa="@detalles.IdDetalleVenta">
+                                            <i class="bi bi-caret-down-fill"></i>
+                                        </span>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdown-detallesSabores-@detalles.IdDetalleVenta">
+                                        </ul>
+                                    </div>
+                                }
+                            </td>
                             <td>@detalles.CantVendida</td>
                             <td>
                                 @(detalles.Precio.HasValue ? (detalles.Precio % 1 == 0
@@ -82,14 +94,14 @@
                                     : ((decimal)totalDetalle).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
                                     : "Sin Precio")
                             </td>
-                            @if (detalles.Estado != "Descontado")
-                            {
-                                <td>
+                            <td class="d-flex">
+                                @if (detalles.Estado != "Descontado")
+                                {
                                     <form method="post">
                                         <input type="submit" asp-controller="DetalleVentas" asp-action="EliminarDetalle" asp-route-id="@detalles.IdDetalleVenta" class="btn btn-outline-danger" id="btnEliminar" value="Eliminar">
                                     </form>
-                                </td>
-                            }
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>
