@@ -91,10 +91,12 @@ document.addEventListener('DOMContentLoaded', function () {
     function ValidarPago() {
         var valorPago = pago.value;
         var totalVenta = document.getElementById("totalVenta-input").value;
+        let metodoPago = document.getElementById("Item2_TipoPago").value
         totalVenta = parseInt(totalVenta);
 
         pago.classList.remove('is-invalid', 'is-valid');
         pagoMensaje.textContent = '';
+
 
         if (/[^0-9]/.test(valorPago)) {
             pago.classList.add('is-invalid');
@@ -109,6 +111,14 @@ document.addEventListener('DOMContentLoaded', function () {
             pagoMensaje.textContent = 'El campo no puede tener más de 10 caracteres';
         }
         else if (valorPago < totalVenta) {
+            pago.classList.add('is-invalid');
+            pagoMensaje.textContent = 'El pago no debe ser menor al total';
+        }
+        else if (metodoPago == 'Transferencia' && valorPago > totalVenta) {
+            pago.classList.add('is-invalid');
+            pagoMensaje.textContent = 'El pago no debe ser mayor al total';
+
+        } else if (metodoPago == 'Transferencia' && valorPago < totalVenta) {
             pago.classList.add('is-invalid');
             pagoMensaje.textContent = 'El pago no debe ser menor al total';
         }
