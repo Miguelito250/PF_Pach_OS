@@ -160,8 +160,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXENyZWFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Productos/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXERldGFpbHMuY3NodG1s
+[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Productos/Detalles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXERldGFsbGVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Productos/Editar.cshtml]
@@ -200,8 +200,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sUGVybWlzb3NcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sUGVybWlzb3NcRGV0YWlscy5jc2h0bWw=
+[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Detalles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sUGVybWlzb3NcRGV0YWxsZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/RolPermisos/Editar.cshtml]
@@ -234,6 +234,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Ventas/Crear.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVudGFzXENyZWFyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Ventas/DetallesSabores.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVudGFzXERldGFsbGVzU2Fib3Jlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/asuus/Desktop/Progrmacion/PROYECTOS/PF_Pach_OS/PF_Pach_OS/Views/Ventas/Index.cshtml]

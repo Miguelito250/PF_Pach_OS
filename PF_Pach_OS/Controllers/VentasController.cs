@@ -65,6 +65,9 @@ namespace PF_Pach_OS.Controllers
                 .OrderByDescending(v => v.FechaVenta.Value.Year)
                 .ThenByDescending(v => v.FechaVenta.Value.Month)
                 .ThenByDescending(v => v.FechaVenta.Value.Day)
+                .ThenByDescending(v => v.FechaVenta.Value.Hour)
+                .ThenByDescending(v => v.FechaVenta.Value.Minute)
+                .ThenByDescending(v => v.FechaVenta.Value.Second)
                 .ToListAsync();
 
 
@@ -75,6 +78,9 @@ namespace PF_Pach_OS.Controllers
                 .OrderByDescending(v => v.FechaVenta.Value.Year)
                 .ThenByDescending(v => v.FechaVenta.Value.Month)
                 .ThenByDescending(v => v.FechaVenta.Value.Day)
+                .ThenByDescending(v => v.FechaVenta.Value.Hour)
+                .ThenByDescending(v => v.FechaVenta.Value.Minute)
+                .ThenByDescending(v => v.FechaVenta.Value.Second)
                 .ToListAsync();
 
             return View(pach_OSContext);
