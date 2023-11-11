@@ -19,7 +19,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFlutterApp",
-        builder => builder.WithOrigins("http://localhost:55946"));
+        builder => builder.WithOrigins("http://localhost:8080"));
 });
 
 builder.Services.AddDbContext<Pach_OSContext>(options =>
