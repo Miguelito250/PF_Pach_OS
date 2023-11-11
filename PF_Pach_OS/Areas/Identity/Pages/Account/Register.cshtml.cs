@@ -84,11 +84,12 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required(ErrorMessage = "El campo es obligatorio")]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(50, ErrorMessage = "La Contraseña debe tener al menos 8 caracteres y maximo 50", MinimumLength = 8)]
             [DataType(DataType.Password)]
             [Display(Name = "Contraseña *")]
             public string Password { get; set; }
 
+            [Required(ErrorMessage = "El campo es obligatorio")]
             [DataType(DataType.Password)]
             [Display(Name = "Confirmar contraseña")]
             [Compare("Password", ErrorMessage = "Las constraseñas no coinciden")]

@@ -54,7 +54,7 @@
                     Swal.fire({
                         title: 'Ups...',
                         timer: 2700,
-                        text: 'La contraseña anerior es Erronea',
+                        text: 'La contraseña anterior es Erronea',
                         icon: 'error',
                         showConfirmButton: false,
                     });
@@ -190,7 +190,7 @@
             mensaje_ConfirmarContraseña.textContent = 'El campo debe tener al menos un numero';
         } else if (ConfirmarValor != NuevaContraseña.value) {
             ConfirmarContraseña.classList.add('is-invalid');
-            mensaje_ConfirmarContraseña.textContent = 'El campo no conside con la nueva contraseña';
+            mensaje_ConfirmarContraseña.textContent = 'Las contraseñas no coinciden';
         }
         else {
             ConfirmarContraseña.classList.add('is-valid');

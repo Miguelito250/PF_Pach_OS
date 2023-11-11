@@ -22,8 +22,9 @@ $(document).ready(function () {
     function ValidarNombre() {
 
 
-
         let ValorNombre = nombreRol.value;
+        const hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(ValorNombre);
+        const hasNumber = /(?=.*\d)/.test(ValorNombre);
         nombreRol.classList.remove('is-invalid', 'is-valid');
         Mensaje_nombre.textContent = ''
         if (ValorNombre.trim() === '') {
@@ -37,7 +38,15 @@ $(document).ready(function () {
         } else if (ValorNombre.length > 20) {
             nombreRol.classList.add('is-invalid');
             Mensaje_nombre.textContent = 'El nombre debe tener menos de 20 caracteres';
-        } else {
+        } else if (hasSpecialChar) {
+            nombreRol.classList.add('is-invalid');
+            Mensaje_nombre.textContent = 'El nombre no puede tener caracteres especiales';
+
+        } else if (hasNumber) {
+            nombreRol.classList.add('is-invalid');
+            Mensaje_nombre.textContent = 'El nombre no puede tener numeros';
+        }
+        else {
             nombreRol.classList.add('is-valid');
 
         }

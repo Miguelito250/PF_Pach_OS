@@ -26,6 +26,7 @@ $(document).ready(function () {
 
         var modalBody = $("#modal-body");
         var idRol = $(this).data("id");
+
         var url = "/AspNetUsers/Detalles?id=" + idRol;
         modalBody.empty();
         modalBody.load(url);
@@ -58,13 +59,38 @@ $(document).ready(function () {
     $(document).on("click", "#Habilitar", function (event) {
         event.preventDefault();
         var enlace = $(this);
-        Toast.fire({
-            icon: 'success',
-            title: ' Usuario Habilitado'
-        }).then(function () {
-            // Envía el formulario después de que finalice la alerta
-            window.location.href = enlace.attr("href");
-        });;
+        var idusario = $(this).data("id");
+        $.ajax({
+            url: '/AspNetUsers/Rol',
+            type: 'GET',
+            data: { idUsario: idusario },
+            success: function (response) {
+
+                if (response === false) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: ' Usuario Habilitado'
+                    }).then(function () {
+                        // Envía el formulario después de que finalice la alerta
+                        window.location.href = enlace.attr("href");
+                    });;
+
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'El rol se encuentra deshabilitado'
+                    }).then(function () {
+
+                    });;
+
+                }
+            },
+            error: function (xhr, status, error) {
+                // Imprimir el error completo en la consola
+                console.error('Error en la solicitud AJAX:', xhr, status, error);
+            }
+        });
+
     });
 
 

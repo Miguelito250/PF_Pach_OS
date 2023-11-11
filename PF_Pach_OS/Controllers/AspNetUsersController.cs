@@ -255,6 +255,21 @@ namespace PF_Pach_OS.Controllers
             }
             return View("ConfirmarCambiarContraseña");
         }
+
+        public async  Task<IActionResult> Rol(string idUsario)
+        {
+
+            
+            var aspNetUser = await _context.ApplicationUser.FindAsync(idUsario);
+            int? idrol_Usuario = aspNetUser.Id_Rol;
+            var rol = _context.Roles.FirstOrDefault(p=> p.IdRol == idrol_Usuario);
+            if(rol.Estado == 0)
+            {
+                return Json(true);
+            }
+            
+            return Json(false);
+        }
     }
 }
 
