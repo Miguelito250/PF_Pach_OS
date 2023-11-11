@@ -4,23 +4,31 @@
     ViewData["Title"] = "Detalles";
     Layout = null;
 }
-<h5 id="titulo-modal">Detalles Rol</h5>
-<div class="row">
-    <div class="col-md-4">
-      
-            
-            <div class="form-group">
-            <label class="control-label">@ViewBag.NomRol </label>
-               
-                
-            </div>
-            <div class="form-group row">
-                <label class="control-label">Permisos</label>
+<link href="~/css/RolPermisos/CreaEditar.css" rel="stylesheet" />
+
+<div>
+    <div class="col-12">
+
+
+        <div class="form-group">
+            <span class="fs-2 text-lg-center d-block mx-auto">
+                @ViewBag.NomRol
+            </span>
+            <div class="row">
+
+                <label class="control-label">Permisos </label>
+
                 @if (ViewBag.Permisos != null)
                 {
+
                     @foreach (var valor in (List<dynamic>)ViewBag.Permisos)
                     {
-                        <label class="col-10">@valor.nom_permiso</label>
+                        var isChecked = ((List<dynamic>)ViewBag.PermisosUsados).Any(item => item.IdPermiso == valor.id_permiso);
+
+                        <div class="form-check form-switch col-6 row pb-2">
+                            <label class="form-check-label col-6" for="flexSwitchCheckDefault">@valor.nom_permiso</label>
+                            <input class="form-check-input col-6" disabled id="flexSwitchCheckDefault" type="checkbox" name="ValoresSeleccionados" value="" @(isChecked ? "checked" : "") />
+                        </div>
                     }
 
                 }
@@ -28,8 +36,10 @@
                 {
                     <p>La lista de permisos es nula.</p>
                 }
+
             </div>
-        
+        </div>
+
     </div>
 </div>
 
