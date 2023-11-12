@@ -132,7 +132,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                         IdRol = parsedId;
                     }
                 }
-               
+                DateTime Fecha_Entrada = DateTime.Today;
                 var user = new ApplicationUser
                 {
                     DocumentType = Input.DocumentType,
@@ -142,9 +142,9 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                     UserName = Input.Email,
                     Email = Input.Email,                
                     State = 1,
-                    EntryDay = Input.EntryDay,
+                    EntryDay = Fecha_Entrada,
                     Id_Rol = IdRol
-                   
+
                 };
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 user.EmailConfirmationToken = code;

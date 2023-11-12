@@ -14,45 +14,49 @@
 
     <hr />
 
-    
+
     <dl class="row">
-        
-        <dt class = "col-sm-1">
+
+        <dt class="col-sm-1">
             Correo
         </dt>
-        <dd class = "col-sm-12">
+        <dd class="col-sm-12">
             @Html.DisplayFor(model => model.Email)
         </dd>
-        
-        <dt class = "col-sm-1">
-           Documento
+
+        <dt class="col-sm-1">
+            Documento
         </dt>
-        <dd class = "col-sm-12">
+        <dd class="col-sm-12">
             @Html.DisplayFor(model => model.DocumentType)
         </dd>
-        <dt class = "col-sm-1">
+        <dt class="col-sm-1">
             N.Documento
         </dt>
 
-        <dd class = "col-sm-12">
+        <dd class="col-sm-12">
             @Html.DisplayFor(model => model.DocumentNumber)
         </dd>
-        @*<dt class = "col-sm-1">
+        <dt class="col-sm-1">
             Entrada
         </dt>
-        <dd class = "col-sm-12">
-            @Html.DisplayFor(model => model.EntryDay)
-        </dd>*@
-        
-        
-        <dt class = "col-sm-1">
-           Rol
+        <dd class="col-sm-12">
+
+
+            @Model.EntryDay.ToShortDateString()
+
+
+
+        </dd>
+
+
+        <dt class="col-sm-1">
+            Rol
         </dt>
-        <dd class = "col-sm-12">
+        <dd class="col-sm-12">
             @ViewBag.NombrePermisoActivo
         </dd>
     </dl>
 </div>
 <div>
-   
 </div>
