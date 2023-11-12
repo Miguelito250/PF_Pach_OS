@@ -279,7 +279,7 @@ namespace PF_Pach_OS.Controllers {
                             iTextSharp.text.Font titulo = new iTextSharp.text.Font(fuente, 16f, iTextSharp.text.Font.ITALIC, new BaseColor(89, 78, 75));
                             BaseFont fuente2 = BaseFont.CreateFont(BaseFont.COURIER, BaseFont.CP1250, true);
                             iTextSharp.text.Font titulo_tablas = new iTextSharp.text.Font(fuente, 12f, iTextSharp.text.Font.NORMAL, new BaseColor(0, 0, 0));
-                            doc.Add(new Paragraph("Informe de Ventas Mensuales", titulo));
+                            doc.Add(new Paragraph($"Informe de Ventas Mensuales - {fecha.ToString("MMMM yyyy")}", titulo));
                             doc.Add(new Paragraph(" "));
 
                             var fechaActual = fechaInicio;
@@ -410,7 +410,7 @@ namespace PF_Pach_OS.Controllers {
                             iTextSharp.text.Font titulo = new iTextSharp.text.Font(fuente, 16f, iTextSharp.text.Font.ITALIC, new BaseColor(89, 78, 75));
                             iTextSharp.text.Font titulo_tablas = new iTextSharp.text.Font(fuente, 12f, iTextSharp.text.Font.NORMAL, new BaseColor(0, 0, 0));
 
-                            doc.Add(new Paragraph("Informe de Ventas Anuales", titulo));
+                            doc.Add(new Paragraph($"Informe de Ventas Anuales - {fecha.Year}", titulo));
                             doc.Add(new Paragraph(" "));
 
                             PdfPTable table = new PdfPTable(2);
@@ -515,22 +515,24 @@ namespace PF_Pach_OS.Controllers {
             try
             {
                 var ventas = _context.Ventas.ToList();
+                var compras = _context.Compras.ToList();
 
-                if (ventas.Any())
+                if (ventas.Any() || compras.Any())
                 {
                     _context.Ventas.RemoveRange(ventas);
+                    //_context.Compras.RemoveRange(compras);
                     _context.SaveChanges();
 
-                    return Json(new { succes=true,  message = "Todas las ventas han sido eliminadas correctamente." });
+                    return Json(new { success = true, message = "Todas las ventas y compras han sido eliminadas correctamente." });
                 }
                 else
                 {
-                    return BadRequest(new { Message = "No hay ventas para eliminar." });
+                    return BadRequest(new { Message = "No hay ventas ni compras para eliminar." });
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "Error al intentar eliminar las ventas." });
+                return StatusCode(500, new { Message = "Error al intentar eliminar las ventas y compras." });
 
             }
         }
