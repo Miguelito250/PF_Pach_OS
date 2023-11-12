@@ -23,29 +23,28 @@ select {
 }
 
 
+
 .input-container div:not(:last-child) {
-            margin-right: 10px;
+    margin-right: 10px;
 }
 
-.btn-primary {
-    top: -55px !important;
-    position: relative;
+.btn-outline-danger {
+    position: absolute;
     margin-top: 10px;
-    background: linear-gradient(180deg, #FF9200 2.08%, #8D5F20 100%);
-    right: -200px !important;
-    border: none !important;
+    top: 4.5vh;
+    right: 5vh;
 }
 @media (max-width: 767px) {
 
-    .btn-primary {
+    .btn-outline-danger {
         position: relative !important;
-        top: -90px !important;
-        left: 0vh !important;
+        top: -16vh;
+        right: -22vh
     }
     .estilo-btn-naranja {
         position: relative !important;
-        top: -50px !important;
-        left: 13vh !important;
+        top: -40px !important;
+        left: 14vh !important;
     }
     .input-container {
         display: flex;
@@ -137,9 +136,27 @@ select {
 
 
 
+@media (width: 412px) {
+    .btn-outline-danger {
+        top: -13vh;
+        right: -20vh
+    }
+}
 
+@media (width: 280px) {
+    .btn-outline-danger {
+        top: -18vh;
+        right: -18vh
+    }
 
+    .estilo-btn-naranja {
+        left: 9vh !important;
+    }
 
+    .modulos {
+        height: 90rem !important;
+    }
+}
 
 
 
