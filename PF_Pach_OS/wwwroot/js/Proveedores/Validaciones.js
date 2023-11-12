@@ -91,4 +91,24 @@ function validateNit() {
         return;
     }
 }
+// Código para abrir la modal de edición
+function abrirModalEdicion() {
+    // Cambiar el título de la modal a "Editar Proveedor"
+    document.getElementById('modal-title').innerText = 'Editar Proveedor';
+
+    // Abre la modal utilizando el método showModal de Bootstrap sin jQuery
+    var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+    myModal.show();
+}
+
+// Código para abrir la modal de creación
+function abrirModalCreacion() {
+    // Cambiar el título de la modal a "Crear Proveedor"
+    document.getElementById('modal-title').innerText = 'Crear Proveedor';
+
+    // Abre la modal utilizando el método showModal de Bootstrap sin jQuery
+    var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+    myModal.show();
+}
+
 

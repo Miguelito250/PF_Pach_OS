@@ -33,3 +33,17 @@ document.getElementById("btnNuevo").addEventListener("click", function () {
         location.reload(); 
     });
 });
+function abrirModalEdicion() {
+    // Cambiar el título de la modal a "Editar Proveedor"
+    document.getElementById('modal-title').innerText = 'Editar Proveedor';
+
+    // Resto del código para abrir la modal...
+}
+
+// Código para abrir la modal de creación
+function abrirModalCreacion() {
+    // Cambiar el título de la modal a "Crear Proveedor"
+    document.getElementById('modal-title').innerText = 'Crear Proveedor';
+
+    // Resto del código para abrir la modal...
+}

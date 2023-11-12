@@ -8709,6 +8709,10 @@
       "PackagePath": "staticwebassets\\css\\Productos.css"
     },
     {
+      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Proveedor\\estilos.css",
+      "PackagePath": "staticwebassets\\css\\Proveedor\\estilos.css"
+    },
+    {
       "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Proveedores.css",
       "PackagePath": "staticwebassets\\css\\Proveedores.css"
     },

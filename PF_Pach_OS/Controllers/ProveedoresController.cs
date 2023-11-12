@@ -122,7 +122,7 @@ namespace Pach_OS.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProveedor,NomLocal,Direccion,Telefono,Correo")] Proveedore proveedore)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProveedor,NomLocal,Direccion,Telefono,Correo,TipoDocumento,Nit")] Proveedore proveedore)
         {
             if (id != proveedore.IdProveedor)
             {
@@ -140,6 +140,12 @@ namespace Pach_OS.Controllers
                         existingProveedor.Direccion = proveedore.Direccion;
                         existingProveedor.Telefono = proveedore.Telefono;
                         existingProveedor.Correo = proveedore.Correo;
+                        if (existingProveedor.TipoDocumento != proveedore.TipoDocumento)
+                        {
+                            existingProveedor.TipoDocumento = proveedore.TipoDocumento;
+
+                            existingProveedor.Nit = proveedore.Nit;
+                        }
 
                         await _context.SaveChangesAsync();
                     }

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<PF_Pach_OS.Models.Proveedore>
 <link href="~/css/proveedores.css" rel="stylesheet" />
 <link href="~/css/estilos-generales.css" rel="stylesheet" />
-
+<link href="~/css/proveedor/estilos.css" rel="stylesheet" />
 
 
 @{
@@ -21,6 +21,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="console.log('Modal cerrada')">
                     <span aria-hidden="true">&times;</span>
                 </button>
+                <h4 id="modal-title">Título de la Modal</h4>
             </div>
             <div class="modal-body">
                 <div id="create-result"></div>
@@ -32,7 +33,6 @@
     </div>
 </div>
 
-
 <button id="btnNuevo" class="estilo-btn-naranja btn-crear-posicion" data-toggle="modal" data-target="#myModal" title="Crear Proveedor">Crear Proveedor</button>
 <input type="text" class="buscador" id="searchInput" placeholder="Buscar" aria-label="Buscar" aria-describedby="search-addon">
 
@@ -41,11 +41,12 @@
     <table class="table mb-0 table-bordered table-striped">
         <thead class="table-warning">
             <tr>
-                <th>Nit</th>
+                <th>Tipo Documento</th>
+                <th>Documentos</th>
                 <th>Proveedor</th>
-                <th>Dirección</th>
-                <th>Teléfono</th>
-                <th>Correo</th>
+                <th class="d-none d-md-table-cell">Dirección</th>
+                <th class="d-none d-md-table-cell">Teléfono</th>
+                <th class="d-none d-md-table-cell">Correo</th>
                 <th>Acciones</th>
 
             </tr>
@@ -54,15 +55,17 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    <td>@Html.DisplayFor(modelItem => item.TipoDocumento)</td>
                     <td>@Html.DisplayFor(modelItem => item.Nit)</td>
                     <td>@Html.DisplayFor(modelItem => item.NomLocal)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Direccion)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Telefono)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Correo)</td>
+                    <td class="d-none d-md-table-cell">@Html.DisplayFor(modelItem => item.Direccion)</td>
+                    <td class="d-none d-md-table-cell">@Html.DisplayFor(modelItem => item.Telefono)</td>
+                    <td class="d-none d-md-table-cell">@Html.DisplayFor(modelItem => item.Correo)</td>
                     <td class="d-flex">
-                        <a class="btnEditar cursor-pointer" data-id="@item.IdProveedor" data-toggle="modal">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="orange" class="bi bi-pen-fill" viewBox="0 0 16 16">
-                                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z" />
+                        <a class="btnEditar cursor-pointer" data-id="@item.IdProveedor" data-toggle="modal" title="Editar" id="btnEditar">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="orange" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                             </svg>
                         </a>
                         @if (item.Estado == 0)
@@ -125,7 +128,25 @@
         });
     });
 </script>
+<script>
+    function abrirModalCreacion() {
+        document.getElementById('modal-title').innerText = 'Crear Proveedor';
+        var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+        myModal.show();
+    }
+    document.getElementById('btnNuevo').addEventListener('click', abrirModalCreacion);
 
+
+</script>
+<script>
+    function abrirModalEditar() {
+        document.getElementById('modal-title').innerText = 'Editar Proveedor';
+        var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+        myModal.show();
+    }
+    document.getElementById('btnEditar').addEventListener('click', abrirModalEditar);
+</script>
+<script src="~/js/proveedores/validaciones.js"></script>
 @section scripts
     {
     <script src="~/js/proveedores/proveedore.js"></script>
