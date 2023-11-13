@@ -115,7 +115,7 @@ $(document).ready(function () {
                             nomRol: nombreRol.value
                         },
                         success: function (data) {
-
+                            window.location.reload();
                         },
                         error: function (xhr, status, error) {
                             reject(error);
@@ -123,7 +123,7 @@ $(document).ready(function () {
                     });
 
                     formularo_Permiso.removeEventListener('submit', ValidarFormulario);
-                    formularo_Permiso.submit();
+                    
                 });
             }
         } else {
