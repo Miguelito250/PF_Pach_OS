@@ -22,10 +22,11 @@ using Microsoft.AspNetCore.Hosting.Server.Features;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using NuGet.Packaging.Signing;
+using PF_Pach_OS.Controllers;
 
 namespace PF_Pach_OS.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    [Authorize]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -33,6 +34,8 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly Pach_OSContext _contex;
+        public readonly PermisosController _permisosController;
+
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -46,6 +49,8 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _contex = contex;
+
+            _permisosController = new PermisosController(_contex, _userManager, _signInManager);
         }
 
         [BindProperty]
@@ -104,8 +109,14 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             public IEnumerable<SelectListItem> RoleList { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
+            bool tine_permiso = _permisosController.tinto(8, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
@@ -116,6 +127,8 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                     Value = role.IdRol.ToString()
                 }).ToList()
             };
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
