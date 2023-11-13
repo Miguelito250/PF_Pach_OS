@@ -29,7 +29,7 @@
                         var isChecked = ((List<dynamic>)ViewBag.PermisosUsados).Any(item => item.IdPermiso == valor.id_permiso);
 
                         <div class="form-check form-switch col-6 row pb-2">
-                            <label class="form-check-label col-6" for="flexSwitchCheckDefault">@valor.nom_permiso</label>
+                            <label class="form-check-label col-6 tamaño_letra"  for="flexSwitchCheckDefault">@valor.nom_permiso</label>
                             <input class="form-check-input col-6" id="flexSwitchCheckDefault" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" @(isChecked ? "checked" : "") />
                         </div>
                     }

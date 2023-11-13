@@ -602,6 +602,7 @@ namespace PF_Pach_OS.Controllers
         {
 
             var producto = _context.Productos.Find(id);
+            Eliminar_Receta(id);
            _context.Productos.Remove(producto);
            _context.SaveChanges();
         }
