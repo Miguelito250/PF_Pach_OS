@@ -1,72 +1,52 @@
 ﻿@model PF_Pach_OS.Models.Proveedore
-
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear";
     Layout = null;
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 }
 
-<div class="row">
+<div>
     <div>
-        <form asp-action="Create" id="formulario" >
+        <form asp-action="Create" method="post" id="formularioProveedor" class="row" novalidate>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group col-6">
                 <label asp-for="TipoDocumento" class="control-label">Tipo de Documento</label>
-                <select asp-for="TipoDocumento" class="form-control">
+                <select asp-for="TipoDocumento" class="form-control" required>
                     <option value="NIT">NIT</option>
-                    <option value="Cédula">Cédula</option>
+                    <option value="Cedula">Cédula</option>
                 </select>
+                <span id="TipoDocumentoMensaje" class="invalid-feedback"></span>
+                <span class="valid-feedback"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Nit" class="control-label">
-                </label>
-                <input asp-for="Nit" class="form-control" maxlength="10" required />
-                <span id="nitResult" class="text-danger"></span>
-                <span asp-validation-for="Nit" class="text-danger"></span>
-                <div class="valid-feedback">
-                </div>
-                <span asp-validation-for="Nit" class="text-danger"></span>
+            <div class="form-group col-6">
+                <label id="labelNit" class="control-label">N° Documento</label>
+                <input asp-for="Nit" class="form-control" maxlength="12" required />
+                <span id="NitMensaje" class="invalid-feedback"></span>
+                <span class="valid-feedback"></span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group col-6">
                 <label asp-for="NomLocal" class="control-label">Nombre Local</label>
-                <input asp-for="NomLocal" class="form-control" maxlength="30" required />
-                <div class="invalid-feedback" id="nomlocal-feedback">
-                    Por favor ingrese el nombre.
-                </div>
-                <div class="valid-feedback">
-                </div>
-                <span asp-validation-for="NomLocal" class="text-danger"></span>
+                <input asp-for="NomLocal" class="form-control" maxlength="21" required />
+                <span id="NomLocalMensaje" class="invalid-feedback"></span>
+                <span class="valid-feedback"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" maxlength="30" required />
-                <div class="invalid-feedback">
-                    Por favor ingrese la direccion.
-                </div>
-                <div class="valid-feedback">
-                </div>
-                <span asp-validation-for="Direccion" class="text-danger"></span>
+            <div class="form-group col-6">
+                <label asp-for="Direccion" class="control-label">Dirección</label>
+                <input asp-for="Direccion" class="form-control" maxlength="31" required />
+                <span id="DireccionMensaje" class="invalid-feedback"></span>
+                <span class="valid-feedback"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" maxlength="10" required />
-                <div class="invalid-feedback">
-                    Por favor ingrese el telefono.
-                </div>
-                <div class="valid-feedback">
-                </div>
-                <span asp-validation-for="Telefono" class="text-danger"></span>
+            <div class="form-group col-6">
+                <label asp-for="Telefono" class="control-label">Teléfono</label>
+                <input asp-for="Telefono" class="form-control" maxlength="13" required />
+                <span id="TelefonoMensaje" class="invalid-feedback"></span>
+                <span class="valid-feedback"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-6">
                 <label asp-for="Correo" class="control-label"></label>
-                <input asp-for="Correo" class="form-control" maxlength="30" required />
-                <div class="invalid-feedback">
-                    Por favor ingrese el correo.
-                </div>
-                <div class="valid-feedback">
-                </div>
-                <span asp-validation-for="Correo" class="text-danger"></span>
+                <input type="email" asp-for="Correo" class="form-control" maxlength="30" required />
+                <span id="CorreoMensaje" class="invalid-feedback"></span>
+                <span class="valid-feedback"></span>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary botones-agregar" type="submit" id="btnRegistrar">Registrar</button>
@@ -74,169 +54,9 @@
         </form>
     </div>
 </div>
-<script>
-    document.getElementById('TipoDocumento').addEventListener('change', function () {
-        var tipoDocumento = this.value;
-        var labelForNit = document.querySelector('label[for="Nit"]');
+<script src="~/js/proveedores/validaciones.js"></script>
 
-        // Modificar el contenido del label según el tipo de documento seleccionado
-        if (tipoDocumento === 'Cédula') {
-            labelForNit.textContent = 'Cédula';
-        } else if (tipoDocumento === 'NIT') {
-            labelForNit.textContent = 'NIT';
-        }
-    });
-</script>
-<script>
-
-    (function () {
-        'use strict';
-        window.addEventListener('load', function () {
-            var forms = document.getElementsByClassName('needs-validation');
-            var validation = Array.prototype.filter.call(forms, function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
-    }
-</script>
-    <script>
-    $('#Nit').on('input', function () {
-        var nit = $(this).val();
-        if (nit) {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("IsNitAvailable", "Proveedores")',
-                data: { Nit: nit },
-                success: function (data) {
-                    if (data) {
-                        $('#nitResult').text('');
-                        $('#nit-validation-message').hide();
-                        $('#Nit').removeClass('is-invalid').addClass('is-valid');
-                        $('#btnRegistrar').prop('disabled', false); 
-                    } else {
-                        $('#nitResult').text('Documento registrado.');
-                        $('#nit-validation-message').show();
-                        $('#Nit').removeClass('is-valid').addClass('is-invalid');
-                        $('#btnRegistrar').prop('disabled', true); 
-                    }
-                }
-            });
-        }
-    });
-    </script>
-<script>
-    $('#btnRegistrar').on('click', function (e) {
-        e.preventDefault();
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1700,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        });
-
-        // Se validan todos los campos para que no se puedan enviar vacíos
-        if ($('#Nit').val() === '' || $('#NomLocal').val() === '' || $('#Direccion').val() === '' || $('#Telefono').val() === '' || $('#Correo').val() === '') {
-            // Resalta los campos vacíos en rojo utilizando Bootstrap
-            $('#Nit, #NomLocal, #Direccion, #Telefono, #Correo').addClass('is-invalid');
-
-            Toast.fire({
-                icon: 'error',
-                title: 'Formulario inválido'
-            });
-            return;
-        }
-
-        // Realiza la validación AJAX para verificar la existencia del NIT
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("IsNitAvailable", "Proveedores")',
-            data: { Nit: $('#Nit').val() },
-            success: function (isNitAvailable) {
-                if (isNitAvailable) {
-                    
-                    $('#nitResult').text('');
-                    $('#Nit').removeClass('is-invalid').addClass('is-valid');
-
-                    
-                    $.ajax({
-                        type: 'POST',
-                        url: '@Url.Action("Create", "Proveedores")',
-                        data: $('#formulario').serialize(),
-                        success: function (data) {
-                            console.log(data)
-                            if (data === "success") {
-                                var mensajeAlerta = "Proveedor registrado";
-                                Swal.fire({
-                                    title: '¡Éxito!',
-                                    text: mensajeAlerta,
-                                    timer: 2400,
-                                    icon: 'success',
-                                    showConfirmButton: false,
-                                }).then(function () {
-                                    location.reload(true);
-                                });
-                                $('#myModal').modal('hide');
-                            } else {
-                                Toast.fire({
-                                    icon: 'error',
-                                    title: 'Formulario inválido'
-                                });
-                            }
-                        },
-                        error: function () {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'No se pudo crear el proveedor'
-                            });
-                        }
-                    });
-                } else {
-                    
-                    $('#nitResult').text('Documento registrado.');
-                    $('#Nit').removeClass('is-valid').addClass('is-invalid');
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'El NIT ya existe'
-                    });
-                }
-            },
-            error: function () {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error de validación del NIT'
-                });
-            }
-        });
-    });
-
-
-
-</script>
-    
-
-
-@*<div>
-    <a asp-action="Index">Back to List</a>
-</div>*@
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="~/js/proveedores/proveedormensaje.js"></script>
-<script src="~/js/Proveedores/Validaciones.js"></script>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+

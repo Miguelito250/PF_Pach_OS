@@ -51,12 +51,6 @@ namespace Pach_OS.Controllers
             return View();
         }
 
-
-        public IActionResult CheckNitAvailability(string nit)
-        {
-            bool isAvailable = !_context.Proveedores.Any(p => p.Nit == nit);
-            return Json(isAvailable);
-        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdProveedor,Nit,NomLocal,Direccion,Telefono,Correo,TipoDocumento")] Proveedore proveedore)
@@ -66,7 +60,6 @@ namespace Pach_OS.Controllers
             {
                 if (proveedore.TipoDocumento == "NIT")
                 {
-                    // Lógica para crear un proveedor con NIT
                     var proveedorConNit = new Proveedore
                     {
                         Nit = proveedore.Nit,
@@ -81,10 +74,9 @@ namespace Pach_OS.Controllers
                 }
                 else if (proveedore.TipoDocumento == "Cédula")
                 {
-                    // Lógica para crear un proveedor con Cédula
                     var proveedorConCedula = new Proveedore
                     {
-                        Nit = proveedore.Nit, // Otra propiedad para Cédula
+                        Nit = proveedore.Nit, 
                         NomLocal = proveedore.NomLocal,
                         Direccion = proveedore.Direccion,
                         Telefono = proveedore.Telefono,
@@ -96,16 +88,9 @@ namespace Pach_OS.Controllers
                 }
                 TempData["SuccessMessage"] = "Proveedor creado exitosamente";
                 await _context.SaveChangesAsync();
-                return Content("success");
+                return RedirectToAction("Index", "Proveedores");
             }
-            return Content("success");
-        }
-
-        [HttpPost]
-        public IActionResult IsNitAvailable(string Nit)
-        {
-            bool isAvailable = !_context.Proveedores.Any(p => p.Nit == Nit);
-            return Json(isAvailable);
+            return RedirectToAction("Index", "Proveedores");
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -124,31 +109,32 @@ namespace Pach_OS.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProveedor,NomLocal,Direccion,Telefono,Correo")] Proveedore proveedore)
+        public async Task<IActionResult> Edit([Bind("IdProveedor,NomLocal,Direccion,Telefono,Correo,TipoDocumento,Nit")] Proveedore proveedore)
         {
-            if (id != proveedore.IdProveedor)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var existingProveedor = await _context.Proveedores.FindAsync(id);
+                    var existingProveedor = await _context.Proveedores.FindAsync(proveedore.IdProveedor);
                     if (existingProveedor != null)
                     {
                         existingProveedor.NomLocal = proveedore.NomLocal;
                         existingProveedor.Direccion = proveedore.Direccion;
                         existingProveedor.Telefono = proveedore.Telefono;
                         existingProveedor.Correo = proveedore.Correo;
+                        if (existingProveedor.TipoDocumento != proveedore.TipoDocumento)
+                        {
+                            existingProveedor.TipoDocumento = proveedore.TipoDocumento;
+
+                            existingProveedor.Nit = proveedore.Nit;
+                        }
 
                         await _context.SaveChangesAsync();
                     }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProveedoreExists(proveedore.IdProveedor))
+                    if (!ProveedorExiste(proveedore.IdProveedor))
                     {
                         return NotFound();
                     }
@@ -159,7 +145,7 @@ namespace Pach_OS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(proveedore);
+            return RedirectToAction("Index", "Proveedores");
         }
 
 
@@ -198,7 +184,7 @@ namespace Pach_OS.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProveedoreExists(int id)
+        private bool ProveedorExiste(int id)
         {
           return (_context.Proveedores?.Any(e => e.IdProveedor == id)).GetValueOrDefault();
         }
@@ -228,6 +214,53 @@ namespace Pach_OS.Controllers
         }
 
 
+        public async Task<bool> NitRepetido(string numeroDocumento)
+        {
+            var existe = await _context.Proveedores.FirstOrDefaultAsync(p => p.Nit == numeroDocumento);
 
+            if (existe != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> NomLocalRepetido(string nombreLocal)
+        {
+            var existe = await _context.Proveedores.FirstOrDefaultAsync(p => p.NomLocal == nombreLocal);
+
+            if (existe != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> TelefonoRepetido(string telefono)
+        {
+            var existe = await _context.Proveedores.FirstOrDefaultAsync(p => p.Telefono == telefono);
+
+            if (existe != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> CorreoRepetido(string correo)
+        {
+            var existe = await _context.Proveedores.FirstOrDefaultAsync(p => p.Correo == correo);
+
+            if (existe != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
+
 }
