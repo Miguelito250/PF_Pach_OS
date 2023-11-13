@@ -108,7 +108,23 @@ function ValidarNit() {
         nit.classList.add('is-valid');
     }
 
-   
+    $.ajax({
+        type: 'GET',
+        url: '/Proveedores/NitRepetido',
+        data: { numeroDocumento: nitValor },
+        success: function (result) {
+            if (result === true) {
+                nit.classList.add('is-invalid');
+                nitMensaje.textContent = 'No se puede repetir un numero de documento.';
+            } else {
+                nit.classList.add('is-valid');
+            }
+        },
+        error: function () {
+            // Manejo de errores si la solicitud falla
+            console.log('Error en la solicitud AJAX');
+        }
+    });
 }
 function ValidarNomLocal() {
     // Obtener el valor seleccionado del campo select
@@ -139,6 +155,23 @@ function ValidarNomLocal() {
         nomLocal.classList.add('is-valid');
     }
 
+    $.ajax({
+        type: 'GET',
+        url: '/Proveedores/NomLocalRepetido',
+        data: { nombreLocal: nomLocalValor },
+        success: function (result) {
+            if (result === true) {
+                nomLocal.classList.add('is-invalid');
+                nomLocalMensaje.textContent = 'No se puede repetir un nombre de local.';
+            } else {
+                nomLocal.classList.add('is-valid');
+            }
+        },
+        error: function () {
+            // Manejo de errores si la solicitud falla
+            console.log('Error en la solicitud AJAX');
+        }
+    });
     
 }
 function ValidarDireccion() {
@@ -200,7 +233,23 @@ function ValidarTelefono() {
         telefono.classList.add('is-valid');
     }
 
-   
+    $.ajax({
+        type: 'GET',
+        url: '/Proveedores/TelefonoRepetido',
+        data: { telefono: telefonoValor },
+        success: function (result) {
+            if (result === true) {
+                telefono.classList.add('is-invalid');
+                telefonoMensaje.textContent = 'No se puede repetir un numero de telefono.';
+            } else {
+                telefono.classList.add('is-valid');
+            }
+        },
+        error: function () {
+            // Manejo de errores si la solicitud falla
+            console.log('Error en la solicitud AJAX');
+        }
+    });
 }
 function ValidarCorreo() {
     let correoValor = correo.value;
@@ -223,4 +272,22 @@ function ValidarCorreo() {
         // El campo es válido
         correo.classList.add('is-valid');
     }
+
+    $.ajax({
+        type: 'GET',
+        url: '/Proveedores/CorreoRepetido',
+        data: { correo: correoValor },
+        success: function (result) {
+            if (result === true) {
+                correo.classList.add('is-invalid');
+                correoMensaje.textContent = 'No se puede repetir un correo.';
+            } else {
+                correo.classList.add('is-valid');
+            }
+        },
+        error: function () {
+            // Manejo de errores si la solicitud falla
+            console.log('Error en la solicitud AJAX');
+        }
+    });
 }
