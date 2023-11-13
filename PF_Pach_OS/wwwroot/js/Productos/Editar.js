@@ -73,6 +73,8 @@ document.addEventListener('DOMContentLoaded', function () {
     //validar el campo nombre del producto
     function ValidarNombre() {
         var valorNombre = nombre.value;
+        const hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(valorNombre);
+        const hasNumber = /(?=.*\d)/.test(valorNombre);
         var caracterMinimo = 4;
         var caracterMAximo = 30;
 
@@ -81,7 +83,16 @@ document.addEventListener('DOMContentLoaded', function () {
         if (valorNombre.trim() === '') {
             nombre.classList.add('is-invalid');
             mensaje_nombre.textContent = 'El campo no puede ir vacio';
-        } else if (valorNombre.length < caracterMinimo) {
+        }
+        else if (hasSpecialChar) {
+            nombre.classList.add('is-invalid');
+            mensaje_nombre.textContent = 'El nombre no puede tener caracteres especiales';
+        } else if (hasNumber) {
+            
+            nombre.classList.add('is-invalid');
+            mensaje_nombre.textContent = 'El nombre no puede tener numeros';
+        }
+        else if (valorNombre.length < caracterMinimo) {
             nombre.classList.add('is-invalid');
             mensaje_nombre.textContent = 'El nombre debe tener más de 4 caracteres';
         } else if (valorNombre.length > caracterMAximo) {

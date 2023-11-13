@@ -335,7 +335,7 @@ namespace PF_Pach_OS.Controllers
             }
 
             var saboresPizza = _context.Productos
-                .Where(p => p.IdTamano == tamanoVender.IdTamano && p.IdProducto > 4);
+                .Where(p => p.IdTamano == tamanoVender.IdTamano && p.IdProducto > 4 && p.Estado == 1);
 
             ViewBag.IdProducto = idProducto.IdProducto;
             ViewBag.TamanoVender = tamanoVender.NombreTamano;

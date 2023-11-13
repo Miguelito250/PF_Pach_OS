@@ -8,7 +8,7 @@
 <div class="p-5 row">
     <form id="registerForm" asp-action="Edit">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" id="Id" asp-for="Id" />
         <div class="form-floating d-flex">
 
             <div class="form-floating col-6">
@@ -31,14 +31,14 @@
                     <option value="Cedula Extranjera">Cédula Extranjera</option>
                 </select>
 
-                <label asp-for="DocumentType">Tipo de documento*</label>
+                <label asp-for="DocumentType"></label>
                 <span asp-validation-for="DocumentType" class="text-danger"></span>
             </div>
         </div>
         <div class="d-flex mt-5">
             <div class="form-floating col-6">
                 <input asp-for="DocumentNumber" class="form-control" aria-required="true" />
-                <label asp-for="DocumentNumber" >N° documento*</label>
+                <label asp-for="DocumentNumber" ></label>
                 <span asp-validation-for="DocumentNumber" class="text-danger"></span>
             </div>
 
@@ -57,9 +57,10 @@
 
 
             <div class="form-floating col-6">
-                <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" />
+                <input id="Email" asp-for="Email" class="form-control" autocomplete="username" aria-required="true" />
                 <label asp-for="Email" >Correo*</label>
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <div id="mensaje_Correo" class="invalid-feedback"></div>
+
             </div>
 
         </div>
@@ -78,3 +79,5 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/usuarios/validaciones.js"></script>

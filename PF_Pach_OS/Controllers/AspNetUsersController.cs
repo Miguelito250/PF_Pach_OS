@@ -270,6 +270,14 @@ namespace PF_Pach_OS.Controllers
             
             return Json(false);
         }
+
+        public async Task<IActionResult> NombreDuplicado(string Coreo)
+        {
+           
+            var EsDuplicaddo = _context.ApplicationUser.Any(x => x.Email == Coreo);
+
+            return Json(EsDuplicaddo);
+        }
     }
 }
 

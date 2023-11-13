@@ -411,7 +411,7 @@ namespace PF_Pach_OS.Controllers
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "NomCategoria");
             ViewData["IdTamano"] = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
             ViewBag.NombreTamano = new SelectList(_context.Tamanos, "IdTamano", "NombreTamano");
-            ViewBag.Insumo = _context.Insumos;
+            ViewBag.Insumo = _context.Insumos.Where(p=> p.Estado == 1);
             ViewBag.IdProducto = IdProducto;
             var producto_editar = _context.Productos.FirstOrDefault(p => p.IdProducto == IdProducto);
 
