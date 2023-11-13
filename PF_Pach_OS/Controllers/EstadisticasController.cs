@@ -15,22 +15,37 @@ using Microsoft.AspNetCore.Hosting;
 using PdfSharp.Charting;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using iTextSharp.text.html;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PF_Pach_OS.Controllers {
 
+    [Authorize]
     public class EstadisticasController : Controller
 {
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly Pach_OSContext _context;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public readonly PermisosController _permisosController;
 
-        public EstadisticasController(Pach_OSContext context, IWebHostEnvironment hostingEnvironment)
+        public EstadisticasController(Pach_OSContext context, IWebHostEnvironment hostingEnvironment, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _permisosController = new PermisosController(_context, _userManager, _signInManager);
         }
         [HttpGet]
         public IActionResult ObtenerVentasMensuales()
         {
+            bool tine_permiso = _permisosController.tinto(1, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             int mesActual = DateTime.Now.Month;
             int añoActual = DateTime.Now.Year;
 
@@ -54,6 +69,12 @@ namespace PF_Pach_OS.Controllers {
         [HttpGet]
         public IActionResult ObtenerComprasMensuales()
         {
+            bool tine_permiso = _permisosController.tinto(1, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             int mesActual = DateTime.Now.Month;
             int añoActual = DateTime.Now.Year;
 
@@ -77,6 +98,12 @@ namespace PF_Pach_OS.Controllers {
 
         public IActionResult ObtenerTotalVentasAnuales()
         {
+            bool tine_permiso = _permisosController.tinto(1, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             int añoActual = DateTime.Now.Year;
 
             DateTime primerDiaDelAño = new DateTime(añoActual, 1, 1);
@@ -92,6 +119,12 @@ namespace PF_Pach_OS.Controllers {
         [HttpGet]
         public IActionResult ObtenerTotalComprasAnuales()
         {
+            bool tine_permiso = _permisosController.tinto(1, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             int añoActual = DateTime.Now.Year;
 
             DateTime primerDiaDelAño = new DateTime(añoActual, 1, 1);
@@ -105,7 +138,14 @@ namespace PF_Pach_OS.Controllers {
             return Json(totalComprasAnuales);
         }
         public IActionResult ObtenerDiferenciaVentasMesAnterior()
+
         {
+            bool tine_permiso = _permisosController.tinto(1, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             DateTime primerDiaDelMesActual = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 
             DateTime ultimoDiaDelMesAnterior = primerDiaDelMesActual.AddDays(-1);
@@ -125,13 +165,19 @@ namespace PF_Pach_OS.Controllers {
             decimal diferencia = totalVentasMesActual - totalVentasMesAnterior;
 
 
-            string aumentoODisminucion = diferencia > 0 ? "aumento" : (diferencia < 0 ? "disminución" : "sin cambios");
+            string aumentoODisminucion = diferencia > 0 ? "aumento Ventas" : (diferencia < 0 ? "disminución Ventas" : "sin cambios");
 
             return Json(new { diferencia, aumentoODisminucion });
         }
 
         public IActionResult ObtenerVentasPorDia(string fecha)
         {
+            bool tine_permiso = _permisosController.tinto(1, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
 
             if (DateTime.TryParse(fecha, out DateTime fechaSeleccionada))
             {
@@ -171,6 +217,13 @@ namespace PF_Pach_OS.Controllers {
         [HttpGet]
         public ActionResult ObtenerVentas(string fechaSeleccionada, string tipoInforme)
         {
+            bool tine_permiso = _permisosController.tinto(1, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             DateTime fecha = DateTime.Now;
 
             if (tipoInforme == "mensual")
@@ -226,7 +279,7 @@ namespace PF_Pach_OS.Controllers {
                             iTextSharp.text.Font titulo = new iTextSharp.text.Font(fuente, 16f, iTextSharp.text.Font.ITALIC, new BaseColor(89, 78, 75));
                             BaseFont fuente2 = BaseFont.CreateFont(BaseFont.COURIER, BaseFont.CP1250, true);
                             iTextSharp.text.Font titulo_tablas = new iTextSharp.text.Font(fuente, 12f, iTextSharp.text.Font.NORMAL, new BaseColor(0, 0, 0));
-                            doc.Add(new Paragraph("Informe de Ventas Mensuales", titulo));
+                            doc.Add(new Paragraph($"Informe de Ventas Mensuales - {fecha.ToString("MMMM yyyy")}", titulo));
                             doc.Add(new Paragraph(" "));
 
                             var fechaActual = fechaInicio;
@@ -357,7 +410,7 @@ namespace PF_Pach_OS.Controllers {
                             iTextSharp.text.Font titulo = new iTextSharp.text.Font(fuente, 16f, iTextSharp.text.Font.ITALIC, new BaseColor(89, 78, 75));
                             iTextSharp.text.Font titulo_tablas = new iTextSharp.text.Font(fuente, 12f, iTextSharp.text.Font.NORMAL, new BaseColor(0, 0, 0));
 
-                            doc.Add(new Paragraph("Informe de Ventas Anuales", titulo));
+                            doc.Add(new Paragraph($"Informe de Ventas Anuales - {fecha.Year}", titulo));
                             doc.Add(new Paragraph(" "));
 
                             PdfPTable table = new PdfPTable(2);
@@ -408,6 +461,12 @@ namespace PF_Pach_OS.Controllers {
         [HttpGet]
         public IActionResult ObtenerProductosMasVendidos()
         {
+            bool tine_permiso = _permisosController.tinto(1, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             var productosMasVendidos = _context.DetalleVentas
                 .OrderByDescending(p => p.CantVendida)
                 .Take(2)
@@ -425,6 +484,12 @@ namespace PF_Pach_OS.Controllers {
         [HttpGet]
         public IActionResult ObtenerProductosMenosVendidos()
         {
+            bool tine_permiso = _permisosController.tinto(1, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             var productosMenosVendidos = _context.DetalleVentas
                 .OrderBy(p => p.CantVendida)
                 .Take(2)
@@ -441,25 +506,33 @@ namespace PF_Pach_OS.Controllers {
         [HttpPost]
         public IActionResult EliminarTodasLasVentas()
         {
+            bool tine_permiso = _permisosController.tinto(1, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             try
             {
                 var ventas = _context.Ventas.ToList();
+                var compras = _context.Compras.ToList();
 
-                if (ventas.Any())
+                if (ventas.Any() || compras.Any())
                 {
                     _context.Ventas.RemoveRange(ventas);
+                    //_context.Compras.RemoveRange(compras);
                     _context.SaveChanges();
 
-                    return Json(new { succes=true,  message = "Todas las ventas han sido eliminadas correctamente." });
+                    return Json(new { success = true, message = "Todas las ventas y compras han sido eliminadas correctamente." });
                 }
                 else
                 {
-                    return BadRequest(new { Message = "No hay ventas para eliminar." });
+                    return BadRequest(new { Message = "No hay ventas ni compras para eliminar." });
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "Error al intentar eliminar las ventas." });
+                return StatusCode(500, new { Message = "Error al intentar eliminar las ventas y compras." });
 
             }
         }
@@ -467,6 +540,12 @@ namespace PF_Pach_OS.Controllers {
         [HttpGet]
         public IActionResult ObtenerDatosTransferencias()
         {
+            bool tine_permiso = _permisosController.tinto(1, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
             var pagosTransferencias = _context.Ventas
                 .Count(v => v.TipoPago == "Transferencia");
 
