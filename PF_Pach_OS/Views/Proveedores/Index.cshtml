@@ -1,42 +1,30 @@
 ﻿@model IEnumerable<PF_Pach_OS.Models.Proveedore>
-<link href="~/css/proveedores.css" rel="stylesheet" />
-<link href="~/css/estilos-generales.css" rel="stylesheet" />
-<link href="~/css/proveedor/estilos.css" rel="stylesheet" />
 
+<link href="~/css/estilos-generales.css" rel="stylesheet" /> 
+<link href="~/css/proveedor/estilos.css" rel="stylesheet" />
 
 @{
     ViewData["Title"] = "Index";
 }
 
-
-@*<p>
-    <a asp-action="Create">Create New</a>
-</p>
-*@
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                @* <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="console.log('Modal cerrada')">
-                    <span aria-hidden="true">&times;</span>
-                </button> *@
-                <h4 id="modal-title">Título de la Modal</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 id="modal-title"></h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div id="create-result"></div>
-                <div id="modal-content">
-                    Cargando....
-                </div>
+            <div class="modal-body" id="modal-body" data-url="/DetalleVentas/DetallesVentas?IdVenta=">
+                Cargando...
             </div>
         </div>
     </div>
 </div>
 
-<button id="btnNuevo" class="estilo-btn-naranja btn-crear-posicion" data-toggle="modal" data-target="#myModal" title="Crear Proveedor">Crear Proveedor</button>
+<button id="btnNuevo" class="estilo-btn-naranja btn-crear-posicion" title="Crear Proveedor">Crear Proveedor</button>
+
 <input type="text" class="buscador" id="searchInput" placeholder="Buscar" aria-label="Buscar" aria-describedby="search-addon">
 
 
@@ -45,7 +33,7 @@
         <thead class="table-warning">
             <tr>
                 <th>Tipo Documento</th>
-                <th>Documentos</th>
+                <th>N° Documento</th>
                 <th>Proveedor</th>
                 <th class="d-none d-md-table-cell">Dirección</th>
                 <th class="d-none d-md-table-cell">Teléfono</th>
@@ -73,7 +61,7 @@
                         </a>
                         @if (item.Estado == 0)
                         {
-                            <form asp-action="Disable" asp-route-id="@item.IdProveedor" method="post" class="align-self-end">
+                            <form asp-action="Disable" asp-route-id="@item.IdProveedor" method="post" class="align-self-end" id="Deshabilitar">
                                 <button type="submit" class="btn btn-link">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill" viewBox="0 0 16 16">
                                         <circle cx="8" cy="8" r="8" />
@@ -83,7 +71,7 @@
                         }
                         else
                         {
-                            <form asp-action="Enable" asp-route-id="@item.IdProveedor" method="post" class="align-self-end">
+                            <form asp-action="Enable" asp-route-id="@item.IdProveedor" method="post" class="align-self-end" id="Habilitar">
                                 <button type="submit" class="btn btn-link">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-circle-fill" viewBox="0 0 16 16">
                                         <circle cx="8" cy="8" r="8" />
@@ -98,15 +86,8 @@
     </table>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $(".btnEditar").click(function () {
-            var idProveedor = $(this).data("id");
-            $("#modal-content").load("/Proveedores/Edit/" + idProveedor);
-            $('#myModal').modal('show');
-        });
-    });
-</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     var searchInput = $('#searchInput');
 
@@ -115,14 +96,20 @@
 
 
         $('tbody tr').each(function () {
-            var fecha = $(this).find('td:eq(0)').text().trim().toLowerCase();
-            var metodoPago = $(this).find('td:eq(1)').text().trim().toLowerCase();
-            var total = $(this).find('td:eq(2)').text().trim().toLowerCase();
+            var tipoDocumento = $(this).find('td:eq(0)').text().trim().toLowerCase();
+            var numero = $(this).find('td:eq(1)').text().trim().toLowerCase();
+            var proveedor = $(this).find('td:eq(2)').text().trim().toLowerCase();
+            var direccion = $(this).find('td:eq(3)').text().trim().toLowerCase();
+            var telefono = $(this).find('td:eq(4').text().trim().toLowerCase();
+            var correo = $(this).find('td:eq(5').text().trim().toLowerCase();
 
             if (
-                fecha.includes(searchText) ||
-                metodoPago.includes(searchText) ||
-                total.includes(searchText)
+                tipoDocumento.includes(searchText) ||
+                numero.includes(searchText) ||
+                proveedor.includes(searchText) ||
+                direccion.includes(searchText) ||
+                telefono.includes(searchText) ||
+                correo.includes(searchText)
             ) {
                 $(this).show();
             } else {
@@ -131,26 +118,5 @@
         });
     });
 </script>
-<script>
-    function abrirModalCreacion() {
-        document.getElementById('modal-title').innerText = 'Crear Proveedor';
-        var myModal = new bootstrap.Modal(document.getElementById('myModal'));
-        myModal.show();
-    }
-    document.getElementById('btnNuevo').addEventListener('click', abrirModalCreacion);
 
-
-</script>
-<script>
-    function abrirModalEditar() {
-        document.getElementById('modal-title').innerText = 'Editar Proveedor';
-        var myModal = new bootstrap.Modal(document.getElementById('myModal'));
-        myModal.show();
-    }
-    document.getElementById('btnEditar').addEventListener('click', abrirModalEditar);
-</script>
-<script src="~/js/proveedores/validaciones.js"></script>
-@section scripts
-    {
-    <script src="~/js/proveedores/proveedore.js"></script>
-}
+<script src="~/js/proveedores/proveedore.js"></script>

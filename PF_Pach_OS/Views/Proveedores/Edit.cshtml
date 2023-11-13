@@ -1,75 +1,53 @@
 ﻿@model PF_Pach_OS.Models.Proveedore
 
 @{
-    ViewData["Title"] = "Edit";
     Layout = null;
 }
-<div class="row">
+<div>
     <div>
-        <form asp-action="Edit" method="post">
+        <form asp-action="Edit" method="post" class="row" id="formularioProveedor" novalidate>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdProveedor" />
-            <div class="form-group">
+            <div class="form-group col-6">
                 <label asp-for="TipoDocumento" class="control-label">Tipo de Documento</label>
                 <select asp-for="TipoDocumento" class="form-control">
                     <option value="NIT">NIT</option>
-                    <option value="Cédula">Cédula</option>
+                    <option value="Cedula">Cédula</option>
                 </select>
+                <span id="TipoDocumentoMensaje" class="invalid-feedback"></span>
+                <span class="valid-feedback"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Nit" class="control-label">
-                    @{
-                        if (Model.TipoDocumento == "NIT")
-                        {
-                            <text>NIT</text>
-                        }
-                        else if (Model.TipoDocumento == "Cédula")
-                        {
-                            <text>Cédula</text>
-                        }
-                    }
+            <div class="form-group col-6">
+                <label id="labelNit" class="control-label">
+                    N° Documento
                 </label>
                 <input asp-for="Nit" class="form-control" readonly />
+                <span id="NitMensaje" class="invalid-feedback"></span>
+                <span class="valid-feedback"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-6">
                 <label asp-for="NomLocal" class="control-label">Nombre Local</label>
                 <input asp-for="NomLocal" class="form-control" maxlength="30" />
-                <div class="invalid-feedback" id="nomlocal-feedback">
-                    Por favor rellene el campo.
-                </div>
-                <div class="valid-feedback">
-                </div>
-                <span asp-validation-for="NomLocal" class="text-danger"></span>
+                <span id="NomLocalMensaje" class="invalid-feedback"></span>
+                <span class="valid-feedback"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-6">
                 <label asp-for="Direccion" class="control-label">Dirección</label>
                 <input asp-for="Direccion" class="form-control" maxlength="30" />
-                <div class="invalid-feedback" id="nomlocal-feedback">
-                    Por favor rellene el campo.
-                </div>
-                <div class="valid-feedback">
-                </div>
-                <span asp-validation-for="Direccion" class="text-danger"></span>
+                <span id="DireccionMensaje" class="invalid-feedback"></span>
+                <span class="valid-feedback"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-6">
                 <label asp-for="Telefono" class="control-label">Teléfono</label>
-                <input asp-for="Telefono" class="form-control" maxlength="10" />
-                <div class="invalid-feedback" id="nomlocal-feedback">
-                    Por favor rellene el campo.
-                </div>
-                <div class="valid-feedback">
-                </div>
-                <span asp-validation-for="Telefono" class="text-danger"></span>
+                <input asp-for="Telefono" class="form-control" maxlength="13" />
+                <span id="TelefonoMensaje" class="invalid-feedback"></span>
+                <span class="valid-feedback"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-6">
                 <label asp-for="Correo" class="control-label"></label>
                 <input asp-for="Correo" class="form-control" maxlength="30" />
-                <div class="invalid-feedback" id="nomlocal-feedback">
-                    Por favor ingrese un correo valido.
-                </div>
-                <div class="valid-feedback">
-                </div>
-                <span asp-validation-for="Correo" class="text-danger"></span>
+                <span id="CorreoMensaje" class="invalid-feedback"></span>
+                <span class="valid-feedback"></span>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary botones-agregar" id="btnEditar">Guardar Cambios</button>
@@ -77,29 +55,5 @@
         </form>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-<script>
-    $(document).ready(function () {
-        // Manejar el cambio en el tipo de documento
-        $('#TipoDocumento').change(function () {
-            var tipoDocumento = $(this).val();
-
-            var valorActualNit = $('#Nit').val();
-
-            if (tipoDocumento === 'NIT') {
-            } else if (tipoDocumento === 'Cédula') {
-            }
-        });
-    });
-
-
-</script>
-
-@*<div>
-    <a asp-action="Index">Back to List</a>
-</div>*@
-<script src="~/js/proveedores/validacioneseditar.js"></script>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<script src="~/js/proveedores/ValidacionesEditar.js"></script>
