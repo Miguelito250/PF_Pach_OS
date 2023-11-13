@@ -1,35 +1,51 @@
-$("#btnNuevo").click(function (eve) {
-    console.log("Crear");
-    $("#modal-content").load("/Proveedores/Create");
-});
-
-$(".btnEditar").click(function (eve) {
-    console.log("Boton Editar");
-    $("#modal-content").load("/Proveedores/Edit/" + $(this).data("id"));
-});
-$("#btnDetails").click(function (eve) {
-    $("#modal-content").load("/Proveedores/Details/" + $(this).data("id"));
-});
-$("#btnDelete").click(function (eve) {
-    var idProveedor = $(this).data("id");
-
-    $.post('/Controllers/ProveedoresController/' + idProveedor, function (data) {
-        if (data.success) {
-            location.reload(); 
-        } else {
+$(document).ready(function () {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1700,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     });
-});
-$(document).ready(function () {
-    $(".btnEditar").click(function () {
-        var idProveedor = $(this).data("id");
-        $("#modal-content").load("/Proveedores/Edit/" + idProveedor);
-        $('#myModal').modal('show');
+
+    var miModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+        keyboard: false
     });
-});
-document.getElementById("btnNuevo").addEventListener("click", function () {
-    $('#myModal').modal('show');
-    $('#myModal').on('hidden.bs.modal', function () {
-        location.reload(); 
+
+    $('#btnNuevo').click(function () {
+        var modalBody = $("#modal-body");
+        $('#modal-title').text('Crear Proveedor');
+        var url = "/Proveedores/Create";
+        modalBody.empty();
+        modalBody.load(url);
+
+        miModal.show();
     });
+    $('.btnEditar').click(function () {
+        let id = $(this).data("id")
+        console.log(id)
+        var modalBody = $("#modal-body");
+        $('#modal-title').text('Editar Proveedor');
+        var url = "/Proveedores/Edit?" + $.param({ id: id });
+        modalBody.empty();
+        modalBody.load(url);
+
+        miModal.show();
+    });
+
+    $('#Habilitar, #Deshabilitar').on('click', function (e) {
+        e.preventDefault();
+        var form = $(this);
+
+        Toast.fire({
+            icon: 'success',
+            title: ' \u00A1LISTO!'
+        }).then((result) => {
+            form.submit();
+        })
+    });
+
 });

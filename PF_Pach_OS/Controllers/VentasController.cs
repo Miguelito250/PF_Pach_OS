@@ -223,8 +223,8 @@ namespace PF_Pach_OS.Controllers
 
             }
 
-            await _detalleVentasController.OrganizarDetalles(venta.IdVenta);
             await _context.SaveChangesAsync();
+            await _detalleVentasController.OrganizarDetalles(venta.IdVenta);
             return RedirectToAction("Index", "Ventas");
         }
 

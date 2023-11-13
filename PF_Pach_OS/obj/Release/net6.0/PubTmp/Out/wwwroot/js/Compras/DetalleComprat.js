@@ -3,12 +3,13 @@
     var fomulario = document.getElementById('formCompra');
 
     var NumeroFactura = document.getElementById('NumeroFactura');
-    var Empleado = document.getElementById('Empleado')
     var Proveedor = document.getElementById('Proveedor');
 
-    var EmpleadoFeedback = document.getElementById('EmpleadoFeedback');
     var NumeroFeedback = document.getElementById('NumeroFeedback');
     var ProveedorFeedback = document.getElementById('ProveedorFeedback');
+
+    const enlacesMenu = document.querySelectorAll('.links-modulos');
+
 
     
 
@@ -18,7 +19,7 @@
 
         // Validar si la tabla de detalles de compra está vacía
 
-        if (fomulario.checkValidity() && !NumeroFactura.classList.contains('is-invalid') && !Empleado.classList.contains('is-invalid') && !Proveedor.classList.contains('is-invalid')) {
+        if (fomulario.checkValidity() && !NumeroFactura.classList.contains('is-invalid') && !Proveedor.classList.contains('is-invalid')) {
             const tablaDetallesCompra = document.querySelector('.tablaDetallesCompra');
             if (tablaDetallesCompra.rows.length <= 1) {
                 // Mostrar la SweetAlert de error
@@ -30,7 +31,6 @@
                     showConfirmButton: false,
                 });
 
-                // Detener la ejecución del código o realizar alguna acción adicional si es necesario
                 return;
             } else {
                 Swal.fire({
@@ -44,7 +44,6 @@
                     fomulario.removeEventListener('submit', EnvioCompra);
                     fomulario.submit();
                     localStorage.removeItem('NumeroFacturaL');
-                    localStorage.removeItem('EmpleadoL');
                     localStorage.removeItem('ProveedorL');
                 });
             }
@@ -56,7 +55,6 @@
             console.log('Formulario inválido');
             validarNumeroFactura();
             validarProveedor();
-            validarEmpleado()
         }
     }
 
@@ -65,10 +63,6 @@
 
     NumeroFactura.addEventListener('input', function () {
         validarNumeroFactura();
-    });
-
-    Empleado.addEventListener('change', function () {
-        validarEmpleado();
     });
 
     Proveedor.addEventListener('change', function () {
@@ -88,29 +82,9 @@
             Proveedor.classList.add('is-invalid');
             ProveedorFeedback.textContent = 'Por favor, elige una opción.';
         } else {
-            // El campo es válido
             Proveedor.classList.add('is-valid');
         }
     }
-
-    function validarEmpleado() {
-        // Obtener el valor seleccionado del campo select
-        var EmpleadoSeleccion = Empleado.value;
-
-        // Restablecer los estilos y mensajes de validación
-        Empleado.classList.remove('is-invalid', 'is-valid');
-        EmpleadoFeedback.textContent = '';
-
-        // Validar si no se ha seleccionado ninguna opción
-        if (EmpleadoSeleccion === '') {
-            Empleado.classList.add('is-invalid');
-            EmpleadoFeedback.textContent = 'Por favor, elige una opción.';
-        } else {
-            // El campo es válido
-            Empleado.classList.add('is-valid');
-        }
-    }
-
 
     function validarNumeroFactura() {
         var numFactura = NumeroFactura.value;
@@ -124,16 +98,20 @@
             NumeroFactura.classList.add('is-invalid');
             NumeroFeedback.textContent = 'Por favor ingrese el código de la factura.';
         }
+        // Validar que no tenga un espacio en blanco
+        else if (/^\s/.test(numFactura)) {
+            NumeroFactura.classList.add('is-invalid');
+            NumeroFeedback.textContent = 'No se puede comenzar con un espacio en blanco.';
+        }
         // Validar longitud del nombre
         else if (numFactura.length < 3 || numFactura.length > 20) {
             NumeroFactura.classList.add('is-invalid');
             NumeroFeedback.textContent = 'El código debe tener entre 3 y 20 caracteres.';
-        } else if (/[^a-zA-Z0-9\s]/.test(numFactura)) {
+        } else if (/[^a-zA-Z0-9\sñÑ]/.test(numFactura)) {
             NumeroFactura.classList.add('is-invalid');
             NumeroFeedback.textContent = 'No se pueden ingresar caracteres especiales.';
         }
         else {
-            // El campo es válido
             NumeroFactura.classList.add('is-valid');
 
             // Validar si el número de factura está duplicado
@@ -157,8 +135,68 @@
         }
     }
 
-    
-}); // Aquí se agrega el paréntesis de cierre
+    function actualizarReloj() {
+        var ahora = new Date();
+        var dia = ahora.getDate();
+        var mes = ahora.getMonth() + 1;
+        var año = ahora.getFullYear();
+        var horas = ahora.getHours();
+        var minutos = ahora.getMinutes();
+
+        if (dia < 10) dia = '0' + dia;
+        if (mes < 10) mes = '0' + mes;
+        if (horas < 10) horas = '0' + horas;
+        if (minutos < 10) minutos = '0' + minutos;
+
+        var fechaHoraFormateada = dia + '/' + mes + '/' + año + ' ' + horas + ':' + minutos;
+
+        document.getElementById('reloj').textContent = fechaHoraFormateada;
+    }
+
+    actualizarReloj();
+    setInterval(actualizarReloj, 1000);
+
+    // Manejar el paso de modulo mientras esta en una compra
+    enlacesMenu.forEach(enlace => {
+        enlace.addEventListener('click', e => {
+            e.preventDefault();
+
+            var href = e.currentTarget.href;
+
+            Swal.fire({
+                title: 'Advertencia',
+                text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, salir',
+                cancelButtonText: 'Cancelar'
+            }).then(result => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('NumeroFacturaL');
+                    localStorage.removeItem('ProveedorL');
+                    EliminarCompra().then(() => {
+                        window.location.href = href;
+                    });
+                }
+            });
+        });
+    });
+
+    function EliminarCompra() {
+        IdCompra = document.getElementById("Item2_IdCompra").value;
+        return $.ajax({
+            url: '/Compras/DetallesSinConfirmar',
+            type: 'POST',
+            data: { IdCompra },
+            success: function (response) {
+                console.log("Todo fue bien");
+            },
+            error: function (xhr, status, error) {
+                Swal.fire('Error', 'Ha ocurrido un error al enviar la solicitud', 'error');
+            }
+        });
+    }
+});
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -255,7 +293,6 @@ document.addEventListener('DOMContentLoaded', function () {
             InsumoFeedback.textContent = 'Por favor, Escoja una opcion.';
             cambiarClaseBotonInusumo();
         } else {
-            // El campo es válido
             if (!InsumoCompra.classList.contains('is-invalid') && !CantidadCompra.classList.contains('is-invalid')) {
                 restaurarClaseBotonInusumo();
             }
@@ -268,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function validarCantidadCompra() {
-        // Obtener el valor seleccionado del campo select
+        // Obtener el valor seleccionado del campo cantidad
         var Cantidad = CantidadCompra.value;
 
         // Restablecer los estilos y mensajes de validación
@@ -280,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
             CantidadFeedback.textContent = 'Por favor, ingrese la cantidad.';
             cambiarClaseBotonInusumo();
         }
-        // Validar longitud del nombre
+        // Validar longitud de la cantidad
         else if (Cantidad <= 0) {
             CantidadCompra.classList.add('is-invalid');
             CantidadFeedback.textContent = 'Debe ser mayor a 0';
@@ -295,7 +332,6 @@ document.addEventListener('DOMContentLoaded', function () {
             cambiarClaseBotonInusumo();
         }
         else {
-            // El campo es válido
             if (!InsumoCompra.classList.contains('is-invalid') && !CantidadCompra.classList.contains('is-invalid')) {
                 restaurarClaseBotonInusumo();
             }
@@ -335,7 +371,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function validarPrecioCompra() {
-        // Obtener el valor seleccionado del campo select
+        // Obtener el valor seleccionado del campo precio
         var Precio = PrecioCompra.value;
         const esNumerico = /^[0-9]*$/.test(Precio);
 
@@ -347,12 +383,17 @@ document.addEventListener('DOMContentLoaded', function () {
             PrecioCompra.classList.add('is-invalid');
             PrecioFeedback.textContent = 'Por favor, ingrese la precio del insumo';
             cambiarClaseBotonAgregar();
-        } else if (!esNumerico) {
+        } else if (/^\s/.test(Precio)) {
+            PrecioCompra.classList.add('is-invalid');
+            PrecioFeedback.textContent = 'No puede tener espacio en blanco.';
+            cambiarClaseBotonAgregar();
+        }
+        else if (!esNumerico) {
             PrecioCompra.classList.add('is-invalid');
             PrecioFeedback.textContent = 'No se pueden ingresar letras';
             cambiarClaseBotonAgregar();
         }
-        // Validar longitud del nombre
+        // Validar longitud del precio
         else if (Precio < 100) {
             PrecioCompra.classList.add('is-invalid');
             PrecioFeedback.textContent = 'Debe ser mayor a o igual a 100 pesos';
@@ -367,7 +408,6 @@ document.addEventListener('DOMContentLoaded', function () {
             cambiarClaseBotonAgregar();
         }
         else {
-            // El campo es válido
             if (!MedidaCompra.classList.contains('is-invalid') && !PrecioCompra.classList.contains('is-invalid')) {
                 restaurarClaseBotonAgregar();
             }
@@ -375,16 +415,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
     
-
-    
-}); // Aquí se agrega el paréntesis de cierre
+});
 
 window.addEventListener('load', function () {
     const cancelarCompraBtn = document.querySelector('.cancelarCompraBtn');
 
-    // Agregar evento de clic al botón
+    // Agregar evento de clic al botón cancelar
     cancelarCompraBtn.addEventListener('click', function (event) {
-        event.preventDefault(); // Evitar que el enlace se siga ejecutando
+        event.preventDefault();
 
         // Mostrar la SweetAlert de confirmación
         Swal.fire({
@@ -408,65 +446,22 @@ window.addEventListener('load', function () {
     });
 });
 
-//function formatearPrecio(input) {
-//    // Obtener el valor del input
-//    let valor = input.value;
-
-//    // Remover cualquier separador de miles o símbolo de moneda
-//    valor = valor.replace(/\D/g, '');
-
-//    // Convertir el valor a número
-//    let numero = Number(valor);
-
-//    // Formatear el número con separador de miles y símbolo de moneda
-//    let precioFormateado = formatearNumero(numero);
-
-//    // Agregar el símbolo de pesos adelante del precio formateado
-//    precioFormateado = '$' + precioFormateado;
-
-//    // Actualizar el valor del input con el precio formateado
-//    input.value = precioFormateado;
-//}
-
-//function formatearNumero(numero) {
-//    // Convertir el número a una cadena
-//    let numeroString = numero.toString();
-
-//    // Separar la parte entera de la parte decimal (si existe)
-//    let partes = numeroString.split('.');
-//    let parteEntera = partes[0];
-//    let parteDecimal = partes[1] || '';
-
-//    // Agregar separador de miles
-//    let parteEnteraFormateada = parteEntera.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-
-//    // Unir la parte entera formateada con la parte decimal
-//    let numeroFormateado = parteEnteraFormateada + (parteDecimal ? ',' + parteDecimal : '');
-
-//    return numeroFormateado;
-//}
-
-// When "NomInsumo" changes
 $('#Item1_IdInsumo').on('change', function () {
     var MedidaSeleccionada = $(this).find('option:selected').data('medida');
     updateMedidaOptions(MedidaSeleccionada);
 });
 
-// Function to update "Medida" options
 function updateMedidaOptions(MedidaSeleccionada) {
     var Medida = $('#MedidaCompra');
 
-    // Clear existing options
     Medida.find('option').remove();
 
-    // Add default option
     Medida.append($('<option>', {
         value: '',
         text: 'Elige una opción',
         selected: true
     }));
 
-    // Add options based on the selected measure
     if (MedidaSeleccionada === 'Gramo') {
         Medida.append($('<option>', {
             value: 'Gramos',
@@ -501,7 +496,6 @@ function updateMedidaOptions(MedidaSeleccionada) {
     }
 }
 
-// script.js
 document.addEventListener('DOMContentLoaded', function () {
 
     $('#formAgregar').submit(function (event) {

@@ -8,12 +8,13 @@ document.addEventListener('DOMContentLoaded', function () {
     //Variables para validar detalles de venta
     var fomularioAgregar = document.getElementById('formAgregar');
     var producto = document.getElementById('Item1_IdProducto');
-    var cantidad = document.getElementById('Item1_CantVendida')
+    var cantidad = document.getElementById('Item1_CantVendida');
+    var domicilio = document.getElementById('domicilio');
     var productoMensaje = document.getElementById('productoMensaje');
     var cantidadMensaje = document.getElementById('cantidadMensaje');
-    var DivBotonAgregar = document.querySelector('.DivBotonAgregar');
+    var domicilioMensaje = document.getElementById('domicilioMensaje');
 
-    const enlacesMenu = document.querySelectorAll('.links-modulos');
+    const enlacesMenu = document.querySelectorAll('#links-modulos');
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -34,15 +35,16 @@ document.addEventListener('DOMContentLoaded', function () {
     fomularioAgregar.addEventListener('submit', EnvioDetalle);
     producto.addEventListener('change', ValidarProducto)
     cantidad.addEventListener('input', ValidarCantidad)
+    domicilio.addEventListener('input', ValidarDomicilio)
 
     //---------------Funciones para validar ventas------------------------
     //Miguel 22/10/2023: Función para validar los campos en tiempo real con SweetAlert2
     function EnvioVenta(event) {
         event.preventDefault();
 
+        ValidarDomicilio()
+        ValidarPago()
         if (formulario.checkValidity() && !pago.classList.contains('is-invalid')) {
-
-            console.log(pago.classList.contains('is-invalid'))
             const tablaDetallesVenta = document.querySelector('.tablaDetalles-ventas');
             if (tablaDetallesVenta.rows.length <= 1) {
                 // Mostrar la SweetAlert de error
@@ -80,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 title: 'Formulario inválido'
             });
             ValidarPago();
+            ValidarDomicilio();
         }
 
     }
@@ -88,32 +91,47 @@ document.addEventListener('DOMContentLoaded', function () {
     function ValidarPago() {
         var valorPago = pago.value;
         var totalVenta = document.getElementById("totalVenta-input").value;
+        let metodoPago = document.getElementById("Item2_TipoPago").value
         totalVenta = parseInt(totalVenta);
 
         pago.classList.remove('is-invalid', 'is-valid');
         pagoMensaje.textContent = '';
 
-        if (valorPago.trim() === '') {
-            pago.classList.add('is-invalid');
-            pagoMensaje.textContent = 'El campo no puede estar vacío';
 
+        if (/[^0-9]/.test(valorPago)) {
+            pago.classList.add('is-invalid');
+            pagoMensaje.textContent = 'El campo no puede contener caracteres especiales';
         }
         else if (valorPago < 100) {
             pago.classList.add('is-invalid');
-            pagoMensaje.textContent = 'El pago no puede ser menor a 100 pesos ';
+            pagoMensaje.textContent = 'El pago no puede ser menor a 100 pesos';
+        }
+        else if (valorPago > 999999999) {
+            pago.classList.add('is-invalid');
+            pagoMensaje.textContent = 'El campo no puede tener más de 10 caracteres';
         }
         else if (valorPago < totalVenta) {
             pago.classList.add('is-invalid');
-            pagoMensaje.textContent = 'El pago no debe de ser menor al total';
+            pagoMensaje.textContent = 'El pago no debe ser menor al total';
+        }
+        else if (metodoPago == 'Transferencia' && valorPago > totalVenta) {
+            pago.classList.add('is-invalid');
+            pagoMensaje.textContent = 'El pago no debe ser mayor al total';
 
-        } else {
+        } else if (metodoPago == 'Transferencia' && valorPago < totalVenta) {
+            pago.classList.add('is-invalid');
+            pagoMensaje.textContent = 'El pago no debe ser menor al total';
+        }
+        else {
             pago.classList.add('is-valid');
         }
+
     }
 
     //------------------------Funciones para validar detalles de venta------------------------
     //Miguel 22/10/2023: Función para validar los campos en tiempo real con SweetAlert2
     function EnvioDetalle(event) {
+        ValidarProducto()
         event.preventDefault();
         if (fomularioAgregar.checkValidity() && !producto.classList.contains('is-invalid') && !cantidad.classList.contains('is-invalid')) {
             ValidarInsumos().then(function (data) {
@@ -140,7 +158,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 title: 'Formulario inválido'
             });
             console.log('Formulario inválido');
-            CambiarClaseBotonAgregar();
             ValidarProducto();
             ValidarCantidad();
 
@@ -157,25 +174,49 @@ document.addEventListener('DOMContentLoaded', function () {
         if (valorProducto === 'NA') {
             producto.classList.add('is-invalid');
             productoMensaje.textContent = 'El campo no puede estar vacío';
-        } else {
+        }
+        if (valorProducto <= 4) {
+            producto.classList.add('is-invalid');
+            productoMensaje.textContent = 'Este producto no es válido';
+        }
+        else {
             producto.classList.add('is-valid');
         }
+        CambiarClaseBotonAgregar()
     }
 
     //Miguel 22/10/2023: Función para validar que el campo de cantidad no sea menor a 1
     function ValidarCantidad() {
         let valorCantidad = cantidad.value
+        valorCantidad = parseInt(valorCantidad)
 
         cantidad.classList.remove('is-invalid', 'is-valid');
         cantidadMensaje.textContent = '';
 
-        if (valorCantidad <= 0) {
+        if (valorCantidad === 0) {
             cantidad.classList.add('is-invalid');
             cantidadMensaje.textContent = 'El campo no puede ser menor a 1';
-        } else {
-            cantidad.classList.add('is-valid')
         }
 
+        if (valorCantidad > 999999999) {
+            cantidad.classList.add('is-invalid');
+            cantidadMensaje.textContent = 'El campo no puede tener mas de 10 caracteres';
+        }
+
+        if (!/^\d+$/.test(valorCantidad)) {
+            cantidad.classList.add('is-invalid');
+            cantidadMensaje.textContent = 'El campo no admite caracteres especiales';
+        }
+
+        if (isNaN(valorCantidad)) {
+            cantidad.classList.add('is-invalid');
+            cantidadMensaje.textContent = 'Por favor ingrese un número válido';
+        }
+
+        else {
+            cantidad.classList.add('is-valid')
+        }
+        CambiarClaseBotonAgregar()
     }
 
     //Miguel 22/10/2023: Función para validar que haya insumos suficientes en el sistema antes de ingresar otro detalle
@@ -198,6 +239,32 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    //Miguel 06/11/2023: Función para validar el campo de domicilio
+    function ValidarDomicilio() {
+        let domicilioValor = domicilio.value
+        domicilioValor = parseInt(domicilioValor)
+
+        domicilio.classList.remove('is-invalid', 'is-valid');
+        domicilioMensaje.textContent = '';
+
+        if (domicilioValor > 999999999) {
+            domicilio.classList.add('is-invalid');
+            domicilioMensaje.textContent = 'El campo no puede tener mas de 10 caracteres';
+        }
+
+        if (!/^\d+$/.test(domicilioValor)) {
+            domicilio.classList.add('is-invalid');
+            domicilioMensaje.textContent = 'El campo no admite caracteres especiales';
+        }
+
+        else {
+            domicilio.classList.add('is-valid')
+        }
+
+
+    }
+
+
     //Miguel 24/10/2023: Función para saber si hay detalles de venta sin confirmar en la cuenta
     function DetallesSinConfirmar() {
         const detallesTable = document.querySelector('.tablaDetalles-ventas');
@@ -214,24 +281,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //Miguel 24/10/2023: Función para enviar al controlador con AJAX los detalles a eliminar
     function EliminarDetalles() {
-        IdVenta = document.getElementById("Item2_IdVenta").value
-        $.ajax({
-            url: '/DetalleVentas/DetallesSinConfirmar',
-            type: 'POST',
-            data: { IdVenta },
-            success: function (response) {
-                console.log("Todo fue bien")
-            },
-            error: function (xhr, status, error) {
-                Swal.fire('Error', 'Ha ocurrido un error al enviar la solicitud', 'error');
-            }
+        return new Promise((resolve, reject) => {
+            const IdVenta = document.getElementById("Item2_IdVenta").value;
+            $.ajax({
+                url: '/DetalleVentas/DetallesSinConfirmar',
+                type: 'POST',
+                data: { IdVenta },
+                success: function (response) {
+                    console.log("Todo fue bien");
+                    resolve(response); // Resuelve la promesa cuando la solicitud es exitosa
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error en la solicitud: " + error);
+                    reject(error); // Rechaza la promesa en caso de error
+                }
+            });
         });
     }
+
+    //Miguel 25:10/2023: Función para que el boton de agregar no se mueva de su posición al tener un campo invalido
     function CambiarClaseBotonAgregar() {
         var DivBotonAgregar = document.querySelector('.DivBotonAgregar');
-        if (DivBotonAgregar) {
+        if (cantidad.classList.contains('is-invalid') || producto.classList.contains('is-invalid')) {
             DivBotonAgregar.classList.remove('align-items-end');
             DivBotonAgregar.classList.add('align-items-center');
+        } else {
+            restaurarClaseBotonAgregar()
+        }
+    }
+
+    //Miguel 25:10/2023: Función para que el boton de agregar que se posicione en su forma normal al tener el campo valido
+    function restaurarClaseBotonAgregar() {
+        var DivBotonAgregar = document.querySelector('.DivBotonAgregar');
+        if (DivBotonAgregar) {
+            DivBotonAgregar.classList.add('align-items-end');
+            DivBotonAgregar.classList.remove('align-items-center');
         }
     }
 
@@ -267,8 +351,8 @@ document.addEventListener('DOMContentLoaded', function () {
     //Foreach para recorrer las etiquetas 'a' del menu y lanzar una alerta para evitar que se salga al instante
     enlacesMenu.forEach(enlace => {
         enlace.addEventListener('click', e => {
-
             e.preventDefault();
+            var href = e.currentTarget.href;
 
             if (DetallesSinConfirmar()) {
                 Swal.fire({
@@ -280,14 +364,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     cancelButtonText: 'Cancelar'
                 }).then(result => {
                     if (result.isConfirmed) {
-                        EliminarDetalles();
-
-                        window.location.href = e.target.href;
-
+                        EliminarDetalles().then(() => {
+                            console.log(href)
+                            window.location.href = href;
+                        });
                     }
                 });
             } else {
-                window.location.href = e.target.href;
+                console.log(href)
+                window.location.href = href;
             }
         });
     });

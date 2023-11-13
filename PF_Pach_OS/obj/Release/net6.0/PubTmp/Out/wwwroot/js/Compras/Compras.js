@@ -1,18 +1,5 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
 
-    var tabla = document.getElementById("Datos");
-
-    // Get all the table rows
-    var filas = Array.from(tabla.getElementsByTagName("tr"));
-
-    // Reverse the array of rows
-    filas.reverse();
-
-    // Append the reversed rows back to the table
-    filas.forEach(function (row) {
-        tabla.appendChild(row);
-    });
-
     $(document).on("click", "#boton-detalles", function () {
         var IdCompra = $(this).data("idcompra");
         var modalBody = $("#modal-body");
@@ -32,11 +19,15 @@
                 var purchaseDate = $(this).find('td:eq(1)').text().trim().toLowerCase();
                 var provider = $(this).find('td:eq(0)').text().trim().toLowerCase();
                 var employee = $(this).find('td:eq(2)').text().trim().toLowerCase();
+                var totalCompra = $(this).find('td:eq(3)').text().trim().toLowerCase();
+                var empleado = $(this).find('td:eq(4)').text().trim().toLowerCase();
 
                 if (
                     purchaseDate.includes(searchText) ||
                     provider.includes(searchText) ||
-                    employee.includes(searchText)
+                    employee.includes(searchText) ||
+                    totalCompra.includes(searchText) ||  
+                    empleado.includes(searchText) 
                 ) {
                     $(this).show();
                 } else {
@@ -45,14 +36,17 @@
             });
         });
         // Restablecer el placeholder cuando se borre el contenido o se pierda el foco
-        searchInput.on('blur', function () {
-            if ($(this).val().trim() === '') {
-                $(this).addClass('empty');
-            }
-        });
+        $(document).ready(function () {
+            // Restablecer el placeholder cuando se borre el contenido o se pierda el foco
+            $('#searchInput').on('blur', function () {
+                if ($(this).val().trim() === '') {
+                    $(this).addClass('empty');
+                }
+            });
 
-        searchInput.on('focus', function () {
-            $(this).removeClass('empty');
+            $('#searchInput').on('focus', function () {
+                $(this).removeClass('empty');
+            });
         });
     });
-}); // Aquí se agrega el paréntesis de cierre
+});

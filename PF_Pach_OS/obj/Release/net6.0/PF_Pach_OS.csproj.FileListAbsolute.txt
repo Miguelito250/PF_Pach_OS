@@ -285,3 +285,11 @@ C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\obj\Release\n
 C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\obj\Release\net6.0\PF_Pach_OS.pdb
 C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\obj\Release\net6.0\PF_Pach_OS.genruntimeconfig.cache
 C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\obj\Release\net6.0\ref\PF_Pach_OS.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Release\net6.0\BouncyCastle.Crypto.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Release\net6.0\DinkToPdf.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Release\net6.0\itextsharp.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Release\net6.0\PdfSharp.Charting.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Release\net6.0\PdfSharp.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Release\net6.0\ServiceStack.Text.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Release\net6.0\de\PdfSharp.Charting.resources.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Release\net6.0\de\PdfSharp.resources.dll
