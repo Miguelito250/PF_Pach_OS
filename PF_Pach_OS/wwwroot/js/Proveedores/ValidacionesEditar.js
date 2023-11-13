@@ -107,6 +107,24 @@ function ValidarNit() {
         // El campo es válido
         nit.classList.add('is-valid');
     }
+
+    $.ajax({
+        type: 'GET',
+        url: '/Proveedores/NitRepetido',
+        data: { numeroDocumento: nitValor },
+        success: function (result) {
+            if (result === true) {
+                nit.classList.add('is-invalid');
+                nitMensaje.textContent = 'No se puede repetir un numero de documento.';
+            } else {
+                nit.classList.add('is-valid');
+            }
+        },
+        error: function () {
+            // Manejo de errores si la solicitud falla
+            console.log('Error en la solicitud AJAX');
+        }
+    });
 }
 function ValidarNomLocal() {
     // Obtener el valor seleccionado del campo select
