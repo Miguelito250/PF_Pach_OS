@@ -13,3 +13,10 @@
     flex: 1 !important;
     margin-left: 10px !important;
 }
+@media only screen and (max-width: 414px) {
+    .tamaño_letra {
+        font-size: 0.8rem !important;
+    }
+}
+
+
