@@ -83,7 +83,9 @@ namespace PF_Pach_OS.Controllers
             ViewBag.NombreUsuario = nombreUsuario;
             ViewBag.Detalles = detallescompras;
             ViewBag.Insumos = await context.Insumos.Select(x => new { x.IdInsumo, x.NomInsumo,x.Estado,x.Medida }).ToListAsync();
-            ViewBag.Proveedores = await context.Proveedores.Select(x => new { x.IdProveedor, x.NomLocal }).ToListAsync();
+            ViewBag.Proveedores = await context.Proveedores
+                .Where(x => x.Estado == 1)
+                .Select(x => new { x.IdProveedor, x.NomLocal }).ToListAsync();
             ViewBag.Empleados = await context.Empleados.Select(x => new { x.IdEmpleado, x.Nombre }).ToListAsync();
             Tuple<DetallesCompra, Compra, Insumo> models = new Tuple<DetallesCompra, Compra, Insumo>(new DetallesCompra(), new Compra(), new Insumo());
             return View(models);
