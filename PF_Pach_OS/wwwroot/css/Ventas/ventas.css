@@ -23,7 +23,7 @@
         position: absolute;
         color: red;
         right: 10px;
-        z-index: 0; 
+        z-index: 0;
         font-weight: bold;
         text-shadow: 1px 1px 0px rgba(255,255,255,.15);
     }
@@ -72,7 +72,7 @@
     }
 
 /*Responsivo con maximo de ancho de 414px*/
-/*@media only screen and (max-width: 414px) {
+@media only screen and (max-width: 414px) {
     input.buscador {
         top: -11vh;
         left: 3vw;
@@ -82,19 +82,20 @@
     .estilo-btn-naranja {
         top: -7vh !important;
         left: 3vw !important;
-        width: 90%;
+        width: 50%;
     }
 
     .filtroEstado {
-        top: -6vh;
-        left: 25vw;
+        top: -9vh !important;
+        left: 55vw !important;
     }
-     Ajustar la tabla 
+
+    /*Ajustar la tabla*/
     .table {
         font-size: 16px;
     }
 
-     Ajustar tamaño de cuadro grande blanco 
+    /*Ajustar tamaño de cuadro grande blanco*/
     .modulos {
         position: relative;
         top: 50px;
@@ -102,17 +103,18 @@
         height: 80vh !important;
     }
 
-     Ajustar tabla
+    /*Ajustar tabla*/
     .table td, .table th {
-        padding: 4px;  Reducir el espaciado entre celdas 
+        padding: 4px;
+        
     }
 
-     Ocultar las columnas de Metodo pago, pago y pagoDomicilio 
-    td:nth-child(3),  Columna de Metodo pago 
+    /*Ocultar las columnas de Metodo pago, pago y pagoDomicilio*/
+    td:nth-child(3), 
     th:nth-child(3),
-    td:nth-child(5),  Columna de pago 
+    td:nth-child(5), 
     th:nth-child(5),
-    td:nth-child(6),  Columna de pagoDomicilio 
+    td:nth-child(6),
     th:nth-child(6) {
         display: none;
     }
@@ -120,16 +122,17 @@
     svg {
         width: 1em
     }
-}*/
+}
 
 /*Responsivo con maximo de ancho de 540px*/
-@media only screen and (max-width: 540px) {
+@media only screen and (width: 540px) {
     input.buscador {
         top: -11vh !important;
         left: 3vw;
         width: 90%;
     }
-        input.buscador:focus{
+
+        input.buscador:focus {
             width: 92%;
         }
 
@@ -139,7 +142,7 @@
     }
 
     .filtroEstado {
-        top: -6vh !important;
+        top: -7vh !important;
         left: 60vw !important;
     }
     /* Ajustar la tabla */
@@ -176,39 +179,40 @@
 }
 
 /*Responsivo con maximo de ancho de 820px*/
-/*@media only screen and (max-width: 820px) {
-    input.buscador {
-        top: -3vh !important;
-        left: 70vw;
-    }
-
+@media only screen and (width: 820px) {
     .estilo-btn-naranja {
-        top: -3vh !important;
+        top: -4vh;
     }
 
-    .filtroEstado {
-        top: -4.5vh;
-        left: 39vw;
+    .filtroEstado{
+        top: -5.6vh !important;
+        left: 42% !important;
     }
-     Ajustar la tabla 
+
+    .buscador{
+        top: -4vh !important;
+        left: 74%;
+    }
+    /*Ajustar la tabla*/
     .table {
         font-size: 16px;
     }
 
-     Ajustar tamaño de cuadro grande blanco 
+    /*Ajustar tamaño de cuadro grande blanco*/
     .modulos {
         position: relative;
         left: -4vh;
         height: 80vh !important;
     }
 
-     Ajustar tabla
+    /*Ajustar tabla*/
     .table td, .table th {
-        padding: 4px;  Reducir el espaciado entre celdas 
+        padding: 4px;
+        /*Reducir el espaciado entre celdas*/
     }
 
 
-    td:nth-child(6),  Columna de pagoDomicilio 
+    td:nth-child(6), /*Columna de pagoDomicilio*/
     th:nth-child(6) {
         display: none;
     }
@@ -217,8 +221,5 @@
         width: 1.5em
     }
 
-    .fas .fa-bars {
-        position: relative;
-        left: 10vw;
-    }
-*/
+   
+}
