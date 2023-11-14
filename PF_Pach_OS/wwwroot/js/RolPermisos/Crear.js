@@ -2,10 +2,72 @@
 
 $(document).ready(function () {
 
-    const formularo_Permiso = document.getElementById('formulario1');
+    var formularo_Permiso = document.getElementById('formulario1');
 
-    const nombreRol = document.getElementById('nomrol');
-    const Mensaje_nombre = document.getElementById('mensaje_nombre');
+    var nombreRol = document.getElementById('nomrol');
+    var Mensaje_nombre = document.getElementById('mensaje_nombre');
+
+    var permisos = [];
+    $('input[name="ValoresSeleccionados"]:checked').each(function () {
+        permisos.push($(this).val());
+    });
+
+    function ValidarFormulario(event) {
+        event.preventDefault();
+       
+        var permisos = [];
+        $('input[name="ValoresSeleccionados"]:checked').each(function () {
+            permisos.push($(this).val());
+        });
+        if (formularo_Permiso.checkValidity() && !nombreRol.classList.contains('is-invalid')) {
+            if (permisos.length < 1) {
+                Swal.fire({
+                    title: 'Ups...',
+                    timer: 2700,
+                    text: 'Debes agregar al menos un permiso para crear un rol.',
+                    icon: 'error',
+                    showConfirmButton: false,
+                });
+
+                // Detener la ejecución del código o realizar alguna acción adicional si es necesario
+                return;
+            } else {
+                Swal.fire({
+                    title: '¡Éxito!',
+                    text: 'El rol ha sido creado',
+                    timer: 2400,
+                    icon: 'success',
+                    showConfirmButton: false,
+                }).then((result) => {
+                    console.log('Formulario válido');
+                    $.ajax({
+                        url: '/RolPermisos/Crear',
+                        type: 'POST',
+                        data: {
+                            permisos: permisos,
+                            nomRol: nombreRol.value
+                        },
+                        success: function (data) {
+                            window.location.reload();
+                        },
+                        error: function (xhr, status, error) {
+                            reject(error);
+                        }
+                    });
+
+                    formularo_Permiso.removeEventListener('submit', ValidarFormulario);
+
+                });
+            }
+        } else {
+            Toast.fire({
+                icon: 'error',
+                title: 'Formulario inválido'
+            });
+            ValidarNombre();
+        }
+
+    }
 
     const Toast = Swal.mixin({
         toast: true,
@@ -59,7 +121,7 @@ $(document).ready(function () {
                     nombreRol.classList.add('is-invalid');
                     Mensaje_nombre.textContent = 'No se puede repetir el nombre.';
                 } else {
-                    nombreRol.classList.add('is-valid');
+                   
                 }
             },
             error: function () {
@@ -72,67 +134,7 @@ $(document).ready(function () {
 
     nombreRol.addEventListener('input', ValidarNombre)
 
+    
     formularo_Permiso.addEventListener('submit', ValidarFormulario)
 
-    var permisos = [];
-    $('input[name="ValoresSeleccionados"]:checked').each(function () {
-        permisos.push($(this).val());
-    });
-
-    function ValidarFormulario(event) {
-        event.preventDefault();
-        ValidarNombre();
-        var permisos = [];
-        $('input[name="ValoresSeleccionados"]:checked').each(function () {
-            permisos.push($(this).val());
-        });
-        if (formularo_Permiso.checkValidity() && !nombreRol.classList.contains('is-invalid')) {
-            if (permisos.length < 1) {
-                Swal.fire({
-                    title: 'Ups...',
-                    timer: 2700,
-                    text: 'Debes agregar al menos un permiso para crear un rol.',
-                    icon: 'error',
-                    showConfirmButton: false,
-                });
-
-                // Detener la ejecución del código o realizar alguna acción adicional si es necesario
-                return;
-            } else {
-                Swal.fire({
-                    title: '¡Éxito!',
-                    text: 'El rol ha sido creado',
-                    timer: 2400,
-                    icon: 'success',
-                    showConfirmButton: false,
-                }).then((result) => {
-                    console.log('Formulario válido');
-                    $.ajax({
-                        url: '/RolPermisos/Crear',
-                        type: 'POST',
-                        data: {
-                            permisos: permisos,
-                            nomRol: nombreRol.value
-                        },
-                        success: function (data) {
-                            window.location.reload();
-                        },
-                        error: function (xhr, status, error) {
-                            reject(error);
-                        }
-                    });
-
-                    formularo_Permiso.removeEventListener('submit', ValidarFormulario);
-                    
-                });
-            }
-        } else {
-            Toast.fire({
-                icon: 'error',
-                title: 'Formulario inválido'
-            });
-            ValidarNombre();
-        }
-
-    }
 });
