@@ -312,6 +312,8 @@ document.addEventListener('DOMContentLoaded', function () {
         CantidadCompra.classList.remove('is-invalid', 'is-valid');
         CantidadFeedback.textContent = '';
 
+        var regex = /\./;
+
         if (Cantidad.trim() === '' ) {
             CantidadCompra.classList.add('is-invalid');
             CantidadFeedback.textContent = 'Por favor, ingrese la cantidad.';
@@ -322,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function () {
             CantidadCompra.classList.add('is-invalid');
             CantidadFeedback.textContent = 'Debe ser mayor a 0';
             cambiarClaseBotonInusumo();
-        } else if (Cantidad == '+' || Cantidad == '-' || Cantidad == 'e') {
+        } else if (regex.test(Cantidad)) {
             CantidadCompra.classList.add('is-invalid');
             CantidadFeedback.textContent = 'No se pueden ingresar caracteres especiales.';
         }
