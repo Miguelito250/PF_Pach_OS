@@ -91,8 +91,12 @@ function InsertarTotal(totalVenta) {
 function CalcularCambio() {
     let totalVenta = document.getElementById('totalVenta-input').value;
     var pago = document.getElementById('pago').value;
-
-    var cambio = pago - totalVenta;
+    let cambio;
+    if (pago > totalVenta) {
+        cambio = pago - totalVenta;
+    } else {
+        cambio = 0;
+    }
 
     // Formatear el valor de cambio a pesos colombianos
     var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
