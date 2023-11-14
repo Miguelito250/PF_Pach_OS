@@ -18,11 +18,12 @@ using iTextSharp.text.html;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 
-namespace PF_Pach_OS.Controllers {
+namespace PF_Pach_OS.Controllers
+{
 
     [Authorize]
     public class EstadisticasController : Controller
-{
+    {
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly Pach_OSContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -183,13 +184,13 @@ namespace PF_Pach_OS.Controllers {
             {
 
                 decimal ventasDelDia = _context.Ventas
-                    .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == fechaSeleccionada.Date)
-                    .Sum(v => v.TotalVenta.GetValueOrDefault());
+    .Where(v => v.FechaVenta.Date == fechaSeleccionada.Date && v.TotalVenta != null)
+    .Sum(v => v.TotalVenta.GetValueOrDefault());
 
                 return Json(ventasDelDia);
             }
 
-            return Json(0); 
+            return Json(0);
         }
 
 
@@ -197,8 +198,8 @@ namespace PF_Pach_OS.Controllers {
         private List<Venta> ObtenerDatosVentas()
         {
 
-            DateTime fechaInicio = DateTime.Now.AddMonths(-1); 
-            DateTime fechaFin = DateTime.Now; 
+            DateTime fechaInicio = DateTime.Now.AddMonths(-1);
+            DateTime fechaFin = DateTime.Now;
 
             List<Venta> datosVentas = _context.Ventas
 
@@ -327,9 +328,9 @@ namespace PF_Pach_OS.Controllers {
                                         }
                                         diasTable.AddCell(cell);
 
-                                        var totalDiario = ventasEnRango
-                                            .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == fechaActual.Date)
-                                            .Sum(v => v.TotalVenta) ?? 0;
+                                        int totalDiario = ventasEnRango
+    .Where(v => v.FechaVenta.Date == fechaActual.Date)
+    .Sum(v => v.TotalVenta.GetValueOrDefault());
 
                                         PdfPCell totalCell = new PdfPCell(new Phrase(totalDiario.ToString("C"), titulo_tablas));
                                         ventasTable.AddCell(totalCell);
@@ -348,9 +349,9 @@ namespace PF_Pach_OS.Controllers {
                                 doc.Add(ventasTable);
 
                                 // Total de ventas de la semana
-                                var totalVentasSemana = ventasEnRango
-                                    .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value >= fechaActual.AddDays(-7) && v.FechaVenta.Value < fechaActual)
-                                    .Sum(v => v.TotalVenta) ?? 0;
+                                int totalVentasSemana = ventasEnRango
+    .Where(v => v.FechaVenta.Date >= fechaActual.AddDays(-7) && v.FechaVenta.Date < fechaActual)
+    .Sum(v => v.TotalVenta.GetValueOrDefault());
 
                                 doc.Add(new Paragraph("Total Semana " + semanaActual + ": " + totalVentasSemana.ToString("C"), titulo_tablas));
                                 doc.Add(new Paragraph(" "));
@@ -427,14 +428,15 @@ namespace PF_Pach_OS.Controllers {
 
                             for (int mes = 1; mes <= 12; mes++)
                             {
-                                var ventasMes = ventasEnRango.Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Month == mes);
-                                var totalVentasMes = ventasMes.Sum(v => v.TotalVenta);
+                                var ventasMes = ventasEnRango.Where(v => v.FechaVenta.Month == mes);
+                                var totalVentasMes = ventasMes.Sum(v => v.TotalVenta.GetValueOrDefault());
                                 BaseColor colorFila = alternarColorFila ? colorGris : colorBlanco;
                                 BaseColor colorTexto = colorFila == colorGris ? BaseColor.BLACK : BaseColor.BLACK;
                                 table.AddCell(new PdfPCell(new Phrase(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(mes), new iTextSharp.text.Font(fuente, 12f, iTextSharp.text.Font.BOLD, colorTexto))) { BackgroundColor = colorFila });
                                 table.AddCell(new PdfPCell(new Phrase($"{totalVentasMes:C}", new iTextSharp.text.Font(fuente, 12f, iTextSharp.text.Font.BOLD, colorTexto))) { BackgroundColor = colorFila });
                                 alternarColorFila = !alternarColorFila;
                             }
+
 
                             doc.Add(table);
 

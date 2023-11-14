@@ -14,6 +14,8 @@ using NuGet.Versioning;
 using PF_Pach_OS.Models;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Antiforgery;
+using System.Globalization;
+using System.Data.SqlTypes;
 
 namespace PF_Pach_OS.Controllers
 {
@@ -61,13 +63,13 @@ namespace PF_Pach_OS.Controllers
                 DateTime fechaActual = DateTime.Now.Date;
 
                 var listadoVentasCajero = await _context.Ventas
-                .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == fechaActual)
-                .OrderByDescending(v => v.FechaVenta.Value.Year)
-                .ThenByDescending(v => v.FechaVenta.Value.Month)
-                .ThenByDescending(v => v.FechaVenta.Value.Day)
-                .ThenByDescending(v => v.FechaVenta.Value.Hour)
-                .ThenByDescending(v => v.FechaVenta.Value.Minute)
-                .ThenByDescending(v => v.FechaVenta.Value.Second)
+                .Where(v => v.FechaVenta.Date == fechaActual)
+                .OrderByDescending(v => v.FechaVenta.Year)
+                .ThenByDescending(v => v.FechaVenta.Month)
+                .ThenByDescending(v => v.FechaVenta.Day)
+                .ThenByDescending(v => v.FechaVenta.Hour)
+                .ThenByDescending(v => v.FechaVenta.Minute)
+                .ThenByDescending(v => v.FechaVenta.Second)
                 .ToListAsync();
 
 
@@ -75,12 +77,12 @@ namespace PF_Pach_OS.Controllers
             }
 
             var pach_OSContext = await _context.Ventas
-                .OrderByDescending(v => v.FechaVenta.Value.Year)
-                .ThenByDescending(v => v.FechaVenta.Value.Month)
-                .ThenByDescending(v => v.FechaVenta.Value.Day)
-                .ThenByDescending(v => v.FechaVenta.Value.Hour)
-                .ThenByDescending(v => v.FechaVenta.Value.Minute)
-                .ThenByDescending(v => v.FechaVenta.Value.Second)
+                .OrderByDescending(v => v.FechaVenta.Year)
+                .ThenByDescending(v => v.FechaVenta.Month)
+                .ThenByDescending(v => v.FechaVenta.Day)
+                .ThenByDescending(v => v.FechaVenta.Hour)
+                .ThenByDescending(v => v.FechaVenta.Minute)
+                .ThenByDescending(v => v.FechaVenta.Second)
                 .ToListAsync();
 
             return View(pach_OSContext);
@@ -170,32 +172,21 @@ namespace PF_Pach_OS.Controllers
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
 
-            if (!ModelState.IsValid || venta.Pago < venta.TotalVenta || venta.Pago == null)
-            {
-                return RedirectToAction("Crear", "Ventas", new { venta.IdVenta });
-            }
-
             venta.Estado = venta.Mesa == "General"
                ? venta.Estado = "Pagada"
                : venta.Estado = "Pendiente";
-
 
             var ventaActualizar = await _context.Ventas
                 .FirstOrDefaultAsync(v => v.IdVenta == venta.IdVenta);
 
             if (ventaActualizar != null)
             {
+                DateTime fechaVenta = venta.FechaVenta;
 
-                ventaActualizar.FechaVenta = new DateTime(
-                    venta.FechaVenta.Value.Year,
-                    venta.FechaVenta.Value.Month,
-                    venta.FechaVenta.Value.Day,
-                    venta.FechaVenta.Value.Hour,
-                    venta.FechaVenta.Value.Minute,
-                    venta.FechaVenta.Value.Second
-                );
-
-
+                if (fechaVenta >= SqlDateTime.MinValue.Value && fechaVenta <= SqlDateTime.MaxValue.Value)
+                {
+                    ventaActualizar.FechaVenta = fechaVenta;
+                }
 
                 ventaActualizar.TipoPago = venta.TipoPago;
                 ventaActualizar.Pago = venta.Pago;
@@ -220,7 +211,6 @@ namespace PF_Pach_OS.Controllers
             {
                 detalle.Estado = "Descontado";
                 _context.Update(detalle);
-
             }
 
             await _context.SaveChangesAsync();
@@ -454,7 +444,7 @@ namespace PF_Pach_OS.Controllers
             DateTime fechaActual = DateTime.Now.Date;
 
             var reporteVentas = await _context.Ventas
-                .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Date == fechaActual && v.TotalVenta != null)
+                .Where(v => v.FechaVenta.Date == fechaActual && v.TotalVenta != null)
                 .ToListAsync();
 
             int ventasDiarias = 0;
