@@ -18,6 +18,8 @@ function ReporteDiario(event) {
                 title: 'Cierre de caja',
                 text: mensaje,
                 showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 confirmButtonText: 'Sí, salir',
                 cancelButtonText: 'No, Cancelar',
             }).then((result) => {
