@@ -1,4 +1,4 @@
-﻿//Miguel 20/10/2023
+﻿ //Miguel 20/10/2023
 document.addEventListener('DOMContentLoaded', function () {
     //Variables para validar la venta
     var formulario = document.getElementById("formVentas")
@@ -97,22 +97,26 @@ document.addEventListener('DOMContentLoaded', function () {
         pago.classList.remove('is-invalid', 'is-valid');
         pagoMensaje.textContent = '';
 
+        console.log(totalVenta)
 
         if (/[^0-9]/.test(valorPago)) {
             pago.classList.add('is-invalid');
             pagoMensaje.textContent = 'El campo no puede contener caracteres especiales';
         }
-        else if (valorPago < 100) {
-            pago.classList.add('is-invalid');
-            pagoMensaje.textContent = 'El pago no puede ser menor a 100 pesos';
-        }
+        
         else if (valorPago > 999999999) {
             pago.classList.add('is-invalid');
             pagoMensaje.textContent = 'El campo no puede tener más de 10 caracteres';
         }
         else if (valorPago < totalVenta) {
+            let cambio = totalVenta - valorPago
+
+            var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+            var cambioFormateado = formatoColombiano.format(cambio);
+            cambioFormateado = cambioFormateado.slice(0, -3);
+
             pago.classList.add('is-invalid');
-            pagoMensaje.textContent = 'El pago no debe ser menor al total';
+            pagoMensaje.textContent = 'Falta por agregar ' + cambioFormateado;
         }
         else if (metodoPago == 'Transferencia' && valorPago > totalVenta) {
             pago.classList.add('is-invalid');
@@ -122,6 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
             pago.classList.add('is-invalid');
             pagoMensaje.textContent = 'El pago no debe ser menor al total';
         }
+        
         else {
             pago.classList.add('is-valid');
         }
