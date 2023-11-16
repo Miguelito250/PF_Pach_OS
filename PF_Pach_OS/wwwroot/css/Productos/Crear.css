@@ -1,4 +1,15 @@
-﻿@media only screen and (max-width: 414px) {
+﻿.table-with-separator {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+    .table-with-separator thead tr {
+        border-bottom: 2px solid #000; /* Color de la línea de separación */
+    }
+
+
+
+@media only screen and (max-width: 412px) {
     .modulos {
         position: relative;
         left: -4vh;
@@ -12,7 +23,10 @@
         margin-left: 3rem !important;
     }
 
-
+    .col-lg-6 .col-md-2 .mr-2 .ml-5 .mt-4 .Responsi {
+        width: 200px !important;
+        max-width: 200px !important;
+    }
 
     .container {
         width: 200px;
@@ -50,10 +64,9 @@
     .col-lg-12 .mt-4 .bg-white .overflow-scroll .DetallesRecetas {
         width: min-content !important;
     }
+    
+   
 
-    .col-lg-6 .col-md-4 .mr-2 .ml-5 .mt-4 {
-        width: 200px !important
-    }
 
     .table td, .table th {
         padding: 5px;
@@ -63,6 +76,7 @@
             margin: 2px;
             margin: auto !important;
         }
+   
 }
 
 @media only screen and (width: 540px) {
