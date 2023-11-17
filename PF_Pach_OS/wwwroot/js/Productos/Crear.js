@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     function EnvioProducto(event) {
         event.preventDefault();
-        InterfazProducto();
+       
         if (formulario_producto.checkValidity() && !nombre.classList.contains('is-invalid')) {
             const tablaReceta = document.querySelector('#Tabla1');
             console.log(tablaReceta.rows.length)
