@@ -4,7 +4,7 @@
 }
 
     .table-with-separator thead tr {
-        border-bottom: 2px solid #000; /* Color de la línea de separación */
+        border-bottom: 2px solid #000;
     }
 
 
@@ -23,14 +23,6 @@
         margin-left: 3rem !important;
     }
 
-    .col-lg-6 .col-md-2 .mr-2 .ml-5 .mt-4 .Responsi {
-        width: 200px !important;
-        max-width: 200px !important;
-    }
-
-    .container {
-        width: 200px;
-    }
 
     #miFormulario input,
     #miFormulario select {
@@ -64,8 +56,8 @@
     .col-lg-12 .mt-4 .bg-white .overflow-scroll .DetallesRecetas {
         width: min-content !important;
     }
-    
-   
+
+
 
 
     .table td, .table th {
@@ -76,7 +68,20 @@
             margin: 2px;
             margin: auto !important;
         }
-   
+
+    .contenedor-importar{
+        margin-top: 10px;
+    }
+    .importar {
+        text-align: left !important;
+        width: 115px;
+        font-size: 16px !important;
+    }
+
+    svg {
+        text-align: left !important;
+        width: 16px !important;
+    }
 }
 
 @media only screen and (width: 540px) {
@@ -155,12 +160,7 @@
         grid-column: auto;
     }
 
-    .Responsi{
+    .Responsi {
         max-width: 60vw !important;
     }
-
-    
-    
-
 }
-
