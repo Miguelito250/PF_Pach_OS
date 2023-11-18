@@ -19,7 +19,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFlutterApp",
-        builder => builder.WithOrigins("http://localhost:8080"));
+        builder => builder.WithOrigins("http://localhost:55730"));
+
 });
 
 builder.Services.AddDbContext<Pach_OSContext>(options =>
@@ -83,6 +84,12 @@ app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Compras/Compra
         appBuilder.UseAuthorization();
     });
 
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/AuthApi/login"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
