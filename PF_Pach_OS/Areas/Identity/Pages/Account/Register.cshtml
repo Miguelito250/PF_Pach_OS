@@ -9,67 +9,74 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-floating d-flex">
             <div class="form-floating col-6">
-                <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select" aria-required="true">
-                    <option disabled selected>Seleccione Rol</option>
+                <select id="Role" asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select" aria-required="true">
+                    <option disabled value="" selected>Seleccione Rol</option>
                 </select>
                 <label asp-for="Input.Role" class=" control-label">Rol</label>
+                <div id="mensaje_Rol" class="invalid-feedback"></div>
                 <span asp-validation-for="Input.Role" class="text-danger"></span>
             </div>
             <div class="form-floating col-6">
-                <select asp-for="Input.DocumentType" class="form-select" aria-required="true">
+                <select id="DocumentType" asp-for="Input.DocumentType" class="form-select" aria-required="true">
                     <option value="Cedula">Cédula</option>
                     <option value="Tarjeta Identidad">Tarjeta de Identidad</option>
                     <option value="Pasaporte">Pasaporte</option>
                     <option value="Cedula Extranjera">Cédula Extranjera</option>
                 </select>
                 <label asp-for="Input.DocumentType"></label>
+                <div id="mensaje_TipoDocumento" class="invalid-feedback"></div>
                 <span asp-validation-for="Input.DocumentType" class="text-danger"></span>
             </div>
         </div>
 
         <div class="d-flex mt-5">
             <div class="form-floating col-6">
-                <input asp-for="Input.DocumentNumber" class="form-control" aria-required="true" />
+                <input id="DocumentNumber" asp-for="Input.DocumentNumber" class="form-control" aria-required="true" />
                 <label asp-for="Input.DocumentNumber"></label>
+                <div id="mensaje_NumeroDocumento" class="invalid-feedback"></div>
                 <span asp-validation-for="Input.DocumentNumber" class="text-danger"></span>
             </div>
             <div class="form-floating col-6">
-                <input asp-for="Input.FirstName" class="form-control" aria-required="true" />
+                <input id="FirstName" asp-for="Input.FirstName" class="form-control" aria-required="true" />
                 <label asp-for="Input.FirstName"></label>
+                <div id="mensaje_Nombre" class="invalid-feedback"></div>
+
                 <span asp-validation-for="Input.FirstName" class="text-danger"></span>
             </div>
         </div>
 
         <div class="d-flex mt-5">
             <div class="form-floating col-6">
-                <input asp-for="Input.LastName" class="form-control" aria-required="true" />
+                <input id="LastName" asp-for="Input.LastName" class="form-control" aria-required="true" />
                 <label asp-for="Input.LastName"></label>
+                <div id="mensaje_Apellido" class="invalid-feedback"></div>
+
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
             <div class="form-floating col-6">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <input id="Email" asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
                 <label asp-for="Input.Email"></label>
+                <div id="mensaje_Correo" class="invalid-feedback"></div>
+
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
         </div>
 
-        <div class="d-none">
-            <div class="form-floating col-6">
-                <input asp-for="Input.EntryDay" type="date" class="form-control" aria-required="true" />
-                <label asp-for="Input.EntryDay"></label>
-                <span asp-validation-for="Input.EntryDay" class="text-danger"></span>
-            </div>
-        </div>
+        
 
         <div class="d-flex mt-5 ">
             <div class="form-floating col-6">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                <input id="Password" asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
                 <label asp-for="Input.Password"></label>
+                <div id="mensaje_Contraseña" class="invalid-feedback"></div>
+
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-floating col-6">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                <input id="ConfirmPassword" asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
                 <label asp-for="Input.ConfirmPassword"></label>
+                <div id="mensaje_ConfirmarContraseña" class="invalid-feedback"></div>
+
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
         </div>
@@ -85,3 +92,8 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/js/usuarios/validaciones.js"></script>
