@@ -6,8 +6,7 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [AllowAnonymous]
     public class AuthApiController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -19,9 +18,8 @@ namespace PF_Pach_OS.Controllers
             _signInManager = signInManager;
         }
 
-        [HttpPost("login")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] AspNetUser model)
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody] ApplicationUser model)
         {
             var user = await _userManager.FindByNameAsync(model.UserName);
 
