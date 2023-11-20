@@ -1631,3 +1631,4 @@ C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net
 C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\StarkbankEcdsa.dll
 C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\de\PdfSharp.Charting.resources.dll
 C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\de\PdfSharp.resources.dll
+C:\Users\camil\Desktop\Nuevo Clon Pachos\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\ServiceStack.Text.dll
