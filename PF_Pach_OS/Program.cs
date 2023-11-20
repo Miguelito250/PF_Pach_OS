@@ -92,6 +92,22 @@ app.UseWhen(context => !context.Request.Path.StartsWithSegments("/AuthApi/Login"
         appBuilder.UseAuthentication();
         appBuilder.UseAuthorization();
     });
+
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Ventas/ListarVentasAPI"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
+
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Ventas/GetDetallesVenta"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
+
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
