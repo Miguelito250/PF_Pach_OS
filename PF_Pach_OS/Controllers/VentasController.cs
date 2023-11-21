@@ -88,6 +88,60 @@ namespace PF_Pach_OS.Controllers
             return View(pach_OSContext);
         }
 
+        [AllowAnonymous]
+        public async Task<IActionResult> ListarVentasAPI()
+        {
+            var pach_OSContext = await _context.Ventas
+               .OrderByDescending(v => v.FechaVenta.Year)
+               .ThenByDescending(v => v.FechaVenta.Month)
+               .ThenByDescending(v => v.FechaVenta.Day)
+               .ThenByDescending(v => v.FechaVenta.Hour)
+               .ThenByDescending(v => v.FechaVenta.Minute)
+               .ThenByDescending(v => v.FechaVenta.Second)
+               .ToListAsync();
+            return Json(pach_OSContext);
+        }
+
+        [AllowAnonymous]
+        public JsonResult GetDetallesVenta(int id)
+        {
+            var detallesVenta = _context.DetalleVentas
+                .Join(_context.Ventas,
+                    dv => dv.IdVenta,
+                    v => v.IdVenta,
+                    (dv, v) => new { DetalleVenta = dv, Venta = v })
+                .Join(_context.Productos,
+                    dvv => dvv.DetalleVenta.IdProducto,
+                    p => p.IdProducto,
+                    (dvv, p) => new { DetalleVentaVenta = dvv, Producto = p })
+                .Where(result => result.DetalleVentaVenta.Venta.IdVenta == id)
+                .Select(result => new
+                {
+                    result.DetalleVentaVenta.DetalleVenta.IdDetalleVenta,
+                    result.DetalleVentaVenta.DetalleVenta.CantVendida,
+                    result.DetalleVentaVenta.DetalleVenta.Precio,
+                    result.DetalleVentaVenta.DetalleVenta.IdProducto,
+                    result.Producto.NomProducto
+                })
+                .ToList();
+
+            if (detallesVenta == null || detallesVenta.Count == 0)
+            {
+                return Json(new { message = "No se encontraron detalles de venta para este ID" });
+            }
+
+            return Json(detallesVenta);
+        }
+
+        [AllowAnonymous]
+        public JsonResult VentaApi(int id)
+        {
+            var venta = _context.Ventas
+                .FirstOrDefault(v => v.IdVenta == id);
+            return Json(venta);
+        }
+
+
         //Miguel 22/10/2023: Función para redirigir con los datos necesarios a la vista de registrar los detalles de venta
         public IActionResult Crear(int IdVenta)
         {
