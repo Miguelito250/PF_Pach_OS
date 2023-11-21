@@ -18,12 +18,7 @@
     var Correo = document.getElementById("Email");
     var mensaje_Correo = document.getElementById("mensaje_Correo")
 
-    var Contraseña = document.getElementById("Password");
-    var mensaje_Contraseña = document.getElementById("mensaje_Contraseña")
-
-    var ConfirmarContraseña = document.getElementById("ConfirmPassword");
-    var mensaje_ConfirmarContraseña = document.getElementById("mensaje_ConfirmarContraseña")
-
+   
     var formulario = document.getElementById("registerForm");
 
     const enlacesMenu = document.querySelectorAll('.links-modulos');
@@ -46,8 +41,7 @@
     Nombre.addEventListener('input', ValidarNombre);
     Apellido.addEventListener('input', ValidarApellido);
     Correo.addEventListener('input', ValidarCorreo);
-    Contraseña.addEventListener('input', ValidarContraseña);
-    ConfirmarContraseña.addEventListener('input', ValidarConfirmarContraseña);
+    
 
     formulario.addEventListener('submit', EnvioFormulario);
 
@@ -59,8 +53,7 @@
         ValidarNombre();
         ValidarApellido();
         ValidarCorreo();
-        ValidarContraseña();
-        ValidarConfirmarContraseña();
+        
         if (formulario.checkValidity()
             && !Rol.classList.contains('is-invalid')
             && !TipoDocumento.classList.contains('is-invalid')
@@ -68,15 +61,14 @@
             && !Nombre.classList.contains('is-invalid')
             && !Apellido.classList.contains('is-invalid')
             && !Correo.classList.contains('is-invalid')
-            && !Contraseña.classList.contains('is-invalid')
-            && !ConfirmarContraseña.classList.contains('is-invalid')
+           
 
         ) {
 
 
             Swal.fire({
                 title: '¡Éxito!',
-                text: 'Usuario Registrado Correctamente',
+                text: 'Usuario Actualizado Correctamente',
                 timer: 2400,
                 icon: 'success',
                 showConfirmButton: false,
@@ -241,69 +233,6 @@
 
 
 
-    function ValidarContraseña() {
-        var ValorContraseña = Contraseña.value;
-
-
-        const hasUppercase = /[A-Z]/.test(ValorContraseña);
-
-        const hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(ValorContraseña);
-        const hasNoSpaces = !/\s/.test(ValorContraseña);
-        const hasNumber = /(?=.*\d)/.test(ValorContraseña);
-
-        var mincaracteres = 7;
-        var maxcaracteres = 50;
-
-        Contraseña.classList.remove('is-invalid', 'is-valid');
-        mensaje_Contraseña.textContent = '';
-
-        if (ValorContraseña.trim() === '') {
-            Contraseña.classList.add('is-invalid');
-            mensaje_Contraseña.textContent = 'El campo no puede estar vacio';
-
-        } else if (ValorContraseña.length < mincaracteres) {
-            Contraseña.classList.add('is-invalid');
-            mensaje_Contraseña.textContent = 'La contraseña debe tener al menos 6 caracteres';
-
-        } else if (ValorContraseña.length > maxcaracteres) {
-            Contraseña.classList.add('is-invalid');
-            mensaje_Contraseña.textContent = 'La contraseña debe tener menos de 50 caracteres';
-
-        } else if (!hasUppercase) {
-            Contraseña.classList.add('is-invalid');
-            mensaje_Contraseña.textContent = 'El campo debe tener al menos una Mayuscula';
-        } else if (!hasSpecialChar) {
-            Contraseña.classList.add('is-invalid');
-            mensaje_Contraseña.textContent = 'El campo debe tener al menos un caracter especial';
-        } else if (!hasNoSpaces) {
-            Contraseña.classList.add('is-invalid');
-            mensaje_Contraseña.textContent = 'El campo no debe tener espacios';
-        } else if (!hasNumber) {
-            Contraseña.classList.add('is-invalid');
-            mensaje_Contraseña.textContent = 'El campo debe tener al menos un numero';
-        } else {
-            Contraseña.classList.add('is-valid');
-        }
-    }
-    function ValidarConfirmarContraseña() {
-        var Valorconfirmar = ConfirmarContraseña.value;
-        var ValorContraseña = Contraseña.value;
-
-        ConfirmarContraseña.classList.remove('is-invalid', 'is-valid');
-        mensaje_ConfirmarContraseña.textContent = '';
-
-        if (Valorconfirmar.trim() === '') {
-            ConfirmarContraseña.classList.add('is-invalid');
-            mensaje_ConfirmarContraseña.textContent = 'El campo no puede estar vacio';
-
-        } else if (Valorconfirmar != ValorContraseña) {
-            ConfirmarContraseña.classList.add('is-invalid');
-            mensaje_ConfirmarContraseña.textContent = 'Las constraseñas no coinciden';
-
-        } else {
-            ConfirmarContraseña.classList.add('is-valid');
-        }
-    }
 
 
     function ValidarCorreo() {

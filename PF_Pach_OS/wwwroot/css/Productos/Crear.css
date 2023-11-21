@@ -1,4 +1,15 @@
-﻿@media only screen and (max-width: 414px) {
+﻿.table-with-separator {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+    .table-with-separator thead tr {
+        border-bottom: 2px solid #000;
+    }
+
+
+
+@media only screen and (max-width: 412px) {
     .modulos {
         position: relative;
         left: -4vh;
@@ -12,11 +23,6 @@
         margin-left: 3rem !important;
     }
 
-
-
-    .container {
-        width: 200px;
-    }
 
     #miFormulario input,
     #miFormulario select {
@@ -51,9 +57,8 @@
         width: min-content !important;
     }
 
-    .col-lg-6 .col-md-4 .mr-2 .ml-5 .mt-4 {
-        width: 200px !important
-    }
+
+
 
     .table td, .table th {
         padding: 5px;
@@ -63,6 +68,20 @@
             margin: 2px;
             margin: auto !important;
         }
+
+    .contenedor-importar{
+        margin-top: 10px;
+    }
+    .importar {
+        text-align: left !important;
+        width: 115px;
+        font-size: 16px !important;
+    }
+
+    svg {
+        text-align: left !important;
+        width: 16px !important;
+    }
 }
 
 @media only screen and (width: 540px) {
@@ -141,12 +160,7 @@
         grid-column: auto;
     }
 
-    .Responsi{
+    .Responsi {
         max-width: 60vw !important;
     }
-
-    
-    
-
 }
-
