@@ -368,8 +368,11 @@ function cargarProductosMasVendidos() {
 
                 $('#producto' + i).text(data[i].producto);
                 $('#totalProducto' + i).text(totalVendidoFormateado + ' / ' + data[i].cantidadVendida);
-                $('#progreso' + i).attr('max', totalVentas);
-                $('#progreso' + i).attr('value', data[i].totalVendido);
+                $('#progreso' + i).attr('aria-valuemax', totalVentas);
+                $('#progreso' + i).attr('aria-valuemin', data[i].totalVendido);
+                let porcentajeVentas = (totalVendido / totalVentas) * 100;
+
+                $('#progreso' + i + ' .progress-bar').css('width', porcentajeVentas + '%');
 
             }
         },
