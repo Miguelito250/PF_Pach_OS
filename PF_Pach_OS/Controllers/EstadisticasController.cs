@@ -469,15 +469,24 @@ namespace PF_Pach_OS.Controllers
             {
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
+            var fechaActual = DateTime.Now;
+            var mesActual = new DateTime(fechaActual.Year, fechaActual.Month, 1);
+
             var productosMasVendidos = _context.DetalleVentas
-                .OrderByDescending(p => p.CantVendida)
-                .Take(2)
-                .Select(dv => new
-                {
-                    Producto = dv.IdProductoNavigation.NomProducto,
-                    CantidadVendida = dv.CantVendida
-                })
-                .ToList();
+              .Where(dv => dv.IdVentaNavigation.FechaVenta >= mesActual)
+              .GroupBy(dv => dv.IdProductoNavigation.NomProducto)
+              .Select(g => new
+              {
+                  Producto = g.Key,
+                  CantidadVendida = g.Sum(x => x.CantVendida),
+                  TotalVendido = g.Sum(x => x.CantVendida * x.Precio)
+              })
+              .OrderByDescending(x => x.TotalVendido)
+              .Take(4)
+              .ToList();
+
+
+
 
             return Json(productosMasVendidos);
         }
@@ -538,9 +547,9 @@ namespace PF_Pach_OS.Controllers
 
             }
         }
-        //obtenemos las transferencias para insertalar en las tablas
+        //obtenemos las transferencias para insertarlas en las tablas
         [HttpGet]
-        public IActionResult ObtenerDatosTransferencias()
+        public IActionResult ObtenerDatosTransferencias(int mes)
         {
             bool tine_permiso = _permisosController.tinto(1, User);
 
@@ -548,16 +557,32 @@ namespace PF_Pach_OS.Controllers
             {
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
-            var pagosTransferencias = _context.Ventas
-                .Count(v => v.TipoPago == "Transferencia");
-
-            var totalTransferencias = _context.Ventas
-                .Where(v => v.TipoPago == "Transferencia")
+            var dineroTransferencias = _context.Ventas
+                .Where(v => v.TipoPago == "Transferencia" && v.FechaVenta.Month == mes)
                 .Sum(v => v.TotalVenta);
             return Json(new
             {
-                PagosTransferencias = pagosTransferencias,
-                TotalTransferencias = totalTransferencias
+                totalTransferencias = dineroTransferencias
+            });
+        }
+        //obtenemos los pagos en efectivo para insertarlas en las tablas
+        [HttpGet]
+        public IActionResult ObtenerDatosEfectivo(int mes)
+        {
+            bool tine_permiso = _permisosController.tinto(1, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
+            var dineroEfectivo = _context.Ventas
+                .Where(v => v.TipoPago != "Transferencia" && v.FechaVenta.Month == mes)
+                .Sum(v => v.TotalVenta);
+
+            return Json(new
+            {
+                totalEfectivo = dineroEfectivo
             });
         }
 

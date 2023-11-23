@@ -1,230 +1,181 @@
 ﻿@model ProductoVendidoModel
 <link href="~/css/informes/estilos.css" rel="stylesheet" />
 <link href="~/css/estructuracion.css" rel="stylesheet" />
-<button id="generarInforme" class="btn-crear-posicion estilo-btn-naranja btn-generar-informe" title="Genera el informe">Generar Informe</button>
 
-<form id="formEliminarVentas">
-    <button type="button" id="btnEliminarVentas" class="btn btn-outline-danger" title="eliminar" >
-        <i class="bi bi-trash3-fill"></i> 
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-        </svg>
-    </button>
-</form>
-    
-<div class="card-header border-0">
-    <div class="d-flex justify-content-between">
-        <h3 class="card-title">Ventas</h3>
-        <div class="input-container">
-            <div>
-                <label for="tipoInforme">Tipo de Informe:</label>
-                <select id="tipoInforme">
-                    <option value="mensual">Mensual</option>
-                    <option value="anual">Anual</option>
-                </select>
+@*Apertura nuevo codigo de diseño*@
+
+
+<div>
+
+    <div class="row m-4 h-50 d-flex justify-content-center align-items-center">
+        <div class="col-12 col-md-5 row justify-content-center align-items-center">
+            <div class="col-12 col-md-6">
+                <div class="h-25 border mt-3 rounded d-flex flex-column">
+                    <span class="h-75 fs-4 text-center" id="ventaActual">$0.00</span>
+                    <div class="d-flex justify-content-center px-4 ventas-colm">
+                        <strong class="text-end">Ventas</strong>
+                    </div>
+                </div>
+                <div class="h-25 border mt-3 rounded d-flex flex-column">
+                    <span class="h-75 fs-4 text-center" id="ComprasActual">$0.00</span>
+                    <input type="hidden" id="input-totalVentas">
+                    <div class="d-flex justify-content-center px-4">
+                        <strong class="text-end">Compras</strong>
+                    </div>
+                </div>
+                <div class="h-25 border mt-3 rounded d-flex justify-content-center align-items-center">
+                    <span id="icono" class="mr-2"></span>
+                    <div class="d-flex flex-column justify-content-center px-4">
+                        <span class="h-75 fs-4 text-center" id="Diferencias">$0.00</span>
+                        <strong class="text-end">Diferencia</strong>
+                    </div>
+                </div>
             </div>
-            <div id="divMeses">
-                <label for="mes">Selecciona un mes:</label>
-                <select id="mes">
-                    <option value="1">Enero</option>
-                    <option value="2">Febrero</option>
-                    <option value="3">Marzo</option>
-                    <option value="4">Abril</option>
-                    <option value="5">Mayo</option>
-                    <option value="6">Junio</option>
-                    <option value="7">Julio</option>
-                    <option value="8">Agosto</option>
-                    <option value="9">Septiembre</option>
-                    <option value="10">Octubre</option>
-                    <option value="11">Noviembre</option>
-                    <option value="12">Diciembre</option>
-                </select>
-            </div>
-            <div id="divAnios">
-                <label for="anio">Selecciona un año:</label>
-                <select id="anio">
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
-                    <option value="2025">2025</option>
-                </select>
+
+            <div class="col-12 col-md-6">
+                <div class="h-25 border mt-3 rounded d-flex flex-column">
+                    <span class="h-75 fs-4 text-center" id="totalEfectivo">$0.00</span>
+                    <div class="d-flex justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="green" class="bi bi-cash-coin mr-2" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z" />
+                            <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1h-.003zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195l.054.012z" />
+                            <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083c.058-.344.145-.678.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1H1z" />
+                            <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z" />
+                        </svg>
+                        <strong class="text-end">Efectivo</strong>
+                    </div>
+                </div>
+                <div class="h-25 border mt-3 rounded d-flex flex-column">
+                    <span class="h-75 fs-4 text-center" id="totalTransferencias">$0.00</span>
+                    <div class="d-flex justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="orange" class="bi bi-credit-card mr-2" viewBox="0 0 16 16">
+                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z" />
+                            <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z" />
+                        </svg>
+                        <strong class="text-end">Transferencias</strong>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="col-12 col-md-5 mt-2 h-75">
+            <span>Productos con mas ingresos</span>
+            <div class="h-50 border rounded d-flex flex-column p-2">
+                <div class="d-flex justify-content-between">
+                    <span id="producto0"></span>
+                    <span id="totalProducto0"></span>
+                </div>
+                <div id="progreso0" class="progress" role="progressbar" aria-label="Success striped example">
+                    <div class="progress-bar progress-bar-striped bg-success"></div>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <span id="producto1"></span>
+                    <span id="totalProducto1"></span>
+                </div>
+                <div id="progreso1" class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="50">
+                    <div class="progress-bar progress-bar-striped bg-info"></div>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <span id="producto2"></span>
+                    <span id="totalProducto2"></span>
+                </div>
+                <div id="progreso2" class="progress" role="progressbar" aria-label="Warning striped example">
+                    <div class="progress-bar progress-bar-striped bg-warning"></div>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <span id="producto3"></span>
+                    <span id="totalProducto3"></span>
+                </div>
+                <div id="progreso3" class="progress" role="progressbar" aria-label="Danger striped example">
+                    <div class="progress-bar progress-bar-striped bg-danger"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-2 h-100">
+            <button type="button" class="btn btn-primary botones-agregar h-100 w-100" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-clipboard-data-fill" viewBox="0 0 16 16">
+                    <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z" />
+                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1ZM10 8a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V8Zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1Zm4-3a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1Z" />
+                </svg><br>
+                Configurar Informe
+            </button>
+        </div>
     </div>
-    <div class="card-body">
-        <div class="d-flex">
-            <p class="d-flex flex-column">
-                <span class="text-bold text-lg" id="totalVentasAnuales">$0.00</span>
-                <span>Ventas a lo largo del tiempo</span>
-            </p>
-            <p class="ml-auto d-flex flex-column text-right">
-                <span>Ventas</span>
-                <span class="text-success">
-                    @* <i class="fas fa-arrow-up"></i> *@
-                    <span id="diferenciaVentasMesAnterior"></span>
+    <div class="col-12 h-50">
+        <div class="card-body">
+            <div class="d-flex">
+                <p class="d-flex flex-column">
+                    <span class="text-bold text-lg" id="totalVentasAnuales">$0.00</span>
+                    <span>Ventas a lo largo del tiempo</span>
+                </p>
+                <p class="ml-auto d-flex flex-column text-right">
+                    <span class="text-success">
+                        <i class="fas fa-arrow-up"></i>
+                        <span id="diferenciaVentasMesAnterior"></span>
+                    </span>
+                    <span class="text-muted">Desde el mes pasado</span>
+                </p>
+            </div>
+
+            <div class="position-relative mb-4">
+                <canvas id="sales-chart" height="200"></canvas>
+            </div>
+
+            <div class="d-flex flex-row justify-content-end">
+                <span class="mr-2">
                 </span>
-                <span class="text-muted">Desde el mes pasado</span>
-            </p>
-        </div>
-
-        <div class="position-relative mb-4">
-            <canvas id="sales-chart" height="200"></canvas>
-        </div>
-
-        <div class="d-flex flex-row justify-content-end">
-            <span class="mr-2">
-            </span>
+            </div>
         </div>
     </div>
-    <div class="container mt-4">
-        <div class="row md-4">
-            <div class="col-md-3 mb-3">
-                <table class="table table-bordered ">
-        <thead>
-                        <tr class="estilo-btn-naranjatable text-custom">
-                <th scope="col">Ingresos</th>
-                <th scope="col">Costos</th>
-            </tr>
-        </thead>
 
-        <tbody>
-            <tr>
-                 <td id="celdainsumos">$0.00</td>
-                 <td id="totalComprasAnuales">$0.00</td>
-            </tr>
-            <tr>
-                 <td colspan="2" id="diferenciaVentasCompras">$0.00</td>
-            </tr>
-        </tbody>
-    </table>
-             </div>
-            <div class="col-md-6 mb-4">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="estilo-btn-naranjatable text-custom">
-                            <th scope="col">Productos Más Vendidos</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Productos Menos Vendidos</th>
-                            <th scope="col">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr id="productosMasVendidosRow">
-                            <td id="masVendidoProducto1"></td>
-                            <td id="masVendidoCantidad1"></td>
-                            <td id="menosVendidoProducto1"></td>
-                            <td id="menosVendidoCantidad1"></td>
-                        </tr>
-                        <tr id="productosMenosVendidosRow">
-                            <td id="masVendidoProducto2"></td>
-                            <td id="masVendidoCantidad2"></td>
-                            <td id="menosVendidoProducto2"></td>
-                            <td id="menosVendidoCantidad2"></td>
-                        </tr>
-                    </tbody>
-                </table>
+</div>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5" id="staticBackdropLabel"><strong>Generar Informe</strong></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-md-3 mb-4">
-                <table class="table table-bordered ">
-                    <thead>
-                        <tr class="estilo-btn-naranjatable text-custom">
-                            <th scope="col">Transferencias</th>
-                            <th scope="col">Total</th>
-                        </tr>
-                    </thead>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6 form-group">
+                        <label for="tipoInforme">Tipo de Informe:</label>
+                        <select id="tipoInforme" class="form-select">
+                            <option value="mensual">Mensual</option>
+                            <option value="anual">Anual</option>
+                        </select>
+                    </div>
+                    <div class="col-6 div-mes">
+                        <label>Seleccione mes *</label>
+                        <input type="month" class="form-control" id="mes">
+                    </div>
+                    <div id="divAnios" class="col-6 d-none">
+                        <label for="anio">Selecciona un año:</label>
+                        <select id="anio" class="form-select">
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
 
-                    <tbody>
-                        <tr>
-                            <td id="celdaPagosTransferencias">0</td>
-                            <td id="totalTransferencias">$0.00</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <button id="generarInforme" class="btn btn-primary botones-agregar btn-generar-informe" title="Genera el informe">Generar Informe</button>
             </div>
         </div>
     </div>
 </div>
 
 
-<!-- /.col-md-6 -->
-@* <div c@* lass="col-lg-6">
-    <div class="card">
-        
-        <div class="card">
-            <div class="card-header border-0">
-                <h3 class="card-title">Products</h3>
-                <div class="card-tools">
-                    <a href="#" class="btn btn-tool btn-sm">
-                        <i class="fas fa-download"></i>
-                    </a>
-                    <a href="#" class="btn btn-tool btn-sm">
-                        <i class="fas fa-bars"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="card-body table-responsive p-0">
-                <table class="table table-striped table-valign-middle">
-                    <thead>
-                        <tr>
-                            <th>Productos</th>
-                            <th>Precio</th>
-                            <th>Ventas</th>
-                            <th>Mas</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            @if (Model != null && Model.ProductoMasVendido != null)
-                            {
-                                <td>@Model?.ProductoMasVendido?.IdProductoNavigation?.NomProducto</td>
-                                <td>$@Model.ProductoMasVendido.Precio</td>
-                                <td>@Model.ProductoMasVendido.CantVendida</td>
-                                <td>Más Vendido</td>
-                            }
-                        </tr>
-                        <tr>
-                            <td>@Model?.ProductoMenosVendido?.IdProductoNavigation?.NomProducto</td>
-                            <td>$@Model?.ProductoMenosVendido.Precio</td>
-                            <td>@Model?.ProductoMenosVendido.CantVendida</td>
-                            <td>Menos Vendido</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <!-- /.card -->
-        <!-- /.card -->
-    </div>
 
-<!-- /.col-md-6 -->
-<!-- Content Wrapper. Contains page content -->
-@* <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">Dashboard</h1>
-                    <input type="date" id="fechaSeleccionada" name="trip-start" value="2023-01-01" min="2023-01-01" max="2050-12-31" />
-                </div>
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-    <!-- Main content -->
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-            </div>
-            <!-- /.row -->
-        </div>
-        <!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
-</div> *@
-
-<!-- /.content-wrapper -->
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="~/js/informe/informe.js"></script>
+
+@*Fin de nuevo codigo de diseño*@
