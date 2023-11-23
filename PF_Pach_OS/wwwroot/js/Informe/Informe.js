@@ -5,13 +5,35 @@ $(document).ready(function () {
         type: 'GET',
         dataType: 'json',
         success: function (ventasMensuales) {
-
+            //Obtenemos las ventas mensuales
+            var fechaActual = new Date();
+            var mesActual = fechaActual.getMonth();
+            var ventaMesActual = ventasMensuales[mesActual];
+            var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+            var cambioFormateadoV = formatoColombiano.format(ventaMesActual);
+            cambioFormateadoV = cambioFormateadoV.slice(0, -3);
+            $('#ventaActual').text('' + cambioFormateadoV);
             $.ajax({
                 url: '/Estadisticas/ObtenerComprasMensuales',
                 type: 'GET',
                 dataType: 'json',
                 success: function (comprasMensuales) {
+                    //Obtenemos las compras mensuales
+                    var fechaActual = new Date();
+                    var mesActual = fechaActual.getMonth();
+                    var compraMesActual = comprasMensuales[mesActual];
+                    var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+                    var cambioFormateadoC = formatoColombiano.format(compraMesActual);
+                    cambioFormateadoC = cambioFormateadoC.slice(0, -3);
+                    $('#ComprasActual').text('' + cambioFormateadoC);
 
+                    //RESTA
+                    var resultadoResta = ventaMesActual - compraMesActual;
+                    var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+                    var cambioFormateadoD = formatoColombiano.format(resultadoResta);
+                    cambioFormateadoD = cambioFormateadoD.slice(0, -3);
+                    console.log('Resultado de la resta: ' + cambioFormateadoD);
+                    $('#Diferencias').text('' + cambioFormateadoD);
                     var labels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
                     var datosVentas = {
                         labels: labels.slice(0, ventasMensuales.length),
@@ -258,35 +280,54 @@ $(document).ready(function () {
     }
 });
 $(document).ready(function () {
-    function obtenerDatosTransferencias() {
+    function obtenerDatos(mes) {
+        // Obtener datos de transferencias
         $.ajax({
             url: '/Estadisticas/ObtenerDatosTransferencias',
             method: 'GET',
             dataType: 'json',
+            data: { mes: mes },
             success: function (data) {
-                var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
-
-                var transferenciasFormateadas = formatoColombiano.format(data.totalTransferencias);
-                var efectivoFormateado = formatoColombiano.format(data.totalEfectivo);
-
-                transferenciasFormateadas = transferenciasFormateadas.slice(0, -3);
-                efectivoFormateado = efectivoFormateado.slice(0, -3);
-
-                $('#totalEfectivo').text(efectivoFormateado);
-                $('#totalTransferencias').text(transferenciasFormateadas);
+                actualizarDatos(data.totalTransferencias, '#totalTransferencias');
             },
             error: function (error) {
                 console.error('Error al obtener los datos de transferencias:', error);
             }
         });
+
+        // Obtener datos de efectivo
+        $.ajax({
+            url: '/Estadisticas/ObtenerDatosEfectivo',
+            method: 'GET',
+            dataType: 'json',
+            data: { mes: mes },
+            success: function (data) {
+                actualizarDatos(data.totalEfectivo, '#totalEfectivo');
+            },
+            error: function (error) {
+                console.error('Error al obtener los datos de efectivo:', error);
+            }
+        });
     }
 
-    obtenerDatosTransferencias();
+    function actualizarDatos(total, elementoId) {
+        var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+        var totalFormateado = formatoColombiano.format(total);
+        totalFormateado = totalFormateado.slice(0, -3);
+        $(elementoId).text(totalFormateado);
+    }
+
+    function obtenerMesActual() {
+        return new Date().getMonth() + 1;
+    }
+
+    obtenerDatos(obtenerMesActual());
 
     $('#btnEliminarVentas').click(function () {
-        obtenerDatosTransferencias();
+        obtenerDatos(obtenerMesActual());
     });
 });
+
 $(document).ready(function () {
     $("#btnEliminarVentas").click(function () {
 

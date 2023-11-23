@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "mkEzn0GCV6aHd6gbZx0jNuaRi4jUqUpMVUXfMhdMAXY=",
+  "Hash": "AVed/788FiQizJ3+COpzn0nhyo+NPkEEYhZ7pW3Kn3g=",
   "Source": "PF_Pach_OS",
   "BasePath": "_content/PF_Pach_OS",
   "Mode": "Default",
@@ -38452,6 +38452,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Login-RecuperarContraseña\\Login.js"
+    },
+    {
+      "Identity": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Login-RecuperarContraseña\\RecuperarContraseña.js",
+      "SourceId": "PF_Pach_OS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
+      "BasePath": "_content/PF_Pach_OS",
+      "RelativePath": "js/Login-RecuperarContraseña/RecuperarContraseña.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Login-RecuperarContraseña\\RecuperarContraseña.js"
     },
     {
       "Identity": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Productos\\Crear.js",
