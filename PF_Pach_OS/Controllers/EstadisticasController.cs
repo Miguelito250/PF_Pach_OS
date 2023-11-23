@@ -586,10 +586,76 @@ namespace PF_Pach_OS.Controllers
             });
         }
 
+        // Movil
 
+        [AllowAnonymous]
+        public async Task<IActionResult> VentasdelMes()
+        {
+            DateTime fecha = DateTime.Today;
 
+            var pach_OSContext = await _context.Ventas
+               .Where(v => v.FechaVenta.Month == fecha.Month)
+               .ToListAsync();
+            return Json(pach_OSContext);
+        }
 
+        [AllowAnonymous]
+        public async Task<IActionResult> ComprasdelMes()
+        {
+            DateTime fecha = DateTime.Today;
 
+            var pach_OSContext = await _context.Compras
+                .Where(v => v.FechaCompra.HasValue && v.FechaCompra.Value.Month == fecha.Month)
+                .ToListAsync();
+            return Json(pach_OSContext);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> VentasAño()
+        {
+
+            DateTime fecha = DateTime.Today;
+
+            var pach_OSContext = await _context.Ventas
+               .Where(v => v.FechaVenta.Year == fecha.Year)
+               .ToListAsync();
+            return Json(pach_OSContext);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> ComprasAño()
+        {
+
+            DateTime fecha = DateTime.Today;
+
+            var pach_OSContext = await _context.Compras
+             .Where(v => v.FechaCompra.HasValue && v.FechaCompra.Value.Year == fecha.Year)
+            .ToListAsync();
+
+            return Json(pach_OSContext);
+        }
+
+        [AllowAnonymous]
+        public IActionResult ProductosMasVendidosMes()
+        {
+            var fechaActual = DateTime.Now;
+            var mesActual = new DateTime(fechaActual.Year, fechaActual.Month, 1);
+
+            var productosMasVendidos = _context.DetalleVentas
+              .Where(dv => dv.IdVentaNavigation.FechaVenta >= mesActual)
+              .GroupBy(dv => dv.IdProductoNavigation.NomProducto)
+              .Select(g => new
+              {
+                  Producto = g.Key,
+                  CantidadVendida = g.Sum(x => x.CantVendida),
+                  TotalVendido = g.Sum(x => x.CantVendida * x.Precio)
+              })
+              .OrderByDescending(x => x.TotalVendido)
+              .Take(4)
+              .ToList();
+
+            return Json(productosMasVendidos);
+        }
 
     }
 
