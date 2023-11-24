@@ -50,22 +50,6 @@
                     <td>@item.CantInsumo</td>
                     <td>@item.Medida</td>
                     <td class="d-flex justify-content-center" style="width: auto;">
-                        @if (item.Estado == 1)
-                        {
-                            <a title="Deshabilita el insumo" asp-action="HabilitarDeshabilitar" asp-route-id="@item.IdInsumo" class="habilitado">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="green" class="bi bi-circle-fill" viewBox="0 0 16 16">
-                                    <circle cx="8" cy="8" r="8" />
-                                </svg>
-                            </a>
-                        }
-                        else
-                        {
-                            <a title="Habilita el insumo" asp-action="HabilitarDeshabilitar" asp-route-id="@item.IdInsumo" class="deshabilitado">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="red" class="bi bi-circle-fill" viewBox="0 0 16 16">
-                                    <circle cx="8" cy="8" r="8" />
-                                </svg>
-                            </a>
-                        }
 
                         @if (item.Estado == 1)
                             {
@@ -84,6 +68,23 @@
                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                 </svg>
                             </button>
+                        }
+
+                        @if (item.Estado == 1)
+                        {
+                            <a title="Deshabilita el insumo" asp-action="HabilitarDeshabilitar" asp-route-id="@item.IdInsumo" class="habilitado">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="green" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                    <circle cx="8" cy="8" r="8" />
+                                </svg>
+                            </a>
+                        }
+                        else
+                        {
+                            <a title="Habilita el insumo" asp-action="HabilitarDeshabilitar" asp-route-id="@item.IdInsumo" class="deshabilitado">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="red" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                    <circle cx="8" cy="8" r="8" />
+                                </svg>
+                            </a>
                         }
                     </td>
                 </tr>
