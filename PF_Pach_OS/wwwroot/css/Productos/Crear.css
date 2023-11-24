@@ -1,0 +1,166 @@
+﻿.table-with-separator {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+    .table-with-separator thead tr {
+        border-bottom: 2px solid #000;
+    }
+
+
+
+@media only screen and (max-width: 412px) {
+    .modulos {
+        position: relative;
+        left: -4vh;
+        height: auto !important;
+        display: grid;
+        grid-column: auto;
+    }
+
+    .col-4 {
+        width: 200vw !important;
+        margin-left: 3rem !important;
+    }
+
+
+    #miFormulario input,
+    #miFormulario select {
+        margin: 5px;
+        margin-right: 0 !important;
+    }
+
+    #miFormulario input {
+        width: auto !important;
+    }
+
+    #miFormulario select {
+        width: 50vw !important;
+    }
+
+    #miFormulario {
+        width: 20vw !important;
+        display: grid !important;
+        grid-template-rows: repeat(3, auto) !important;
+    }
+
+    .DetallesRecetas {
+        width: min-content !important;
+        margin-right: 3rem !important;
+    }
+
+    .tituloRecetas {
+        width: 50vw !important;
+    }
+
+    .col-lg-12 .mt-4 .bg-white .overflow-scroll .DetallesRecetas {
+        width: min-content !important;
+    }
+
+
+
+
+    .table td, .table th {
+        padding: 5px;
+    }
+
+        .table td a {
+            margin: 2px;
+            margin: auto !important;
+        }
+
+    .contenedor-importar{
+        margin-top: 10px;
+    }
+    .importar {
+        text-align: left !important;
+        width: 115px;
+        font-size: 16px !important;
+    }
+
+    svg {
+        text-align: left !important;
+        width: 16px !important;
+    }
+}
+
+@media only screen and (width: 540px) {
+    .modulos {
+        position: relative;
+        left: -4vh;
+        height: auto !important;
+        display: grid;
+        grid-column: auto;
+    }
+
+    .col-4 {
+        width: 200vw !important;
+        margin-left: 3rem !important;
+    }
+
+
+
+    .container {
+        width: 200px;
+    }
+
+    #miFormulario input,
+    #miFormulario select {
+        margin: 5px;
+        margin-right: 0 !important;
+    }
+
+    #miFormulario input {
+        width: auto !important;
+    }
+
+    #miFormulario select {
+        width: 50vw !important;
+    }
+
+    #miFormulario {
+        width: 20vw !important;
+        display: grid !important;
+        grid-template-rows: repeat(3, auto) !important;
+    }
+
+    .DetallesRecetas {
+        width: min-content !important;
+        margin-right: 3rem !important;
+    }
+
+    .tituloRecetas {
+        width: 50vw !important;
+    }
+
+    .col-lg-12 .mt-4 .bg-white .overflow-scroll .DetallesRecetas {
+        width: min-content !important;
+    }
+
+    .col-lg-6 .col-md-4 .mr-2 .ml-5 .mt-4 {
+        width: 200px !important
+    }
+
+    .table td, .table th {
+        padding: 5px;
+    }
+
+        .table td a {
+            margin: 2px;
+            margin: auto !important;
+        }
+}
+
+@media only screen and (width: 820px) {
+    .modulos {
+        position: relative;
+        left: -4vh;
+        height: auto !important;
+        display: grid;
+        grid-column: auto;
+    }
+
+    .Responsi {
+        max-width: 60vw !important;
+    }
+}

@@ -41,13 +41,19 @@
         // Filtrar las filas de la tabla que coincidan con la búsqueda
         $('tbody tr').each(function () {
             var fecha = $(this).find('td:eq(0)').text().trim().toLowerCase();
-            var metodoPago = $(this).find('td:eq(1)').text().trim().toLowerCase();
-            var total = $(this).find('td:eq(2)').text().trim().toLowerCase();
-
+            var mesa = $(this).find('td:eq(1)').text().trim().toLowerCase();
+            var metodoPago = $(this).find('td:eq(2)').text().trim().toLowerCase();
+            var total = $(this).find('td:eq(3)').text().trim().toLowerCase();
+            var pago = $(this).find('td:eq(4)').text().trim().toLowerCase();
+            var pagoDomicilio = $(this).find('td:eq(5)').text().trim().toLowerCase();
+           
             if (
                 fecha.includes(searchText) ||
+                mesa.includes(searchText) ||
                 metodoPago.includes(searchText) ||
-                total.includes(searchText)
+                total.includes(searchText) ||
+                pago.includes(searchText) ||
+                pagoDomicilio.includes(searchText)
             ) {
                 $(this).show();
             } else {

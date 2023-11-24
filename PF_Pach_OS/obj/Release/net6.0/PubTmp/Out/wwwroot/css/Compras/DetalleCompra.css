@@ -1,0 +1,256 @@
+﻿.col-md-4.p-2.bg-white.rounded.border.px-4.py-4 {
+    left: 2vh;
+    height: 80vh;
+    top: -2vh;
+}
+
+.f {
+    margin: 3vh
+}
+
+.col-md-7 {
+    left: 4%;
+}
+
+#Empleado {
+    font-size:15px;
+}
+
+/*Responsivo con maximo de ancho de 280px*/
+@media only screen and (max-width: 280px) {
+
+    .cuadroblanco {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .AgregarInsumo {
+        order: 1;
+    }
+
+    .Compras {
+        order: 2;
+    }
+
+    .modulos {
+        position: relative;
+        left: -4vh;
+        height: 99rem !important;
+    }
+
+    .col-md-4.p-2.bg-white.rounded.border.px-4.py-4 {
+        position: relative;
+        font-size: 12px;
+        width: 39vh !important;
+        height: 36rem;
+    }
+
+    td:nth-child(3), th:nth-child(3) {
+        display: none;
+    }
+
+    #formAgregar {
+        width: 48.5rem !important;
+        display: grid !important;
+        grid-template-rows: repeat(3, auto) !important;
+    }
+
+    #formAgregar {
+        display: flex;
+        flex-direction: column;
+    }
+
+        #formAgregar .DC {
+            order: 1;
+        }
+
+        #formAgregar .divBotonInsumo {
+            order: 4;
+        }
+
+        #formAgregar .DC:nth-child(4) {
+            order: 2;
+        }
+
+        #formAgregar .DivBotonAgregar {
+            order: 3;
+        }
+
+    .detallecompra {
+        width: 15.5rem !important
+    }
+}
+
+/*Responsivo con maximo de ancho de 767px*/
+@media screen and (max-width: 767px) {
+
+    .cuadroblanco {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .AgregarInsumo {
+        order: 1;
+    }
+
+    .Compras {
+        order: 2;
+    }
+
+    .modulos {
+        position: relative;
+        left: -4vh;
+        height: 107rem;
+    }
+
+    .col-md-4.p-2.bg-white.rounded.border.px-4.py-4 {
+        position: relative;
+        font-size: 12px;
+        width: 40vh;
+        height: 36rem;
+    }
+
+    td:nth-child(3), th:nth-child(3) {
+        display: none;
+    }
+
+    #formAgregar {
+        width: 68rem;
+        display: grid;
+        grid-template-rows: repeat(3, auto);
+    }
+
+    #formAgregar {
+        display: flex;
+        flex-direction: column;
+    }
+
+        #formAgregar .DC {
+            order: 1;
+        }
+
+        #formAgregar .divBotonInsumo {
+            order: 4;
+        }
+
+        #formAgregar .DC:nth-child(4) {
+            order: 2;
+        }
+
+        #formAgregar .DivBotonAgregar {
+            order: 3;
+        }
+
+    .detallecompra {
+        width: 22.5rem
+    }
+}
+
+    /*Responsivo con maximo de ancho de 412px*/
+    @media screen and (width: 540px) {
+
+        .cuadroblanco {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .AgregarInsumo {
+            order: 1;
+        }
+
+        .Compras {
+            order: 2;
+        }
+
+        .modulos {
+            height: 99rem;
+        }
+
+        .col-md-4.p-2.bg-white.rounded.border.px-4.py-4 {
+            width: 31rem;
+        }
+
+        #formAgregar {
+            width: 92rem;
+        }
+
+        .detallecompra {
+            width: 30rem
+        }
+    }
+
+    /*Responsivo con maximo de ancho de 412px*/
+    @media screen and (width: 360px) {
+
+        .modulos {
+            height: 99rem;
+        }
+
+        .col-md-4.p-2.bg-white.rounded.border.px-4.py-4 {
+            width: 20.5rem;
+        }
+
+        #formAgregar {
+            width: 63rem;
+        }
+
+        td:nth-child(3), th:nth-child(3) {
+            display: none;
+        }
+
+        .detallecompra {
+            width: 20rem
+        }
+    }
+
+
+
+    /*Responsivo con maximo de ancho de 412px*/
+    @media screen and (width: 412px) {
+        .cuadroblanco {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .AgregarInsumo {
+            order: 1;
+        }
+
+        .Compras {
+            order: 2;
+        }
+
+        .modulos {
+            height: 99rem;
+        }
+
+        #formAgregar {
+            width: 70rem;
+        }
+    }
+
+    @media screen and (width: 820px), screen and (width: 768px), screen and (width: 912px) {
+
+        .modulos {
+            height: 45rem;
+        }
+
+        .col-md-4.p-2.bg-white.rounded.border.px-4.py-4 {
+            height: 43rem;
+        }
+    }
+
+
+@media screen and (width: 1024px) {
+    .modulos {
+        height: 42rem;
+    }
+
+    .detallecompra {
+        height: 22rem !important
+    }
+
+    .col-md-4.p-2.bg-white.rounded.border.px-4.py-4 {
+        height: 40rem;
+    }
+}

@@ -2,66 +2,84 @@
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+   
 }
+<link href="~/css/usuarios/resgistrousuarios.css" rel="stylesheet" />
+<div class="p-5 row">
+    <form id="registerForm" asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" id="Id" asp-for="Id" />
+        <div class="form-floating d-flex">
 
-<h1>Edit</h1>
+            <div class="form-floating col-6">
+                <select id="Role" asp-for="Id_Rol" class="form-select" aria-required="true">
+                    <option value="@ViewBag.IdPermisoActivo">@ViewBag.NombrePermisoActivo</option>
+                    @foreach (var item in ViewBag.Permisos)
+                    {
+                        <option value="@item.IdRol">@item.NomRol</option>
+                    }
+                </select>
+                <label asp-for="Id_Rol" class=" control-label">Rol*</label>
+                <div id="mensaje_Rol" class="invalid-feedback"></div>
 
-<h4>AspNetUser</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-           
-            
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            
-            
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+
+            <div class="form-floating col-6">
+                <select id="DocumentType" asp-for="DocumentType" class="form-select" aria-required="true">
+                    <option value="Cedula">Cédula</option>
+                    <option value="Tarjeta Identidad">Tarjeta de Identidad</option>
+                    <option value="Pasaporte">Pasaporte</option>
+                    <option value="Cedula Extranjera">Cédula Extranjera</option>
+                </select>
+
+                <label asp-for="DocumentType"></label>
+                <div id="mensaje_TipoDocumento" class="invalid-feedback"></div>
             </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="d-flex mt-5">
+            <div class="form-floating col-6">
+                <input id="DocumentNumber" asp-for="DocumentNumber" class="form-control" aria-required="true" />
+                <label asp-for="DocumentNumber" ></label>
+                <div id="mensaje_NumeroDocumento" class="invalid-feedback"></div>
+
             </div>
-            
-            <div class="form-group">
-                <label asp-for="DocumentNumber" class="control-label"></label>
-                <input asp-for="DocumentNumber" class="form-control" />
-                <span asp-validation-for="DocumentNumber" class="text-danger"></span>
+
+            <div class="form-floating col-6">
+                <input id="FirstName" asp-for="FirstName" class="form-control" aria-required="true" />
+                <label asp-for="FirstName" class="control-label">Nombre*</label>
+                <div id="mensaje_Nombre" class="invalid-feedback" style="font-size: 12.8px;"></div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="DocumentType" class="control-label"></label>
-                <input asp-for="DocumentType" class="form-control" />
-                <span asp-validation-for="DocumentType" class="text-danger"></span>
+        </div>
+        <div class ="d-flex mt-5 ">
+            <div class="form-floating col-6">
+                <input id="LastName" asp-for="LastName" class="form-control" aria-required="true" />
+                <label asp-for="LastName" >Apellido*</label>
+                <div id="mensaje_Apellido" class="invalid-feedback"></div>
+
             </div>
-            
-           
-            <div class="form-group">
-                <label asp-for="Id_Rol" class="control-label"></label>
-                <input asp-for="Id_Rol" class="form-control" />
-                <span asp-validation-for="Id_Rol" class="text-danger"></span>
+
+
+            <div class="form-floating col-6">
+                <input id="Email" asp-for="Email" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="Email" >Correo*</label>
+                <div id="mensaje_Correo" class="invalid-feedback"></div>
+
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+
+        </div>
+
+        <div class="w-100 d-flex flex-column mt-5">
+            <input id="registerSubmit" type="submit" value="Actualizar" class="btn btn-primary botones-agregar" />
+            <a class="btn btn-outline-danger border mt-2 cancelarBtn" asp-controller="AspNetUsers" asp-action="Index">Cancelar</a>
+
+        </div>
+    </form>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/js/usuarios/EdiarUsuario.js"></script>

@@ -22,10 +22,11 @@ using Microsoft.AspNetCore.Hosting.Server.Features;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using NuGet.Packaging.Signing;
+using PF_Pach_OS.Controllers;
 
 namespace PF_Pach_OS.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    [Authorize]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -33,6 +34,8 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly Pach_OSContext _contex;
+        public readonly PermisosController _permisosController;
+
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -46,6 +49,8 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _contex = contex;
+
+            _permisosController = new PermisosController(_contex, _userManager, _signInManager);
         }
 
         [BindProperty]
@@ -57,55 +62,61 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [Display(Name = "Tipo de documento")]
+            [Required(ErrorMessage = "El campo es obligatorio")]
+            [Display(Name = "Tipo de documento *")]
             public string DocumentType { get; set; }
 
-            [Required]
-            [Display(Name = "Numero de documento")]
+            [Required(ErrorMessage = "El campo es obligatorio")]
+            [Display(Name = "N° documento *")]
             public string DocumentNumber { get; set; }
 
-            [Required]
-            [Display(Name = "Nombre")]
+            [Required(ErrorMessage = "El campo es obligatorio")]
+            [Display(Name = "Nombre *")]
             public string FirstName { get; set; }
 
-            [Required]
-            [Display(Name = "Apellido")]
+            [Required(ErrorMessage = "El campo es obligatorio")]
+            [Display(Name = "Apellido *")]
             public string LastName { get; set; }
 
 
-            [Required]
+            [Required(ErrorMessage = "El campo es obligatorio")]
             [Display(Name = "Dia de Entrada")]
             public DateTime EntryDay { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "El campo es obligatorio")]
             [EmailAddress(ErrorMessage = "Por favor, ingrese una dirección de correo electrónico válida.")]
-            [Display(Name = "Correo")]
+            [Display(Name = "Correo *")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "El campo es obligatorio")]
+            [StringLength(50, ErrorMessage = "La Contraseña debe tener al menos 8 caracteres y maximo 50", MinimumLength = 8)]
             [DataType(DataType.Password)]
-            [Display(Name = "Contraseña")]
+            [Display(Name = "Contraseña *")]
             public string Password { get; set; }
 
+            [Required(ErrorMessage = "El campo es obligatorio")]
             [DataType(DataType.Password)]
             [Display(Name = "Confirmar contraseña")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "Las constraseñas no coinciden")]
             public string ConfirmPassword { get; set; }
 
-           
-
-            [Required]
-            public string? Role { get; set; }
+            [Required(ErrorMessage = "El campo es obligatorio")]
+            [Display(Name = "Rol *")]
+            public string Role { get; set; }
 
             [ValidateNever]
 
             public IEnumerable<SelectListItem> RoleList { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
+            bool tine_permiso = _permisosController.tinto(8, User);
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
@@ -116,6 +127,8 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                     Value = role.IdRol.ToString()
                 }).ToList()
             };
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -132,7 +145,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                         IdRol = parsedId;
                     }
                 }
-               
+                DateTime Fecha_Entrada = DateTime.Today;
                 var user = new ApplicationUser
                 {
                     DocumentType = Input.DocumentType,
@@ -142,9 +155,9 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                     UserName = Input.Email,
                     Email = Input.Email,                
                     State = 1,
-                    EntryDay = Input.EntryDay,
+                    EntryDay = Fecha_Entrada,
                     Id_Rol = IdRol
-                   
+
                 };
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 user.EmailConfirmationToken = code;
@@ -174,7 +187,14 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                 }
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    if (error.Code == "DuplicateUserName")
+                    {
+                        ModelState.AddModelError(string.Empty, "El correo electrónico ya está en uso.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
 

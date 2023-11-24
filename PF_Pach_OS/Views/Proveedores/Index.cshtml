@@ -28,12 +28,12 @@
 <input type="text" class="buscador" id="searchInput" placeholder="Buscar" aria-label="Buscar" aria-describedby="search-addon">
 
 
-<div class="lista-proveedores rounded border">
+<div class="lista-proveedores rounded border h-100 overflow-scroll">
     <table class="table mb-0 table-bordered table-striped">
         <thead class="table-warning">
             <tr>
                 <th>Tipo Documento</th>
-                <th>N° Documento</th>
+                <th>N° Cédula / N° NIT</th>
                 <th>Proveedor</th>
                 <th class="d-none d-md-table-cell">Dirección</th>
                 <th class="d-none d-md-table-cell">Teléfono</th>
@@ -102,8 +102,9 @@
             var numero = $(this).find('td:eq(1)').text().trim().toLowerCase();
             var proveedor = $(this).find('td:eq(2)').text().trim().toLowerCase();
             var direccion = $(this).find('td:eq(3)').text().trim().toLowerCase();
-            var telefono = $(this).find('td:eq(4').text().trim().toLowerCase();
-            var correo = $(this).find('td:eq(5').text().trim().toLowerCase();
+            var telefono = $(this).find('td:eq(4)').text().trim().toLowerCase();
+            var correo = $(this).find('td:eq(5)').text().trim().toLowerCase();
+
 
             if (
                 tipoDocumento.includes(searchText) ||

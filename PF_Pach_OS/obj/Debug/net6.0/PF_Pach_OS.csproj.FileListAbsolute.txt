@@ -1621,3 +1621,14 @@ C:\Users\camil\Desktop\Nuevo Clon Pachos\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\
 C:\Users\camil\Desktop\Nuevo Clon Pachos\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\PdfSharp.dll
 C:\Users\camil\Desktop\Nuevo Clon Pachos\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\de\PdfSharp.Charting.resources.dll
 C:\Users\camil\Desktop\Nuevo Clon Pachos\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\de\PdfSharp.resources.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\DinkToPdf.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\itextsharp.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\PdfSharp.Charting.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\PdfSharp.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\SendGrid.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\ServiceStack.Text.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\StarkbankEcdsa.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\de\PdfSharp.Charting.resources.dll
+C:\Users\asuus\Desktop\Progrmacion\PROYECTOS\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\de\PdfSharp.resources.dll
+C:\Users\camil\Desktop\Nuevo Clon Pachos\PF_Pach_OS\PF_Pach_OS\bin\Debug\net6.0\ServiceStack.Text.dll

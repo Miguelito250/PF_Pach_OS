@@ -1,13 +1,4 @@
-﻿@model IEnumerable<PF_Pach_OS.Models.Insumo>
-
-  @*-----GUIA-----*@
-@*Linea 17 - Librerias*@
-@*Linea 28 - Boton Crear*@
-@*Linea 32 - Buscador*@
-@*Linea 43 - Tabla*@
-@*Linea 87 - Modal de creacion de insumo*@
-@*Linea 142 - Modal de edicion de insumo*@
-@*Linea 172 - Scripts*@
+﻿    @model IEnumerable<PF_Pach_OS.Models.Insumo>
 
 @*----------------------------------------------------------------------MANEJO DE LIBRERIAS----------------------------------------------------------------------*@
 @*Aqui se gestionan todas las librerias necesarias para que el codigo funcione,
@@ -17,7 +8,6 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="~/css/insumos/insumos.css" rel="stylesheet" />
     <script src="~/js/insumos/insumos.js"></script>
@@ -27,7 +17,7 @@
 
 @*----------------------------------------------------------------------BOTON DE REGISTRO DE COMPRA----------------------------------------------------------------------*@
                                     @*Se encuentra situado en la esquina superior izquierda de la pantalla despues del sidebar*@
-<button type="button" class="btn-crear-posicion estilo-btn-naranja" data-toggle="modal" data-target="#createModal" title="Resitrar insumo">Registrar insumo</button>
+<button type="button" class="btn-crear-posicion estilo-btn-naranja" data-toggle="modal" data-target="#createModal" title="Regitrar insumo">Registrar insumo</button>
 
 @*----------------------------------------------------------------------BUSCADOR DE INSUMOS----------------------------------------------------------------------*@
                                             @*Se encuentra situado en la esquina superior derecha de la pantalla*@

@@ -10,23 +10,53 @@ InsertarFecha();
 InsertarTotal(subtotal);
 OcultarDomicilio();
 
-producto.addEventListener("change", function () {
+$(producto).select2({
+    theme: "bootstrap-5",
+    width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+    placeholder: $(this).data('placeholder'),
+});
+$('#Item1_IdProducto').on('change', function () {
+    var Valor = $(this).val();
+    console.log(Valor);
 
-    if (producto.value == 0) {
+    if (Valor <= 4) {
+        let tamanoPizza = Valor;
         var miModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
             backdrop: 'static',
             keyboard: false
         });
         $('#exampleModal').on('shown.bs.modal', function () {
             var modalBody = $("#modal-body");
-            var url = "/Ventas/SaboresPizza";
+            var url = "/Ventas/SaboresPizza?tamanoPizza=" + tamanoPizza;
             modalBody.empty();
             modalBody.load(url);
         });
 
         miModal.show();
     }
-})
+});
+
+$(document).ready(function () {
+    $('.dropdown-toggle').click(function () {
+        let detalleVentaId = $(this).attr('data-iddetalleVenta');
+        let dropdownMenu = $(this).next('.dropdown-menu');
+
+        if (dropdownMenu.is(':hidden')) {
+            $.ajax({
+                type: "GET",
+                url: "/Ventas/DetallesSabores",
+                data: { idDetalleVenta: detalleVentaId },
+                success: function (data) {
+                    dropdownMenu.html(data);
+                    dropdownMenu.show();
+                }
+            });
+        } else {
+            dropdownMenu.hide();
+        }
+    });
+});
+
 boton_domicilio.addEventListener('input', function () {
     SumarDomicilio(subtotal)
 })
@@ -38,10 +68,10 @@ function SumarDomicilio(subtotalProducto) {
     var pagoDomicilio = document.getElementById('domicilio').value;
     if (isNaN(pagoDomicilio) || pagoDomicilio === "" || pagoDomicilio < 0) {
         boton_domicilio.value = 0;
-        totalVenta = parseFloat(subtotalProducto); // Convertir subtotalProducto a número
+        totalVenta = parseFloat(subtotalProducto);
     } else {
-        pagoDomicilio = parseFloat(pagoDomicilio); // Convertir pagoDomicilio a número
-        totalVenta = parseFloat(subtotalProducto) + pagoDomicilio; // Realizar la suma
+        pagoDomicilio = parseFloat(pagoDomicilio);
+        totalVenta = parseFloat(subtotalProducto) + pagoDomicilio;
     }
     InsertarTotal(totalVenta);
 }
@@ -59,10 +89,14 @@ function InsertarTotal(totalVenta) {
 
 //Función para calcular cuanto se le devolverá al cliente
 function CalcularCambio() {
-    let totalVenta = document.getElementById('totalVenta-input').value;
-    var pago = document.getElementById('pago').value;
-
-    var cambio = pago - totalVenta;
+    let totalVenta = Number(document.getElementById('totalVenta-input').value);
+    var pago = Number(document.getElementById('pago').value);
+    let cambio;
+    if (pago > totalVenta) {
+        cambio = pago - totalVenta;
+    } else {
+        cambio = 0;
+    }
 
     // Formatear el valor de cambio a pesos colombianos
     var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
@@ -95,5 +129,6 @@ function OcultarDomicilio() {
         divDomicilio.style.display = "";
     } else {
         divDomicilio.style.display = "none";
+        boton_domicilio.value = 0
     }
 }

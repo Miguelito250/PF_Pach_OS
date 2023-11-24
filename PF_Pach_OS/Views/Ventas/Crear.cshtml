@@ -7,6 +7,11 @@
 }
 
 <link href="~/css/ventas/detalleventa.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
 
 <div class="d-flex p-2 contendorVenta">
     <div class="container">
@@ -15,9 +20,11 @@
                 <input type="number" value="@ViewBag.IdVenta" name="IdVenta" asp-for="Item2.IdVenta" hidden>
                 <div class="col-4">
                     <label>Producto *</label>
-                    <select class="form-control form-select" aria-label="Default select example" asp-for="Item1.IdProducto" asp-items="ViewBag.IdProducto" name="IdProducto" required>
-                        <option value="NA">Producto</option>
-                        <option value="0">Pizzas (Sabores)</option>
+                    <select class="form-control form-select" aria-label="Default select example" asp-for="Item1.IdProducto" asp-items="ViewBag.IdProducto" name="IdProducto" title="Seleccione el producto a vender" required>
+                        <option value="NA">-Seleccione-</option>
+                        <option value="2">Pizzas (Pequeñas)</option>
+                        <option value="3">Pizzas (Grandes)</option>
+                        <option value="4">Pizzas (Familiares)</option>
 
                     </select>
                     <span id="productoMensaje" class="invalid-feedback"></span>
@@ -26,20 +33,20 @@
 
                 <div class="col-3">
                     <label>Cantidad *</label>
-                    <input type="number" class="form-control" asp-for="Item1.CantVendida" name="CantVendida" min="0" required />
+                    <input type="number" class="form-control" asp-for="Item1.CantVendida" name="CantVendida" placeholder="Cantidad" min="0" title="Ingrese la cantidad del producto a vender" required />
                     <span id="cantidadMensaje" class="invalid-feedback"></span>
                     <span class="valid-feedback"></span>
                 </div>
 
                 <div class="col-4 d-flex align-items-end DivBotonAgregar">
-                    <button class="btn btn-primary botones-agregar" type="submit" title="Agregar producto a la venta">
+                    <button class="btn btn-primary botones-agregar" type="submit" title="presione para agregar el producto a la venta">
                         Agregar
                     </button>
                 </div>
             </form>
         </div>
 
-        <div class="mt-3 bg-white tablaDetallesVentas">
+        <div class="mt-3 bg-white tablaDetallesVentas" style="max-height: 30rem; overflow-y: auto;">
             <hr>
             <table class="table border rounded table-borderless mb-0 tablaDetalles-ventas">
                 <thead>
@@ -56,7 +63,19 @@
                     {
                         float? totalDetalle = detalles.Precio * detalles.CantVendida;
                         <tr>
-                            <td>@detalles.IdProductoNavigation.NomProducto</td>
+                            <td class="d-flex">
+                                @detalles.IdProductoNavigation.NomProducto
+                                @if (detalles.IdProducto > 1 && detalles.IdProducto <= 4)
+                                {
+                                    <div class="dropdown ml-2" title="Presione la flecha para mostrar los sabores de la pizza">
+                                        <span class="dropdown-toggle" id="dropdown-detallesSabores-@detalles.IdDetalleVenta" data-iddetalleventa="@detalles.IdDetalleVenta">
+                                            <i class="bi bi-caret-down-fill"></i>
+                                        </span>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdown-detallesSabores-@detalles.IdDetalleVenta">
+                                        </ul>
+                                    </div>
+                                }
+                            </td>
                             <td>@detalles.CantVendida</td>
                             <td>
                                 @(detalles.Precio.HasValue ? (detalles.Precio % 1 == 0
@@ -70,14 +89,14 @@
                                     : ((decimal)totalDetalle).ToString("C0", new CultureInfo("es-CO")).Replace(",", "."))
                                     : "Sin Precio")
                             </td>
-                            @if (detalles.Estado != "Descontado")
-                            {
-                                <td>
+                            <td class="d-flex">
+                                @if (detalles.Estado != "Descontado")
+                                {
                                     <form method="post">
-                                        <input type="submit" asp-controller="DetalleVentas" asp-action="EliminarDetalle" asp-route-id="@detalles.IdDetalleVenta" class="btn btn-outline-danger" id="btnEliminar" value="Eliminar">
+                                        <input type="submit" asp-controller="DetalleVentas" asp-action="EliminarDetalle" asp-route-id="@detalles.IdDetalleVenta" class="btn btn-outline-danger" id="btnEliminar" value="Eliminar" title="Presione para eliminar el producto de esta venta">
                                     </form>
-                                </td>
-                            }
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -98,7 +117,7 @@
                 <div class="row">
                     <div class="col-6">
                         <span>
-                            <strong>NIT: <br></strong>9203272<br>
+                            <strong>NIT: <br></strong>1152706792<br>
 
                             <strong>Cajero: <br></strong>@ViewBag.NombreUsuario
                         </span>
@@ -116,7 +135,7 @@
                 <div>
                     <div class="row">
                         <span class="col-7">Mesa</span>
-                        <select asp-for="Item2.Mesa" name="Mesa" id="Mesa" class="col-5 form-select">
+                        <select asp-for="Item2.Mesa" name="Mesa" id="Mesa" class="col-5 form-select" title="Seleccione en donde se entregará la venta, Si es diferente de general la cuenta será abierta">
                             <option value="General">General</option>
                             <option value="Barra Interior">Barra Interior</option>
                             <option value="Barra Exterior">Barra Exterior</option>
@@ -130,18 +149,20 @@
                     </div>
                     <div class="row mt-2" id="campo-domicilio">
                         <span class="col-8">Domicilio</span>
-                        <input asp-for="Item2.PagoDomicilio" type="number" id="domicilio" name="PagoDomicilio" class="col-4 form-control text-end" value="0" min="0">
+                        <input asp-for="Item2.PagoDomicilio" type="number" id="domicilio" name="PagoDomicilio" class="col-4 form-control text-end" value="0" min="0" title="Ingrese el pago al domiciliario (opcional)">
+                        <span id="domicilioMensaje" class="invalid-feedback"></span>
+                        <span class="valid-feedback"></span>
                     </div>
 
                     <div class="row mt-2">
                         <div class="col-8">
-                            <select asp-for="Item2.TipoPago" name="TipoPago" class="col-12 form-select">
+                            <select asp-for="Item2.TipoPago" name="TipoPago" class="col-12 form-select" title="Seleccione el metodo de pago">
                                 <option value="Efectivo">Efectivo</option>
                                 <option value="Transferencia">Transferencia</option>
                             </select>
 
                         </div>
-                        <input asp-for="Item2.Pago" type="number" id="pago" name="Pago" class="col-4 form-control text-end" placeholder="0" required>
+                        <input asp-for="Item2.Pago" type="number" id="pago" name="Pago" class="col-4 form-control text-end" placeholder="0" title="Ingrese el total de dinero que se recibió" required>
                         <div id="pagoMensaje" class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>
@@ -168,10 +189,14 @@
 
                 <hr>
                 <div class="w-100 d-flex flex-column mt-auto">
-                    <button class="btn btn-primary botones-agregar" type="submit">Realizar venta</button>
+                    <button class="btn btn-primary botones-agregar" type="submit" title="Presione para confirmar la venta">Realizar venta</button>
                     @if (venta.Estado == null)
                     {
-                        <a class="btn btn-outline-danger border mt-2 cancelarCompraBtn" asp-controller="Ventas" asp-action="CancelarVenta" asp-route-IdVenta="@ViewBag.IdVenta">Cancelar venta</a>
+                        <a class="btn btn-outline-danger border mt-2 cancelarCompraBtn" asp-controller="Ventas" asp-action="CancelarVenta" asp-route-IdVenta="@ViewBag.IdVenta" title="Presione para cancelar la venta">Cancelar venta</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Index" asp-controller="Ventas" class="btn btn-outline-danger border mt-2" id="links-modulos" title="Presione para volver al listado de ventas">Volver</a>
                     }
                 </div>
             </div>
@@ -196,11 +221,8 @@
     </div>
 </div>
 
-<script src="~/js/ventas/ventas.js"></script>
-<script src="~/js/Ventas/Validaciones.js"></script>
-
-
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="~/js/ventas/ventas.js"></script>
+<script src="~/js/Ventas/Validaciones.js"></script>
