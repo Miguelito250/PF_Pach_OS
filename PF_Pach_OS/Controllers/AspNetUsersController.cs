@@ -104,7 +104,7 @@ namespace PF_Pach_OS.Controllers
             {
                 return NotFound();
             }
-            var permiso = await _context.Roles.ToListAsync();
+            var permiso = await _context.Roles.Where(p=> p.Estado != 0).ToListAsync();
             var permisoActivo = await _context.Roles.FindAsync(aspNetUser.Id_Rol);
             ViewBag.IdPermisoActivo = permisoActivo.IdRol;
             ViewBag.NombrePermisoActivo = permisoActivo.NomRol;

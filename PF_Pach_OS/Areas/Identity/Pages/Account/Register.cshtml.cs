@@ -122,7 +122,9 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
 
             Input = new InputModel()
             {
-                RoleList = _contex.Roles.Select(role => new SelectListItem{
+                RoleList = _contex.Roles
+                 .Where(role => role.Estado != 0)
+                .Select(role => new SelectListItem{
                     Text = role.NomRol,
                     Value = role.IdRol.ToString()
                 }).ToList()

@@ -107,6 +107,40 @@ app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Ventas/GetDeta
         appBuilder.UseAuthorization();
     });
 
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Estadisticas/VentasdelMes"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
+
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Estadisticas/ComprasdelMes"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
+
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Estadisticas/VentasAño"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
+
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Estadisticas/ComprasAño"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
+
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Estadisticas/ProductosMasVendidosMes"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
 
 app.MapControllerRoute(
     name: "default",
