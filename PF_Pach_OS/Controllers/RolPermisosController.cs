@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,7 +12,6 @@ using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
-    [Authorize]
     public class RolPermisosController : Controller
     {
         private readonly Pach_OSContext _context;
@@ -46,11 +44,11 @@ namespace PF_Pach_OS.Controllers
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
             var roles = _context.Roles.ToList();
-            return View(Enumerable.Reverse(roles).ToList());
+            return View(roles);
         }
 
         // GET: RolPermisos/Details/5
-        public  IActionResult Detalles(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             var user = User;
 
@@ -64,24 +62,16 @@ namespace PF_Pach_OS.Controllers
                 return NotFound();
             }
 
-            var nombre_rol = _context.Roles.Find(id);
-            var permisos_rol = _context.RolPermisos.Where(p=> p.IdRol == id).ToList();
-            var permisos = _context.Permisos.ToList();
-            var rolPermiso = _context.RolPermisos.Where(p => p.IdRol == id).ToList();
-
-            var listarPermisos = permisos.Select(permisos => new
+            var rolPermiso = await _context.RolPermisos
+                .Include(r => r.IdPermisoNavigation)
+                .Include(r => r.IdRolNavigation)
+                .FirstOrDefaultAsync(m => m.IdRolPermisos == id);
+            if (rolPermiso == null)
             {
-                nom_permiso = permisos.NomPermiso,
-                id_permiso = permisos.IdPermiso,
+                return NotFound();
+            }
 
-            }).ToList();
-
-
-            ViewBag.NomRol = nombre_rol.NomRol;
-            ViewBag.PermisosUsados = rolPermiso.Cast<object>().ToList();
-            ViewBag.Permisos = listarPermisos.Cast<object>().ToList();
-
-            return View("Detalles");
+            return View(rolPermiso);
         }
 
         // GET: RolPermisos/Create
@@ -114,7 +104,7 @@ namespace PF_Pach_OS.Controllers
 
 
         [HttpPost]
-        public async void Crear(List<int> permisos, String nomRol)
+        private async void Crear(List<int> permisos, String nomRol)
         {
             var user = User;
 
@@ -125,7 +115,6 @@ namespace PF_Pach_OS.Controllers
             {
                 Role nuevo_Rol = new Role();
                 nuevo_Rol.NomRol = nomRol;
-                nuevo_Rol.Estado = 1;
                 _context.Roles.Add(nuevo_Rol);
                 _context.SaveChanges();
                
@@ -153,7 +142,7 @@ namespace PF_Pach_OS.Controllers
             
         }
         //Se crea el rol y se le asignan los permisos
-        public async void Crear_rol(List<int> permisos, Role rol)
+        private async void Crear_rol(List<int> permisos, Role rol)
         {
             if (rol != null)
             {
@@ -200,29 +189,37 @@ namespace PF_Pach_OS.Controllers
 
         
         [HttpPost]
-        public async void Editar(int id, List<int> permisos, String nomRol)
+        private async void Editar(int id, List<int> permisos, String nomRol)
         {
-            
+            Console.WriteLine("=============================");
+            Console.WriteLine("Entrada 1");
+            Console.WriteLine("=============================");
 
             var rol = _context.Roles.Where(p=> p.IdRol== id).ToList();
             if (rol != null) {
                 rol[0].NomRol = nomRol;
                 _context.Roles.Update(rol[0]);
                 _context.SaveChanges();
-               
+                Console.WriteLine("=============================");
+                Console.WriteLine("Entrada 2");
+                Console.WriteLine("=============================");
 
             }
             var permisos_Desactualizados = _context.RolPermisos.Where(p=> p.IdRol== id).ToList();
             foreach(var permiso_desactualizado in permisos_Desactualizados)
             {
-                
+                Console.WriteLine("=============================");
+                Console.WriteLine("Entrada 3: " + permiso_desactualizado);
+                Console.WriteLine("=============================");
                 _context.RolPermisos.Remove(permiso_desactualizado);
                 _context.SaveChanges();
 
             }
             foreach (var permiso in permisos)
             {
-               
+                Console.WriteLine("=============================");
+                Console.WriteLine("Entrada 4: " + permiso);
+                Console.WriteLine("=============================");
                 RolPermiso rolPermiso = new RolPermiso();
                 rolPermiso.IdRol = id;
                 rolPermiso.IdPermiso = permiso;
@@ -233,67 +230,62 @@ namespace PF_Pach_OS.Controllers
      
         }
 
-
-        //Habilita un producto que este deshabilitado 
-        public IActionResult Habilitar(int id)
+        // GET: RolPermisos/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             var user = User;
 
-            bool tine_permiso = _permisosController.tinto(3, User);
+            bool tine_permiso = _permisosController.tinto(7, User);
             if (!tine_permiso)
             {
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
+            if (id == null || _context.RolPermisos == null)
+            {
+                return NotFound();
+            }
 
-            var rol = _context.Roles.Find(id);
-            var usuarios = _context.ApplicationUser.Where(p=> p.Id_Rol == rol.IdRol).ToList();
-            foreach (var ususario in usuarios)
+            var rolPermiso = await _context.RolPermisos
+                .Include(r => r.IdPermisoNavigation)
+                .Include(r => r.IdRolNavigation)
+                .FirstOrDefaultAsync(m => m.IdRolPermisos == id);
+            if (rolPermiso == null)
             {
-                ususario.State = 1;
-                _context.SaveChanges();
+                return NotFound();
             }
-            if (rol != null)
-            {
-                rol.Estado = 1;
-                _context.SaveChanges();
-            }
-            return RedirectToAction("Index");
+
+            return View(rolPermiso);
         }
 
-
-        //Deshabilita un producto que este habilitado 
-        public IActionResult Deshabilitar(int id)
+        // POST: RolPermisos/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var user = User;
 
-            bool tine_permiso = _permisosController.tinto(3, User);
+            bool tine_permiso = _permisosController.tinto(7, User);
             if (!tine_permiso)
             {
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
-            var rol = _context.Roles.Find(id);
-            var usuarios = _context.ApplicationUser.Where(p => p.Id_Rol == rol.IdRol).ToList();
-            foreach (var ususario in usuarios)
+            if (_context.RolPermisos == null)
             {
-                ususario.State = 0;
-                _context.SaveChanges();
+                return Problem("Entity set 'Pach_OSContext.RolPermisos'  is null.");
             }
-            if (rol != null)
+            var rolPermiso = await _context.RolPermisos.FindAsync(id);
+            if (rolPermiso != null)
             {
-                rol.Estado = 0;
-                _context.SaveChanges();
+                _context.RolPermisos.Remove(rolPermiso);
             }
-            return RedirectToAction("Index");
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         private bool RolPermisoExists(int id)
         {
             return (_context.RolPermisos?.Any(e => e.IdRolPermisos == id)).GetValueOrDefault();
-        }
-        public IActionResult NombreDuplicado(string Nombre)
-        {
-            var EsDuplicado = _context.Roles.Any(x => x.NomRol == Nombre);
-            return Json(EsDuplicado);
         }
     }
 }

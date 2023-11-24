@@ -14,17 +14,18 @@
         <div class="row">
             <input type="hidden" readonly value="@ViewBag.IdVenta">
 
-            <div class="d-flex justify-content-between">
-                <span>Tamaño a vender: <strong>@ViewBag.TamanoVender</strong> </span>
-                <span>Maximo de sabores: <strong>@ViewBag.MaximoSabores</strong></span>
-                <input type="hidden" value="@ViewBag.MaximoSabores" readonly id="maximoSabores">
-                <input type="hidden" value="@ViewBag.IdProducto" readonly id="tamanoVender">
-
+            <div class="col-7">
+                <label>Tamaño</label>
+                <select class="form-select" asp-items="ViewBag.IdProducto" id="ProductoEscoger">
+                </select>
             </div>
-
             <div class="col-5">
+                <label class="form-label">Maximo de sabores</label>
+                <input type="number" class="form-control" value="2" id="maximoSabores" disabled>
+            </div>
+            <div class="col-7">
                 <label class="form-label">Cantidad</label>
-                <input type="number" class="form-control" value="0" id="CantVendida" title="Ingrese la cantidad de pizzas que va a vender">
+                <input type="number" class="form-control" value="0" id="CantVendida">
                 <span id="cantidadMensaje" class="invalid-feedback"></span>
                 <span class="valid-feedback"></span>
             </div>
@@ -43,7 +44,7 @@
                     @foreach (var saborPizza in Model)
                     {
                         <tr>
-                            <td><input type="checkbox" id="saborPizza" name="saborPizza" value="@saborPizza.IdProducto" title="Presione para incluir este sabor en la pizza"></td>
+                            <td><input type="checkbox" id="saborPizza" name="saborPizza" value="@saborPizza.IdProducto"></td>
                             <td><span>@saborPizza.NomProducto</span></td>
                         </tr>
                     }
@@ -52,7 +53,7 @@
         </div>
 
         <div class="row mt-3 justify-content-center">
-            <input type="button" class="btn btn-primary botones-agregar col-3 mr-1" id="btnEnviar" value="Agregar" title="Presione para agregar la pizza a la venta">
+            <input type="button" class="btn btn-primary botones-agregar col-3 mr-1" id="btnEnviar" value="Agregar">
         </div>
 
     </form>
@@ -60,7 +61,7 @@
 <script>
     $(document).ready(function () {
         $('#TablaSabores').DataTable({
-            searching: false,
+            searching: true,
             lengthChange: false,
             info: false,
             pageLength: 6,
@@ -69,9 +70,15 @@
                 "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
             }
         });
+
+        // Contar las filas de la tabla
+        var ContadorFilas = $('#TablaDetalles tbody tr').length;
+        console.log('Número de filas en la tabla: ' + ContadorFilas);
     });
+
 </script>
 <script src="~/js/ventas/saborespizzas.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

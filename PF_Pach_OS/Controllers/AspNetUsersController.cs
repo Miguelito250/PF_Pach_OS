@@ -2,49 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PF_Pach_OS.Models;
-using static Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal.ExternalLoginModel;
 
 namespace PF_Pach_OS.Controllers
 {
-    [Authorize]
     public class AspNetUsersController : Controller
     {
         private readonly Pach_OSContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _SignInManager;
-        public readonly PermisosController _permisosController;
-        public AspNetUsersController(Pach_OSContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AspNetUsersController(Pach_OSContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
-            _SignInManager = signInManager;
-            _permisosController = new PermisosController(_context, _userManager, _SignInManager);
         }
-        [BindProperty]
-        public InputModel Input { get; set; }
 
         // GET: AspNetUsers
         public async Task<IActionResult> Index()
         {
-            var user = User;
 
-            bool tine_permiso = _permisosController.tinto(8, User);
-            if (!tine_permiso)
-            {
-                return RedirectToAction("AccesoDenegado", "Acceso");
-            }
             if (_context.ApplicationUser != null)
             {
                 var usuarios = await _context.ApplicationUser.ToListAsync();
-                var roles = _context.Roles.ToList();
-                ViewBag.roles = roles;
 
                 return View(usuarios.ToList());
             }
@@ -53,31 +35,20 @@ namespace PF_Pach_OS.Controllers
         }
 
         // GET: AspNetUsers/Details/5
-        public async Task<IActionResult> Detalles(string id)
+        public async Task<IActionResult> Details(string id)
         {
-            var user = User;
-
-            bool tine_permiso = _permisosController.tinto(8, User);
-            if (!tine_permiso)
-            {
-                return RedirectToAction("AccesoDenegado", "Acceso");
-            }
-            if (id == null || _context.ApplicationUser == null)
+            if (id == null || _context.AspNetUser == null)
             {
                 return NotFound();
             }
 
-            var aspNetUser = await _context.ApplicationUser.FindAsync(id);
+            var aspNetUser = await _context.AspNetUser
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (aspNetUser == null)
             {
                 return NotFound();
             }
-            var permiso = await _context.Roles.ToListAsync();
-            var permisoActivo = await _context.Roles.FindAsync(aspNetUser.Id_Rol);
 
-            ViewBag.NombrePermisoActivo = permisoActivo.NomRol;
-
-            ViewBag.Permisos = permiso;
             return View(aspNetUser);
         }
 
@@ -87,13 +58,6 @@ namespace PF_Pach_OS.Controllers
         // GET: AspNetUsers/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            var user = User;
-
-            bool tine_permiso = _permisosController.tinto(8, User);
-            if (!tine_permiso)
-            {
-                return RedirectToAction("AccesoDenegado", "Acceso");
-            }
             if (id == null || _context.ApplicationUser == null)
             {
                 return NotFound();
@@ -104,12 +68,6 @@ namespace PF_Pach_OS.Controllers
             {
                 return NotFound();
             }
-            var permiso = await _context.Roles.ToListAsync();
-            var permisoActivo = await _context.Roles.FindAsync(aspNetUser.Id_Rol);
-            ViewBag.IdPermisoActivo = permisoActivo.IdRol;
-            ViewBag.NombrePermisoActivo = permisoActivo.NomRol;
-
-            ViewBag.Permisos = permiso;
             return View(aspNetUser);
         }
 
@@ -120,13 +78,6 @@ namespace PF_Pach_OS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Email,DocumentNumber,DocumentType,FirstName,LastName,Id_Rol")] ApplicationUser applicationUser)
         {
-            
-
-            bool tine_permiso = _permisosController.tinto(8, User);
-            if (!tine_permiso)
-            {
-                return RedirectToAction("AccesoDenegado", "Acceso");
-            }
             if (id != applicationUser.Id)
             {
                 return NotFound();
@@ -135,19 +86,19 @@ namespace PF_Pach_OS.Controllers
 
             try
             {
+                // Obtiene el usuario por su ID
+                //var user = await _userManager.FindByIdAsync(applicationUser.Id);
 
-                var user = await _userManager.FindByIdAsync(applicationUser.Id);
+               
+                //user.Email = applicationUser.Email;
+                //user.DocumentNumber = applicationUser.DocumentNumber;
+                //user.DocumentType = applicationUser.DocumentType;
+                //user.FirstName = applicationUser.FirstName;
+                //user.LastName = applicationUser.LastName;
+                //user.Id_Rol = applicationUser.Id_Rol;
 
-
-                user.Email = applicationUser.Email;
-                user.DocumentNumber = applicationUser.DocumentNumber;
-                user.DocumentType = applicationUser.DocumentType;
-                user.FirstName = applicationUser.FirstName;
-                user.LastName = applicationUser.LastName;
-                user.Id_Rol = applicationUser.Id_Rol;
-
-                // Actualiza el usuario en la base de datos
-                var result = await _userManager.UpdateAsync(user);
+                //// Actualiza el usuario en la base de datos
+                //var result = await _userManager.UpdateAsync(user);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -163,129 +114,46 @@ namespace PF_Pach_OS.Controllers
             return RedirectToAction("Index", "AspNetUsers");
         }
 
-        public IActionResult Deshabilitar(string id)
+        // GET: AspNetUsers/Delete/5
+        public async Task<IActionResult> Delete(string id)
         {
-            
-
-            bool tine_permiso = _permisosController.tinto(8, User);
-            if (!tine_permiso)
-            {
-                return RedirectToAction("AccesoDenegado", "Acceso");
-            }
-            if (id == null || _context.ApplicationUser == null)
+            if (id == null || _context.AspNetUser == null)
             {
                 return NotFound();
             }
 
-            var aspNetUser = _context.ApplicationUser.Find(id);
+            var aspNetUser = await _context.AspNetUser
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (aspNetUser == null)
             {
                 return NotFound();
             }
-            aspNetUser.State = 0;
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+
+            return View(aspNetUser);
         }
 
-
-        //Deshabilita un producto que este habilitado 
-        public IActionResult Habilitar(string id)
+        // POST: AspNetUsers/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            bool tine_permiso = _permisosController.tinto(8, User);
-            if (!tine_permiso)
+            if (_context.AspNetUser == null)
             {
-                return RedirectToAction("AccesoDenegado", "Acceso");
+                return Problem("Entity set 'Pach_OSContext.AspNetUser'  is null.");
             }
-            if (id == null || _context.ApplicationUser == null)
+            var aspNetUser = await _context.AspNetUser.FindAsync(id);
+            if (aspNetUser != null)
             {
-                return NotFound();
+                _context.AspNetUser.Remove(aspNetUser);
             }
 
-            var aspNetUser = _context.ApplicationUser.Find(id);
-            if (aspNetUser == null)
-            {
-                return NotFound();
-            }
-            aspNetUser.State = 1;
-            _context.SaveChanges();
-            return RedirectToAction("Index");
-
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
+
         private bool AspNetUserExists(string id)
         {
             return (_context.AspNetUser?.Any(e => e.Id == id)).GetValueOrDefault();
         }
-
-        public IActionResult VistaCambiarContraseña()
-        {
-            bool tine_permiso = _permisosController.tinto(8, User);
-            if (!tine_permiso)
-            {
-                return RedirectToAction("AccesoDenegado", "Acceso");
-            }
-
-            return View("CambiarContraseña");
-
-        }
-
-        [HttpPost]
-        public async Task<bool> CambiarContraseña(string AntiguaContraseña, string NuevaContraseña)
-        {
-
-            var user = await _userManager.GetUserAsync(User);
-            var changePasswordResult = await _userManager.ChangePasswordAsync(user, AntiguaContraseña, NuevaContraseña);
-            if (!changePasswordResult.Succeeded)
-            {
-
-                return false;
-            }
-            await _SignInManager.RefreshSignInAsync(user);
-
-
-            return true;
-
-        }
-       
-        public IActionResult ConfirmarCambiarContraseña()
-        {
-            bool tine_permiso = _permisosController.tinto(8, User);
-            if (!tine_permiso)
-            {
-                return RedirectToAction("AccesoDenegado", "Acceso");
-            }
-            return View("ConfirmarCambiarContraseña");
-        }
-
-        public async  Task<IActionResult> Rol(string idUsario)
-        {
-
-            
-            var aspNetUser = await _context.ApplicationUser.FindAsync(idUsario);
-            int? idrol_Usuario = aspNetUser.Id_Rol;
-            var rol = _context.Roles.FirstOrDefault(p=> p.IdRol == idrol_Usuario);
-            if(rol.Estado == 0)
-            {
-                return Json(true);
-            }
-            
-            return Json(false);
-        }
-
-        public async Task<IActionResult> CorreoDuplicado(string Coreo)
-        {
-           
-            var EsDuplicaddo = _context.ApplicationUser.Any(x => x.Email == Coreo);
-
-            return Json(EsDuplicaddo);
-        }
-
-        public async Task<IActionResult> DocumentoDuplicado(string documento)
-        {
-
-            var EsDuplicaddo = _context.ApplicationUser.Any(x => x.DocumentNumber == documento);
-
-            return Json(EsDuplicaddo);
-        }
     }
 }
-

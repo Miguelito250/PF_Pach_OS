@@ -2,14 +2,14 @@
 
 @{
     ViewData["Title"] = "Actualizar";
-   
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 }
 <link href="~/css/productos.css" rel="stylesheet" />
-<link href="~/css/productos/crear.css" rel="stylesheet" />
-<div class="row d-flex pl-2 pt-2">
 
-    <div class="col-4  ml-3 p-2 bg-white rounded border px-4 py-4">
+<div class="row pl-2 pt-2">
+
+    <div class="col-4 ml-3 p-2 bg-white rounded border px-4 py-4">
         <form method="post" asp-action="Actualizar_Producto" asp-controller="Productos" class="needs-validation" novalidate id="formulario1">
             <h2>Producto</h2>
             <hr>
@@ -17,43 +17,43 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Producto.IdProducto" value="@ViewBag.IdProducto" />
             <div class="form-group">
-                <label class="form-label">Producto * </label>
+                <label class="form-label">Producto</label>
                 @if (ViewBag.ProductoActivo == null)
                 {
-                    <input asp-for="Producto.NomProducto" id="Nombre" class="form-control" title=" " required />
+                    <input asp-for="Producto.NomProducto" class="form-control" title=" " required />
                 }
                 else
                 {
-                    <input asp-for="Producto.NomProducto" id="Nombre" value="@ViewBag.ProductoActivo.NomProducto" class="form-control" title=" " required />
+                    <input asp-for="Producto.NomProducto" value="@ViewBag.ProductoActivo.NomProducto" class="form-control" title=" " required />
                 }
-                <div id="mensaje_nombre" class="invalid-feedback"></div>
+                <div class="invalid-feedback"></div>
 
             </div>
 
             <div class="form-group">
-                <label asp-for="Producto.PrecioVenta" class="form-label">Precio * </label>
+                <label asp-for="Producto.PrecioVenta" class="form-label">Precio</label>
 
                 @if (ViewBag.ProductoActivo == null)
                 {
-                    <input asp-for="Producto.PrecioVenta" id="precio" class="form-control" title=" " required />
+                    <input asp-for="Producto.PrecioVenta" class="form-control" title=" " required />
 
                 }
                 else
                 {
-                    <input asp-for="Producto.PrecioVenta" id="precio" value="@ViewBag.ProductoActivo.PrecioVenta" class="form-control" required />
+                    <input asp-for="Producto.PrecioVenta" value="@ViewBag.ProductoActivo.PrecioVenta" class="form-control" required />
 
                 }
-                <div id="mensaje_precio" class="invalid-feedback"></div>
+                <div class="invalid-feedback"></div>
 
             </div>
 
             <div class="form-group">
-                <label asp-for="Producto.IdCategoria" class="form-label">Categoria * </label>
+                <label asp-for="Producto.IdCategoria" class="form-label">Categoria</label>
                 <select class="form-select" id="Producto_IdCategoria" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria" required>
                     @if (ViewBag.SelectCategoriaID == null)
                     {
-                        <option value="" disabled selected>Seleccione una categoria</option>
-                         
+                        <option disabled selected>Seleccione una categoria</option>
+
                     }
                     else
                     {
@@ -61,15 +61,17 @@
 
                     }
                 </select>
-                <div id="mensaje_categoria" class="invalid-feedback"></div>
+
+                <div class="invalid-feedback"></div>
+                <div class="valid-feedback">¡Todo bien!</div>
             </div>
 
             <div id="Tamano_Oculto" class="d-none form-group">
-                <label asp-for="Producto.IdTamano" class="form-label">Tamaño * </label>
-                <select class="form-select" id="tamano" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
+                <label asp-for="Producto.IdTamano" class="form-label">Tamaño</label>
+                <select class="form-select" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
                     @if (ViewBag.SelectTamanoID == null)
                     {
-                        <option value="" disabled selected>Seleccione un Tamaño</option>
+                        <option disabled selected>Seleccione un Tamaño</option>
 
                     }
                     else
@@ -79,20 +81,20 @@
                     }
                 </select>
 
-                <div id="mensaje_tamano" class="invalid-feedback"></div>
+                <div class="invalid-feedback">Selecione un tamaño por favor.</div>
 
             </div>
-            <div class="w-100 d-flex flex-column mt-auto">
-                <input type="submit" class="botones-agregar btn btn-success" value="Terminar Producto" />
-                <a asp-action="Index" asp-controller="Productos" class="btn btn-outline-danger cancelarBtn mt-2">Cancelar</a>
+            <div class="col">
+                <input type="submit" class="col-6 botones-agregar btn btn-success w-auto"  />
+                <a asp-action="Index" asp-controller="Productos" class="col-6 btn btn-outline-danger">Cancelar</a>
             </div>
         </form>
 
 
     </div>
-    <div class="col-lg-6 col-md-2 mr-2 ml-5 mt-4">
+    <div class="col-6 mr-2 ml-5 mt-4">
         <div>
-            <h2 class="tituloRecetas">Receta</h2>
+            <h2>Receta</h2>
 
             <form id="miFormulario" class="row" novalidate>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -104,39 +106,31 @@
                 <input type="hidden" id="tam_Pro" asp-for="Producto.IdTamano" value="" />
 
 
-                <div class="col-lg-5">
-                    <select class="form-control" id="insumo" asp-for="Receta.IdInsumo" required>
-                        <option value="" disabled selected>Seleccione un insumo * </option>
+                <div class="col-6">
+                    <select class="form-control" asp-for="Receta.IdInsumo" required>
+                        <option disabled selected>Seleccione un insumo</option>
                         @foreach (var insu in ViewBag.Insumo)
                         {
                             <option value="@insu.IdInsumo"> @insu.NomInsumo / @insu.Medida </option>
                         }
                     </select>
-                    <div id="mensaje_Insumo" class="invalid-feedback"></div>
-
-                </div>
-
-                <div class="col-lg-3">
-                    <input class="input-campo form-control" id="CantidadInsumo" asp-for="Receta.CantInsumo" type="number" placeholder="Cantidad  * " required>
                     <div class="invalid-feedback"></div>
-                    <div id="mensaje_Cantinsumo" class="invalid-feedback"></div>
+
                 </div>
 
-                <div class="col-lg-2">
-                    <button type="submit" class="form-control btn btn-primary botones-agregar"> Agregar </button>
+                <div class="col-3">
+                    <input class="input-campo form-control" asp-for="Receta.CantInsumo" type="number" placeholder="Cantidad" required>
+                    <div class="invalid-feedback"></div>
+
                 </div>
-                <div class=" col-2 contenedor-importar">
-                    <button type="button" class="form-control  btn btn-primary botones-agregar importar" data-toggle="modal" data-target="#myModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi  align-text-start" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.854 3.146a.5.5 0 1 0-.708.708L9.243 9.95H6.475a.5.5 0 1 0 0 1h3.975a.5.5 0 0 0 .5-.5V6.475a.5.5 0 1 0-1 0v2.768L5.854 5.146z" />
-                        </svg>
-                        Importar
-                    </button>
+
+                <div class="col-3">
+                    <button type="submit" class="form-control btn btn-primary botones-agregar"> Agregar </button>
                 </div>
             </form>
         </div>
-        <div class="col-lg-12 mt-3 bg-white DetallesRecetas" style="max-height: 26rem; overflow-y: auto;">
-            
+        <div class="mt-4 border rounded bg-white">
+
 
 
             @if (ViewBag.RecetasConInsumos == null)
@@ -145,7 +139,7 @@
             }
             else
             {
-                <table id="miTabla" class="table table-with-separator mb-0 border rounded">
+                <table id="miTabla" class="table table-borderless mb-0">
                     <thead>
                         <tr class="text-gray bg-gray-300">
                             <th>Insumo</th>
@@ -166,7 +160,7 @@
                                 <td>@recetaConInsumo.Medida</td>
                                 <td>
                                     <button class="btn btn-outline-danger" onclick="ocultarFila(this)">Remover</button>
-
+                                    
                                 </td>
                                 <td class="d-none">@recetaConInsumo.IdReceta </td>
                             </tr>
@@ -180,41 +174,6 @@
     </div>
 </div>
 
-<div class="modal" id="myModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <!-- Cabecera de la ventana modal -->
-            <div class="modal-header">
-                <h4 class="modal-title">Importar Receta</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-
-            <form id="Formurario_Modal">
-                <div class="modal-body">
-                    <select class="form-control" id="IdSeleccionado" required>
-                        @foreach (var item in ViewBag.Productos)
-                        {
-                            <option value="@item.IdProducto">@item.NomProducto </option>
-                        }
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Importar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-
-                </div>
-            </form>
-
-
-
-        </div>
-    </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="~/js/Productos/Editar.js"></script>
 
 @section Scripts {

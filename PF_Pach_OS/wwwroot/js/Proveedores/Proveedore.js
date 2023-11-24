@@ -43,7 +43,7 @@ $(document).ready(function () {
 
         Toast.fire({
             icon: 'success',
-            title: ' \u00A1LISTO!'
+            title: ' ¡LISTO!'
         }).then((result) => {
             form.submit();
         })

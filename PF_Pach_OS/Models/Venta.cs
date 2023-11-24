@@ -11,7 +11,7 @@ namespace PF_Pach_OS.Models
         }
 
         public int IdVenta { get; set; }
-        public DateTime FechaVenta { get; set; }
+        public DateTime? FechaVenta { get; set; }
         public int? TotalVenta { get; set; }
         public string? TipoPago { get; set; }
         public int? Pago { get; set; }

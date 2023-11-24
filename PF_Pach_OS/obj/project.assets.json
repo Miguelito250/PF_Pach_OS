@@ -1269,7 +1269,7 @@
           }
         }
       },
-      "Microsoft.CSharp/4.7.0": {
+      "Microsoft.CSharp/4.5.0": {
         "type": "package",
         "compile": {
           "ref/netcoreapp2.0/_._": {}
@@ -2504,24 +2504,6 @@
         "runtime": {
           "lib/netstandard2.0/SendGrid.dll": {
             "related": ".pdb;.xml"
-          }
-        }
-      },
-      "ServiceStack.Text/6.11.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.CSharp": "4.7.0",
-          "System.Diagnostics.DiagnosticSource": "6.0.0",
-          "System.Memory": "4.5.5"
-        },
-        "compile": {
-          "lib/net6.0/ServiceStack.Text.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/ServiceStack.Text.dll": {
-            "related": ".xml"
           }
         }
       },
@@ -5758,10 +5740,10 @@
         "microsoft.codeanalysis.workspaces.common.nuspec"
       ]
     },
-    "Microsoft.CSharp/4.7.0": {
-      "sha512": "pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA==",
+    "Microsoft.CSharp/4.5.0": {
+      "sha512": "kaj6Wb4qoMuH3HySFJhxwQfe8R/sJsNJnANrvv8WdFPMoNbKY5htfNscv+LHCu5ipz+49m2e+WQXpLXr9XYemQ==",
       "type": "package",
-      "path": "microsoft.csharp/4.7.0",
+      "path": "microsoft.csharp/4.5.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5774,7 +5756,6 @@
         "lib/netcoreapp2.0/_._",
         "lib/netstandard1.3/Microsoft.CSharp.dll",
         "lib/netstandard2.0/Microsoft.CSharp.dll",
-        "lib/netstandard2.0/Microsoft.CSharp.xml",
         "lib/portable-net45+win8+wp8+wpa81/_._",
         "lib/uap10.0.16299/_._",
         "lib/win8/_._",
@@ -5784,7 +5765,7 @@
         "lib/xamarinmac20/_._",
         "lib/xamarintvos10/_._",
         "lib/xamarinwatchos10/_._",
-        "microsoft.csharp.4.7.0.nupkg.sha512",
+        "microsoft.csharp.4.5.0.nupkg.sha512",
         "microsoft.csharp.nuspec",
         "ref/MonoAndroid10/_._",
         "ref/MonoTouch10/_._",
@@ -7753,23 +7734,6 @@
         "lib/netstandard2.0/SendGrid.xml",
         "sendgrid.9.28.1.nupkg.sha512",
         "sendgrid.nuspec"
-      ]
-    },
-    "ServiceStack.Text/6.11.0": {
-      "sha512": "LGPW32nrQ1uJEgErMlUSEe2R+qnSMDNKXkRnN1RPgVHMbiIejCzOziSDW3MlokN/wFqiKhjgCUWi99q6yGlkkg==",
-      "type": "package",
-      "path": "servicestack.text/6.11.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net472/ServiceStack.Text.dll",
-        "lib/net472/ServiceStack.Text.xml",
-        "lib/net6.0/ServiceStack.Text.dll",
-        "lib/net6.0/ServiceStack.Text.xml",
-        "lib/netstandard2.0/ServiceStack.Text.dll",
-        "lib/netstandard2.0/ServiceStack.Text.xml",
-        "servicestack.text.6.11.0.nupkg.sha512",
-        "servicestack.text.nuspec"
       ]
     },
     "SQLitePCLRaw.bundle_e_sqlite3/2.1.2": {
@@ -11745,7 +11709,6 @@
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.16",
       "PdfSharp >= 1.50.5147",
       "SendGrid >= 9.28.1",
-      "ServiceStack.Text >= 6.11.0",
       "iTextSharp >= 5.5.13.3"
     ]
   },
@@ -11830,10 +11793,6 @@
           "SendGrid": {
             "target": "Package",
             "version": "[9.28.1, )"
-          },
-          "ServiceStack.Text": {
-            "target": "Package",
-            "version": "[6.11.0, )"
           },
           "iTextSharp": {
             "target": "Package",

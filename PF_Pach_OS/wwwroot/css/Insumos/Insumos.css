@@ -6,9 +6,9 @@
     top: 5.8vh;
     right: 5vh;
     border-radius: 10px;
-    transition: all 0.3s ease; 
+    transition: all 0.3s ease; /* Agregamos una transición para suavizar el cambio */
     border: none;
-    text-align: center; 
+    text-align: center; /* Centrar el texto horizontalmente */
 }
 
 /* Estilos cuando el campo de búsqueda está enfocado */
@@ -77,7 +77,7 @@
 
     /* Ajustar la tabla */
     .table {
-        font-size: 12px;
+        font-size: 12px; /* Reducir el tamaño de la fuente */
     }
 
     /* Ajustar tamaño de cuadro grande blanco */
@@ -90,7 +90,7 @@
 
     /* Ajustar la tabla */
     .table td, .table th {
-        padding: 2px;
+        padding: 2px; /* Reducir el espaciado entre celdas */
     }
 
     /* Quitar columna de 'Medida' de la tabla*/
@@ -115,7 +115,7 @@
 
     /* Ajustar la tabla */
     .table {
-        font-size: 12px;
+        font-size: 12px; /* Reducir el tamaño de la fuente */
     }
 
     /* Ajustar tamaño de cuadro grande blanco */

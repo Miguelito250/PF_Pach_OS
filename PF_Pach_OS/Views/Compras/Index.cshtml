@@ -4,7 +4,6 @@
 <script src="~/js/compras/compras.js"></script>
 
 @{
-    @*Librerias*@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
@@ -13,16 +12,14 @@
     System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("es-CO");
 
 }
-
-@*Buscador*@
 <input type="text" class="buscador" id="searchInput" placeholder="Buscar" aria-label="Buscar" title="Buscador" aria-describedby="search-addon">
 
-@*Boton de Registrar compra*@
+
 <form method="post" asp-controller="Compras" asp-action="Create">
     <button type="submit" class="btn-crear-posicion estilo-btn-naranja" title="Registra una compra">Registrar Compra</button>
 </form>
 
-@*Tabla que muestra la informacion de las compra hechas*@
+
 <div class="mt-4 border rounded bg-white h-100 overflow-scroll">
     <table class="table mb-0 table-bordered table-striped">
         <thead class="table-warning">
@@ -57,7 +54,6 @@
     </table>
 </div>
 
-@*Modal en la que aparece el detalle de la compra*@
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -74,7 +70,6 @@
     </div>
 </div>
 
-@*Codigo script*@
 <script>
     const formatter = new Intl.NumberFormat('es-CO', {
         style: 'currency',
@@ -84,4 +79,5 @@
     });
 
     const total = 1234.56;
+    console.log(formatter.format(total)); // Imprime: "\$1.235"
 </script>

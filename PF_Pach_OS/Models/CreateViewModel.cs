@@ -6,7 +6,7 @@
             public Producto Producto { get; set; }
             public Receta Receta { get; set; }
 
-            public int IdSeleccionado { get; set; }
+            public Insumo Insumo { get; set; }
         
     }
 }

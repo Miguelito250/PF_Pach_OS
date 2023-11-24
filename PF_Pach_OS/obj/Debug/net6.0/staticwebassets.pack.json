@@ -8709,40 +8709,12 @@
       "PackagePath": "staticwebassets\\css\\Productos.css"
     },
     {
-      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Productos\\Crear.css",
-      "PackagePath": "staticwebassets\\css\\Productos\\Crear.css"
-    },
-    {
-      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Productos\\Index.css",
-      "PackagePath": "staticwebassets\\css\\Productos\\Index.css"
-    },
-    {
       "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Proveedor\\estilos.css",
       "PackagePath": "staticwebassets\\css\\Proveedor\\estilos.css"
     },
     {
       "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Proveedores.css",
       "PackagePath": "staticwebassets\\css\\Proveedores.css"
-    },
-    {
-      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\RolPermisos\\CreaEditar.css",
-      "PackagePath": "staticwebassets\\css\\RolPermisos\\CreaEditar.css"
-    },
-    {
-      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\RolPermisos\\Index.css",
-      "PackagePath": "staticwebassets\\css\\RolPermisos\\Index.css"
-    },
-    {
-      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Usuarios\\CambiarContraseña.css",
-      "PackagePath": "staticwebassets\\css\\Usuarios\\CambiarContraseña.css"
-    },
-    {
-      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Usuarios\\Index.css",
-      "PackagePath": "staticwebassets\\css\\Usuarios\\Index.css"
-    },
-    {
-      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Usuarios\\ResgistroUsuarios.css",
-      "PackagePath": "staticwebassets\\css\\Usuarios\\ResgistroUsuarios.css"
     },
     {
       "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\css\\Ventas\\DetalleVenta.css",
@@ -8785,8 +8757,8 @@
       "PackagePath": "staticwebassets\\js\\Informe\\Informe.js"
     },
     {
-      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Informe\\ReporteVentasDiarias.js",
-      "PackagePath": "staticwebassets\\js\\Informe\\ReporteVentasDiarias.js"
+      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Informe\\Informe2.js",
+      "PackagePath": "staticwebassets\\js\\Informe\\Informe2.js"
     },
     {
       "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Insumos\\EditarInsumo.js",
@@ -8801,24 +8773,8 @@
       "PackagePath": "staticwebassets\\js\\Login-RecuperarContraseña\\Login.js"
     },
     {
-      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Login-RecuperarContraseña\\RecuperarContraseña.js",
-      "PackagePath": "staticwebassets\\js\\Login-RecuperarContraseña\\RecuperarContraseña.js"
-    },
-    {
-      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Productos\\Crear.js",
-      "PackagePath": "staticwebassets\\js\\Productos\\Crear.js"
-    },
-    {
-      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Productos\\Detalles.js",
-      "PackagePath": "staticwebassets\\js\\Productos\\Detalles.js"
-    },
-    {
       "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Productos\\Editar.js",
       "PackagePath": "staticwebassets\\js\\Productos\\Editar.js"
-    },
-    {
-      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Productos\\Index.js",
-      "PackagePath": "staticwebassets\\js\\Productos\\Index.js"
     },
     {
       "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Proveedores\\Proveedore.js",
@@ -8843,18 +8799,6 @@
     {
       "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\RolPermisos\\Index.js",
       "PackagePath": "staticwebassets\\js\\RolPermisos\\Index.js"
-    },
-    {
-      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Usuarios\\CambiarContraseña.js",
-      "PackagePath": "staticwebassets\\js\\Usuarios\\CambiarContraseña.js"
-    },
-    {
-      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Usuarios\\Index.js",
-      "PackagePath": "staticwebassets\\js\\Usuarios\\Index.js"
-    },
-    {
-      "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Usuarios\\Validaciones.js",
-      "PackagePath": "staticwebassets\\js\\Usuarios\\Validaciones.js"
     },
     {
       "Id": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Ventas\\DetallesVenta.js",

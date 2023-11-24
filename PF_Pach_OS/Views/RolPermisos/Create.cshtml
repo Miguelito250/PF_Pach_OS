@@ -1,32 +1,29 @@
 ﻿@model PF_Pach_OS.Models.Asignar_Permisos
+
 @{
+    ViewData["Title"] = "Create";
     Layout = null;
 }
-<link href="~/css/RolPermisos/CreaEditar.css" rel="stylesheet" />
 
-<div>
-    <div class="col-12" >
+<h2>Crear Rol</h2>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
         <form id="formulario1">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="rol.NomRol" class="control-label">Nombre del rol * </label>
-                <input type="text" class="form-control" id="nomrol" asp-for="rol.NomRol" />
-                <span id="mensaje_nombre" class="invalid-feedback"></span>
+            <div class="form-group" >
+                <label asp-for="rol.NomRol" class="control-label"></label>
+                <input type="text" asp-for="rol.NomRol" />
             </div>
-
-            <div class="row">
-
-                <label class="control-label">Permisos *</label>
-
+            <div class="form-group row">
                 @if (ViewBag.Permisos != null)
                 {
-
                     @foreach (var valor in (List<dynamic>)ViewBag.Permisos)
                     {
-                        <div class="form-check form-switch  col-6 row pb-2">
-                            <label class="form-check-label col-6 tamaño_letra" for="flexSwitchCheckDefault">@valor.nom_permiso</label>
-                            <input class="form-check-input col-6" id="flexSwitchCheckDefault" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" />
-                        </div>
+                        <label class="col-2">@valor.nom_permiso</label>
+                        <input class="col-10" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" />
                     }
 
                 }
@@ -34,19 +31,22 @@
                 {
                     <p>La lista de permisos es nula.</p>
                 }
-
             </div>
-                
-            <button type="submit" id="btnEnviar" class="btn btn-primary botones-agregar mt-3">Crear Rol</button>
+
+            <button type="submit" id="btnEnviar"  class="btn btn-primary">Crear Rol</button>
 
         </form>
     </div>
 </div>
 
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
-
-
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="~/js/rolpermisos/crear.js"></script>
+<script src="~/js/RolPermisos/Crear.js"> </script>

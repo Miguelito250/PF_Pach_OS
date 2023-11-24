@@ -13,15 +13,12 @@
 
 }
 
-@*Este es el contenido que aparece en la ventana modal del detalle de compra*@
-
-
 <div>
     <div class="w-100 d-flex flex-column mb-3 align-items-center">
         <span class="w-80 h4 mb-3 text-center"><strong>COMPRA</strong></span>
         <span class=""><strong>N-FACTURA: </strong>@Html.DisplayFor(model => model.IdCompraNavigation.NumeroFactura)</span>
     </div>
-    @*Primera tabla, informacion de la compra*@
+
     <div>
         <table class="table  table-borderless mb-0 text-center table-bordered ">
             <thead class="sombra">
@@ -44,7 +41,7 @@
     <div class="w-100 d-flex flex-column mb-3 align-items-center">
         <span class="w-80 h4 mb-3 text-center"><strong>DETALLE DE COMPRA</strong></span>
     </div>
-    @*Segunda tabla, informacion del detalle de la compra*@
+
     <div>
         <table id="TablaDetalles" class="table mb-0 text-center">
             <thead class="sombra">
@@ -75,8 +72,6 @@
         </table>
     </div>
 </div>
-
-@*Precio que aparece al final de la compra*@
 <div class=" d-flex flex-column align-items-center">
     <span class="w-80 h2 text-center" style="margin-top:1rem">
         <strong>
@@ -88,9 +83,7 @@
     </span>
 </div>
 
-@*Script*@
 <script>
-    @*Configurar el datatable*@
     $(document).ready(function () {
         $('#TablaDetalles').DataTable({
             searching: false,
