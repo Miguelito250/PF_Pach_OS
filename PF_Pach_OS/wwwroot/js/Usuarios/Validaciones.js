@@ -72,8 +72,6 @@
             && !ConfirmarContraseña.classList.contains('is-invalid')
 
         ) {
-
-
             Swal.fire({
                 title: '¡Éxito!',
                 text: 'Usuario Registrado Correctamente',
@@ -141,22 +139,27 @@
             mensaje_NumeroDocumento.textContent = 'El campo no puede estar vacío'
         } else if (ValorNumeroDoc.length < minCaracteres) {
             NumeroDocumento.classList.add('is-invalid');
-            mensaje_NumeroDocumento.textContent = 'El numero documento debe de ser de al menos 6 caracteres'
+            mensaje_NumeroDocumento.textContent = 'El numero documento debe de ser de al menos 6 caracteres';
         } else if (ValorNumeroDoc.length > maxCaracteres) {
             NumeroDocumento.classList.add('is-invalid');
-            mensaje_NumeroDocumento.textContent = 'El numero documento debe de ser de maximo 50 caracteres'
-        } else if (tipoDocumento == 'Cedula' || tipoDocumento == 'Tarjeta') {
+            mensaje_NumeroDocumento.textContent = 'El numero documento debe de ser de maximo 50 caracteres';
+        } else if (hasSpecialChar) {
+
+            NumeroDocumento.classList.add('is-invalid');
+            mensaje_NumeroDocumento.textContent = 'El numero documento no puede tener carateres especiales';
+
+        } else {
+
+            NumeroDocumento.classList.add('is-valid');
+        }
+
+        if (tipoDocumento == 'Cedula' || tipoDocumento == 'Tarjeta') {
             if (hasLetters) {
                 NumeroDocumento.classList.add('is-invalid');
-                mensaje_NumeroDocumento.textContent = 'El tipo de documento Cedula o tarjeta de identidad no pude poseer letras'
+                mensaje_NumeroDocumento.textContent = 'El tipo de documento Cedula o tarjeta de identidad no pude poseer letras';
 
             }
-        } else if (hasSpecialChar) {
-            NumeroDocumento.classList.add('is-invalid');
-            mensaje_NumeroDocumento.textContent = 'El numero documento no puede tener carateres especiales'
-
         }
-        NumeroDocumento.classList.add('is-valid');
 
         // Hacer la solicitud AJAX solo si el correo es válido
         $.ajax({
@@ -315,7 +318,7 @@
 
         if (ValorCorreo.trim() === '') {
             Correo.classList.add('is-invalid');
-            mensaje_Correo.textContent = 'El campo no puede ir vacío';
+            mensaje_Correo.textContent = 'El campo no puede estar vacio';
         } else if (!esValido) {
             Correo.classList.add('is-invalid');
             mensaje_Correo.textContent = 'Por favor ingrese un correo electrónico válido.';

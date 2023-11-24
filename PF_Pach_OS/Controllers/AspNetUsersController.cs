@@ -104,7 +104,7 @@ namespace PF_Pach_OS.Controllers
             {
                 return NotFound();
             }
-            var permiso = await _context.Roles.ToListAsync();
+            var permiso = await _context.Roles.Where(p=> p.Estado != 0).ToListAsync();
             var permisoActivo = await _context.Roles.FindAsync(aspNetUser.Id_Rol);
             ViewBag.IdPermisoActivo = permisoActivo.IdRol;
             ViewBag.NombrePermisoActivo = permisoActivo.NomRol;
@@ -248,11 +248,7 @@ namespace PF_Pach_OS.Controllers
        
         public IActionResult ConfirmarCambiarContraseña()
         {
-            bool tine_permiso = _permisosController.tinto(8, User);
-            if (!tine_permiso)
-            {
-                return RedirectToAction("AccesoDenegado", "Acceso");
-            }
+           
             return View("ConfirmarCambiarContraseña");
         }
 
