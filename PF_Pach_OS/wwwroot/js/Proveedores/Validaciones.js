@@ -39,6 +39,7 @@ function EnviarProveedor(event) {
         }).then((result) => {
             formulario.removeEventListener('submit', EnviarProveedor);
             formulario.submit();
+            location.reload();
         })
     } else {
         Toast.fire({
@@ -136,16 +137,16 @@ function ValidarNomLocal() {
 
     if (nomLocalValor.trim() === '') {
         nomLocal.classList.add('is-invalid');
-        nomLocalMensaje.textContent = 'Por favor ingrese el numero de documento.';
+        nomLocalMensaje.textContent = 'Por favor ingrese el nombre del local.';
 
     } else if (/^\s/.test(nomLocalValor)) {
         nomLocal.classList.add('is-invalid');
         nomLocalMensaje.textContent = 'No se puede comenzar con un espacio en blanco.';
     }
     // Validar longitud del nombre
-    else if (nomLocalValor.length < 2 || nomLocalValor.length > 20) {
+    else if (nomLocalValor.length >= 3 || nomLocalValor.length > 20) {
         nomLocal.classList.add('is-invalid');
-        nomLocalMensaje.textContent = 'El documento debe tener entre 3 y 20 caracteres.';
+        nomLocalMensaje.textContent = 'El nombre debe tener entre 3 y 20 caracteres.';
     } else if (/[^a-zA-Z0-9\s]/.test(nomLocalValor)) {
         nomLocal.classList.add('is-invalid');
         nomLocalValor.textContent = 'No se pueden ingresar caracteres especiales.';
@@ -183,7 +184,7 @@ function ValidarDireccion() {
 
     if (direccionValor.trim() === '') {
         direccion.classList.add('is-invalid');
-        direccionMensaje.textContent = 'Por favor ingrese el numero de documento.';
+        direccionMensaje.textContent = 'Por favor ingrese la direccion.';
 
     } else if (/^\s/.test(direccionValor)) {
         direccion.classList.add('is-invalid');
@@ -192,7 +193,7 @@ function ValidarDireccion() {
     // Validar longitud del nombre
     else if (direccionValor.length < 3 || direccionValor.length > 30) {
         direccion.classList.add('is-invalid');
-        direccionMensaje.textContent = 'El documento debe tener entre 3 y 30 caracteres.';
+        direccionMensaje.textContent = 'La direccion debe tener entre 3 y 30 caracteres.';
 
     }
     else {
@@ -219,7 +220,7 @@ function ValidarTelefono() {
     // Validar longitud del nombre
     else if (telefonoValor.length < 3 || telefonoValor.length > 12) {
         telefono.classList.add('is-invalid');
-        telefonoMensaje.textContent = 'El documento debe tener entre 3 y 12 caracteres.';
+        telefonoMensaje.textContent = 'El telefono debe tener entre 3 y 12 caracteres.';
     } else if (/[^a-zA-Z0-9\s]/.test(telefonoValor)) {
         telefono.classList.add('is-invalid');
         telefonoMensaje.textContent = 'No se pueden ingresar caracteres especiales.';
