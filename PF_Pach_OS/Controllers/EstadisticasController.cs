@@ -361,7 +361,7 @@ namespace PF_Pach_OS.Controllers
 
 
 
-                            Paragraph total = new Paragraph($"Total de Ventas: ${totalVentas}", titulo_tablas);
+                            Paragraph total = new Paragraph($"Total de Ventas: {totalVentas:C}", titulo_tablas);
                             total.Alignment = Element.ALIGN_RIGHT;
                             doc.Add(total);
                             doc.Close();
