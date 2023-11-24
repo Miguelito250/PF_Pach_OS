@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "4IBwl8Hta73+Vkv/YP3T0IVhczeXFBjDCUB6c2BQswA=",
+  "Hash": "EMfrUnvcwvxexdyi0Yh28p+eaIohcjfzQYXgjp0Kku8=",
   "Source": "PF_Pach_OS",
   "BasePath": "_content/PF_Pach_OS",
   "Mode": "Default",
@@ -38367,23 +38367,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Proveedores\\Proveedore.js"
-    },
-    {
-      "Identity": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Proveedores\\ProveedorMensaje.js",
-      "SourceId": "PF_Pach_OS",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\",
-      "BasePath": "_content/PF_Pach_OS",
-      "RelativePath": "js/Proveedores/ProveedorMensaje.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\Proveedores\\ProveedorMensaje.js"
     },
     {
       "Identity": "C:\\Users\\camil\\Desktop\\Nuevo Clon Pachos\\PF_Pach_OS\\PF_Pach_OS\\wwwroot\\js\\Proveedores\\Validaciones.js",
