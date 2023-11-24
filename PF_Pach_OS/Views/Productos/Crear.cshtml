@@ -175,7 +175,7 @@
                                     <td>@recetaConInsumo.CantInsumo</td>
                                     <td>@recetaConInsumo.Medida</td>
                                     <td>
-                                        <a asp-action="Eliminar" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Remover</a>
+                                        <a asp-action="Eliminar" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Eliminar</a>
                                     </td>
                                 </tr>
                             }
@@ -219,7 +219,7 @@
 
             <!-- Pie de la ventana modal con botones -->
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" form="Formurario_Modal">Importar</button>
+                <button type="submit" class="btn btn-primary botones-agregar" form="Formurario_Modal">Importar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
 

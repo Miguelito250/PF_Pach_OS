@@ -248,11 +248,7 @@ namespace PF_Pach_OS.Controllers
        
         public IActionResult ConfirmarCambiarContraseña()
         {
-            bool tine_permiso = _permisosController.tinto(8, User);
-            if (!tine_permiso)
-            {
-                return RedirectToAction("AccesoDenegado", "Acceso");
-            }
+           
             return View("ConfirmarCambiarContraseña");
         }
 
