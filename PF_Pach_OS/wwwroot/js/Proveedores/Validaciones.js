@@ -38,8 +38,7 @@ function EnviarProveedor(event) {
             showConfirmButton: false,
         }).then((result) => {
             formulario.removeEventListener('submit', EnviarProveedor);
-            formulario.submit();
-            location.reload();
+            formulario.submit();      
         })
     } else {
         Toast.fire({
@@ -144,9 +143,9 @@ function ValidarNomLocal() {
         nomLocalMensaje.textContent = 'No se puede comenzar con un espacio en blanco.';
     }
     // Validar longitud del nombre
-    else if (nomLocalValor.length >= 3 || nomLocalValor.length > 20) {
+    else if (nomLocalValor.length < 2 || nomLocalValor.length > 20) {
         nomLocal.classList.add('is-invalid');
-        nomLocalMensaje.textContent = 'El nombre debe tener entre 3 y 20 caracteres.';
+        nomLocalMensaje.textContent = 'El nombre debe tener entre 2 y 20 caracteres.';
     } else if (/[^a-zA-Z0-9\s]/.test(nomLocalValor)) {
         nomLocal.classList.add('is-invalid');
         nomLocalValor.textContent = 'No se pueden ingresar caracteres especiales.';
@@ -261,12 +260,12 @@ function ValidarCorreo() {
     // Validar si el campo está vacío
     if (correoValor.trim() === '') {
         correo.classList.add('is-invalid');
-        correoMensaje.textContent = 'Por favor ingrese el correo electrónico.';
+        correoMensaje.textContent = 'Por favor ingrese el correo electr\u00F3nico.';
     }
     // Validar si el correo electrónico es válido
     else if (!esValido) {
         correo.classList.add('is-invalid');
-        correoMensaje.textContent = 'Por favor ingrese un correo electrónico válido.';
+        correoMensaje.textContent = 'Por favor ingrese un correo electr\u00F3nico v\u00E1lido.';
     }
     else {
         // El campo es válido
