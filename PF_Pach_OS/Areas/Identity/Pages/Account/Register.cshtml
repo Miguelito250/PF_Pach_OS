@@ -9,14 +9,14 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-floating d-flex">
             <div class="form-floating col-6">
-                <select id="Role" asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select" aria-required="true">
+                <select id="Role" asp-for="Input.Role" title="Aqui se selecciona el rol que se le quiere asignar al usuario" asp-items="@Model.Input.RoleList" class="form-select" aria-required="true">
                     <option disabled value="" selected>Seleccione Rol</option>
                 </select>
                 <label asp-for="Input.Role" class=" control-label">Rol</label>
                 <div id="mensaje_Rol" class="invalid-feedback"></div>
             </div>
             <div class="form-floating col-6">
-                <select id="DocumentType" asp-for="Input.DocumentType" class="form-select" aria-required="true">
+                <select id="DocumentType" title="Aqui se selecciona el tipo de documento que posee el usuario" asp-for="Input.DocumentType" class="form-select" aria-required="true">
                     <option value="Cedula">Cédula</option>
                     <option value="Tarjeta Identidad">Tarjeta de Identidad</option>
                     <option value="Pasaporte">Pasaporte</option>
@@ -29,12 +29,12 @@
 
         <div class="d-flex mt-5">
             <div class="form-floating col-6">
-                <input id="DocumentNumber" asp-for="Input.DocumentNumber" class="form-control" aria-required="true" />
+                <input id="DocumentNumber" title="Aqui se ingresa el numero de documento del usuario" asp-for="Input.DocumentNumber" class="form-control" aria-required="true" />
                 <label asp-for="Input.DocumentNumber"></label>
                 <div id="mensaje_NumeroDocumento" class="invalid-feedback"></div>
             </div>
             <div class="form-floating col-6">
-                <input id="FirstName" asp-for="Input.FirstName" class="form-control" aria-required="true" />
+                <input id="FirstName" title="Aqui se ingresa el nombre del usuario" asp-for="Input.FirstName" class="form-control" aria-required="true" />
                 <label asp-for="Input.FirstName"></label>
                 <div id="mensaje_Nombre" class="invalid-feedback" style="font-size: 12.8px;"></div>
 
@@ -43,13 +43,13 @@
 
         <div class="d-flex mt-5">
             <div class="form-floating col-6">
-                <input id="LastName" asp-for="Input.LastName" class="form-control" aria-required="true" />
+                <input id="LastName" title="Aqui se ingresa el apellido del usuario"  asp-for="Input.LastName" class="form-control" aria-required="true" />
                 <label asp-for="Input.LastName"></label>
                 <div id="mensaje_Apellido" class="invalid-feedback"></div>
 
             </div>
             <div class="form-floating col-6">
-                <input id="Email" asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <input id="Email" title="Aqui se ingresa el correo del usuario" asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
                 <label asp-for="Input.Email"></label>
                 <div id="mensaje_Correo" class="invalid-feedback"></div>
 
@@ -60,13 +60,13 @@
 
         <div class="d-flex mt-5 ">
             <div class="form-floating col-6">
-                <input id="Password" asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                <input id="Password" title="Aqui se ingresa la contraseña del usuario" asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
                 <label asp-for="Input.Password"></label>
                 <div id="mensaje_Contraseña" class="invalid-feedback"></div>
 
             </div>
             <div class="form-floating col-6">
-                <input id="ConfirmPassword" asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                <input id="ConfirmPassword" title="Aqui se confirma la contraseña del usuario" asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
                 <label asp-for="Input.ConfirmPassword"></label>
                 <div id="mensaje_ConfirmarContraseña" class="invalid-feedback"></div>
 
@@ -74,8 +74,8 @@
         </div>
 
         <div class="w-100 d-flex flex-column mt-5">
-            <button id="registerSubmit" type="submit" class="btn btn-primary botones-agregar">Registrar</button>
-            <a class="btn btn-outline-danger border mt-2 cancelarBtn" asp-controller="AspNetUsers" asp-action="Index">Cancelar</a>
+            <button id="registerSubmit" title="Con este boton se crea el usuario" type="submit" class="btn btn-primary botones-agregar">Registrar</button>
+            <a class="btn btn-outline-danger border mt-2 cancelarBtn" title="Con este boton se vuelve a la lista de usuarios" asp-controller="AspNetUsers" asp-action="Index">Cancelar</a>
         </div>
     </form>
 

@@ -126,7 +126,7 @@
         var tipoDocumento = TipoDocumento.value;
 
         var minCaracteres = 5;
-        var maxCaracteres = 50;
+        var maxCaracteres = 15;
         const hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(ValorNumeroDoc);
         const hasLetters = /[a-zA-Z]/.test(ValorNumeroDoc);
 
@@ -142,7 +142,7 @@
             mensaje_NumeroDocumento.textContent = 'El numero documento debe de ser de al menos 6 caracteres';
         } else if (ValorNumeroDoc.length > maxCaracteres) {
             NumeroDocumento.classList.add('is-invalid');
-            mensaje_NumeroDocumento.textContent = 'El numero documento debe de ser de maximo 50 caracteres';
+            mensaje_NumeroDocumento.textContent = 'El numero documento debe de ser de maximo 15 caracteres';
         } else if (hasSpecialChar) {
 
             NumeroDocumento.classList.add('is-invalid');
@@ -254,7 +254,7 @@
         const hasNoSpaces = !/\s/.test(ValorContraseña);
         const hasNumber = /(?=.*\d)/.test(ValorContraseña);
 
-        var mincaracteres = 7;
+        var mincaracteres = 6;
         var maxcaracteres = 50;
 
         Contraseña.classList.remove('is-invalid', 'is-valid');
@@ -275,7 +275,7 @@
         } else if (!hasUppercase) {
             Contraseña.classList.add('is-invalid');
             mensaje_Contraseña.textContent = 'El campo debe tener al menos una Mayuscula';
-        } else if (!hasSpecialChar) {
+        } else if (!hasSpecialChar) {s
             Contraseña.classList.add('is-invalid');
             mensaje_Contraseña.textContent = 'El campo debe tener al menos un caracter especial';
         } else if (!hasNoSpaces) {
@@ -380,6 +380,8 @@
                 text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
                 icon: 'warning',
                 showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 confirmButtonText: 'Sí, salir',
                 cancelButtonText: 'Cancelar'
             }).then(result => {

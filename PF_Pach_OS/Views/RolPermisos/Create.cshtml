@@ -10,7 +10,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="rol.NomRol" class="control-label">Nombre del rol * </label>
-                <input type="text" class="form-control" id="nomrol" asp-for="rol.NomRol" />
+                <input type="text" title="Aqui puedes ingresar el nombre del rol que estas creando" class="form-control" id="nomrol" asp-for="rol.NomRol" />
                 <span id="mensaje_nombre" class="invalid-feedback"></span>
             </div>
 
@@ -25,7 +25,7 @@
                     {
                         <div class="form-check form-switch  col-6 row pb-2">
                             <label class="form-check-label col-6 tamaño_letra" for="flexSwitchCheckDefault">@valor.nom_permiso</label>
-                            <input class="form-check-input col-6" id="flexSwitchCheckDefault" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" />
+                            <input class="form-check-input col-6" title="Presione para habilitar/ dehabilitar este permiso a este rol" id="flexSwitchCheckDefault" type="checkbox" name="ValoresSeleccionados" value="@valor.id_permiso" />
                         </div>
                     }
 
@@ -37,7 +37,7 @@
 
             </div>
                 
-            <button type="submit" id="btnEnviar" class="btn btn-primary botones-agregar mt-3">Crear Rol</button>
+            <button type="submit" id="btnEnviar" title="Con este boton creas el rol" class="btn btn-primary botones-agregar mt-3">Crear Rol</button>
 
         </form>
     </div>

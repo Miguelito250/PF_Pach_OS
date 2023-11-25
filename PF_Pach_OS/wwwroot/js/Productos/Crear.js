@@ -111,25 +111,25 @@ document.addEventListener('DOMContentLoaded', function () {
             mensaje_nombre.textContent = 'El nombre debe tener menos de 30 caracteres';
         } else {
 
-            nombre.classList.add('is-valid');
-        }
-        $.ajax({
-            type: 'GET',
-            url: '/Productos/NombreDuplicado',
-            data: { Nombre: valorNombre },
-            success: function (result) {
-                if (result === true) {
-                    nombre.classList.add('is-invalid');
-                    mensaje_nombre.textContent = 'No se puede repetir el nombre.';
-                } else {
-                    nombre.classList.add('is-valid');
+            $.ajax({
+                type: 'GET',
+                url: '/Productos/NombreDuplicado',
+                data: { Nombre: valorNombre },
+                success: function (result) {
+                    if (result === true) {
+                        nombre.classList.add('is-invalid');
+                        mensaje_nombre.textContent = 'No se puede repetir el nombre.';
+                    } else {
+                        nombre.classList.add('is-valid');
+                    }
+                },
+                error: function () {
+                    // Manejo de errores si la solicitud falla
+                    console.log('Error en la solicitud AJAX');
                 }
-            },
-            error: function () {
-                // Manejo de errores si la solicitud falla
-                console.log('Error en la solicitud AJAX');
-            }
-        });
+            });
+        }
+        
     }
     //validar el campo precio del producto
     function ValidarPrecio() {
