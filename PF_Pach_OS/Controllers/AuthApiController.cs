@@ -23,6 +23,11 @@ namespace PF_Pach_OS.Controllers
         {
             var user = await _userManager.FindByNameAsync(model.UserName);
 
+
+            if (user.State != 1)
+            {
+                return Unauthorized(new { Message = "Usuario Deshabilitado" });
+            }
             if (user != null && await _userManager.CheckPasswordAsync(user, model.PasswordHash))
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
