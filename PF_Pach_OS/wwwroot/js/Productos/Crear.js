@@ -219,7 +219,10 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (ValorCantInsumo < 1) {
             cantidadInsumo.classList.add('is-invalid');
             mensaje_CantInsumo.textContent = 'la cantidad de insumos deben ser mayores a 1'
-        } else {
+        } else if (ValorCantInsumo > 2000000) {
+            cantidadInsumo.classList.add('is-invalid');
+            mensaje_CantInsumo.textContent = 'la cantidad de insumos deben ser menores a 2 millones'
+        }else {
             cantidadInsumo.classList.add('is-valid');
         }
     }
@@ -237,7 +240,12 @@ document.addEventListener('DOMContentLoaded', function () {
     function EnvioProducto(event) {
         event.preventDefault();
        
-        if (formulario_producto.checkValidity() && !nombre.classList.contains('is-invalid')) {
+        if (formulario_producto.checkValidity()
+            && !nombre.classList.contains('is-invalid')
+            && !precio.classList.contains('is-invalid')
+            && !categoria.classList.contains('is-invalid')
+            && !tamano.classList.contains('is-invalid')
+        ) {
             const tablaReceta = document.querySelector('#Tabla1');
             console.log(tablaReceta.rows.length)
             if (tablaReceta.rows.length < 1) {
