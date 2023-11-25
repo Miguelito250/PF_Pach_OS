@@ -144,7 +144,7 @@ function ValidarNomLocal() {
         nomLocalMensaje.textContent = 'No se puede comenzar con un espacio en blanco.';
     }
     // Validar longitud del nombre
-    else if (nomLocalValor.length >= 3 || nomLocalValor.length > 20) {
+    else if (nomLocalValor.length < 3 || nomLocalValor.length > 20) {
         nomLocal.classList.add('is-invalid');
         nomLocalMensaje.textContent = 'El nombre debe tener entre 3 y 20 caracteres.';
     } else if (/[^a-zA-Z0-9\s]/.test(nomLocalValor)) {
