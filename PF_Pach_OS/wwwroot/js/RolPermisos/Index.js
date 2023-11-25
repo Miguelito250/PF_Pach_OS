@@ -38,7 +38,7 @@ $(document).on("click", "#Editar-rol", function () {
 
 });
 if (!recargar) {
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 6; i++) {
         window.location.reload();
     }
 }

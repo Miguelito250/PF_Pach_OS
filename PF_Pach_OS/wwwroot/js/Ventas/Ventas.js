@@ -89,8 +89,8 @@ function InsertarTotal(totalVenta) {
 
 //Función para calcular cuanto se le devolverá al cliente
 function CalcularCambio() {
-    let totalVenta = document.getElementById('totalVenta-input').value;
-    var pago = document.getElementById('pago').value;
+    let totalVenta = Number(document.getElementById('totalVenta-input').value);
+    var pago = Number(document.getElementById('pago').value);
     let cambio;
     if (pago > totalVenta) {
         cambio = pago - totalVenta;

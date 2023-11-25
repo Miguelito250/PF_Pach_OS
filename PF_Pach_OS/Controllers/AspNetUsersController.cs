@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PF_Pach_OS.Models;
+using PF_Pach_OS.Services;
 using static Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal.ExternalLoginModel;
 
 namespace PF_Pach_OS.Controllers
@@ -20,11 +23,13 @@ namespace PF_Pach_OS.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _SignInManager;
         public readonly PermisosController _permisosController;
-        public AspNetUsersController(Pach_OSContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly IEmailSender _emailSender;
+        public AspNetUsersController(Pach_OSContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
             _SignInManager = signInManager;
+            _emailSender = emailSender;
             _permisosController = new PermisosController(_context, _userManager, _SignInManager);
         }
         [BindProperty]
@@ -104,7 +109,7 @@ namespace PF_Pach_OS.Controllers
             {
                 return NotFound();
             }
-            var permiso = await _context.Roles.ToListAsync();
+            var permiso = await _context.Roles.Where(p=> p.Estado != 0).ToListAsync();
             var permisoActivo = await _context.Roles.FindAsync(aspNetUser.Id_Rol);
             ViewBag.IdPermisoActivo = permisoActivo.IdRol;
             ViewBag.NombrePermisoActivo = permisoActivo.NomRol;
@@ -138,13 +143,26 @@ namespace PF_Pach_OS.Controllers
 
                 var user = await _userManager.FindByIdAsync(applicationUser.Id);
 
+               
 
-                user.Email = applicationUser.Email;
                 user.DocumentNumber = applicationUser.DocumentNumber;
                 user.DocumentType = applicationUser.DocumentType;
                 user.FirstName = applicationUser.FirstName;
                 user.LastName = applicationUser.LastName;
                 user.Id_Rol = applicationUser.Id_Rol;
+                user.EmailConfirmed = false;
+
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                user.EmailConfirmationToken = code;
+
+                if (user.Email != applicationUser.Email)
+                {
+                    var callbackUrl = Url.Action("ConfirmarCorreo", "Acceso", new { idUsuario = user.Id, codigo = code }, Request.Scheme);
+
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirma tu email",
+                        $"Por favor confirma tu nuevo correo <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clickeando aqui</a>.");
+                    user.Email = applicationUser.Email;
+                }
 
                 // Actualiza el usuario en la base de datos
                 var result = await _userManager.UpdateAsync(user);
@@ -218,12 +236,7 @@ namespace PF_Pach_OS.Controllers
 
         public IActionResult VistaCambiarContraseña()
         {
-            bool tine_permiso = _permisosController.tinto(8, User);
-            if (!tine_permiso)
-            {
-                return RedirectToAction("AccesoDenegado", "Acceso");
-            }
-
+            
             return View("CambiarContraseña");
 
         }
@@ -248,11 +261,7 @@ namespace PF_Pach_OS.Controllers
        
         public IActionResult ConfirmarCambiarContraseña()
         {
-            bool tine_permiso = _permisosController.tinto(8, User);
-            if (!tine_permiso)
-            {
-                return RedirectToAction("AccesoDenegado", "Acceso");
-            }
+           
             return View("ConfirmarCambiarContraseña");
         }
 

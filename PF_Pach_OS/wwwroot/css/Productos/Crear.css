@@ -7,7 +7,15 @@
         border-bottom: 2px solid #000;
     }
 
+.contenedor-importar {
+    width: auto !important;
+}
 
+.importar {
+    text-align: left !important;
+    width: 95px;
+    font-size: 12px !important;
+}
 
 @media only screen and (max-width: 412px) {
     .modulos {
@@ -149,6 +157,20 @@
             margin: 2px;
             margin: auto !important;
         }
+    .contenedor-importar {
+        margin-top: 10px;
+    }
+
+    .importar {
+        text-align: left !important;
+        width: 115px;
+        font-size: 16px !important;
+    }
+
+    svg {
+        text-align: left !important;
+        width: 16px !important;
+    }
 }
 
 @media only screen and (width: 820px) {
@@ -162,5 +184,19 @@
 
     .Responsi {
         max-width: 60vw !important;
+    }
+    .contenedor-importar {
+        margin-top: 10px;
+    }
+
+    .importar {
+        text-align: left !important;
+        width: 115px;
+        font-size: 16px !important;
+    }
+
+    svg {
+        text-align: left !important;
+        width: 16px !important;
     }
 }

@@ -4,6 +4,8 @@
     ViewData["Title"] = "Actualizar";
 
 }
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
 <link href="~/css/productos.css" rel="stylesheet" />
 <link href="~/css/productos/crear.css" rel="stylesheet" />
 <div class="row  pl-2 pt-2">
@@ -20,12 +22,12 @@
                 <label class="form-label">Producto * </label>
                 @if (ViewBag.ProductoActivo == null)
                 {
-                    <input asp-for="Producto.NomProducto" id="Nombre" class="form-control" title=" " required />
+                    <input asp-for="Producto.NomProducto"  id="Nombre" class="form-control" title="Aquí puede ingresar el nombre del producto" required />
 
                 }
                 else
                 {
-                    <input asp-for="Producto.NomProducto" id="Nombre" value="@ViewBag.ProductoActivo.NomProducto" class="form-control" title=" " required />
+                    <input asp-for="Producto.NomProducto" id="Nombre" title="Aquí puede ingresar el nombre del producto" value="@ViewBag.ProductoActivo.NomProducto" class="form-control" required />
 
                 }
                 <div id="mensaje_nombre" class="invalid-feedback"></div>
@@ -38,12 +40,12 @@
 
                 @if (ViewBag.ProductoActivo == null)
                 {
-                    <input asp-for="Producto.PrecioVenta" id="precio" class="form-control" title=" " required />
+                    <input asp-for="Producto.PrecioVenta" id="precio" class="form-control" title="Aquí puede ingresar el precio del producto" required />
 
                 }
                 else
                 {
-                    <input asp-for="Producto.PrecioVenta" id="precio" value="@ViewBag.ProductoActivo.PrecioVenta" class="form-control" required />
+                    <input asp-for="Producto.PrecioVenta" id="precio" title="Aquí puede ingresar el precio del producto" value="@ViewBag.ProductoActivo.PrecioVenta" class="form-control" required />
 
                 }
                 <div id="mensaje_precio" class="invalid-feedback"></div>
@@ -53,7 +55,7 @@
 
             <div class="form-group">
                 <label asp-for="Producto.IdCategoria" class="form-label">Categoria * </label>
-                <select class="form-select" id="Categorio" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria" required>
+                <select class="form-select" id="Categorio" title="Aquí puede seleccionar la categoria del producto" asp-for="Producto.IdCategoria" asp-items="ViewBag.IdCategoria" required>
                     @if (ViewBag.SelectCategoriaID == null)
                     {
                         <option value="" disabled selected>Seleccione una categoria</option>
@@ -72,7 +74,7 @@
 
             <div id="Tamano_Oculto" class="d-none form-group">
                 <label asp-for="Producto.IdTamano" class="form-label">Tamaño * </label>
-                <select class="form-select" id="tamano" asp-for="Producto.IdTamano" asp-items="ViewBag.IdTamano">
+                <select class="form-select" id="tamano" asp-for="Producto.IdTamano" title="Aquí puede seleccionar la tamaño del producto" asp-items="ViewBag.IdTamano">
                     @if (ViewBag.SelectTamanoID == null)
                     {
                         <option value="" disabled selected>Seleccione un Tamaño</option>
@@ -89,8 +91,8 @@
 
             </div>
             <div class="w-100 d-flex flex-column mt-auto">
-                <input type="submit" class="botones-agregar btn btn-success" value="Terminar Producto" />
-                <a asp-action="Index" asp-controller="Productos" class="btn btn-outline-danger cancelarBtn mt-2">Cancelar</a>
+                <input type="submit" class="botones-agregar btn btn-success" title="Con este boton terminar el producto" value="Terminar Producto" />
+                <a asp-action="Index" asp-controller="Productos" title="Con este boton vuelves a la lista de productos" class="btn btn-outline-danger cancelarBtn mt-2">Cancelar</a>
             </div>
         </form>
 
@@ -112,7 +114,7 @@
 
 
             <div class="col-5">
-                <select class="form-control" id="insumo" asp-for="Receta.IdInsumo" required>
+                <select class="form-control" title="Aquí puede seleccionar el insumo de la receta" id="insumo" asp-for="Receta.IdInsumo" required>
                     <option value="" disabled selected>Seleccione un insumo * </option>
                     @foreach (var insu in ViewBag.Insumo)
                     {
@@ -125,17 +127,17 @@
             </div>
 
             <div class="col-3">
-                <input class="input-campo form-control" id="CantidadInsumo" asp-for="Receta.CantInsumo" type="number" placeholder="Cantidad * " required>
+                <input class="input-campo form-control" title="Aquí puede ingresar la cantidad para insumo de la receta" id="CantidadInsumo" asp-for="Receta.CantInsumo" type="number" placeholder="Cantidad * " required>
 
                 <div id="mensaje_Cantinsumo" class="invalid-feedback"></div>
                 <div class="valid-feedback"></div>
             </div>
 
             <div class="col-2">
-                <button type="submit" asp-action="Crear" asp-controller="Recetas" class="  btn btn-primary botones-agregar"> Agregar </button>
+                <button type="submit" title="Con este boton puedes agregar el insumo a la receta" asp-action="Crear" asp-controller="Recetas" class="  btn btn-primary botones-agregar"> Agregar </button>
             </div>
             <div class=" col-2 contenedor-importar">
-                <button type="button" class="form-control  btn btn-primary botones-agregar importar" data-toggle="modal" data-target="#myModal">
+                <button type="button" title="Con este boton se despliega el formulario de importar receta " class="form-control   btn btn-primary botones-agregar importar" data-toggle="modal" data-target="#myModal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi  align-text-start" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.854 3.146a.5.5 0 1 0-.708.708L9.243 9.95H6.475a.5.5 0 1 0 0 1h3.975a.5.5 0 0 0 .5-.5V6.475a.5.5 0 1 0-1 0v2.768L5.854 5.146z" />
                     </svg>
@@ -175,7 +177,7 @@
                                     <td>@recetaConInsumo.CantInsumo</td>
                                     <td>@recetaConInsumo.Medida</td>
                                     <td>
-                                        <a asp-action="Eliminar" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Remover</a>
+                                        <a asp-action="Eliminar" title="Con este boton se elimina el insumo de la receta" asp-controller="Recetas" asp-route-id="@recetaConInsumo.IdReceta" asp-route-IdProducto="@ViewBag.IdProducto" class="btn btn-outline-danger ">Eliminar</a>
                                     </td>
                                 </tr>
                             }
@@ -197,7 +199,7 @@
             <!-- Cabecera de la ventana modal -->
             <div class="modal-header">
                 <h4 class="modal-title">Importar Receta</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" title="Con este boton cierras esta ventana" class="close" data-dismiss="modal">&times;</button>
             </div>
 
             <!-- Contenido del formulario -->
@@ -212,21 +214,20 @@
 
 
 
-                    <select class="form-control" asp-for="IdSeleccionado" required asp-items="ViewBag.Productos">
+                    <select class="form-control" title="Aquí seleccionas el producto del cual quieres importar la receta" asp-for="IdSeleccionado" required asp-items="ViewBag.Productos">
                     </select>
                 </form>
             </div>
 
             <!-- Pie de la ventana modal con botones -->
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" form="Formurario_Modal">Importar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="submit" title="Con este boton importas la receta" class="btn btn-primary botones-agregar" form="Formurario_Modal">Importar</button>
+                <button type="button" title="Con este boton cancelas el proseso de importación" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
 
         </div>
     </div>
 </div>
-
 
 
 

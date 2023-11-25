@@ -24,7 +24,7 @@
 
             <div class="col-5">
                 <label class="form-label">Cantidad</label>
-                <input type="number" class="form-control" value="0" id="CantVendida">
+                <input type="number" class="form-control" value="0" id="CantVendida" title="Ingrese la cantidad de pizzas que va a vender">
                 <span id="cantidadMensaje" class="invalid-feedback"></span>
                 <span class="valid-feedback"></span>
             </div>
@@ -43,7 +43,7 @@
                     @foreach (var saborPizza in Model)
                     {
                         <tr>
-                            <td><input type="checkbox" id="saborPizza" name="saborPizza" value="@saborPizza.IdProducto"></td>
+                            <td><input type="checkbox" id="saborPizza" name="saborPizza" value="@saborPizza.IdProducto" title="Presione para incluir este sabor en la pizza"></td>
                             <td><span>@saborPizza.NomProducto</span></td>
                         </tr>
                     }
@@ -52,7 +52,7 @@
         </div>
 
         <div class="row mt-3 justify-content-center">
-            <input type="button" class="btn btn-primary botones-agregar col-3 mr-1" id="btnEnviar" value="Agregar">
+            <input type="button" class="btn btn-primary botones-agregar col-3 mr-1" id="btnEnviar" value="Agregar" title="Presione para agregar la pizza a la venta">
         </div>
 
     </form>

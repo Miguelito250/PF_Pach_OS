@@ -16,6 +16,14 @@
     width: auto;
 }
 
+.tablaDetallesVentas thead{
+    border-bottom: 2px solid black;
+}
+
+#detalles-ventas tr {
+    border: 1px solid #dee2e6;
+}
+
 @media only screen and (max-width: 540px) {
 
     .cuadroblanco {

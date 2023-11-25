@@ -33,7 +33,7 @@
     }
     .table td, .table th {
         top:50px;
-        padding: 4px; /* Reducir el espaciado entre celdas */
+        padding: 4px; 
     }
     th.Dirección,
     td.Dirección,

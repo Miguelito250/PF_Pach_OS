@@ -296,6 +296,8 @@ namespace PF_Pach_OS.Controllers
                             int diaNumero = 1;
                             int semanaActual = 1;
 
+                            BaseColor colorGris = new BaseColor(0xFF, 0xFC, 0xC4);
+                            BaseColor colorBlanco = BaseColor.WHITE;
                             while (fechaActual <= ultimoDiaDelMes)
                             {
                                 PdfPTable diasTable = new PdfPTable(7);
@@ -303,8 +305,6 @@ namespace PF_Pach_OS.Controllers
 
                                 diasTable.WidthPercentage = 100;
                                 ventasTable.WidthPercentage = 100;
-                                BaseColor colorGris = new BaseColor(0xFF, 0xFC, 0xC4);
-                                BaseColor colorBlanco = BaseColor.WHITE;
 
 
                                 PdfPCell semanaCell = new PdfPCell(new Phrase("Semana " + semanaActual, titulo_tablas));
@@ -329,8 +329,8 @@ namespace PF_Pach_OS.Controllers
                                         diasTable.AddCell(cell);
 
                                         int totalDiario = ventasEnRango
-    .Where(v => v.FechaVenta.Date == fechaActual.Date)
-    .Sum(v => v.TotalVenta.GetValueOrDefault());
+                                            .Where(v => v.FechaVenta.Date == fechaActual.Date)
+                                            .Sum(v => v.TotalVenta.GetValueOrDefault());
 
                                         PdfPCell totalCell = new PdfPCell(new Phrase(totalDiario.ToString("C"), titulo_tablas));
                                         ventasTable.AddCell(totalCell);
@@ -350,8 +350,8 @@ namespace PF_Pach_OS.Controllers
 
                                 // Total de ventas de la semana
                                 int totalVentasSemana = ventasEnRango
-    .Where(v => v.FechaVenta.Date >= fechaActual.AddDays(-7) && v.FechaVenta.Date < fechaActual)
-    .Sum(v => v.TotalVenta.GetValueOrDefault());
+                                    .Where(v => v.FechaVenta.Date >= fechaActual.AddDays(-7) && v.FechaVenta.Date < fechaActual)
+                                    .Sum(v => v.TotalVenta.GetValueOrDefault());
 
                                 doc.Add(new Paragraph("Total Semana " + semanaActual + ": " + totalVentasSemana.ToString("C"), titulo_tablas));
                                 doc.Add(new Paragraph(" "));
@@ -359,9 +359,34 @@ namespace PF_Pach_OS.Controllers
                                 semanaActual++;
                             }
 
+                            int? totalComprasMes = _context.Compras
+                                .Where(c => c.FechaCompra.Value.Year == fecha.Year && c.FechaCompra.Value.Month == fecha.Month)
+                                .Sum(c => c.Total);
+
+                            // Calcula el total de ventas con 'Transferencias' para el mes seleccionado
+                            int totalVentasTransferencias = _context.Ventas
+                                .Where(v => v.TipoPago == "Transferencia" && v.FechaVenta.Year == fecha.Year && v.FechaVenta.Month == fecha.Month)
+                                .Sum(v => v.TotalVenta.GetValueOrDefault());
+
+                            doc.Add(new Paragraph(" "));
+                            PdfPTable totalTable = new PdfPTable(2);
+                            totalTable.WidthPercentage = 50;
+                            totalTable.HorizontalAlignment = Element.ALIGN_LEFT;
+
+                            PdfPTable totalesComprasTransferenciasTable = new PdfPTable(2);
+                            totalesComprasTransferenciasTable.WidthPercentage = 50;
+                            totalesComprasTransferenciasTable.HorizontalAlignment = Element.ALIGN_LEFT;
+
+                            totalesComprasTransferenciasTable.AddCell(new PdfPCell(new Phrase("Diferencia", titulo_tablas)) { BackgroundColor = colorGris });
+                            totalesComprasTransferenciasTable.AddCell(new PdfPCell(new Phrase("Total Transferencias", titulo_tablas)) { BackgroundColor = colorGris });
+
+                            totalesComprasTransferenciasTable.AddCell(new PdfPCell(new Phrase($"{totalVentas - totalComprasMes:C}", titulo_tablas)) { BackgroundColor = colorBlanco });
+                            totalesComprasTransferenciasTable.AddCell(new PdfPCell(new Phrase($"{totalVentasTransferencias:C}", titulo_tablas)) { BackgroundColor = colorBlanco });
+
+                            doc.Add(totalesComprasTransferenciasTable);
 
 
-                            Paragraph total = new Paragraph($"Total de Ventas: ${totalVentas}", titulo_tablas);
+                            Paragraph total = new Paragraph($"Total de Ventas: {totalVentas:C}", titulo_tablas);
                             total.Alignment = Element.ALIGN_RIGHT;
                             doc.Add(total);
                             doc.Close();
