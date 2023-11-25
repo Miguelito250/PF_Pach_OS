@@ -205,6 +205,10 @@ namespace PF_Pach_OS.Controllers
         {
             if (ModelState.IsValid)
             {
+                DateTime fechaColombia = DateTime.Now;
+
+                venta.FechaVenta = fechaColombia;
+
                 _context.Add(venta);
                 await _context.SaveChangesAsync();
 
@@ -213,6 +217,7 @@ namespace PF_Pach_OS.Controllers
             ViewData["IdEmpleado"] = new SelectList(_context.Empleados, "IdEmpleado", "IdEmpleado", venta.IdEmpleado);
             return NotFound();
         }
+
 
         //Miguel 22/10/2023: Función para confirmar la venta 
         [HttpPost]
