@@ -261,12 +261,12 @@ function ValidarCorreo() {
     // Validar si el campo está vacío
     if (correoValor.trim() === '') {
         correo.classList.add('is-invalid');
-        correoMensaje.textContent = 'Por favor ingrese el correo electrónico.';
+        correoMensaje.textContent = `Por favor, escriba un un correo eletr\u00F3nico`;
     }
     // Validar si el correo electrónico es válido
     else if (!esValido) {
         correo.classList.add('is-invalid');
-        correoMensaje.textContent = 'Por favor ingrese un correo electrónico válido.';
+        correoMensaje.textContent = `Por favor, escribe un correo eletr\u00F3nico v\u00E1lido.`;
     }
     else {
         // El campo es válido
@@ -277,6 +277,8 @@ function ValidarCorreo() {
         type: 'GET',
         url: '/Proveedores/CorreoRepetido',
         data: { correo: correoValor },
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'text',
         success: function (result) {
             if (result === true) {
                 correo.classList.add('is-invalid');
