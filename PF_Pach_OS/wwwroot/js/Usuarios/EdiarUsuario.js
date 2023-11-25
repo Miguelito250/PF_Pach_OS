@@ -120,7 +120,7 @@
         var tipoDocumento = TipoDocumento.value;
 
         var minCaracteres = 5;
-        var maxCaracteres = 50;
+        var maxCaracteres = 15;
         const hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(ValorNumeroDoc);
         const hasLetters = /[a-zA-Z]/.test(ValorNumeroDoc);
 
@@ -137,7 +137,7 @@
             mensaje_NumeroDocumento.textContent = 'El número de documento debe ser de al menos 6 caracteres';
         } else if (ValorNumeroDoc.length > maxCaracteres) {
             NumeroDocumento.classList.add('is-invalid');
-            mensaje_NumeroDocumento.textContent = 'El número de documento debe ser de máximo 50 caracteres';
+            mensaje_NumeroDocumento.textContent = 'El número de documento debe ser de máximo 15 caracteres';
         } else if (hasSpecialChar) {
 
             NumeroDocumento.classList.add('is-invalid');
@@ -312,6 +312,8 @@
                 text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
                 icon: 'warning',
                 showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 confirmButtonText: 'Sí, salir',
                 cancelButtonText: 'Cancelar'
             }).then(result => {
