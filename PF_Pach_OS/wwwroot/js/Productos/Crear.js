@@ -1,6 +1,9 @@
 ﻿
 var idPizza = 1;
 
+
+
+
 $(document).ready(function () {
     var tamano = $('#Categorio').val();
     if (tamano == idPizza) {
@@ -13,7 +16,12 @@ $(document).ready(function () {
     }
 })
 
-
+var insumo = document.getElementById('insumo');
+$(insumo).select2({
+    theme: "bootstrap-5",
+    width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+    placeholder: $(this).data('placeholder'),
+});
 document.addEventListener('DOMContentLoaded', function () {
     //Informacion Producto
     var formulario_producto = document.getElementById("formulario1");
@@ -40,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var insumo = document.getElementById('insumo');
     var mensaje_insumo = document.getElementById('mensaje_Insumo');
+    
 
     var cantidadInsumo = document.getElementById('CantidadInsumo');
     var mensaje_CantInsumo = document.getElementById('mensaje_Cantinsumo');
