@@ -9,7 +9,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdProveedor" />
             <div class="form-group col-6">
-                <label asp-for="TipoDocumento" class="control-label">Tipo de Documento</label>
+                <label asp-for="TipoDocumento" class="control-label" title="Ingrese el tipo de documento del proveedor">Tipo de Documento</label>
                 <select asp-for="TipoDocumento" class="form-control">
                     <option value="NIT">NIT</option>
                     <option value="Cedula">Cédula</option>
@@ -21,36 +21,36 @@
                 <label id="labelNit" class="control-label">
                     N° Cédula / N° NIT
                 </label>
-                <input asp-for="Nit" class="form-control" readonly />
+                <input asp-for="Nit" class="form-control" readonly/>
                 <span id="NitMensaje" class="invalid-feedback"></span>
                 <span class="valid-feedback"></span>
             </div>
             <div class="form-group col-6">
                 <label asp-for="NomLocal" class="control-label">Nombre / Razón social</label>
-                <input asp-for="NomLocal" class="form-control" maxlength="30" />
+                <input asp-for="NomLocal" class="form-control" maxlength="30" title="Ingrese el nombre o la razón social del proveedor" />
                 <span id="NomLocalMensaje" class="invalid-feedback"></span>
                 <span class="valid-feedback"></span>
             </div>
             <div class="form-group col-6">
                 <label asp-for="Direccion" class="control-label">Dirección</label>
-                <input asp-for="Direccion" class="form-control" maxlength="30" />
+                <input asp-for="Direccion" class="form-control" maxlength="30" title="Ingrese la dirección del proveedor" />
                 <span id="DireccionMensaje" class="invalid-feedback"></span>
                 <span class="valid-feedback"></span>
             </div>
             <div class="form-group col-6">
                 <label asp-for="Telefono" class="control-label">Teléfono</label>
-                <input asp-for="Telefono" class="form-control" maxlength="13" />
+                <input asp-for="Telefono" class="form-control" maxlength="13" title="Ingrese el teléfono del proveedor" />
                 <span id="TelefonoMensaje" class="invalid-feedback"></span>
                 <span class="valid-feedback"></span>
             </div>
             <div class="form-group col-6">
                 <label asp-for="Correo" class="control-label"></label>
-                <input asp-for="Correo" class="form-control" maxlength="30" />
+                <input asp-for="Correo" class="form-control" maxlength="30" title="Ingrese el correo electrónico del proveedor" />
                 <span id="CorreoMensaje" class="invalid-feedback"></span>
                 <span class="valid-feedback"></span>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary botones-agregar" id="btnEditar">Guardar Cambios</button>
+                <button type="submit" class="btn btn-primary botones-agregar" id="btnEditar" title="Presione para poder guardar los cambios">Guardar Cambios</button>
             </div>
         </form>
     </div>
