@@ -417,7 +417,7 @@ document.getElementById("Formurario_Modal").addEventListener("submit", function 
 
                     var boton = document.createElement('button');
                     boton.className = 'btn btn-outline-danger';
-                    boton.textContent = 'Remover';
+                    boton.textContent = 'Eliminar';
                     boton.addEventListener('click', function () {
                         ocultarFila(this);
                     });
@@ -538,7 +538,7 @@ document.getElementById("miFormulario").addEventListener("submit", function (eve
 
                     var boton = document.createElement('button');
                     boton.className = 'btn btn-outline-danger';
-                    boton.textContent = 'Remover';
+                    boton.textContent = 'Eliminar';
                     boton.addEventListener('click', function () {
                         ocultarFila(this);
                     });
