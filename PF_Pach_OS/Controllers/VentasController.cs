@@ -240,7 +240,9 @@ namespace PF_Pach_OS.Controllers
 
             if (ventaActualizar != null)
             {
-                DateTime fechaVenta = venta.FechaVenta;
+                TimeZoneInfo bogotaZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
+                DateTime currentDateTime = DateTime.Now;
+                DateTime fechaVenta = TimeZoneInfo.ConvertTimeFromUtc(currentDateTime.ToUniversalTime(), bogotaZone);
 
                 if (fechaVenta >= SqlDateTime.MinValue.Value && fechaVenta <= SqlDateTime.MaxValue.Value)
                 {
