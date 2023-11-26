@@ -56,6 +56,21 @@
             <dd class="col-6">
                 @ViewBag.NombrePermisoActivo
             </dd>
+            <dt class="col-6">
+                Correo confirmado
+            </dt>
+            @if (Model.EmailConfirmed == false)
+            {
+                <dd class="col-6">
+                    Correo sin confirmar
+                </dd>
+            }
+            else
+            {
+                <dd class="col-6">
+                    Correo confirmado
+                </dd>
+            }
         </dl>
     </div>
 </div>
