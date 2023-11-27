@@ -231,7 +231,7 @@ namespace PF_Pach_OS.Controllers
             {
                 if (DateTime.TryParseExact(fechaSeleccionada, "yyyy-MM", CultureInfo.InvariantCulture, DateTimeStyles.None, out fecha))
                 {
-                    CultureInfo myCulture = new CultureInfo("es-ES");
+                    CultureInfo myCulture = new CultureInfo("es-CO");
                     myCulture.DateTimeFormat.FirstDayOfWeek = DayOfWeek.Monday;
 
                     var fechaInicio = fecha;
@@ -300,6 +300,7 @@ namespace PF_Pach_OS.Controllers
                             BaseColor colorBlanco = BaseColor.WHITE;
                             while (fechaActual <= ultimoDiaDelMes)
                             {
+                                int totalVentasSemana = 0;
                                 PdfPTable diasTable = new PdfPTable(7);
                                 PdfPTable ventasTable = new PdfPTable(7);
 
@@ -335,6 +336,8 @@ namespace PF_Pach_OS.Controllers
                                         PdfPCell totalCell = new PdfPCell(new Phrase(totalDiario.ToString("C"), titulo_tablas));
                                         ventasTable.AddCell(totalCell);
 
+                                        totalVentasSemana += totalDiario;
+
                                         fechaActual = fechaActual.AddDays(1);
                                         diaNumero++;
                                     }
@@ -347,11 +350,6 @@ namespace PF_Pach_OS.Controllers
 
                                 doc.Add(diasTable);
                                 doc.Add(ventasTable);
-
-                                // Total de ventas de la semana
-                                int totalVentasSemana = ventasEnRango
-                                    .Where(v => v.FechaVenta.Date >= fechaActual.AddDays(-7) && v.FechaVenta.Date < fechaActual)
-                                    .Sum(v => v.TotalVenta.GetValueOrDefault());
 
                                 doc.Add(new Paragraph("Total Semana " + semanaActual + ": " + totalVentasSemana.ToString("C"), titulo_tablas));
                                 doc.Add(new Paragraph(" "));
