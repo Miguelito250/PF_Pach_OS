@@ -188,8 +188,8 @@ document.getElementById('generarInforme').addEventListener('click', function () 
                     var link = document.createElement('a');
                     var nombreArchivo = '';
                     if (tipoInforme === 'mensual') {
+                        var nombreMes = new Date(fechaSeleccionada + '-1').toLocaleDateString('es-ES', { month: 'long' });
                         nombreArchivo = 'Informe de ' + nombreMes + ' ' + new Date(fechaSeleccionada + '-1').getFullYear() + '.pdf';
-                        console.log(nombreArchivo)
                     } else if (tipoInforme === 'anual') {
                         nombreArchivo = 'Informe Anual ' + fechaSeleccionada + '.pdf';
                     }
