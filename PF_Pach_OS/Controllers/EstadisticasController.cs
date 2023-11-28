@@ -323,7 +323,7 @@ namespace PF_Pach_OS.Controllers
                                 BaseColor colorGris = new BaseColor(0xFF, 0xFC, 0xC4);
                                 BaseColor colorBlanco = BaseColor.WHITE;
 
-
+                                int totalVentasSemana = 0;
                                 PdfPCell semanaCell = new PdfPCell(new Phrase("Semana " + semanaActual, titulo_tablas));
                                 semanaCell.Colspan = 7;
                                 semanaCell.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -343,7 +343,7 @@ namespace PF_Pach_OS.Controllers
                                         {
                                             cell.BackgroundColor = colorBlanco;
                                         }
-                                        diasTable.AddCell(cell);
+                                        diasTable.AddCell(cell); 
 
                                         int totalDiario = ventasEnRango
                                         .Where(v => v.FechaVenta.Date == fechaActual.Date)
@@ -351,6 +351,8 @@ namespace PF_Pach_OS.Controllers
 
                                         PdfPCell totalCell = new PdfPCell(new Phrase(totalDiario.ToString("C"), titulo_tablas));
                                         ventasTable.AddCell(totalCell);
+
+                                        totalVentasSemana += totalDiario;
 
                                         fechaActual = fechaActual.AddDays(1);
                                         diaNumero++;
@@ -365,10 +367,10 @@ namespace PF_Pach_OS.Controllers
                                 doc.Add(diasTable);
                                 doc.Add(ventasTable);
 
-                                // Total de ventas de la semana
-                                int totalVentasSemana = ventasEnRango
-                                .Where(v => v.FechaVenta.Date >= fechaActual.AddDays(-7) && v.FechaVenta.Date < fechaActual)
-                                .Sum(v => v.TotalVenta.GetValueOrDefault());
+                                //// Total de ventas de la semana
+                                //int totalVentasSemana = ventasEnRango
+                                //.Where(v => v.FechaVenta.Date >= fechaActual.AddDays(-7) && v.FechaVenta.Date < fechaActual)
+                                //.Sum(v => v.TotalVenta.GetValueOrDefault());
 
                                 doc.Add(new Paragraph("Total Semana " + semanaActual + ": " + totalVentasSemana.ToString("C"), titulo_tablas));
                                 doc.Add(new Paragraph(" "));
@@ -385,9 +387,9 @@ namespace PF_Pach_OS.Controllers
                             total.Alignment = Element.ALIGN_RIGHT;
                             doc.Add(total);
                             doc.Close();
-
+                            string nombreArchivo = "Informe de " + fechaActual.ToString("MMMM", new CultureInfo("es-ES")) + ".pdf";
                             byte[] pdfBytes = memoryStream.ToArray();
-                            return File(pdfBytes, "application/pdf", "InformeVentas.pdf");
+                            return File(pdfBytes, "application/pdf", nombreArchivo);
                         }
                     }
                 }
