@@ -240,7 +240,13 @@ namespace PF_Pach_OS.Controllers
                     var ventasEnRango = _context.Ventas
                         .Where(v => v.FechaVenta >= fechaInicio && v.FechaVenta <= fechaFin)
                         .ToList();
+                    var ventasTransferencia = _context.Ventas
+                        .Where(v => v.FechaVenta >= fechaInicio && v.FechaVenta <= fechaFin && v.TipoPago == "Transferencia")
+                        .ToList();
 
+                    var ventasEfectivo = _context.Ventas
+                        .Where(v => v.FechaVenta >= fechaInicio && v.FechaVenta <= fechaFin && v.TipoPago == "Efectivo")
+                        .ToList();
                     if (ventasEnRango.Count == 0)
                     {
                         return BadRequest("No se encontraron ventas en el rango seleccionado");
@@ -287,7 +293,18 @@ namespace PF_Pach_OS.Controllers
                             var ultimoDiaDelMes = fechaFin;
                             string[] nombresDias = { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo" };
                             int diaSemanaInicio = (int)fechaActual.DayOfWeek;
+                            PdfPTable pagosTable = new PdfPTable(2);
+                            pagosTable.WidthPercentage = 100;
+                            BaseColor colorBlanco1 = BaseColor.WHITE;
+                            BaseColor colorAmarillo = new BaseColor(0xFF, 0xFC, 0xC4);
+                            pagosTable.AddCell(new PdfPCell(new Phrase("Transferencias", titulo_tablas)) { BackgroundColor = colorAmarillo });
+                            pagosTable.AddCell(new PdfPCell(new Phrase("Efectivo", titulo_tablas)) { BackgroundColor = colorAmarillo });
 
+                            int totalTransferencias = ventasTransferencia.Sum(v => v.TotalVenta.GetValueOrDefault());
+                            int totalEfectivo = ventasEfectivo.Sum(v => v.TotalVenta.GetValueOrDefault());
+
+                            pagosTable.AddCell(new PdfPCell(new Phrase(totalTransferencias.ToString("C"), titulo_tablas)) { BackgroundColor = colorBlanco1 });
+                            pagosTable.AddCell(new PdfPCell(new Phrase(totalEfectivo.ToString("C"), titulo_tablas)) { BackgroundColor = colorBlanco1 });
                             if (myCulture.DateTimeFormat.FirstDayOfWeek == DayOfWeek.Monday)
                             {
                                 diaSemanaInicio = (diaSemanaInicio + 6) % 7;
@@ -329,8 +346,8 @@ namespace PF_Pach_OS.Controllers
                                         diasTable.AddCell(cell);
 
                                         int totalDiario = ventasEnRango
-    .Where(v => v.FechaVenta.Date == fechaActual.Date)
-    .Sum(v => v.TotalVenta.GetValueOrDefault());
+                                        .Where(v => v.FechaVenta.Date == fechaActual.Date)
+                                        .Sum(v => v.TotalVenta.GetValueOrDefault());
 
                                         PdfPCell totalCell = new PdfPCell(new Phrase(totalDiario.ToString("C"), titulo_tablas));
                                         ventasTable.AddCell(totalCell);
@@ -350,18 +367,21 @@ namespace PF_Pach_OS.Controllers
 
                                 // Total de ventas de la semana
                                 int totalVentasSemana = ventasEnRango
-    .Where(v => v.FechaVenta.Date >= fechaActual.AddDays(-7) && v.FechaVenta.Date < fechaActual)
-    .Sum(v => v.TotalVenta.GetValueOrDefault());
+                                .Where(v => v.FechaVenta.Date >= fechaActual.AddDays(-7) && v.FechaVenta.Date < fechaActual)
+                                .Sum(v => v.TotalVenta.GetValueOrDefault());
 
                                 doc.Add(new Paragraph("Total Semana " + semanaActual + ": " + totalVentasSemana.ToString("C"), titulo_tablas));
                                 doc.Add(new Paragraph(" "));
 
                                 semanaActual++;
                             }
+                            doc.Add(new Paragraph("Tabla de pagos en efectivo y transferencias", titulo_tablas));
+                            doc.Add(new Paragraph(" "));
+                            doc.Add(pagosTable);
 
 
 
-                            Paragraph total = new Paragraph($"Total de Ventas: ${totalVentas}", titulo_tablas);
+                            Paragraph total = new Paragraph($"Total de Ventas: {totalVentas:C}", titulo_tablas);
                             total.Alignment = Element.ALIGN_RIGHT;
                             doc.Add(total);
                             doc.Close();
@@ -385,7 +405,13 @@ namespace PF_Pach_OS.Controllers
                     var ventasEnRango = _context.Ventas
                         .Where(v => v.FechaVenta >= fechaInicio && v.FechaVenta <= fechaFin)
                         .ToList();
+                    var ventasTransferencia = _context.Ventas
+                        .Where(v => v.FechaVenta >= fechaInicio && v.FechaVenta <= fechaFin && v.TipoPago == "Transferencia")
+                        .ToList();
 
+                    var ventasEfectivo = _context.Ventas
+                        .Where(v => v.FechaVenta >= fechaInicio && v.FechaVenta <= fechaFin && v.TipoPago == "Efectivo")
+                        .ToList();
                     if (ventasEnRango.Count == 0)
                     {
                         return BadRequest("No se encontraron ventas en el rango seleccionado");
@@ -424,6 +450,14 @@ namespace PF_Pach_OS.Controllers
                             table.AddCell(new PdfPCell(new Phrase("Mes", new iTextSharp.text.Font(fuente, 12f, iTextSharp.text.Font.BOLD, BaseColor.BLACK))) { BackgroundColor = colorAmarillo });
                             table.AddCell(new PdfPCell(new Phrase("Ventas Totales", new iTextSharp.text.Font(fuente, 12f, iTextSharp.text.Font.BOLD, BaseColor.BLACK))) { BackgroundColor = colorAmarillo });
 
+                            PdfPTable pagosTable = new PdfPTable(2);
+                            pagosTable.WidthPercentage = 100;
+                            pagosTable.AddCell(new PdfPCell(new Phrase("Transferencias", titulo_tablas)) { BackgroundColor = colorAmarillo });
+                            pagosTable.AddCell(new PdfPCell(new Phrase("Efectivo", titulo_tablas)) { BackgroundColor = colorAmarillo });
+                            int totalTransferencias = ventasTransferencia.Sum(v => v.TotalVenta.GetValueOrDefault());
+                            int totalEfectivo = ventasEfectivo.Sum(v => v.TotalVenta.GetValueOrDefault());
+                            pagosTable.AddCell(new PdfPCell(new Phrase(totalTransferencias.ToString("C"), titulo_tablas)) { BackgroundColor = colorBlanco });
+                            pagosTable.AddCell(new PdfPCell(new Phrase(totalEfectivo.ToString("C"), titulo_tablas)) { BackgroundColor = colorBlanco });
                             bool alternarColorFila = false;
 
                             for (int mes = 1; mes <= 12; mes++)
@@ -437,9 +471,11 @@ namespace PF_Pach_OS.Controllers
                                 alternarColorFila = !alternarColorFila;
                             }
 
-
                             doc.Add(table);
-
+                            doc.Add(new Paragraph(" "));
+                            doc.Add(new Paragraph("Tabla de pagos en efectivo y transferencias", titulo_tablas));
+                            doc.Add(new Paragraph(" "));
+                            doc.Add(pagosTable);
                             Paragraph total = new Paragraph($"Total de Ventas: {totalVentas:C}", titulo_tablas);
                             total.Alignment = Element.ALIGN_RIGHT;
                             doc.Add(total);
@@ -586,76 +622,10 @@ namespace PF_Pach_OS.Controllers
             });
         }
 
-        // Movil
 
-        [AllowAnonymous]
-        public async Task<IActionResult> VentasdelMes()
-        {
-            DateTime fecha = DateTime.Today;
 
-            var pach_OSContext = await _context.Ventas
-               .Where(v => v.FechaVenta.Month == fecha.Month)
-               .ToListAsync();
-            return Json(pach_OSContext);
-        }
 
-        [AllowAnonymous]
-        public async Task<IActionResult> ComprasdelMes()
-        {
-            DateTime fecha = DateTime.Today;
 
-            var pach_OSContext = await _context.Compras
-                .Where(v => v.FechaCompra.HasValue && v.FechaCompra.Value.Month == fecha.Month)
-                .ToListAsync();
-            return Json(pach_OSContext);
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> VentasAño()
-        {
-
-            DateTime fecha = DateTime.Today;
-
-            var pach_OSContext = await _context.Ventas
-               .Where(v => v.FechaVenta.Year == fecha.Year)
-               .ToListAsync();
-            return Json(pach_OSContext);
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> ComprasAño()
-        {
-
-            DateTime fecha = DateTime.Today;
-
-            var pach_OSContext = await _context.Compras
-             .Where(v => v.FechaCompra.HasValue && v.FechaCompra.Value.Year == fecha.Year)
-            .ToListAsync();
-
-            return Json(pach_OSContext);
-        }
-
-        [AllowAnonymous]
-        public IActionResult ProductosMasVendidosMes()
-        {
-            var fechaActual = DateTime.Now;
-            var mesActual = new DateTime(fechaActual.Year, fechaActual.Month, 1);
-
-            var productosMasVendidos = _context.DetalleVentas
-              .Where(dv => dv.IdVentaNavigation.FechaVenta >= mesActual)
-              .GroupBy(dv => dv.IdProductoNavigation.NomProducto)
-              .Select(g => new
-              {
-                  Producto = g.Key,
-                  CantidadVendida = g.Sum(x => x.CantVendida),
-                  TotalVendido = g.Sum(x => x.CantVendida * x.Precio)
-              })
-              .OrderByDescending(x => x.TotalVendido)
-              .Take(4)
-              .ToList();
-
-            return Json(productosMasVendidos);
-        }
 
     }
 

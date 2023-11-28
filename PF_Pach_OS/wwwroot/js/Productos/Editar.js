@@ -17,7 +17,12 @@ $(document).ready(function () {
     }
 
 })
-
+var insumo = document.getElementById('insumo');
+$(insumo).select2({
+    theme: "bootstrap-5",
+    width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+    placeholder: $(this).data('placeholder'),
+});
 document.addEventListener('DOMContentLoaded', function () {
     //Informacion Producto
     var formulario_producto = document.getElementById("formulario1");
@@ -332,6 +337,9 @@ function ValidarCantInsumo() {
     } else if (ValorCantInsumo < 1) {
         cantidadInsumo.classList.add('is-invalid');
         mensaje_CantInsumo.textContent = 'la cantidad de insumos deben ser mayores a 1'
+    }else if (ValorCantInsumo > 2000000) {
+        cantidadInsumo.classList.add('is-invalid');
+        mensaje_CantInsumo.textContent = 'la cantidad de insumos deben ser menores a 2 millones'
     } else {
         cantidadInsumo.classList.add('is-valid');
     }

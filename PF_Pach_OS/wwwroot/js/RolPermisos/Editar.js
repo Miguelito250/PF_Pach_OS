@@ -2,13 +2,13 @@
 
 $(document).ready(function () {
 
-    const formularo_Permiso = document.getElementById('formulario1');
+    var formularo_Permiso = document.getElementById('formulario1');
 
-    const nombreRol = document.getElementById('nomrol');
+    var nombreRol = document.getElementById('nomrol');
 
-    const Mensaje_nombre = document.getElementById('mensaje_nombre');
+    var Mensaje_nombre = document.getElementById('mensaje_nombre');
 
-    const idRol = document.getElementById('idrol');
+    var idRol = document.getElementById('idrol');
 
 
     const Toast = Swal.mixin({
@@ -22,50 +22,6 @@ $(document).ready(function () {
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     });
-
-    function ValidarNombre() {
-
-
-
-        let ValorNombre = nombreRol.value;
-        nombreRol.classList.remove('is-invalid', 'is-valid');
-        Mensaje_nombre.textContent = ''
-        if (ValorNombre.trim() === '') {
-            nombreRol.classList.add('is-invalid');
-            Mensaje_nombre.textContent = 'El campo no puede estar vacio'
-
-        } else if (ValorNombre.length < 4) {
-            nombreRol.classList.add('is-invalid');
-            Mensaje_nombre.textContent = 'El nombre debe tener almenos 4 caracteres';
-
-        } else if (ValorNombre.length > 20) {
-            nombreRol.classList.add('is-invalid');
-            Mensaje_nombre.textContent = 'El nombre debe tener menos de 20 caracteres';
-        } else {
-            nombreRol.classList.add('is-valid')
-        }
-        $.ajax({
-            type: 'GET',
-            url: '/RolPermisos/NombreDuplicado',
-            data: { Nombre: ValorNombre },
-            success: function (result) {
-                if (result === true) {
-                    nombreRol.classList.add('is-invalid');
-                    Mensaje_nombre.textContent = 'No se puede repetir el nombre.';
-                } else {
-                    nombreRol.classList.add('is-valid');
-                }
-            },
-            error: function () {
-                // Manejo de errores si la solicitud falla
-                console.log('Error en la solicitud AJAX');
-            }
-        });
-    }
-
-    nombreRol.addEventListener('input', ValidarNombre)
-
-    formularo_Permiso.addEventListener('submit', ValidarFormulario)
 
     var permisos = [];
     $('input[name="ValoresSeleccionados"]:checked').each(function () {
@@ -129,4 +85,50 @@ $(document).ready(function () {
         }
 
     }
+
+    function ValidarNombre() {
+
+
+
+        let ValorNombre = nombreRol.value;
+        nombreRol.classList.remove('is-invalid', 'is-valid');
+        Mensaje_nombre.textContent = ''
+        if (ValorNombre.trim() === '') {
+            nombreRol.classList.add('is-invalid');
+            Mensaje_nombre.textContent = 'El campo no puede estar vacio'
+
+        } else if (ValorNombre.length < 4) {
+            nombreRol.classList.add('is-invalid');
+            Mensaje_nombre.textContent = 'El nombre debe tener almenos 4 caracteres';
+
+        } else if (ValorNombre.length > 20) {
+            nombreRol.classList.add('is-invalid');
+            Mensaje_nombre.textContent = 'El nombre debe tener menos de 20 caracteres';
+        } else {
+            nombreRol.classList.add('is-valid')
+        }
+        $.ajax({
+            type: 'GET',
+            url: '/RolPermisos/NombreDuplicado',
+            data: { Nombre: ValorNombre },
+            success: function (result) {
+                if (result === true) {
+                    nombreRol.classList.add('is-invalid');
+                    Mensaje_nombre.textContent = 'No se puede repetir el nombre.';
+                } else {
+                    nombreRol.classList.add('is-valid');
+                }
+            },
+            error: function () {
+                // Manejo de errores si la solicitud falla
+                console.log('Error en la solicitud AJAX');
+            }
+        });
+    }
+
+    nombreRol.addEventListener('input', ValidarNombre)
+
+    formularo_Permiso.addEventListener('submit', ValidarFormulario)
+
+   
 });
