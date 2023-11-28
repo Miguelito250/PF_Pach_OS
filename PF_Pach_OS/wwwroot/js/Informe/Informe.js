@@ -186,8 +186,15 @@ document.getElementById('generarInforme').addEventListener('click', function () 
                 if (xhrPdf.status === 200) {
                     var blob = new Blob([xhrPdf.response], { type: 'application/pdf' });
                     var link = document.createElement('a');
+                    var nombreArchivo = '';
+                    if (tipoInforme === 'mensual') {
+                        var nombreMes = new Date(fechaSeleccionada + '-1').toLocaleDateString('es-ES', { month: 'long' });
+                        nombreArchivo = 'Informe de ' + nombreMes + ' ' + new Date(fechaSeleccionada + '-1').getFullYear() + '.pdf';
+                    } else if (tipoInforme === 'anual') {
+                        nombreArchivo = 'Informe Anual ' + fechaSeleccionada + '.pdf';
+                    }
                     link.href = window.URL.createObjectURL(blob);
-                    link.download = 'InformeVentas.pdf';
+                    link.download = nombreArchivo;
                     link.click();
                 } else {
                     swal('Error', 'Error al generar el informe.', 'error');
