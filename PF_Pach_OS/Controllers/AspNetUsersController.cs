@@ -150,13 +150,14 @@ namespace PF_Pach_OS.Controllers
                 user.FirstName = applicationUser.FirstName;
                 user.LastName = applicationUser.LastName;
                 user.Id_Rol = applicationUser.Id_Rol;
-                user.EmailConfirmed = false;
 
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                user.EmailConfirmationToken = code;
+               
 
                 if (user.Email != applicationUser.Email)
                 {
+                    user.EmailConfirmed = false;
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    user.EmailConfirmationToken = code;
                     var callbackUrl = Url.Action("ConfirmarCorreo", "Acceso", new { idUsuario = user.Id, codigo = code }, Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirma tu email",
