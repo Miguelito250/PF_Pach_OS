@@ -1,17 +1,33 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using PF_Pach_OS.Models;
 
 namespace PF_Pach_OS.Controllers
 {
+    [Authorize]
     public class InformesController : Controller
     {
         private readonly Pach_OSContext _context;
-        public InformesController(Pach_OSContext context)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public readonly PermisosController _permisosController;
+        public InformesController(Pach_OSContext context, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _permisosController = new PermisosController(_context, _userManager, _signInManager);
         }
         public async Task<IActionResult> Index()
         {
+            bool tine_permiso = _permisosController.tinto(1, User);
+
+            if (!tine_permiso)
+            {
+                return RedirectToAction("AccesoDenegado", "Acceso");
+            }
+
             var fechaActual = DateTime.Now;
             int mesActual = DateTime.Now.Month;
             int añoActual = DateTime.Now.Year;
