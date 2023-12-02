@@ -365,6 +365,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
                     icon: 'warning',
                     showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
                     confirmButtonText: 'Sí, salir',
                     cancelButtonText: 'Cancelar'
                 }).then(result => {

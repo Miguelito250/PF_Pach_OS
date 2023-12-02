@@ -1,6 +1,9 @@
 ﻿
 var idPizza = 1;
 
+
+
+
 $(document).ready(function () {
     var tamano = $('#Categorio').val();
     if (tamano == idPizza) {
@@ -13,7 +16,12 @@ $(document).ready(function () {
     }
 })
 
-
+var insumo = document.getElementById('insumo');
+$(insumo).select2({
+    theme: "bootstrap-5",
+    width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+    placeholder: $(this).data('placeholder'),
+});
 document.addEventListener('DOMContentLoaded', function () {
     //Informacion Producto
     var formulario_producto = document.getElementById("formulario1");
@@ -40,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var insumo = document.getElementById('insumo');
     var mensaje_insumo = document.getElementById('mensaje_Insumo');
+    
 
     var cantidadInsumo = document.getElementById('CantidadInsumo');
     var mensaje_CantInsumo = document.getElementById('mensaje_Cantinsumo');
@@ -111,25 +120,25 @@ document.addEventListener('DOMContentLoaded', function () {
             mensaje_nombre.textContent = 'El nombre debe tener menos de 30 caracteres';
         } else {
 
-            nombre.classList.add('is-valid');
-        }
-        $.ajax({
-            type: 'GET',
-            url: '/Productos/NombreDuplicado',
-            data: { Nombre: valorNombre },
-            success: function (result) {
-                if (result === true) {
-                    nombre.classList.add('is-invalid');
-                    mensaje_nombre.textContent = 'No se puede repetir el nombre.';
-                } else {
-                    nombre.classList.add('is-valid');
+            $.ajax({
+                type: 'GET',
+                url: '/Productos/NombreDuplicado',
+                data: { Nombre: valorNombre },
+                success: function (result) {
+                    if (result === true) {
+                        nombre.classList.add('is-invalid');
+                        mensaje_nombre.textContent = 'No se puede repetir el nombre.';
+                    } else {
+                        nombre.classList.add('is-valid');
+                    }
+                },
+                error: function () {
+                    // Manejo de errores si la solicitud falla
+                    console.log('Error en la solicitud AJAX');
                 }
-            },
-            error: function () {
-                // Manejo de errores si la solicitud falla
-                console.log('Error en la solicitud AJAX');
-            }
-        });
+            });
+        }
+        
     }
     //validar el campo precio del producto
     function ValidarPrecio() {
@@ -219,7 +228,10 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (ValorCantInsumo < 1) {
             cantidadInsumo.classList.add('is-invalid');
             mensaje_CantInsumo.textContent = 'la cantidad de insumos deben ser mayores a 1'
-        } else {
+        } else if (ValorCantInsumo > 2000000) {
+            cantidadInsumo.classList.add('is-invalid');
+            mensaje_CantInsumo.textContent = 'la cantidad de insumos deben ser menores a 2 millones'
+        }else {
             cantidadInsumo.classList.add('is-valid');
         }
     }
@@ -236,8 +248,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     function EnvioProducto(event) {
         event.preventDefault();
-        InterfazProducto();
-        if (formulario_producto.checkValidity() && !nombre.classList.contains('is-invalid')) {
+       
+        if (formulario_producto.checkValidity()
+            && !nombre.classList.contains('is-invalid')
+            && !precio.classList.contains('is-invalid')
+            && !categoria.classList.contains('is-invalid')
+            && !tamano.classList.contains('is-invalid')
+        ) {
             const tablaReceta = document.querySelector('#Tabla1');
             console.log(tablaReceta.rows.length)
             if (tablaReceta.rows.length < 1) {
@@ -350,6 +367,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 title: 'Advertencia',
                 text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
                 icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 showCancelButton: true,
                 confirmButtonText: 'Sí, salir',
                 cancelButtonText: 'Cancelar'

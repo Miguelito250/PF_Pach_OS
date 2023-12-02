@@ -12,7 +12,7 @@
         <div class="form-floating d-flex">
 
             <div class="form-floating col-6">
-                <select asp-for="Id_Rol" class="form-select" aria-required="true">
+                <select id="Role" asp-for="Id_Rol" title="Aqui se selecciona el rol que se le quiere asignar al usuario" class="form-select" aria-required="true">
                     <option value="@ViewBag.IdPermisoActivo">@ViewBag.NombrePermisoActivo</option>
                     @foreach (var item in ViewBag.Permisos)
                     {
@@ -20,11 +20,12 @@
                     }
                 </select>
                 <label asp-for="Id_Rol" class=" control-label">Rol*</label>
+                <div id="mensaje_Rol" class="invalid-feedback"></div>
 
             </div>
 
             <div class="form-floating col-6">
-                <select asp-for="DocumentType" class="form-select" aria-required="true">
+                <select id="DocumentType" title="Aqui se selecciona el tipo de documento que posee el usuario" asp-for="DocumentType" class="form-select" aria-required="true">
                     <option value="Cedula">Cédula</option>
                     <option value="Tarjeta Identidad">Tarjeta de Identidad</option>
                     <option value="Pasaporte">Pasaporte</option>
@@ -32,32 +33,35 @@
                 </select>
 
                 <label asp-for="DocumentType"></label>
-                <span asp-validation-for="DocumentType" class="text-danger"></span>
+                <div id="mensaje_TipoDocumento" class="invalid-feedback"></div>
             </div>
         </div>
         <div class="d-flex mt-5">
             <div class="form-floating col-6">
-                <input asp-for="DocumentNumber" class="form-control" aria-required="true" />
+                <input id="DocumentNumber" title="Aqui se ingresa el numero de documento del usuario" asp-for="DocumentNumber" class="form-control" aria-required="true" />
                 <label asp-for="DocumentNumber" ></label>
-                <span asp-validation-for="DocumentNumber" class="text-danger"></span>
+                <div id="mensaje_NumeroDocumento" class="invalid-feedback"></div>
+
             </div>
 
             <div class="form-floating col-6">
-                <input asp-for="FirstName" class="form-control" aria-required="true"   />
+                <input id="FirstName" title="Aqui se ingresa el nombre del usuario" asp-for="FirstName" class="form-control" aria-required="true" />
                 <label asp-for="FirstName" class="control-label">Nombre*</label>
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <div id="mensaje_Nombre" class="invalid-feedback" style="font-size: 12.8px;"></div>
+
             </div>
         </div>
         <div class ="d-flex mt-5 ">
             <div class="form-floating col-6">
-                <input asp-for="LastName" class="form-control" aria-required="true" />
+                <input id="LastName" title="Aqui se ingresa el apellido del usuario" asp-for="LastName" class="form-control" aria-required="true" />
                 <label asp-for="LastName" >Apellido*</label>
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <div id="mensaje_Apellido" class="invalid-feedback"></div>
+
             </div>
 
 
             <div class="form-floating col-6">
-                <input id="Email" asp-for="Email" class="form-control" autocomplete="username" aria-required="true" />
+                <input id="Email" title="Aqui se ingresa el correo del usuario" asp-for="Email" class="form-control" autocomplete="username" aria-required="true" />
                 <label asp-for="Email" >Correo*</label>
                 <div id="mensaje_Correo" class="invalid-feedback"></div>
 
@@ -66,18 +70,16 @@
         </div>
 
         <div class="w-100 d-flex flex-column mt-5">
-            <input id="registerSubmit" type="submit" value="Actualizar" class="btn btn-primary botones-agregar" />
-            <a class="btn btn-outline-danger border mt-2" asp-controller="AspNetUsers" asp-action="Index">Cancelar</a>
+            <input id="registerSubmit" type="submit" title="Con este boton se actualiza el usuario" value="Actualizar" class="btn btn-primary botones-agregar" />
+            <a class="btn btn-outline-danger border mt-2 cancelarBtn" title="Con este boton se vuelve a la lista de usuarios" asp-controller="AspNetUsers" asp-action="Index">Cancelar</a>
 
         </div>
     </form>
 </div>
 
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="~/js/usuarios/validaciones.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/js/usuarios/EdiarUsuario.js"></script>

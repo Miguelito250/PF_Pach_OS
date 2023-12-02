@@ -17,7 +17,12 @@ $(document).ready(function () {
     }
 
 })
-
+var insumo = document.getElementById('insumo');
+$(insumo).select2({
+    theme: "bootstrap-5",
+    width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+    placeholder: $(this).data('placeholder'),
+});
 document.addEventListener('DOMContentLoaded', function () {
     //Informacion Producto
     var formulario_producto = document.getElementById("formulario1");
@@ -272,6 +277,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 text: 'Si sales de esta página, perderás los cambios. ¿Estás seguro?',
                 icon: 'warning',
                 showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 confirmButtonText: 'Sí, salir',
                 cancelButtonText: 'Cancelar'
             }).then(result => {
@@ -330,6 +337,9 @@ function ValidarCantInsumo() {
     } else if (ValorCantInsumo < 1) {
         cantidadInsumo.classList.add('is-invalid');
         mensaje_CantInsumo.textContent = 'la cantidad de insumos deben ser mayores a 1'
+    }else if (ValorCantInsumo > 2000000) {
+        cantidadInsumo.classList.add('is-invalid');
+        mensaje_CantInsumo.textContent = 'la cantidad de insumos deben ser menores a 2 millones'
     } else {
         cantidadInsumo.classList.add('is-valid');
     }
@@ -407,7 +417,7 @@ document.getElementById("Formurario_Modal").addEventListener("submit", function 
 
                     var boton = document.createElement('button');
                     boton.className = 'btn btn-outline-danger';
-                    boton.textContent = 'Remover';
+                    boton.textContent = 'Eliminar';
                     boton.addEventListener('click', function () {
                         ocultarFila(this);
                     });
@@ -528,7 +538,7 @@ document.getElementById("miFormulario").addEventListener("submit", function (eve
 
                     var boton = document.createElement('button');
                     boton.className = 'btn btn-outline-danger';
-                    boton.textContent = 'Remover';
+                    boton.textContent = 'Eliminar';
                     boton.addEventListener('click', function () {
                         ocultarFila(this);
                     });

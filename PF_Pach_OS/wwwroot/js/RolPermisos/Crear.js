@@ -7,14 +7,11 @@ $(document).ready(function () {
     var nombreRol = document.getElementById('nomrol');
     var Mensaje_nombre = document.getElementById('mensaje_nombre');
 
-    var permisos = [];
-    $('input[name="ValoresSeleccionados"]:checked').each(function () {
-        permisos.push($(this).val());
-    });
+  
 
     function ValidarFormulario(event) {
         event.preventDefault();
-       
+        ValidarNombre();
         var permisos = [];
         $('input[name="ValoresSeleccionados"]:checked').each(function () {
             permisos.push($(this).val());
@@ -118,11 +115,10 @@ $(document).ready(function () {
             data: { Nombre: ValorNombre },
             success: function (result) {
                 if (result === true) {
+                    nombreRol.classList.remove('is-valid');
                     nombreRol.classList.add('is-invalid');
                     Mensaje_nombre.textContent = 'No se puede repetir el nombre.';
-                } else {
-                   
-                }
+                } 
             },
             error: function () {
                 // Manejo de errores si la solicitud falla

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using PF_Pach_OS.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.DependencyInjection;
+using PF_Pach_OS.Inicializador;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
+builder.Services.AddScoped<Inicializador, DBInicializar>();
+
 var app = builder.Build();
 
 // Configurar las peticiones HTTP pipeline
@@ -52,13 +55,31 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseEndpoints(endpoints =>
+
+using (var scope = app.Services.CreateScope())
 {
-    endpoints.MapControllerRoute(
-        name: "generarInforme",
-        pattern: "Estadisticas/GenerarInformeVentas",
-        defaults: new { controller = "Estadisticas", action = "GenerarInformeVentas" });
-});
+    var services = scope.ServiceProvider;
+    var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+
+    try
+    {
+        var inicializador = services.GetRequiredService<Inicializador>();
+        inicializador.Inicializar();
+    }
+    catch (Exception ex )
+    {
+        var logger = loggerFactory.CreateLogger<Program>();
+        logger.LogError(ex, ex.Message, "Ocurrio un error al intentar ejecutar la migracion y datos iniciales");
+    }
+}
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllerRoute(
+            name: "generarInforme",
+            pattern: "Estadisticas/GenerarInformeVentas",
+            defaults: new { controller = "Estadisticas", action = "GenerarInformeVentas" });
+    });
 
 // Ignora la autenticaci�n para la ruta /Compras/GetCompras
 app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Compras/GetCompras"),
@@ -107,6 +128,40 @@ app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Ventas/GetDeta
         appBuilder.UseAuthorization();
     });
 
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Estadisticas/VentasdelMes"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
+
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Estadisticas/ComprasdelMes"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
+
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Estadisticas/VentasAño"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
+
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Estadisticas/ComprasAño"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
+
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Estadisticas/ProductosMasVendidosMes"),
+    appBuilder =>
+    {
+        appBuilder.UseAuthentication();
+        appBuilder.UseAuthorization();
+    });
 
 app.MapControllerRoute(
     name: "default",

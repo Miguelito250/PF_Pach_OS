@@ -95,7 +95,7 @@
             <hr style="margin-top: 0.6rem; margin-bottom:0.6rem" />
             <div class="w-100 d-flex flex-column mt-auto">
                 @*-----BOTON DE CANCELAR COMPRA-----*@
-                <a id="cancelarCompraBtn" class="btn btn-light border mb-2 cancelarCompraBtn" asp-controller="Compras" asp-action="Delete" asp-route-id="@ViewBag.IdCompra" title="Cancelar la compra actual">Cancelar compra</a>
+                <a id="cancelarCompraBtn" class="btn btn-outline-danger border mb-2 cancelarCompraBtn" asp-controller="Compras" asp-action="Delete" asp-route-id="@ViewBag.IdCompra" title="Cancelar la compra actual">Cancelar compra</a>
                 @*-----BOTON DE REALIZAR COMPRA-----*@
                 <button id="confirmarCompraBtn" class="btn btn-primary botones-agregar" type="submit"title="Confirmar la compra actual">Realizar compra</button>
             </div>
@@ -181,7 +181,7 @@
         </form>
         @*-----CABECERA DE LA TABLA QUE MUESTRA LA INFORMACION DE LOS INSUMOS QUE SE ESTAN COMPRANDO-----*@
         <div class="mt-3 border rounded bg-white detallecompra" style="max-height: 26rem; overflow-y: auto;">
-            <table class="table table-borderless mb-0 tablaDetallesCompra">
+            <table class="table table-with-separator mb-0 tablaDetallesCompra">
                 <thead>
                     <tr class="text-gray bg-gray-300">
                         <th>Insumo</th>

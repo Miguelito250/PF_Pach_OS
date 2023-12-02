@@ -18,11 +18,6 @@
     var Correo = document.getElementById("Email");
     var mensaje_Correo = document.getElementById("mensaje_Correo")
 
-    var Contraseña = document.getElementById("Password");
-    var mensaje_Contraseña = document.getElementById("mensaje_Contraseña")
-
-    var ConfirmarContraseña = document.getElementById("ConfirmPassword");
-    var mensaje_ConfirmarContraseña = document.getElementById("mensaje_ConfirmarContraseña")
 
     var formulario = document.getElementById("registerForm");
 
@@ -46,8 +41,7 @@
     Nombre.addEventListener('input', ValidarNombre);
     Apellido.addEventListener('input', ValidarApellido);
     Correo.addEventListener('input', ValidarCorreo);
-    Contraseña.addEventListener('input', ValidarContraseña);
-    ConfirmarContraseña.addEventListener('input', ValidarConfirmarContraseña);
+
 
     formulario.addEventListener('submit', EnvioFormulario);
 
@@ -59,8 +53,7 @@
         ValidarNombre();
         ValidarApellido();
         ValidarCorreo();
-        ValidarContraseña();
-        ValidarConfirmarContraseña();
+
         if (formulario.checkValidity()
             && !Rol.classList.contains('is-invalid')
             && !TipoDocumento.classList.contains('is-invalid')
@@ -68,13 +61,14 @@
             && !Nombre.classList.contains('is-invalid')
             && !Apellido.classList.contains('is-invalid')
             && !Correo.classList.contains('is-invalid')
-            && !Contraseña.classList.contains('is-invalid')
-            && !ConfirmarContraseña.classList.contains('is-invalid')
+
 
         ) {
+
+
             Swal.fire({
                 title: '¡Éxito!',
-                text: 'Usuario Registrado Correctamente',
+                text: 'Usuario Actualizado Correctamente',
                 timer: 2400,
                 icon: 'success',
                 showConfirmButton: false,
@@ -100,7 +94,7 @@
 
         if (ValorRol.trim() === '') {
             Rol.classList.add('is-invalid');
-            mensaje_Rol.textContent = 'Por favor seleccione un Rol';
+            mensaje_Rol.textContent = 'Por favor, seleccione un Rol';
 
         } else {
             Rol.classList.add('is-valid');
@@ -114,7 +108,7 @@
 
         if (ValorTipoDoc.trim() === '') {
             TipoDocumento.classList.add('is-invalid');
-            mensaje_TipoDocumento.textContent = 'Por favor seleccione un Tipo de documento';
+            mensaje_TipoDocumento.textContent = 'Por favor, seleccione un Tipo de documento';
 
         } else {
             TipoDocumento.classList.add('is-valid');
@@ -131,6 +125,7 @@
         const hasLetters = /[a-zA-Z]/.test(ValorNumeroDoc);
 
 
+
         NumeroDocumento.classList.remove('is-invalid', 'is-valid');
         mensaje_NumeroDocumento.textContent = '';
 
@@ -139,14 +134,14 @@
             mensaje_NumeroDocumento.textContent = 'El campo no puede estar vacío'
         } else if (ValorNumeroDoc.length < minCaracteres) {
             NumeroDocumento.classList.add('is-invalid');
-            mensaje_NumeroDocumento.textContent = 'El numero documento debe de ser de al menos 6 caracteres';
+            mensaje_NumeroDocumento.textContent = 'El número de documento debe ser de al menos 6 caracteres';
         } else if (ValorNumeroDoc.length > maxCaracteres) {
             NumeroDocumento.classList.add('is-invalid');
-            mensaje_NumeroDocumento.textContent = 'El numero documento debe de ser de maximo 15 caracteres';
+            mensaje_NumeroDocumento.textContent = 'El número de documento debe ser de máximo 15 caracteres';
         } else if (hasSpecialChar) {
 
             NumeroDocumento.classList.add('is-invalid');
-            mensaje_NumeroDocumento.textContent = 'El numero documento no puede tener carateres especiales';
+            mensaje_NumeroDocumento.textContent = 'El número de documento no puede tener caracteres especiales';
 
         } else {
 
@@ -156,7 +151,7 @@
         if (tipoDocumento == 'Cedula' || tipoDocumento == 'Tarjeta') {
             if (hasLetters) {
                 NumeroDocumento.classList.add('is-invalid');
-                mensaje_NumeroDocumento.textContent = 'El tipo de documento Cedula o tarjeta de identidad no pude poseer letras';
+                mensaje_NumeroDocumento.textContent = 'El tipo de documento Cédula o tarjeta de identidad no puede poseer letras';
 
             }
         }
@@ -198,13 +193,13 @@
             mensaje_Nombre.textContent = 'El nombre debe tener al menos 3 caracteres';
         } else if (ValorNombre.length > maxCaracteres) {
             Nombre.classList.add('is-invalid');
-            mensaje_Nombre.textContent = 'El nombre debe ser menor 20 caracteres';
+            mensaje_Nombre.textContent = 'El nombre debe ser menor a 20 caracteres';
         } else if (hasSpecialChar) {
             Nombre.classList.add('is-invalid');
             mensaje_Nombre.textContent = 'El nombre no debe tener caracteres especiales';
         } else if (hasNumber) {
             Nombre.classList.add('is-invalid');
-            mensaje_Nombre.textContent = 'El nombre no debe tener numeros';
+            mensaje_Nombre.textContent = 'El nombre no debe tener números';
         } else {
             Nombre.classList.add('is-valid');
         }
@@ -230,13 +225,13 @@
             mensaje_Apellido.textContent = 'El apellido debe tener al menos 3 caracteres';
         } else if (ValorApellido.length > maxCaracteres) {
             Apellido.classList.add('is-invalid');
-            mensaje_Apellido.textContent = 'El apellido debe ser menor 20 caracteres';
+            mensaje_Apellido.textContent = 'El apellido debe ser menor a 20 caracteres';
         } else if (hasSpecialChar) {
             Apellido.classList.add('is-invalid');
             mensaje_Apellido.textContent = 'El apellido no debe tener caracteres especiales';
         } else if (hasNumber) {
             Apellido.classList.add('is-invalid');
-            mensaje_Apellido.textContent = 'El apellido no debe tener numeros';
+            mensaje_Apellido.textContent = 'El apellido no debe tener números';
         } else {
             Apellido.classList.add('is-valid');
         }
@@ -244,69 +239,6 @@
 
 
 
-    function ValidarContraseña() {
-        var ValorContraseña = Contraseña.value;
-
-
-        const hasUppercase = /[A-Z]/.test(ValorContraseña);
-
-        const hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(ValorContraseña);
-        const hasNoSpaces = !/\s/.test(ValorContraseña);
-        const hasNumber = /(?=.*\d)/.test(ValorContraseña);
-
-        var mincaracteres = 6;
-        var maxcaracteres = 50;
-
-        Contraseña.classList.remove('is-invalid', 'is-valid');
-        mensaje_Contraseña.textContent = '';
-
-        if (ValorContraseña.trim() === '') {
-            Contraseña.classList.add('is-invalid');
-            mensaje_Contraseña.textContent = 'El campo no puede estar vacio';
-
-        } else if (ValorContraseña.length < mincaracteres) {
-            Contraseña.classList.add('is-invalid');
-            mensaje_Contraseña.textContent = 'La contraseña debe tener al menos 6 caracteres';
-
-        } else if (ValorContraseña.length > maxcaracteres) {
-            Contraseña.classList.add('is-invalid');
-            mensaje_Contraseña.textContent = 'La contraseña debe tener menos de 50 caracteres';
-
-        } else if (!hasUppercase) {
-            Contraseña.classList.add('is-invalid');
-            mensaje_Contraseña.textContent = 'El campo debe tener al menos una Mayuscula';
-        } else if (!hasSpecialChar) {s
-            Contraseña.classList.add('is-invalid');
-            mensaje_Contraseña.textContent = 'El campo debe tener al menos un caracter especial';
-        } else if (!hasNoSpaces) {
-            Contraseña.classList.add('is-invalid');
-            mensaje_Contraseña.textContent = 'El campo no debe tener espacios';
-        } else if (!hasNumber) {
-            Contraseña.classList.add('is-invalid');
-            mensaje_Contraseña.textContent = 'El campo debe tener al menos un numero';
-        } else {
-            Contraseña.classList.add('is-valid');
-        }
-    }
-    function ValidarConfirmarContraseña() {
-        var Valorconfirmar = ConfirmarContraseña.value;
-        var ValorContraseña = Contraseña.value;
-
-        ConfirmarContraseña.classList.remove('is-invalid', 'is-valid');
-        mensaje_ConfirmarContraseña.textContent = '';
-
-        if (Valorconfirmar.trim() === '') {
-            ConfirmarContraseña.classList.add('is-invalid');
-            mensaje_ConfirmarContraseña.textContent = 'El campo no puede estar vacio';
-
-        } else if (Valorconfirmar != ValorContraseña) {
-            ConfirmarContraseña.classList.add('is-invalid');
-            mensaje_ConfirmarContraseña.textContent = 'Las constraseñas no coinciden';
-
-        } else {
-            ConfirmarContraseña.classList.add('is-valid');
-        }
-    }
 
 
     function ValidarCorreo() {
@@ -321,7 +253,7 @@
             mensaje_Correo.textContent = 'El campo no puede estar vacio';
         } else if (!esValido) {
             Correo.classList.add('is-invalid');
-            mensaje_Correo.textContent = 'Por favor ingrese un correo electrónico válido.';
+            mensaje_Correo.textContent = 'Por favor, ingrese un correo electrónico válido';
         } else {
             // Hacer la solicitud AJAX solo si el correo es válido
             $.ajax({
@@ -355,7 +287,7 @@
                 event.preventDefault();
                 Swal.fire({
                     title: '¿Estás seguro?',
-                    text: 'Desea descartar el registro',
+                    text: 'Desea descartar las modificaciones',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

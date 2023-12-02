@@ -1,4 +1,6 @@
 ﻿@model ProductoVendidoModel
+@using System.Globalization;
+
 <link href="~/css/informes/estilos.css" rel="stylesheet" />
 <link href="~/css/estructuracion.css" rel="stylesheet" />
 
@@ -6,19 +8,27 @@
 
 
 <div>
-
     <div class="row m-4 h-50 d-flex justify-content-center align-items-center">
         <div class="col-12 col-md-5 row justify-content-center align-items-center">
             <div class="col-12 col-md-6">
                 <div class="h-25 border mt-3 rounded d-flex flex-column">
-                    <span class="h-75 fs-4 text-center" id="ventaActual">$0.00</span>
+                    <span class="h-75 fs-4 text-center">
+                        @((ViewBag.ventasMensuales % 1 == 0
+                            ? ((decimal)ViewBag.ventasMensuales).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                            : "$ 0"))
+                    </span>
+                    <input type="hidden" id="input-totalVentas" value="@ViewBag.ventasMensuales">
                     <div class="d-flex justify-content-center px-4 ventas-colm">
                         <strong class="text-end">Ventas</strong>
                     </div>
                 </div>
                 <div class="h-25 border mt-3 rounded d-flex flex-column">
-                    <span class="h-75 fs-4 text-center" id="ComprasActual">$0.00</span>
-                    <input type="hidden" id="input-totalVentas">
+                    <span class="h-75 fs-4 text-center">
+                        @((ViewBag.ventasMensuales % 1 == 0
+                            ? ((decimal)ViewBag.comprasMensuales).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                            : "$ 0"))
+                    </span>
+                    <input type="hidden" id="input-totalCompras" value="@ViewBag.comprasMensuales">
                     <div class="d-flex justify-content-center px-4">
                         <strong class="text-end">Compras</strong>
                     </div>
@@ -34,7 +44,11 @@
 
             <div class="col-12 col-md-6">
                 <div class="h-25 border mt-3 rounded d-flex flex-column">
-                    <span class="h-75 fs-4 text-center" id="totalEfectivo">$0.00</span>
+                    <span class="h-75 fs-4 text-center">
+                        @((ViewBag.efectivo % 1 == 0
+                            ? ((decimal)ViewBag.efectivo).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                            : "$ 0"))
+                    </span>
                     <div class="d-flex justify-content-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="green" class="bi bi-cash-coin mr-2" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z" />
@@ -46,7 +60,11 @@
                     </div>
                 </div>
                 <div class="h-25 border mt-3 rounded d-flex flex-column">
-                    <span class="h-75 fs-4 text-center" id="totalTransferencias">$0.00</span>
+                    <span class="h-75 fs-4 text-center">
+                        @((ViewBag.transferencias % 1 == 0
+                            ? ((decimal)ViewBag.transferencias).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                            : "$ 0"))
+                    </span>
                     <div class="d-flex justify-content-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="orange" class="bi bi-credit-card mr-2" viewBox="0 0 16 16">
                             <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z" />

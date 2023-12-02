@@ -13,11 +13,6 @@
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
 
-@if (ViewBag.MensajeInsumosInsuficientes != "")
-{
-    <div class="text-danger">@ViewBag.MensajeInsumosInsuficientes</div>
-}
-
 <div class="d-flex p-2 contendorVenta">
     <div class="container">
         <div class="col-12">
@@ -25,7 +20,7 @@
                 <input type="number" value="@ViewBag.IdVenta" name="IdVenta" asp-for="Item2.IdVenta" hidden>
                 <div class="col-4">
                     <label>Producto *</label>
-                    <select class="form-control form-select" aria-label="Default select example" asp-for="Item1.IdProducto" asp-items="ViewBag.IdProducto" name="IdProducto" required>
+                    <select class="form-control form-select" aria-label="Default select example" asp-for="Item1.IdProducto" asp-items="ViewBag.IdProducto" name="IdProducto" title="Seleccione el producto a vender" required>
                         <option value="NA">-Seleccione-</option>
                         <option value="2">Pizzas (Pequeñas)</option>
                         <option value="3">Pizzas (Grandes)</option>
@@ -38,13 +33,13 @@
 
                 <div class="col-3">
                     <label>Cantidad *</label>
-                    <input type="number" class="form-control" asp-for="Item1.CantVendida" name="CantVendida" placeholder="Cantidad" min="0" required />
+                    <input type="number" class="form-control" asp-for="Item1.CantVendida" name="CantVendida" placeholder="Cantidad" min="0" title="Ingrese la cantidad del producto a vender" required />
                     <span id="cantidadMensaje" class="invalid-feedback"></span>
                     <span class="valid-feedback"></span>
                 </div>
 
                 <div class="col-4 d-flex align-items-end DivBotonAgregar">
-                    <button class="btn btn-primary botones-agregar" type="submit" title="Agregar producto a la venta">
+                    <button class="btn btn-primary botones-agregar" type="submit" title="presione para agregar el producto a la venta">
                         Agregar
                     </button>
                 </div>
@@ -72,7 +67,7 @@
                                 @detalles.IdProductoNavigation.NomProducto
                                 @if (detalles.IdProducto > 1 && detalles.IdProducto <= 4)
                                 {
-                                    <div class="dropdown ml-2">
+                                    <div class="dropdown ml-2" title="Presione la flecha para mostrar los sabores de la pizza">
                                         <span class="dropdown-toggle" id="dropdown-detallesSabores-@detalles.IdDetalleVenta" data-iddetalleventa="@detalles.IdDetalleVenta">
                                             <i class="bi bi-caret-down-fill"></i>
                                         </span>
@@ -98,7 +93,7 @@
                                 @if (detalles.Estado != "Descontado")
                                 {
                                     <form method="post">
-                                        <input type="submit" asp-controller="DetalleVentas" asp-action="EliminarDetalle" asp-route-id="@detalles.IdDetalleVenta" class="btn btn-outline-danger" id="btnEliminar" value="Eliminar">
+                                        <input type="submit" asp-controller="DetalleVentas" asp-action="EliminarDetalle" asp-route-id="@detalles.IdDetalleVenta" class="btn btn-outline-danger" id="btnEliminar" value="Eliminar" title="Presione para eliminar el producto de esta venta">
                                     </form>
                                 }
                             </td>
@@ -122,7 +117,7 @@
                 <div class="row">
                     <div class="col-6">
                         <span>
-                            <strong>NIT: <br></strong>9203272<br>
+                            <strong>NIT: <br></strong>1152706792<br>
 
                             <strong>Cajero: <br></strong>@ViewBag.NombreUsuario
                         </span>
@@ -140,7 +135,7 @@
                 <div>
                     <div class="row">
                         <span class="col-7">Mesa</span>
-                        <select asp-for="Item2.Mesa" name="Mesa" id="Mesa" class="col-5 form-select">
+                        <select asp-for="Item2.Mesa" name="Mesa" id="Mesa" class="col-5 form-select" title="Seleccione en donde se entregará la venta, Si es diferente de general la cuenta será abierta">
                             <option value="General">General</option>
                             <option value="Barra Interior">Barra Interior</option>
                             <option value="Barra Exterior">Barra Exterior</option>
@@ -154,20 +149,20 @@
                     </div>
                     <div class="row mt-2" id="campo-domicilio">
                         <span class="col-8">Domicilio</span>
-                        <input asp-for="Item2.PagoDomicilio" type="number" id="domicilio" name="PagoDomicilio" class="col-4 form-control text-end" value="0" min="0">
+                        <input asp-for="Item2.PagoDomicilio" type="number" id="domicilio" name="PagoDomicilio" class="col-4 form-control text-end" value="0" min="0" title="Ingrese el pago al domiciliario (opcional)">
                         <span id="domicilioMensaje" class="invalid-feedback"></span>
                         <span class="valid-feedback"></span>
                     </div>
 
                     <div class="row mt-2">
                         <div class="col-8">
-                            <select asp-for="Item2.TipoPago" name="TipoPago" class="col-12 form-select">
+                            <select asp-for="Item2.TipoPago" name="TipoPago" class="col-12 form-select" title="Seleccione el metodo de pago">
                                 <option value="Efectivo">Efectivo</option>
                                 <option value="Transferencia">Transferencia</option>
                             </select>
 
                         </div>
-                        <input asp-for="Item2.Pago" type="number" id="pago" name="Pago" class="col-4 form-control text-end" placeholder="0" required>
+                        <input asp-for="Item2.Pago" type="number" id="pago" name="Pago" class="col-4 form-control text-end" placeholder="0" title="Ingrese el total de dinero que se recibió" required>
                         <div id="pagoMensaje" class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>
@@ -194,14 +189,14 @@
 
                 <hr>
                 <div class="w-100 d-flex flex-column mt-auto">
-                    <button class="btn btn-primary botones-agregar" type="submit">Realizar venta</button>
+                    <button class="btn btn-primary botones-agregar" type="submit" title="Presione para confirmar la venta">Realizar venta</button>
                     @if (venta.Estado == null)
                     {
-                        <a class="btn btn-outline-danger border mt-2 cancelarCompraBtn" asp-controller="Ventas" asp-action="CancelarVenta" asp-route-IdVenta="@ViewBag.IdVenta">Cancelar venta</a>
+                        <a class="btn btn-outline-danger border mt-2 cancelarCompraBtn" asp-controller="Ventas" asp-action="CancelarVenta" asp-route-IdVenta="@ViewBag.IdVenta" title="Presione para cancelar la venta">Cancelar venta</a>
                     }
                     else
                     {
-                        <a asp-action="Index" asp-controller="Ventas" class="btn btn-outline-danger border mt-2" id="links-modulos">Volver</a>
+                        <a asp-action="Index" asp-controller="Ventas" class="btn btn-outline-danger border mt-2" id="links-modulos" title="Presione para volver al listado de ventas">Volver</a>
                     }
                 </div>
             </div>

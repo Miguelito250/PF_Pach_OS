@@ -105,7 +105,7 @@ namespace PF_Pach_OS.Controllers
 
 
 
-            return View(Enumerable.Reverse(pach_OSContext).ToList());
+            return View(Enumerable.Reverse(pach_OSContext.OrderBy(item => item.Estado)).ToList());
         }
 
 

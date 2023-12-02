@@ -205,6 +205,10 @@ namespace PF_Pach_OS.Controllers
         {
             if (ModelState.IsValid)
             {
+                DateTime fechaColombia = DateTime.Now;
+
+                venta.FechaVenta = fechaColombia;
+
                 _context.Add(venta);
                 await _context.SaveChangesAsync();
 
@@ -213,6 +217,7 @@ namespace PF_Pach_OS.Controllers
             ViewData["IdEmpleado"] = new SelectList(_context.Empleados, "IdEmpleado", "IdEmpleado", venta.IdEmpleado);
             return NotFound();
         }
+
 
         //Miguel 22/10/2023: Función para confirmar la venta 
         [HttpPost]
@@ -235,7 +240,9 @@ namespace PF_Pach_OS.Controllers
 
             if (ventaActualizar != null)
             {
-                DateTime fechaVenta = venta.FechaVenta;
+                TimeZoneInfo bogotaZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
+                DateTime currentDateTime = DateTime.Now;
+                DateTime fechaVenta = TimeZoneInfo.ConvertTimeFromUtc(currentDateTime.ToUniversalTime(), bogotaZone);
 
                 if (fechaVenta >= SqlDateTime.MinValue.Value && fechaVenta <= SqlDateTime.MaxValue.Value)
                 {

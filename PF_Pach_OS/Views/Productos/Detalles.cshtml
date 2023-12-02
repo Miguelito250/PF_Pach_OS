@@ -83,7 +83,7 @@
             </div>
             <div class="w-100 d-flex flex-column mt-auto">
                 
-                <a asp-action="Index" asp-controller="Productos" class="btn btn-outline-danger cancelarBtn mt-2">Volver al Index</a>
+                <a asp-action="Index" asp-controller="Productos" title="Volver a la lista de productos" class="btn btn-outline-danger cancelarBtn mt-2">Volver al Listado de Productos</a>
             </div>
         </form>
 
@@ -101,8 +101,8 @@
             }
             else
             {
-                <table id="miTabla" class="table table-borderless mb-0">
-                    <thead>
+                <table id="miTabla" class="table  table-with-separator mb-0 border rounded ">
+                    <thead >
                         <tr class="text-gray bg-gray-300">
                             <th>Insumo</th>
                             <th>Cantidad</th>
@@ -110,8 +110,8 @@
                          
                         </tr>
                     </thead>
-                    <tbody>
-                    <tbody id="Tabla1">
+
+                    <tbody id="Tabla1" class="table-group-divider">
                             @foreach (var recetaConInsumo in ViewBag.RecetasConInsumos)
                             {
                             <tr>
