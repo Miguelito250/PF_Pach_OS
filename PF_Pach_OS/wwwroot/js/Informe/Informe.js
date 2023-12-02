@@ -86,32 +86,6 @@ $(document).ready(function () {
     });
 
     $.ajax({
-        url: '/Estadisticas/ObtenerDiferenciaVentasMesAnterior',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-
-            var diferenciaSpan = $('#diferenciaVentasMesAnterior');
-            var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
-
-            var diferenciaFormateada = formatoColombiano.format(data.diferencia);
-
-            if (data.aumentoODisminucion === "aumento") {
-                diferenciaSpan.addClass('text-success').removeClass('text-danger');
-            } else if (data.aumentoODisminucion === "disminución") {
-                diferenciaSpan.addClass('text-danger').removeClass('text-success');
-            } else {
-                diferenciaSpan.removeClass('text-success text-danger');
-            }
-
-            diferenciaSpan.text(diferenciaFormateada + ' (' + data.aumentoODisminucion.charAt(0).toUpperCase() + data.aumentoODisminucion.slice(1) + ')');
-        },
-        error: function () {
-            alert('Error al cargar la diferencia de ventas desde el mes anterior.');
-        }
-    });
-
-    $.ajax({
         url: '/Estadisticas/ObtenerTotalVentasAnuales',
         type: 'GET',
         dataType: 'json',
@@ -221,7 +195,6 @@ document.getElementById('generarInforme').addEventListener('click', function () 
 
     xhr.send();
 });
-//Obtenemos las ventas anuales
 
 //Descargamos los informes
 $(document).ready(function () {
