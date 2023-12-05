@@ -8,6 +8,9 @@
 
 
 <div>
+    <div class="d-flex justify-content-center">
+        <h3 class="pt-2">Informe mensual de actividades</h3>
+    </div>
     <div class="row m-4 h-50 d-flex justify-content-center align-items-center">
         <div class="col-12 col-md-5 row justify-content-center align-items-center">
             <div class="col-12 col-md-6">
@@ -34,9 +37,13 @@
                     </div>
                 </div>
                 <div class="h-25 border mt-3 rounded d-flex justify-content-center align-items-center">
-                    <span id="icono"></span>
+                    <span>@Html.Raw(ViewBag.iconoDiferenciaMensual)</span>
                     <div class="d-flex flex-column justify-content-center px-4">
-                        <span class="h-75 fs-4 text-center" id="Diferencias">$0.00</span>
+                        <span class="h-75 fs-4 text-center @ViewBag.colorClaseMensual ">
+                            @((ViewBag.DiferenciaMensual % 1 == 0
+                                ? ((decimal)ViewBag.DiferenciaMensual).ToString("C0", new CultureInfo("es-CO")).Replace(",", ".")
+                                : "$ 0"))
+                        </span>
                         <strong class="text-end">Diferencia</strong>
                     </div>
                 </div>
@@ -122,6 +129,12 @@
             </button>
         </div>
     </div>
+
+    <hr>
+    <div class="d-flex justify-content-center">
+        <h3>Informe anual de actividades</h3>
+    </div>
+
     <div class="col-12 h-50">
         <div class="card-body">
             <div class="d-flex">
