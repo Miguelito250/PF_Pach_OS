@@ -616,10 +616,21 @@ namespace PF_Pach_OS.Controllers
         {
             DateTime fecha = DateTime.Today;
 
-            var pach_OSContext = await _context.Ventas
+            var ventasDelMes = await _context.Ventas
                .Where(v => v.FechaVenta.Month == fecha.Month)
                .ToListAsync();
-            return Json(pach_OSContext);
+
+            int totalVentas = (int)ventasDelMes.Sum(v => v.TotalVenta);
+            int totalVentasEfectivo = (int)ventasDelMes.Where(v => v.TipoPago == "Efectivo").Sum(v => v.TotalVenta);
+            int totalVentasTransferencia = (int)ventasDelMes.Where(v => v.TipoPago == "Transferencia").Sum(v => v.TotalVenta);
+
+            var result = new
+            {
+                totalVentas = totalVentas,
+                TotalVentasEfectivo = totalVentasEfectivo,
+                TotalVentasTransferencia = totalVentasTransferencia
+            };
+            return Json(result);
         }
 
         [AllowAnonymous]
@@ -627,35 +638,84 @@ namespace PF_Pach_OS.Controllers
         {
             DateTime fecha = DateTime.Today;
 
-            var pach_OSContext = await _context.Compras
-                .Where(v => v.FechaCompra.HasValue && v.FechaCompra.Value.Month == fecha.Month)
+            var comprasDelMes = await _context.Compras
+                .Where(c => c.FechaCompra.HasValue && c.FechaCompra.Value.Month == fecha.Month)
                 .ToListAsync();
-            return Json(pach_OSContext);
+
+            int totalCompras = (int)comprasDelMes.Sum(c => c.Total);
+            int totalVentas = await ObtenerTotalVentasDelMes();
+            int diferencia = totalVentas - totalCompras;
+            var result = new
+            {
+                TotalCompras = totalCompras,
+                Diferencia = diferencia
+            };
+
+            return Json(result);
         }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> VentasAño()
+        
+        private async Task<int> ObtenerTotalVentasDelMes()
         {
-
             DateTime fecha = DateTime.Today;
 
-            var pach_OSContext = await _context.Ventas
-               .Where(v => v.FechaVenta.Year == fecha.Year)
-               .ToListAsync();
-            return Json(pach_OSContext);
+            var ventasDelMes = await _context.Ventas
+                .Where(v => v.FechaVenta.Month == fecha.Month)
+                .ToListAsync();
+
+            int totalVentas = (int)ventasDelMes.Sum(v => v.TotalVenta);
+
+            return totalVentas;
         }
 
-        [AllowAnonymous]
-        public async Task<IActionResult> ComprasAño()
-        {
+        
 
+        [AllowAnonymous]
+        public async Task<IActionResult> ComprasyVentasAño()
+        {
             DateTime fecha = DateTime.Today;
 
-            var pach_OSContext = await _context.Compras
-             .Where(v => v.FechaCompra.HasValue && v.FechaCompra.Value.Year == fecha.Year)
-            .ToListAsync();
+            var compras = await _context.Compras
+                .Where(v => v.FechaCompra.HasValue && v.FechaCompra.Value.Year == fecha.Year)
+                .ToListAsync();
 
-            return Json(pach_OSContext);
+            
+            List<MonthlyData> monthlyData = new List<MonthlyData>();
+
+            for (int month = 1; month <= 12; month++)
+            {
+                monthlyData.Add(new MonthlyData { Month = month, TotalVenta = 0, TotalCompra=0 });
+            }
+
+         
+            foreach (var compra in compras)
+            {
+                int month = compra.FechaCompra.Value.Month;
+                int total = (int)compra.Total; 
+
+                
+                var data = monthlyData.FirstOrDefault(d => d.Month == month);
+                if (data != null)
+                {
+                    data.TotalCompra += total;
+                }
+            }
+            var ventas = await _context.Ventas
+                .Where(v => v.FechaVenta.Year == fecha.Year)
+                .ToListAsync();
+
+            foreach (var venta in ventas)
+            {
+                int month = venta.FechaVenta.Month;
+                int total = (int)venta.TotalVenta;
+
+
+                var data = monthlyData.FirstOrDefault(d => d.Month == month);
+                if (data != null)
+                {
+                    data.TotalVenta += total;
+                }
+            }
+            return Json(monthlyData);
         }
 
         [AllowAnonymous]
@@ -686,5 +746,11 @@ namespace PF_Pach_OS.Controllers
 
 
 }
+public class MonthlyData
+{
+    public int Month { get; set; }
+    public int TotalVenta { get; set; }
+    public int TotalCompra { get; set; }
 
+}
 

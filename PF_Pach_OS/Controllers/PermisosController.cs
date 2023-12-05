@@ -48,5 +48,22 @@ namespace PF_Pach_OS.Controllers
 
             return false;
         }
+
+        public bool tintoMovil(int permiso, string email)
+        {
+            var user = User;
+            var Id_rol = _UserManager.FindByEmailAsync(email).Result.Id_Rol;
+            var permisos_rol = _context.RolPermisos.Where(p => p.IdRol == Id_rol).ToList();
+            foreach (var permiso_rol in permisos_rol)
+            {
+                if (permiso_rol.IdPermiso == permiso)
+                {
+                    return true;
+
+                }
+            }
+
+            return false;
+        }
     }
 }
