@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using NuGet.Versioning;
 using PF_Pach_OS.Models;
-using System.Linq.Expressions;
-using Microsoft.AspNetCore.Antiforgery;
-using System.Globalization;
 using System.Data.SqlTypes;
 
 namespace PF_Pach_OS.Controllers
@@ -231,9 +220,9 @@ namespace PF_Pach_OS.Controllers
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
 
-            venta.Estado = venta.Mesa == "General"
-               ? venta.Estado = "Pagada"
-               : venta.Estado = "Pendiente";
+            venta.Estado = venta.TipoPago == "Cuenta abierta"
+               ? venta.Estado = "Pendiente"
+               : venta.Estado = "Pagada";
 
             var ventaActualizar = await _context.Ventas
                 .FirstOrDefaultAsync(v => v.IdVenta == venta.IdVenta);
@@ -346,15 +335,20 @@ namespace PF_Pach_OS.Controllers
                 return RedirectToAction("AccesoDenegado", "Acceso");
             }
             var cambioEstado = "";
-
+            
             var estadoVenta = _context.Ventas
                 .FirstOrDefault(d => d.IdVenta == IdVenta);
-
 
             if (estadoVenta.Estado == "Pendiente")
             {
                 cambioEstado = "Pagada";
                 estadoVenta.Estado = cambioEstado;
+                if (estadoVenta.Pago < estadoVenta.TotalVenta)
+                {
+                    estadoVenta.Pago = estadoVenta.TotalVenta;
+                }
+                estadoVenta.TipoPago = "Efectivo";
+
                 _context.Update(estadoVenta);
                 await _context.SaveChangesAsync();
             }

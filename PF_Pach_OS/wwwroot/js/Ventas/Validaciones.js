@@ -97,9 +97,12 @@ document.addEventListener('DOMContentLoaded', function () {
         pago.classList.remove('is-invalid', 'is-valid');
         pagoMensaje.textContent = '';
 
-        console.log(totalVenta)
+        if (metodoPago == 'Cuenta abierta') {
+            pago.classList.add('is-valid');
+            return;
+        }
 
-        if (/[^0-9]/.test(valorPago)) {
+        else if (/[^0-9]/.test(valorPago)) {
             pago.classList.add('is-invalid');
             pagoMensaje.textContent = 'El campo no puede contener caracteres especiales';
         }
@@ -108,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
             pago.classList.add('is-invalid');
             pagoMensaje.textContent = 'El campo no puede tener más de 10 caracteres';
         }
-        else if (valorPago < totalVenta) {
+        else if (valorPago < totalVenta && metodoPago == "Efectivo") {
             let cambio = totalVenta - valorPago
 
             var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });

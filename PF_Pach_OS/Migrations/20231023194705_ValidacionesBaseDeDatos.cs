@@ -20,7 +20,6 @@ namespace PF_Pach_OS.Migrations
             migrationBuilder.Sql("ALTER TABLE detalleVentas ALTER COLUMN precio int NOT NULL;");
 
             migrationBuilder.Sql("ALTER TABLE detalleVentas ADD CONSTRAINT CK_Mayor0detallesVentas CHECK (cant_vendida > 0);");
-            migrationBuilder.Sql("ALTER TABLE ventas ADD CONSTRAINT CK_Mayor0Ventas CHECK (total_venta > 0);");
             migrationBuilder.Sql("ALTER TABLE ventas ADD CONSTRAINT CK_Mayor100Ventas CHECK (pago > 100);");
         }
 
@@ -38,7 +37,6 @@ namespace PF_Pach_OS.Migrations
             migrationBuilder.Sql("ALTER TABLE detalleVentas ALTER COLUMN precio DROP NOT NULL;");
 
             migrationBuilder.Sql("ALTER TABLE detalleVentas DROP CONSTRAINT CK_Mayor0detallesVentas;");
-            migrationBuilder.Sql("ALTER TABLE ventas DROP CONSTRAINT CK_Mayor0Ventas;");
             migrationBuilder.Sql("ALTER TABLE ventas DROP CONSTRAINT CK_Mayor100Ventas;");
         }
     }
