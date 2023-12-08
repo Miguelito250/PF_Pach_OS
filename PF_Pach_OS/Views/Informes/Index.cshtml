@@ -7,11 +7,11 @@
 @*Apertura nuevo codigo de diseño*@
 
 
-<div>
-    <div class="d-flex justify-content-center">
-        <h3 class="pt-2">Informe mensual de actividades</h3>
-    </div>
-    <div class="row m-4 h-50 d-flex justify-content-center align-items-center">
+<div class="d-flex flex-column p-2">
+    <div class="row h-50 d-flex justify-content-center align-items-center shadow m-2 p-2">
+        <div class="d-flex justify-content-center">
+            Informe de actividades Mensuales 
+        </div>
         <div class="col-12 col-md-5 row justify-content-center align-items-center">
             <div class="col-12 col-md-6">
                 <div class="h-25 border mt-3 rounded d-flex flex-column">
@@ -130,17 +130,15 @@
         </div>
     </div>
 
-    <hr>
-    <div class="d-flex justify-content-center">
-        <h3>Informe anual de actividades</h3>
-    </div>
-
-    <div class="col-12 h-50">
+    <div class="col-12 h-50 mt-1 shadow">
+        <div class="d-flex justify-content-center">
+            Informe de actividades Anuales
+        </div>
         <div class="card-body">
             <div class="d-flex">
                 <p class="d-flex flex-column">
                     <span class="text-bold text-lg" id="totalVentasAnuales">$0.00</span>
-                    <span>Ventas a lo largo del tiempo</span>
+                    <span>Ventas a lo largo del año</span>
                 </p>
                 <p class="ml-auto d-flex flex-column text-right">
                     <span>
@@ -153,11 +151,6 @@
 
             <div class="position-relative mb-4">
                 <canvas id="sales-chart" height="200"></canvas>
-            </div>
-
-            <div class="d-flex flex-row justify-content-end">
-                <span class="mr-2">
-                </span>
             </div>
         </div>
     </div>
