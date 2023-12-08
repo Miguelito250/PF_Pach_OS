@@ -37,6 +37,7 @@ $('#Item1_IdProducto').on('change', function () {
 });
 
 $(document).ready(function () {
+    TipoCuenta()
     $('.dropdown-toggle').click(function () {
         let detalleVentaId = $(this).attr('data-iddetalleVenta');
         let dropdownMenu = $(this).next('.dropdown-menu');
@@ -61,7 +62,10 @@ boton_domicilio.addEventListener('input', function () {
     SumarDomicilio(subtotal)
 })
 boton_pago.addEventListener('input', CalcularCambio)
-mesa.addEventListener("input", OcultarDomicilio)
+mesa.addEventListener("input", function () {
+    OcultarDomicilio()
+    TipoCuenta()
+})
 
 //Función para sumar en tiempo real si el domicilio tiene algun valor
 function SumarDomicilio(subtotalProducto) {
@@ -130,5 +134,25 @@ function OcultarDomicilio() {
     } else {
         divDomicilio.style.display = "none";
         boton_domicilio.value = 0
+    }
+}
+
+function TipoCuenta() {
+    var mesaValor = mesa.value;
+    var selectTipoPago = document.querySelector('select[name="TipoPago"]');
+
+    if (mesaValor === 'General') {
+        for (var i = 0; i < selectTipoPago.options.length; i++) {
+            if (selectTipoPago.options[i].value === 'Cuenta abierta') {
+                selectTipoPago.remove(i);
+                i--; // Disminuye el índice porque el índice ha cambiado
+            }
+        }
+    } else {
+        // Si el valor de la mesa no es 'General', añade la opción 'Cuenta abierta' al select si no existe
+        var opcionCuentaAbierta = document.createElement('option');
+        opcionCuentaAbierta.value = 'Cuenta abierta';
+        opcionCuentaAbierta.text = 'Cuenta abierta';
+        selectTipoPago.add(opcionCuentaAbierta);
     }
 }

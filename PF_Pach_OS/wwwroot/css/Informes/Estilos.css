@@ -1,5 +1,10 @@
-﻿@media(max-width: 574px){
+﻿.modulos {
+    height: 98%;
+    overflow: auto;
+}
+
+@media(max-width: 574px){
     .modulos{
-        height: 98% !important;
+        height: 99% !important;
     }
 }
