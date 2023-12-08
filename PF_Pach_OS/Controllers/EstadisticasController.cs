@@ -371,13 +371,16 @@ namespace PF_Pach_OS.Controllers
                             totalTable.WidthPercentage = 50;
                             totalTable.HorizontalAlignment = Element.ALIGN_LEFT;
 
-                            PdfPTable totalesComprasTransferenciasTable = new PdfPTable(2);
+                            PdfPTable totalesComprasTransferenciasTable = new PdfPTable(3);
                             totalesComprasTransferenciasTable.WidthPercentage = 50;
                             totalesComprasTransferenciasTable.HorizontalAlignment = Element.ALIGN_LEFT;
 
-                            totalesComprasTransferenciasTable.AddCell(new PdfPCell(new Phrase("Diferencia", titulo_tablas)) { BackgroundColor = colorGris });
+
+                            totalesComprasTransferenciasTable.AddCell(new PdfPCell(new Phrase("Total Compras", titulo_tablas)) { BackgroundColor = colorGris });
+                            totalesComprasTransferenciasTable.AddCell(new PdfPCell(new Phrase("Diferencia Ventas - Compras", titulo_tablas)) { BackgroundColor = colorGris });
                             totalesComprasTransferenciasTable.AddCell(new PdfPCell(new Phrase("Total Transferencias", titulo_tablas)) { BackgroundColor = colorGris });
 
+                            totalesComprasTransferenciasTable.AddCell(new PdfPCell(new Phrase($"{totalComprasMes:C}", titulo_tablas)) { BackgroundColor = colorBlanco });
                             totalesComprasTransferenciasTable.AddCell(new PdfPCell(new Phrase($"{totalVentas - totalComprasMes:C}", titulo_tablas)) { BackgroundColor = colorBlanco });
                             totalesComprasTransferenciasTable.AddCell(new PdfPCell(new Phrase($"{totalVentasTransferencias:C}", titulo_tablas)) { BackgroundColor = colorBlanco });
 
