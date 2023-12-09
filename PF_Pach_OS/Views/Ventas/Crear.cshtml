@@ -135,7 +135,7 @@
                 <div>
                     <div class="row">
                         <span class="col-7">Mesa</span>
-                        <select asp-for="Item2.Mesa" name="Mesa" id="Mesa" name="Mesa" class="col-5 form-select" title="Seleccione en donde se entregará la venta, Si es diferente de general la cuenta será abierta">
+                        <select asp-for="Item2.Mesa" name="Mesa" id="Mesa" name="Mesa" class="col-5 form-select" title="Seleccione en donde se entregará la venta">
                             <option value="General">General</option>
                             <option value="Barra Interior">Barra Interior</option>
                             <option value="Barra Exterior">Barra Exterior</option>
@@ -163,7 +163,7 @@
                             </select>
 
                         </div>
-                        <input asp-for="Item2.Pago" type="number" id="pago" name="Pago" class="col-4 form-control text-end" placeholder="0" title="Ingrese el total de dinero que se recibió" value="0" required>
+                        <input asp-for="Item2.Pago" type="number" id="pago" name="Pago" class="col-4 form-control text-end" placeholder="0" title="Ingrese el total de dinero que se recibió" required>
                         <div id="pagoMensaje" class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>
