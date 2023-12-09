@@ -97,6 +97,12 @@ document.addEventListener('DOMContentLoaded', function () {
         pago.classList.remove('is-invalid', 'is-valid');
         pagoMensaje.textContent = '';
 
+        console.log(valorPago)
+        if (valorPago == "") {
+            console.log("Hola")
+            pago.value = 0
+        }
+
         if (metodoPago == 'Cuenta abierta') {
             pago.classList.add('is-valid');
             return;
@@ -126,8 +132,14 @@ document.addEventListener('DOMContentLoaded', function () {
             pagoMensaje.textContent = 'El pago no debe ser mayor al total';
 
         } else if (metodoPago == 'Transferencia' && valorPago < totalVenta) {
+            totalVenta - valorPago
+
+            var formatoColombiano = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+            var cambioFormateado = formatoColombiano.format(cambio);
+            cambioFormateado = cambioFormateado.slice(0, -3);
+
             pago.classList.add('is-invalid');
-            pagoMensaje.textContent = 'El pago no debe ser menor al total';
+            pagoMensaje.textContent = 'Falta por agregar ' + cambioFormateado;
         }
         
         else {

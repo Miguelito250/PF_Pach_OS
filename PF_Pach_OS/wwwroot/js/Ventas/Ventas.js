@@ -149,10 +149,22 @@ function TipoCuenta() {
             }
         }
     } else {
-        // Si el valor de la mesa no es 'General', añade la opción 'Cuenta abierta' al select si no existe
-        var opcionCuentaAbierta = document.createElement('option');
-        opcionCuentaAbierta.value = 'Cuenta abierta';
-        opcionCuentaAbierta.text = 'Cuenta abierta';
-        selectTipoPago.add(opcionCuentaAbierta);
+        // Si el valor de la mesa no es 'General', verifica si ya existe la opción 'Cuenta abierta' en el select
+        var existe = false;
+        for (var i = 0; i < selectTipoPago.options.length; i++) {
+            if (selectTipoPago.options[i].value === 'Cuenta abierta') {
+                existe = true;
+                break;
+            }
+        }
+
+        // Si la opción 'Cuenta abierta' no existe, añade la opción al select
+        if (!existe) {
+            var opcionCuentaAbierta = document.createElement('option');
+            opcionCuentaAbierta.value = 'Cuenta abierta';
+            opcionCuentaAbierta.text = 'Cuenta abierta';
+            selectTipoPago.add(opcionCuentaAbierta);
+        }
     }
+
 }
