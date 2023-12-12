@@ -23,19 +23,15 @@
     }
 }
 function DescargarAPK() {
-    fetch('../APK/app.release.apk')
-        .then(response => response.blob())
-        .then(blob => {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'app-release.apk';
-            a.click();
-            URL.revokeObjectURL(url);
-        })
-        .catch(error => {
-            console.error('Error al descargar el archivo:', error);
-        });
+    const a = document.createElement('a');
+    a.href = '/APK/app-release.apk';
+    a.download = 'app-release.apk';
+    // Agregar al DOM
+    document.body.appendChild(a);
+    // Simular clic
+    a.click();
+    // Eliminar del DOM
+    document.body.removeChild(a);
 }
 
 const correoInput = document.getElementById("Input_Email");
