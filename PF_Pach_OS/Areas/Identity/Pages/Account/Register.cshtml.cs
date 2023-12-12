@@ -175,7 +175,7 @@ namespace PF_Pach_OS.Areas.Identity.Pages.Account
                     var callbackUrl = Url.Action("ConfirmarCorreo", "Acceso", new {idUsuario = user.Id, codigo = code}, Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirma tu email",
-                        $"Por favor confirma tu cuenta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clickeando aqui</a>.");
+                        $"Por favor confirma tu cuenta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>presionando aqui</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

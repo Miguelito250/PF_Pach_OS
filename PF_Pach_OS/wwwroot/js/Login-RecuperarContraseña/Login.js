@@ -22,12 +22,29 @@
         validacionCorreo.innerHTML = "";
     }
 }
+function DescargarAPK() {
+    fetch('../APK/app.release.apk')
+        .then(response => response.blob())
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'app-release.apk';
+            a.click();
+            URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error('Error al descargar el archivo:', error);
+        });
+}
 
 const correoInput = document.getElementById("Input_Email");
 const contrasenaInput = document.getElementById("Input_Password");
 const botonEnviar = document.getElementById("login-submit");
+const descargarAPK = document.getElementById("apk-download");
 
 botonEnviar.disabled = true
 
 correoInput.addEventListener("input", ValidarCampos);
 contrasenaInput.addEventListener("input", ValidarCampos);
+descargarAPK.addEventListener("click", DescargarAPK);

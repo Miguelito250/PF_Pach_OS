@@ -67,20 +67,3 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-
-<script>
-    function downloadApk() {
-        // Crear un nuevo enlace
-        const a = document.createElement('a');
-        a.href = '~/APK/app-release.apk';
-        a.download = 'app-release.apk';
-        // Agregar al DOM
-        document.body.appendChild(a);
-        // Simular clic
-        a.click();
-        // Eliminar del DOM
-        document.body.removeChild(a);
-    }
-
-    document.getElementById('apk-download').addEventListener('click', downloadApk);
-</script>

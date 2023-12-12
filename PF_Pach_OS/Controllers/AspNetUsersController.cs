@@ -161,7 +161,7 @@ namespace PF_Pach_OS.Controllers
                     var callbackUrl = Url.Action("ConfirmarCorreo", "Acceso", new { idUsuario = user.Id, codigo = code }, Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirma tu email",
-                        $"Por favor confirma tu nuevo correo <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clickeando aqui</a>.");
+                        $"Por favor confirma tu nuevo correo <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>presionando aqui</a>.");
                     user.Email = applicationUser.Email;
                 }
 
